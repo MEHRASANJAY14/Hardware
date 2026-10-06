@@ -1,2531 +1,333 @@
-<!DOCTYPE html>
-<html>
+function saveHardware() {
 
-<head>
+  try {
 
-<meta charset="UTF-8">
+    var solId =
+      document.getElementById(
+        "solId"
+      ).value;
 
-<meta name="viewport"
-content="width=device-width, initial-scale=1.0">
 
-<title>MPGB Hardware Portal</title>
+    var branchName =
+      document.getElementById(
+        "branchName"
+      ).value;
 
-<style>
 
-*{
-box-sizing:border-box;
-}
-
-body{
-margin:0;
-font-family:Arial,Helvetica,sans-serif;
-background:#f4f7f9;
-color:#263238;
-}
-
-.sidebar{
-position:fixed;
-left:0;
-top:0;
-bottom:0;
-width:240px;
-background:#006633;
-color:#fff;
-z-index:1000;
-}
-
-.logo{
-padding:22px 18px;
-font-size:20px;
-font-weight:bold;
-border-bottom:1px solid rgba(255,255,255,.2);
-}
-
-.logo small{
-display:block;
-font-size:11px;
-margin-top:5px;
-opacity:.8;
-}
-
-.menu{
-padding:15px 10px;
-}
-
-.menu button{
-width:100%;
-border:0;
-background:transparent;
-color:#fff;
-padding:13px 15px;
-margin-bottom:5px;
-border-radius:7px;
-text-align:left;
-cursor:pointer;
-font-size:14px;
-}
-
-.menu button:hover,
-.menu button.active{
-background:rgba(255,255,255,.18);
-}
-
-.main{
-margin-left:240px;
-min-height:100vh;
-}
-
-.topbar{
-height:65px;
-background:#fff;
-border-bottom:1px solid #ddd;
-display:flex;
-align-items:center;
-justify-content:space-between;
-padding:0 25px;
-}
-
-.topbar h2{
-margin:0;
-color:#006633;
-}
-
-.content{
-padding:25px;
-}
-
-.page{
-display:none;
-}
-
-.page.active{
-display:block;
-}
-
-.panel{
-background:#fff;
-padding:22px;
-border-radius:12px;
-margin-bottom:20px;
-box-shadow:0 2px 10px rgba(0,0,0,.05);
-}
-
-.panel h3{
-margin-top:0;
-color:#006633;
-}
-
-.cards{
-display:grid;
-grid-template-columns:repeat(auto-fit,minmax(170px,1fr));
-gap:15px;
-margin-bottom:20px;
-}
-
-.card{
-background:#fff;
-padding:20px;
-border-radius:12px;
-box-shadow:0 2px 10px rgba(0,0,0,.05);
-}
-
-.card-title{
-font-size:13px;
-color:#777;
-}
-
-.card-value{
-font-size:28px;
-font-weight:bold;
-color:#006633;
-margin-top:7px;
-}
-
-.form-grid{
-display:grid;
-grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
-gap:15px;
-}
-
-.form-group{
-display:flex;
-flex-direction:column;
-}
-
-.form-group label{
-font-size:13px;
-font-weight:bold;
-margin-bottom:6px;
-}
-
-input,
-select,
-textarea{
-width:100%;
-padding:11px;
-border:1px solid #d3dce1;
-border-radius:7px;
-font-size:14px;
-outline:none;
-}
-
-input:focus,
-select:focus,
-textarea:focus{
-border-color:#006633;
-}
-
-textarea{
-min-height:75px;
-resize:vertical;
-}
-
-.btn{
-padding:11px 18px;
-border:0;
-border-radius:7px;
-cursor:pointer;
-font-weight:bold;
-}
-
-.btn-primary{
-background:#006633;
-color:#fff;
-}
-
-.btn-secondary{
-background:#e5f3eb;
-color:#006633;
-}
-
-.btn-danger{
-background:#dc3545;
-color:#fff;
-}
-
-.hardware-item{
-background:#fafcfd;
-border:1px solid #dce4e8;
-border-radius:10px;
-padding:18px;
-margin-bottom:15px;
-}
-
-.hardware-header{
-display:flex;
-align-items:center;
-justify-content:space-between;
-margin-bottom:15px;
-}
-
-.table-wrap{
-overflow:auto;
-}
-
-table{
-width:100%;
-border-collapse:collapse;
-}
-
-th,
-td{
-padding:10px;
-border-bottom:1px solid #ddd;
-font-size:13px;
-text-align:left;
-white-space:nowrap;
-}
-
-th{
-background:#006633;
-color:#fff;
-}
-
-.badge{
-display:inline-block;
-padding:5px 9px;
-border-radius:15px;
-font-size:11px;
-font-weight:bold;
-}
-
-.badge-working{
-background:#d8f3e2;
-color:#087a35;
-}
-
-.badge-poor{
-background:#fff0bd;
-color:#856404;
-}
-
-.badge-repair{
-background:#ffe1c2;
-color:#a34d00;
-}
-
-.badge-not{
-background:#ffd5d5;
-color:#b00000;
-}
-
-.badge-condemned{
-background:#333;
-color:#fff;
-}
-
-.report-grid{
-display:grid;
-grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
-gap:15px;
-}
-
-.report-card{
-background:#f5faf7;
-border-left:5px solid #006633;
-padding:20px;
-border-radius:8px;
-}
-
-.empty{
-text-align:center;
-padding:35px;
-color:#777;
-}
-
-#loadingOverlay{
-display:none;
-position:fixed;
-left:0;
-top:0;
-right:0;
-bottom:0;
-background:rgba(0,0,0,.45);
-z-index:9999;
-align-items:center;
-justify-content:center;
-}
-
-.loading-box{
-background:#fff;
-padding:30px 45px;
-border-radius:12px;
-text-align:center;
-min-width:220px;
-}
-
-.spinner{
-width:40px;
-height:40px;
-border:4px solid #ddd;
-border-top-color:#006633;
-border-radius:50%;
-animation:spin 1s linear infinite;
-margin:0 auto 15px;
-}
-
-@keyframes spin{
-to{
-transform:rotate(360deg);
-}
-}
-
-@media(max-width:800px){
-
-.sidebar{
-left:-240px;
-transition:.3s;
-}
-
-.sidebar.open{
-left:0;
-}
-
-.main{
-margin-left:0;
-}
-
-.content{
-padding:15px;
-}
-
-}
-
-</style>
-
-</head>
-
-
-<body>
-
-
-<!-- SIDEBAR -->
-
-<div class="sidebar" id="sidebar">
-
-<div class="logo">
-
-MPGB Hardware
-
-<small>
-Regional Office Jabalpur
-</small>
-
-</div>
-
-
-<div class="menu">
-
-<button class="active"
-onclick="showPage('dashboard',this)">
-📊 Dashboard
-</button>
-
-<button onclick="showPage('entry',this)">
-➕ Hardware Entry
-</button>
-
-<button onclick="showPage('inventory',this)">
-💻 Inventory
-</button>
-
-<button onclick="showPage('branch',this)">
-🏢 Branch Wise
-</button>
-
-<button onclick="showPage('search',this)">
-🔎 Search
-</button>
-
-<button onclick="showPage('reports',this)">
-📋 Reports
-</button>
-
-</div>
-
-</div>
-
-
-<!-- MAIN -->
-
-<div class="main">
-
-
-<div class="topbar">
-
-<h2>
-MPGB Hardware Portal
-</h2>
-
-<div id="clock"></div>
-
-</div>
-
-
-<div class="content">
-
-
-<!-- DASHBOARD -->
-
-<div class="page active"
-id="page-dashboard">
-
-<div class="panel">
-
-<h3>
-Hardware Inventory Dashboard
-</h3>
-
-Regional Office Jabalpur
-
-</div>
-
-
-<div class="cards">
-
-<div class="card">
-<div class="card-title">
-Total Hardware
-</div>
-<div class="card-value"
-id="totalCount">0</div>
-</div>
-
-<div class="card">
-<div class="card-title">
-Working
-</div>
-<div class="card-value"
-id="workingCount">0</div>
-</div>
-
-<div class="card">
-<div class="card-title">
-Poor Condition
-</div>
-<div class="card-value"
-id="poorCount">0</div>
-</div>
-
-<div class="card">
-<div class="card-title">
-Repair Required
-</div>
-<div class="card-value"
-id="repairCount">0</div>
-</div>
-
-<div class="card">
-<div class="card-title">
-Not Working
-</div>
-<div class="card-value"
-id="notWorkingCount">0</div>
-</div>
-
-<div class="card">
-<div class="card-title">
-Condemned
-</div>
-<div class="card-value"
-id="condemnedCount">0</div>
-</div>
-
-<div class="card">
-<div class="card-title">
-Branches
-</div>
-<div class="card-value"
-id="branchCount">0</div>
-</div>
-
-</div>
-
-
-<div class="panel">
-
-<h3>
-Hardware Type Summary
-</h3>
-
-<div class="report-grid"
-id="typeSummary"></div>
-
-</div>
-
-</div>
-
-
-<!-- ENTRY -->
-
-<div class="page"
-id="page-entry">
-
-<div class="panel">
-
-<h3>
-Hardware Entry
-</h3>
-
-
-<div class="form-grid">
-
-<div class="form-group">
-
-<label>
-SOL ID *
-</label>
-
-<select id="solId"
-onchange="branchChanged()">
-
-<option value="">
-Select SOL ID
-</option>
-
-</select>
-
-</div>
-
-
-<div class="form-group">
-
-<label>
-Branch Name
-</label>
-
-<input id="branchName"
-readonly>
-
-</div>
-
-</div>
-
-</div>
-
-
-<div class="panel">
-
-<div class="hardware-header">
-
-<h3>
-Hardware Items
-</h3>
-
-<button
-type="button"
-class="btn btn-secondary"
-onclick="addHardwareItem()">
-
-+ Add Hardware
-
-</button>
-
-</div>
-
-
-<div id="hardwareItems"></div>
-
-
-<div style="text-align:right;margin-top:20px">
-
-<button
-type="button"
-class="btn btn-primary"
-onclick="saveHardware()">
-
-💾 Save Hardware
-
-</button>
-
-</div>
-
-</div>
-
-</div>
-
-
-<!-- INVENTORY -->
-
-<div class="page"
-id="page-inventory">
-
-<div class="panel">
-
-<h3>
-Hardware Inventory
-</h3>
-
-<div class="table-wrap">
-
-<table>
-
-<thead>
-
-<tr>
-
-<th>SL</th>
-<th>SOL ID</th>
-<th>Branch</th>
-<th>Type</th>
-<th>Sub Type</th>
-<th>Make</th>
-<th>Model</th>
-<th>Serial No</th>
-<th>Condition</th>
-<th>Remarks</th>
-
-</tr>
-
-</thead>
-
-<tbody id="inventoryTable"></tbody>
-
-</table>
-
-</div>
-
-</div>
-
-</div>
-
-
-<!-- BRANCH -->
-
-<div class="page"
-id="page-branch">
-
-<div class="panel">
-
-<h3>
-Branch Wise Hardware
-</h3>
-
-<select id="branchFilter"
-onchange="renderBranch()">
-
-<option value="">
-All Branches
-</option>
-
-</select>
-
-</div>
-
-
-<div class="panel">
-
-<div class="table-wrap">
-
-<table>
-
-<thead>
-
-<tr>
-
-<th>Type</th>
-<th>Sub Type</th>
-<th>Make</th>
-<th>Model</th>
-<th>Serial No</th>
-<th>Condition</th>
-
-</tr>
-
-</thead>
-
-<tbody id="branchTable"></tbody>
-
-</table>
-
-</div>
-
-</div>
-
-</div>
-
-
-<!-- SEARCH -->
-
-<div class="page"
-id="page-search">
-
-<div class="panel">
-
-<h3>
-Search Hardware
-</h3>
-
-<input
-id="searchInput"
-placeholder="Search SOL / branch / serial / make / model"
-onkeyup="renderSearch()">
-
-<br><br>
-
-<div class="table-wrap">
-
-<table>
-
-<thead>
-
-<tr>
-
-<th>SOL</th>
-<th>Branch</th>
-<th>Type</th>
-<th>Make</th>
-<th>Model</th>
-<th>Serial</th>
-<th>Condition</th>
-
-</tr>
-
-</thead>
-
-<tbody id="searchTable"></tbody>
-
-</table>
-
-</div>
-
-</div>
-
-</div>
-
-
-<!-- REPORTS -->
-
-<div class="page"
-id="page-reports">
-
-<div class="panel">
-
-<h3>
-Reports
-</h3>
-
-
-<div class="cards">
-
-<div class="card">
-
-<div class="card-title">
-Total
-</div>
-
-<div class="card-value"
-id="reportTotal">
-0
-</div>
-
-</div>
-
-
-<div class="card">
-
-<div class="card-title">
-Working
-</div>
-
-<div class="card-value"
-id="reportWorking">
-0
-</div>
-
-</div>
-
-
-<div class="card">
-
-<div class="card-title">
-Repair Required
-</div>
-
-<div class="card-value"
-id="reportRepair">
-0
-</div>
-
-</div>
-
-
-<div class="card">
-
-<div class="card-title">
-Not Working
-</div>
-
-<div class="card-value"
-id="reportNotWorking">
-0
-</div>
-
-</div>
-
-</div>
-
-
-<button
-type="button"
-class="btn btn-primary"
-onclick="exportCSV()">
-
-⬇ Export CSV
-
-</button>
-
-</div>
-
-</div>
-
-
-</div>
-
-</div>
-
-
-<!-- LOADING -->
-
-<div id="loadingOverlay">
-
-<div class="loading-box">
-
-<div class="spinner"></div>
-
-<div id="loadingText">
-Saving...
-</div>
-
-</div>
-
-</div>
-
-
-<script>
-
-/*****************************************************
- * BRANCH MASTER
- *****************************************************/
-
-var branches = [
-
-["12010","JABALPUR"],
-["12020","RANJHI"],
-["12030","SIHORA (JBP)"],
-["12040","KHITOLA BAZAR"],
-["12050","SAHAJPUR"],
-["12060","SHAHPURA (JBP)"],
-["12070","PANAGAR"],
-["12080","LAMKANA"],
-["12090","ADHARTAL JABALPUR"],
-["12100","PATAN"],
-["12110","MANJHOLI"],
-["12120","PISANHARI MADHIYA"],
-["12130","EKTA CHOUK, UKHARIROAD"],
-["12140","KARMETA GRAM"],
-["12150","BARGI"],
-["12160","GWARIGHAT ROAD"],
-["12170","BILHARI"],
-["12180","KUA"],
-["12190","KYMORE"],
-["12200","DEORA KALA"],
-["12210","VILAYAT KALA"],
-["12220","DASHARMAN"],
-["12230","AMGAWAN"],
-["12240","KATNI"],
-["12250","DEORI TOLA"],
-["12260","UMARIYAPAN"],
-["12270","BADWARA"],
-["12280","VIJAY RAGHAVGARH"],
-["12290","KHIRHANI DURGA CHOWK"],
-["12300","BARAHI"],
-["12310","BAHORIBAND"],
-["12320","NARSINGHPUR"],
-["12330","STATION GANJ NARSINGHPUR"],
-["12340","AMGAON BADA"],
-["12350","KANWAS"],
-["12360","PANARI"],
-["12370","BOHANI"],
-["12380","KARELI"],
-["12390","BAGASPUR"],
-["12400","SAIKHEDA"],
-["12410","CHICHALI"],
-["12420","BARAHATA"],
-["12430","KAMTI IMALYA"],
-["12440","SINGHPUR BADA"],
-["12450","GADARWARA"],
-["12460","DEORI LOLRI"],
-["12470","NARSINGHPUR BASTI"],
-["12480","KARAKBEL"],
-["12490","SOORWARI"],
-["12500","TENDUKHEDA"],
-["12510","GOTEGAON"],
-["12520","COLLECTORATE, NARSINGHPUR"],
-["12530","ADARSH SHIKSHAN SAMITI, KARELI"]
-
-];
-
-
-var allHardware = [];
-
-
-/*****************************************************
- * PAGE LOAD
- *****************************************************/
-
-window.onload = function(){
-
-loadBranches();
-
-addHardwareItem();
-
-updateClock();
-
-setInterval(
-updateClock,
-1000
-);
-
-};
-
-
-/*****************************************************
- * CLOCK
- *****************************************************/
-
-function updateClock(){
-
-document.getElementById(
-"clock"
-).innerText =
-new Date().toLocaleString(
-"en-IN"
-);
-
-}
-
-
-/*****************************************************
- * NAVIGATION
- *****************************************************/
-
-function showPage(
-page,
-button
-){
-
-var pages =
-document.querySelectorAll(
-".page"
-);
-
-for(
-var i=0;
-i<pages.length;
-i++
-){
-
-pages[i].classList.remove(
-"active"
-);
-
-}
-
-
-document
-.getElementById(
-"page-" + page
-)
-.classList.add(
-"active"
-);
-
-
-var buttons =
-document.querySelectorAll(
-".menu button"
-);
-
-for(
-var j=0;
-j<buttons.length;
-j++
-){
-
-buttons[j].classList.remove(
-"active"
-);
-
-}
-
-
-if(button){
-button.classList.add(
-"active"
-);
-}
-
-
-if(page === "dashboard"){
-loadDashboard();
-}
-
-
-if(
-page === "inventory" ||
-page === "branch" ||
-page === "search"
-){
-
-loadAllHardware();
-
-}
-
-
-if(page === "reports"){
-loadReports();
-}
-
-}
-
-
-/*****************************************************
- * BRANCH DROPDOWNS
- *****************************************************/
-
-function loadBranches(){
-
-var solSelect =
-document.getElementById(
-"solId"
-);
-
-var branchSelect =
-document.getElementById(
-"branchFilter"
-);
-
-
-for(
-var i=0;
-i<branches.length;
-i++
-){
-
-var option =
-document.createElement(
-"option"
-);
-
-option.value =
-branches[i][0];
-
-option.textContent =
-branches[i][0] +
-" - " +
-branches[i][1];
-
-solSelect.appendChild(
-option
-);
-
-
-var branchOption =
-document.createElement(
-"option"
-);
-
-branchOption.value =
-branches[i][0];
-
-branchOption.textContent =
-branches[i][0] +
-" - " +
-branches[i][1];
-
-branchSelect.appendChild(
-branchOption
-);
-
-}
-
-}
-
-
-/*****************************************************
- * SOL CHANGE
- *****************************************************/
-
-function branchChanged(){
-
-var sol =
-document.getElementById(
-"solId"
-).value;
-
-
-var branchName = "";
-
-
-for(
-var i=0;
-i<branches.length;
-i++
-){
-
-if(
-branches[i][0] === sol
-){
-
-branchName =
-branches[i][1];
-
-break;
-
-}
-
-}
-
-
-document.getElementById(
-"branchName"
-).value =
-branchName;
-
-}
-
-
-/*****************************************************
- * ADD HARDWARE
- *****************************************************/
-
-function addHardwareItem(){
-
-var container =
-document.getElementById(
-"hardwareItems"
-);
-
-
-var number =
-container.children.length + 1;
-
-
-var div =
-document.createElement(
-"div"
-);
-
-
-div.className =
-"hardware-item";
-
-
-div.innerHTML = `
-
-<div class="hardware-header">
-
-<strong>
-Hardware Item #${number}
-</strong>
-
-<button
-type="button"
-class="btn btn-danger"
-onclick="removeHardwareItem(this)">
-
-Remove
-
-</button>
-
-</div>
-
-
-<div class="form-grid">
-
-
-<div class="form-group">
-
-<label>
-Hardware Type *
-</label>
-
-<select
-class="hardwareType"
-onchange="hardwareTypeChanged(this)">
-
-<option value="">
-Select Type
-</option>
-
-<option value="CPU">
-CPU
-</option>
-
-<option value="Monitor">
-Monitor
-</option>
-
-<option value="Printer">
-Printer
-</option>
-
-<option value="CCTV">
-CCTV
-</option>
-
-<option value="Biometric">
-Biometric
-</option>
-
-<option value="CTS Machine">
-CTS Machine
-</option>
-
-</select>
-
-</div>
-
-
-<div class="form-group">
-
-<label>
-Hardware Sub Type
-</label>
-
-<select
-class="hardwareSubType"
-disabled>
-
-<option value="">
-Not Applicable
-</option>
-
-<option value="Laser">
-Laser
-</option>
-
-<option value="Passbook">
-Passbook
-</option>
-
-</select>
-
-</div>
-
-
-<div class="form-group">
-
-<label>
-Make *
-</label>
-
-<input
-class="make"
-placeholder="HP / Dell / Canon">
-
-</div>
-
-
-<div class="form-group">
-
-<label>
-Model *
-</label>
-
-<input
-class="model"
-placeholder="Model">
-
-</div>
-
-
-<div class="form-group">
-
-<label>
-Serial No *
-</label>
-
-<input
-class="serialNo"
-placeholder="Serial Number">
-
-</div>
-
-
-<div class="form-group">
-
-<label>
-Condition *
-</label>
-
-<select class="condition">
-
-<option value="">
-Select Condition
-</option>
-
-<option value="Working">
-Working
-</option>
-
-<option value="Working - Poor Condition">
-Working - Poor Condition
-</option>
-
-<option value="Repair Required">
-Repair Required
-</option>
-
-<option value="Not Working">
-Not Working
-</option>
-
-<option value="Condemned">
-Condemned
-</option>
-
-</select>
-
-</div>
-
-
-<div class="form-group"
-style="grid-column:1/-1">
-
-<label>
-Remarks
-</label>
-
-<textarea
-class="remarks"
-placeholder="Remarks"></textarea>
-
-</div>
-
-
-</div>
-
-`;
-
-
-container.appendChild(
-div
-);
-
-}
-
-
-/*****************************************************
- * PRINTER SUBTYPE
- *****************************************************/
-
-function hardwareTypeChanged(
-select
-){
-
-var item =
-select.closest(
-".hardware-item"
-);
-
-
-var subtype =
-item.querySelector(
-".hardwareSubType"
-);
-
-
-if(
-select.value === "Printer"
-){
-
-subtype.disabled =
-false;
-
-}else{
-
-subtype.disabled =
-true;
-
-subtype.value =
-"";
-
-}
-
-}
-
-
-/*****************************************************
- * REMOVE ITEM
- *****************************************************/
-
-function removeHardwareItem(
-button
-){
-
-var item =
-button.closest(
-".hardware-item"
-);
-
-
-if(item){
-item.remove();
-}
-
-
-var items =
-document.querySelectorAll(
-".hardware-item"
-);
-
-
-for(
-var i=0;
-i<items.length;
-i++
-){
-
-items[i]
-.querySelector(
-"strong"
-)
-.innerText =
-"Hardware Item #" +
-(i + 1);
-
-}
-
-}
-
-
-/*****************************************************
- * SAVE HARDWARE
- *****************************************************/
-
-function saveHardware(){
-
-var solId =
-document.getElementById(
-"solId"
-).value;
-
-
-var branchName =
-document.getElementById(
-"branchName"
-).value;
-
-
-if(!solId){
-
-alert(
-"Please select SOL ID."
-);
-
-return;
-
-}
-
-
-var cards =
-document.querySelectorAll(
-".hardware-item"
-);
-
-
-if(cards.length === 0){
-
-alert(
-"Please add hardware."
-);
-
-return;
-
-}
-
-
-var data = [];
-
-
-for(
-var i=0;
-i<cards.length;
-i++
-){
-
-var card =
-cards[i];
-
-
-var item = {
-
-solId:
-solId,
-
-branchName:
-branchName,
-
-hardwareType:
-card.querySelector(
-".hardwareType"
-).value,
-
-hardwareSubType:
-card.querySelector(
-".hardwareSubType"
-).value,
-
-make:
-card.querySelector(
-".make"
-).value.trim(),
-
-model:
-card.querySelector(
-".model"
-).value.trim(),
-
-serialNo:
-card.querySelector(
-".serialNo"
-).value.trim(),
-
-condition:
-card.querySelector(
-".condition"
-).value,
-
-remarks:
-card.querySelector(
-".remarks"
-).value.trim()
-
-};
-
-
-if(!item.hardwareType){
-
-alert(
-"Please select Hardware Type for item #" +
-(i + 1)
-);
-
-return;
-
-}
-
-
-if(!item.make){
-
-alert(
-"Please enter Make for item #" +
-(i + 1)
-);
-
-return;
-
-}
-
-
-if(!item.model){
-
-alert(
-"Please enter Model for item #" +
-(i + 1)
-);
-
-return;
-
-}
-
-
-if(!item.serialNo){
-
-alert(
-"Please enter Serial No for item #" +
-(i + 1)
-);
-
-return;
-
-}
-
-
-if(!item.condition){
-
-alert(
-"Please select Condition for item #" +
-(i + 1)
-);
-
-return;
+    if (!solId) {
 
-}
-
-
-data.push(
-item
-);
-
-}
-
-
-/***************************************************
- * IMPORTANT
- ***************************************************/
-
-showLoading(
-"Saving hardware..."
-);
-
-
-google.script.run
-
-.withSuccessHandler(
-function(result){
-
-hideLoading();
-
-
-if(
-result &&
-result.status ===
-"success"
-){
-
-alert(
-"Hardware saved successfully.\n\n" +
-"Items: " +
-result.count +
-"\nSubmission ID: " +
-result.submissionId
-);
-
-
-resetHardwareForm();
-
-
-}else{
-
-alert(
-"Save failed.\n\n" +
-(
-result &&
-result.message
-? result.message
-: "Unknown error"
-)
-);
-
-}
-
-}
-)
-
-.withFailureHandler(
-function(error){
-
-hideLoading();
-
-
-alert(
-"Server error.\n\n" +
-(
-error &&
-error.message
-? error.message
-: String(error)
-)
-);
-
-}
-)
-
-.saveHardwareBatch(
-data
-);
-
-}
-
-
-/*****************************************************
- * RESET
- *****************************************************/
-
-function resetHardwareForm(){
-
-document.getElementById(
-"solId"
-).value = "";
-
-
-document.getElementById(
-"branchName"
-).value = "";
-
-
-document.getElementById(
-"hardwareItems"
-).innerHTML = "";
-
-
-addHardwareItem();
-
-}
-
-
-/*****************************************************
- * LOADING
- *****************************************************/
-
-function showLoading(
-message
-){
-
-document.getElementById(
-"loadingText"
-).innerText =
-message || "Processing...";
-
-
-document.getElementById(
-"loadingOverlay"
-).style.display =
-"flex";
-
-}
-
-
-function hideLoading(){
-
-document.getElementById(
-"loadingOverlay"
-).style.display =
-"none";
-
-}
-
-
-/*****************************************************
- * LOAD ALL HARDWARE
- *****************************************************/
-
-function loadAllHardware(){
-
-showLoading(
-"Loading data..."
-);
-
-
-google.script.run
-
-.withSuccessHandler(
-function(data){
-
-hideLoading();
-
-allHardware =
-data || [];
-
-renderInventory();
-
-renderBranch();
-
-renderSearch();
-
-}
-)
-
-.withFailureHandler(
-function(error){
-
-hideLoading();
-
-console.log(
-error
-);
-
-}
-)
-
-.getHardwareData();
-
-}
-
-
-/*****************************************************
- * INVENTORY
- *****************************************************/
-
-function renderInventory(){
-
-var tbody =
-document.getElementById(
-"inventoryTable"
-);
-
-
-tbody.innerHTML = "";
-
-
-if(
-!allHardware.length
-){
-
-tbody.innerHTML =
-'<tr><td colspan="10" class="empty">No hardware data found.</td></tr>';
-
-return;
-
-}
-
-
-for(
-var i=0;
-i<allHardware.length;
-i++
-){
-
-var x =
-allHardware[i];
-
-
-tbody.innerHTML += `
-
-<tr>
-
-<td>${i + 1}</td>
-
-<td>${esc(x.solId)}</td>
-
-<td>${esc(x.branchName)}</td>
-
-<td>${esc(x.hardwareType)}</td>
-
-<td>${esc(x.hardwareSubType)}</td>
-
-<td>${esc(x.make)}</td>
-
-<td>${esc(x.model)}</td>
-
-<td>${esc(x.serialNo)}</td>
-
-<td>${conditionBadge(x.condition)}</td>
-
-<td>${esc(x.remarks)}</td>
-
-</tr>
-
-`;
-
-}
-
-}
-
-
-/*****************************************************
- * BRANCH
- *****************************************************/
-
-function renderBranch(){
-
-var filter =
-document.getElementById(
-"branchFilter"
-);
-
-
-if(!filter){
-return;
-}
-
-
-var sol =
-filter.value;
-
-
-var tbody =
-document.getElementById(
-"branchTable"
-);
-
-
-tbody.innerHTML = "";
-
+      alert(
+        "Please select SOL ID."
+      );
 
-var data =
-[];
+      return;
 
+    }
 
-for(
-var i=0;
-i<allHardware.length;
-i++
-){
 
-if(
-!sol ||
-String(
-allHardware[i].solId
-) === String(sol)
-){
+    if (!branchName) {
 
-data.push(
-allHardware[i]
-);
+      alert(
+        "Branch Name not found."
+      );
 
-}
-
-}
-
-
-if(!data.length){
-
-tbody.innerHTML =
-'<tr><td colspan="6" class="empty">No data found.</td></tr>';
-
-return;
-
-}
-
-
-for(
-var j=0;
-j<data.length;
-j++
-){
-
-var x =
-data[j];
-
-
-tbody.innerHTML += `
-
-<tr>
-
-<td>${esc(x.hardwareType)}</td>
-
-<td>${esc(x.hardwareSubType)}</td>
-
-<td>${esc(x.make)}</td>
-
-<td>${esc(x.model)}</td>
-
-<td>${esc(x.serialNo)}</td>
-
-<td>${conditionBadge(x.condition)}</td>
-
-</tr>
-
-`;
-
-}
-
-}
-
-
-/*****************************************************
- * SEARCH
- *****************************************************/
-
-function renderSearch(){
-
-var input =
-document.getElementById(
-"searchInput"
-);
-
-
-var tbody =
-document.getElementById(
-"searchTable"
-);
-
-
-if(!input || !tbody){
-return;
-}
-
-
-var keyword =
-input.value
-.toLowerCase()
-.trim();
-
-
-var data = [];
-
-
-for(
-var i=0;
-i<allHardware.length;
-i++
-){
-
-var x =
-allHardware[i];
-
-
-var text = [
-
-x.solId,
-x.branchName,
-x.hardwareType,
-x.hardwareSubType,
-x.make,
-x.model,
-x.serialNo,
-x.condition,
-x.remarks
-
-]
-.join(" ")
-.toLowerCase();
-
-
-if(
-!keyword ||
-text.indexOf(
-keyword
-) !== -1
-){
-
-data.push(
-x
-);
-
-}
-
-}
-
-
-tbody.innerHTML = "";
-
-
-if(!data.length){
-
-tbody.innerHTML =
-'<tr><td colspan="7" class="empty">No matching data found.</td></tr>';
-
-return;
-
-}
-
-
-for(
-var j=0;
-j<data.length;
-j++
-){
+      return;
 
-var row =
-data[j];
+    }
 
 
-tbody.innerHTML += `
+    var cards =
+      document.querySelectorAll(
+        ".hardware-item"
+      );
 
-<tr>
 
-<td>${esc(row.solId)}</td>
+    if (
+      cards.length === 0
+    ) {
 
-<td>${esc(row.branchName)}</td>
+      alert(
+        "Please add hardware."
+      );
 
-<td>${esc(row.hardwareType)}</td>
+      return;
 
-<td>${esc(row.make)}</td>
+    }
 
-<td>${esc(row.model)}</td>
 
-<td>${esc(row.serialNo)}</td>
+    var data = [];
 
-<td>${conditionBadge(row.condition)}</td>
 
-</tr>
+    for (
+      var i = 0;
+      i < cards.length;
+      i++
+    ) {
 
-`;
+      var card =
+        cards[i];
 
-}
-
-}
-
-
-/*****************************************************
- * DASHBOARD
- *****************************************************/
-
-function loadDashboard(){
-
-google.script.run
-
-.withSuccessHandler(
-function(data){
-
-document.getElementById(
-"totalCount"
-).innerText =
-data.total;
-
-
-document.getElementById(
-"workingCount"
-).innerText =
-data.working;
-
-
-document.getElementById(
-"poorCount"
-).innerText =
-data.poor;
-
-
-document.getElementById(
-"repairCount"
-).innerText =
-data.repair;
-
-
-document.getElementById(
-"notWorkingCount"
-).innerText =
-data.notWorking;
-
-
-document.getElementById(
-"condemnedCount"
-).innerText =
-data.condemned;
-
-
-document.getElementById(
-"branchCount"
-).innerText =
-data.branches;
-
-
-var box =
-document.getElementById(
-"typeSummary"
-);
-
-
-box.innerHTML = "";
-
-
-for(
-var type in data.types
-){
-
-box.innerHTML += `
-
-<div class="report-card">
-
-<strong>
-${esc(type)}
-</strong>
-
-<div style="
-font-size:25px;
-font-weight:bold;
-margin-top:7px">
-
-${data.types[type]}
 
-</div>
+      var hardwareType =
+        card.querySelector(
+          ".hardwareType"
+        ).value;
 
-</div>
 
-`;
+      var hardwareSubType =
+        card.querySelector(
+          ".hardwareSubType"
+        ).value;
 
-}
-
-}
-)
-
-.withFailureHandler(
-function(error){
-
-console.log(
-error
-);
-
-}
-)
-
-.getDashboardData();
 
-}
-
-
-/*****************************************************
- * REPORTS
- *****************************************************/
-
-function loadReports(){
+      var make =
+        card.querySelector(
+          ".make"
+        ).value
+        .trim();
 
-google.script.run
 
-.withSuccessHandler(
-function(data){
+      var model =
+        card.querySelector(
+          ".model"
+        ).value
+        .trim();
 
-document.getElementById(
-"reportTotal"
-).innerText =
-data.total;
 
+      var serialNo =
+        card.querySelector(
+          ".serialNo"
+        ).value
+        .trim();
 
-document.getElementById(
-"reportWorking"
-).innerText =
-data.working;
 
+      var condition =
+        card.querySelector(
+          ".condition"
+        ).value;
 
-document.getElementById(
-"reportRepair"
-).innerText =
-data.repair;
 
+      var remarks =
+        card.querySelector(
+          ".remarks"
+        ).value
+        .trim();
 
-document.getElementById(
-"reportNotWorking"
-).innerText =
-data.notWorking;
 
-}
-)
-
-.getDashboardData();
-
-}
+      if (!hardwareType) {
 
+        alert(
+          "Please select Hardware Type for item #" +
+          (i + 1)
+        );
 
-/*****************************************************
- * CSV EXPORT
- *****************************************************/
+        return;
 
-function exportCSV(){
+      }
 
-if(
-!allHardware.length
-){
 
-showLoading(
-"Preparing CSV..."
-);
+      if (!make) {
 
+        alert(
+          "Please enter Make for item #" +
+          (i + 1)
+        );
 
-google.script.run
+        return;
 
-.withSuccessHandler(
-function(data){
+      }
 
-hideLoading();
 
-allHardware =
-data || [];
+      if (!model) {
 
-downloadCSV();
+        alert(
+          "Please enter Model for item #" +
+          (i + 1)
+        );
 
-}
-)
+        return;
 
-.getHardwareData();
+      }
 
-}else{
 
-downloadCSV();
+      if (!serialNo) {
 
-}
+        alert(
+          "Please enter Serial No for item #" +
+          (i + 1)
+        );
 
-}
+        return;
 
+      }
 
-function downloadCSV(){
 
-if(
-!allHardware.length
-){
+      if (!condition) {
 
-alert(
-"No data available."
-);
+        alert(
+          "Please select Condition for item #" +
+          (i + 1)
+        );
 
-return;
+        return;
 
-}
+      }
 
 
-var csv =
-"Timestamp,Submission ID,SOL ID,Branch Name,Hardware Type,Hardware Sub Type,Make,Model,Serial No,Condition,Remarks\n";
+      data.push({
 
+        solId:
+          String(solId),
 
-for(
-var i=0;
-i<allHardware.length;
-i++
-){
+        branchName:
+          String(branchName),
 
-var x =
-allHardware[i];
+        hardwareType:
+          String(hardwareType),
 
+        hardwareSubType:
+          String(
+            hardwareSubType || ""
+          ),
 
-csv += [
+        make:
+          String(make),
 
-x.timestamp,
-x.submissionId,
-x.solId,
-x.branchName,
-x.hardwareType,
-x.hardwareSubType,
-x.make,
-x.model,
-x.serialNo,
-x.condition,
-x.remarks
+        model:
+          String(model),
 
-]
-.map(
-csvEscape
-)
-.join(",") +
-"\n";
+        serialNo:
+          String(serialNo),
 
-}
+        condition:
+          String(condition),
 
+        remarks:
+          String(remarks || "")
 
-var blob =
-new Blob(
-[csv],
-{
-type:
-"text/csv;charset=utf-8;"
-}
-);
+      });
 
+    }
 
-var url =
-URL.createObjectURL(
-blob
-);
 
+    /*
+     * Convert the array to a simple JSON string.
+     * This is the important fix.
+     */
 
-var a =
-document.createElement(
-"a"
-);
+    var jsonData =
+      JSON.stringify(
+        data
+      );
 
 
-a.href =
-url;
+    showLoading(
+      "Saving hardware..."
+    );
 
-a.download =
-"MPGB_Hardware_Inventory.csv";
 
-document.body.appendChild(
-a
-);
+    google.script.run
 
-a.click();
+      .withSuccessHandler(
+        function(result) {
 
-document.body.removeChild(
-a
-);
+          hideLoading();
 
-URL.revokeObjectURL(
-url
-);
 
-}
+          if (
+            result &&
+            result.status ===
+            "success"
+          ) {
 
+            alert(
 
-/*****************************************************
- * HELPERS
- *****************************************************/
+              "✅ Hardware Saved Successfully\n\n" +
 
-function csvEscape(
-value
-){
+              "Items: " +
+              result.count +
 
-return '"' +
-String(
-value || ""
-)
-.replace(
-/"/g,
-'""'
-) +
-'"';
+              "\nSubmission ID: " +
+              result.submissionId
 
-}
+            );
 
 
-function esc(
-value
-){
+            resetHardwareForm();
 
-return String(
-value || ""
-)
 
-.replace(
-/&/g,
-"&amp;"
-)
+            /*
+             * Refresh dashboard
+             */
 
-.replace(
-/</g,
-"&lt;"
-)
+            loadDashboard();
 
-.replace(
-/>/g,
-"&gt;"
-)
+          }
+          else {
 
-.replace(
-/"/g,
-"&quot;"
-)
+            alert(
 
-.replace(
-/'/g,
-"&#039;"
-);
+              "❌ Save Failed\n\n" +
 
-}
+              (
+                result &&
+                result.message
+                  ? result.message
+                  : "Unknown error"
+              )
 
+            );
 
-function conditionBadge(
-condition
-){
+          }
 
-var cls =
-"badge";
+        }
+      )
 
+      .withFailureHandler(
+        function(error) {
 
-if(
-condition ===
-"Working"
-){
+          hideLoading();
 
-cls +=
-" badge-working";
 
-}
+          alert(
 
-else if(
-condition ===
-"Working - Poor Condition"
-){
+            "❌ Server Error\n\n" +
 
-cls +=
-" badge-poor";
+            (
+              error &&
+              error.message
+                ? error.message
+                : String(error)
+            )
 
-}
+          );
 
-else if(
-condition ===
-"Repair Required"
-){
+        }
+      )
 
-cls +=
-" badge-repair";
+      .saveHardwareBatch(
+        jsonData
+      );
 
-}
 
-else if(
-condition ===
-"Not Working"
-){
+  } catch (error) {
 
-cls +=
-" badge-not";
+    hideLoading();
 
-}
 
-else if(
-condition ===
-"Condemned"
-){
+    alert(
 
-cls +=
-" badge-condemned";
+      "❌ Browser Error\n\n" +
 
-}
+      (
+        error &&
+        error.message
+          ? error.message
+          : String(error)
+      )
 
+    );
 
-return `
-<span class="${cls}">
-${esc(condition)}
-</span>
-`;
+  }
 
 }
-
-</script>
-
-</body>
-
-</html>
