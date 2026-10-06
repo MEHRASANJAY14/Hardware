@@ -2,402 +2,1771 @@
 <html>
 <head>
   <base target="_top">
+
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <title>MPGB Hardware Data Collection</title>
+  <title>MPGB Hardware Portal</title>
 
   <style>
     * {
       box-sizing: border-box;
     }
 
-    body {
-      margin: 0;
-      font-family: Arial, sans-serif;
-      background: #f2f6f4;
-      color: #222;
+    :root {
+      --green: #006633;
+      --green2: #008f4c;
+      --light-green: #eaf6ef;
+      --bg: #f4f7f6;
+      --white: #ffffff;
+      --text: #24332b;
+      --muted: #718078;
+      --border: #e0e7e3;
+      --danger: #c62828;
+      --shadow: 0 4px 18px rgba(0,0,0,.07);
     }
 
-    .header {
-      background: #006633;
+    body {
+      margin: 0;
+      font-family: Arial, Helvetica, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+    }
+
+    /* =========================
+       SIDEBAR
+    ========================= */
+
+    .sidebar {
+      position: fixed;
+      left: 0;
+      top: 0;
+      bottom: 0;
+      width: 245px;
+      background: linear-gradient(180deg, #005c2e, #007b40);
       color: white;
-      padding: 18px 15px;
+      z-index: 1000;
+      transition: .3s;
+      overflow-y: auto;
+    }
+
+    .brand {
+      padding: 22px 18px;
+      border-bottom: 1px solid rgba(255,255,255,.15);
+    }
+
+    .brand-logo {
+      width: 48px;
+      height: 48px;
+      background: white;
+      color: var(--green);
+      border-radius: 11px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: bold;
+      font-size: 14px;
+      margin-bottom: 12px;
+    }
+
+    .brand-title {
+      font-size: 19px;
+      font-weight: bold;
+    }
+
+    .brand-subtitle {
+      font-size: 11px;
+      opacity: .8;
+      margin-top: 4px;
+    }
+
+    .menu {
+      padding: 15px 10px;
+    }
+
+    .menu-label {
+      font-size: 10px;
+      opacity: .55;
+      padding: 12px 13px 7px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    .menu button {
+      width: 100%;
+      border: 0;
+      background: transparent;
+      color: rgba(255,255,255,.88);
+      text-align: left;
+      padding: 12px 13px;
+      border-radius: 8px;
+      cursor: pointer;
+      margin-bottom: 4px;
+      font-size: 13px;
+      display: flex;
+      align-items: center;
+      gap: 11px;
+    }
+
+    .menu button:hover,
+    .menu button.active {
+      background: rgba(255,255,255,.15);
+      color: white;
+    }
+
+    .menu-icon {
+      width: 22px;
+      text-align: center;
+      font-size: 16px;
+    }
+
+    .sidebar-footer {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      padding: 15px;
+      font-size: 10px;
+      opacity: .7;
       text-align: center;
     }
 
-    .header h1 {
-      margin: 0;
+    /* =========================
+       MAIN
+    ========================= */
+
+    .main {
+      margin-left: 245px;
+      min-height: 100vh;
+      transition: .3s;
+    }
+
+    .topbar {
+      height: 70px;
+      background: white;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 25px;
+      position: sticky;
+      top: 0;
+      z-index: 900;
+    }
+
+    .menu-toggle {
+      border: 0;
+      background: transparent;
       font-size: 22px;
+      cursor: pointer;
+      color: var(--green);
+      display: none;
     }
 
-    .header p {
+    .top-title {
+      font-size: 18px;
+      font-weight: bold;
+    }
+
+    .top-right {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .status-pill {
+      background: var(--light-green);
+      color: var(--green);
+      border-radius: 20px;
+      padding: 7px 12px;
+      font-size: 11px;
+      font-weight: bold;
+    }
+
+    .content {
+      padding: 25px;
+      max-width: 1500px;
+      margin: auto;
+    }
+
+    /* =========================
+       PAGES
+    ========================= */
+
+    .page {
+      display: none;
+    }
+
+    .page.active {
+      display: block;
+    }
+
+    .page-heading {
+      margin-bottom: 22px;
+    }
+
+    .page-heading h1 {
+      margin: 0;
+      font-size: 24px;
+      color: var(--green);
+    }
+
+    .page-heading p {
       margin: 6px 0 0;
-      font-size: 14px;
+      color: var(--muted);
+      font-size: 13px;
     }
 
-    .container {
-      max-width: 850px;
-      margin: 20px auto;
-      padding: 0 12px;
+    /* =========================
+       DASHBOARD CARDS
+    ========================= */
+
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 15px;
+      margin-bottom: 22px;
+    }
+
+    .stat-card {
+      background: white;
+      border-radius: 12px;
+      padding: 18px;
+      box-shadow: var(--shadow);
+      border: 1px solid var(--border);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .stat-card::after {
+      content: "";
+      position: absolute;
+      width: 65px;
+      height: 65px;
+      right: -20px;
+      top: -20px;
+      background: var(--light-green);
+      border-radius: 50%;
+    }
+
+    .stat-title {
+      font-size: 11px;
+      color: var(--muted);
+      margin-bottom: 8px;
+    }
+
+    .stat-value {
+      font-size: 27px;
+      font-weight: bold;
+      color: var(--green);
+    }
+
+    .dashboard-grid {
+      display: grid;
+      grid-template-columns: 1.5fr 1fr;
+      gap: 20px;
     }
 
     .card {
       background: white;
+      border: 1px solid var(--border);
       border-radius: 12px;
       padding: 20px;
-      margin-bottom: 18px;
-      box-shadow: 0 3px 12px rgba(0,0,0,0.08);
+      box-shadow: var(--shadow);
+      margin-bottom: 20px;
     }
 
-    .section-title {
-      font-size: 18px;
-      font-weight: bold;
-      color: #006633;
-      border-bottom: 2px solid #e3eee8;
-      padding-bottom: 10px;
+    .card-title {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
       margin-bottom: 18px;
+    }
+
+    .card-title h3 {
+      margin: 0;
+      color: var(--green);
+      font-size: 16px;
+    }
+
+    .mini-btn {
+      border: 0;
+      background: var(--light-green);
+      color: var(--green);
+      border-radius: 6px;
+      padding: 7px 10px;
+      cursor: pointer;
+      font-size: 11px;
+      font-weight: bold;
+    }
+
+    /* =========================
+       QUICK ACTION
+    ========================= */
+
+    .quick-actions {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+    }
+
+    .quick-btn {
+      border: 1px solid var(--border);
+      background: white;
+      padding: 17px;
+      border-radius: 9px;
+      cursor: pointer;
+      text-align: left;
+      transition: .2s;
+    }
+
+    .quick-btn:hover {
+      border-color: var(--green2);
+      transform: translateY(-2px);
+    }
+
+    .quick-icon {
+      font-size: 22px;
+      margin-bottom: 9px;
+    }
+
+    .quick-title {
+      font-weight: bold;
+      color: var(--green);
+      font-size: 13px;
+    }
+
+    .quick-text {
+      color: var(--muted);
+      font-size: 10px;
+      margin-top: 4px;
+    }
+
+    /* =========================
+       FORMS
+    ========================= */
+
+    .form-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 17px;
+    }
+
+    .field {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .field.full {
+      grid-column: 1 / -1;
     }
 
     label {
-      display: block;
+      font-size: 12px;
       font-weight: bold;
+      color: #45534c;
       margin-bottom: 6px;
-      font-size: 14px;
     }
 
     .required {
-      color: red;
+      color: #d32f2f;
     }
 
     input,
     select,
     textarea {
       width: 100%;
-      padding: 12px;
-      border: 1px solid #ccc;
+      border: 1px solid #ccd7d1;
       border-radius: 7px;
-      font-size: 15px;
+      padding: 11px 12px;
+      font-size: 13px;
+      outline: none;
       background: white;
+      font-family: inherit;
     }
 
     input:focus,
     select:focus,
     textarea:focus {
-      outline: none;
-      border-color: #006633;
-      box-shadow: 0 0 0 2px rgba(0,102,51,0.1);
+      border-color: var(--green2);
+      box-shadow: 0 0 0 3px rgba(0,143,76,.08);
+    }
+
+    input[readonly] {
+      background: #f2f5f3;
     }
 
     textarea {
-      min-height: 80px;
+      min-height: 85px;
       resize: vertical;
     }
 
-    .row {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 15px;
-      margin-bottom: 15px;
-    }
+    /* =========================
+       HARDWARE ITEMS
+    ========================= */
 
-    .field {
-      margin-bottom: 15px;
-    }
-
-    .branch-name {
-      background: #eef7f1;
-      font-weight: bold;
-      color: #006633;
-    }
-
-    .hardware-card {
-      border: 1px solid #d8e6dd;
-      border-radius: 10px;
-      padding: 15px;
-      margin-bottom: 15px;
+    .hardware-item {
+      border: 1px solid #dce6df;
       background: #fbfdfc;
-      position: relative;
+      border-radius: 10px;
+      padding: 17px;
+      margin-bottom: 14px;
     }
 
-    .hardware-number {
-      font-weight: bold;
-      color: #006633;
+    .hardware-item-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
       margin-bottom: 15px;
+    }
+
+    .hardware-item-title {
+      font-size: 13px;
+      font-weight: bold;
+      color: var(--green);
     }
 
     .remove-btn {
-      position: absolute;
-      top: 10px;
-      right: 10px;
-      background: #d9534f;
-      color: white;
-      border: none;
-      border-radius: 5px;
-      padding: 6px 10px;
+      border: 0;
+      background: #fff0f0;
+      color: var(--danger);
+      border-radius: 6px;
+      padding: 6px 9px;
       cursor: pointer;
+      font-size: 10px;
+      font-weight: bold;
     }
 
-    .add-btn {
-      width: 100%;
-      background: white;
-      color: #006633;
-      border: 2px dashed #006633;
-      padding: 12px;
+    /* =========================
+       BUTTONS
+    ========================= */
+
+    .button-row {
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+      margin-top: 18px;
+      flex-wrap: wrap;
+    }
+
+    .btn {
+      border: 0;
       border-radius: 7px;
-      font-size: 15px;
-      font-weight: bold;
+      padding: 11px 17px;
       cursor: pointer;
+      font-size: 12px;
+      font-weight: bold;
     }
 
-    .submit-btn {
-      width: 100%;
-      background: #006633;
+    .btn-primary {
+      background: linear-gradient(135deg, var(--green), var(--green2));
       color: white;
-      border: none;
-      padding: 15px;
-      border-radius: 8px;
-      font-size: 17px;
-      font-weight: bold;
-      cursor: pointer;
     }
 
-    .submit-btn:hover {
-      background: #004d26;
+    .btn-secondary {
+      background: var(--light-green);
+      color: var(--green);
     }
 
-    .submit-btn:disabled {
-      background: #999;
+    .btn-danger {
+      background: #fff0f0;
+      color: var(--danger);
+    }
+
+    .btn:disabled {
+      opacity: .6;
       cursor: not-allowed;
     }
 
-    .success {
-      display: none;
-      background: #e8f7ed;
-      border: 1px solid #9bd2ac;
-      color: #126b2e;
-      padding: 18px;
-      border-radius: 8px;
-      text-align: center;
-      margin-bottom: 15px;
+    /* =========================
+       TABLE
+    ========================= */
+
+    .table-wrapper {
+      overflow-x: auto;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 11px;
+    }
+
+    th {
+      background: #f0f6f2;
+      color: var(--green);
+      padding: 11px 8px;
+      text-align: left;
+      white-space: nowrap;
+    }
+
+    td {
+      padding: 10px 8px;
+      border-bottom: 1px solid #edf1ee;
+      white-space: nowrap;
+    }
+
+    tr:hover td {
+      background: #fafcfb;
+    }
+
+    .badge {
+      display: inline-block;
+      padding: 4px 7px;
+      border-radius: 12px;
+      font-size: 9px;
       font-weight: bold;
+      background: var(--light-green);
+      color: var(--green);
     }
 
-    .error {
+    /* =========================
+       SEARCH
+    ========================= */
+
+    .search-row {
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr auto;
+      gap: 10px;
+      margin-bottom: 18px;
+    }
+
+    /* =========================
+       ALERT
+    ========================= */
+
+    .alert {
       display: none;
-      background: #fdeaea;
-      border: 1px solid #e2a0a0;
-      color: #a00000;
-      padding: 15px;
+      padding: 13px 15px;
       border-radius: 8px;
-      margin-bottom: 15px;
-    }
-
-    .loading {
-      display: none;
-      text-align: center;
-      padding: 15px;
-      color: #006633;
-      font-weight: bold;
-    }
-
-    .footer {
-      text-align: center;
-      padding: 20px;
-      color: #666;
+      margin-bottom: 17px;
       font-size: 12px;
     }
 
-    @media(max-width: 600px) {
+    .alert-success {
+      background: #e8f5e9;
+      color: #1b5e20;
+      border: 1px solid #c8e6c9;
+    }
 
-      .row {
+    .alert-error {
+      background: #ffebee;
+      color: #b71c1c;
+      border: 1px solid #ffcdd2;
+    }
+
+    /* =========================
+       LOADING
+    ========================= */
+
+    .loading {
+      display: none;
+      align-items: center;
+      gap: 8px;
+      color: var(--green);
+      font-size: 11px;
+    }
+
+    .spinner {
+      width: 17px;
+      height: 17px;
+      border: 3px solid #d8ebe1;
+      border-top-color: var(--green);
+      border-radius: 50%;
+      animation: spin .8s linear infinite;
+    }
+
+    @keyframes spin {
+      to {
+        transform: rotate(360deg);
+      }
+    }
+
+    /* =========================
+       MOBILE
+    ========================= */
+
+    @media(max-width:1000px) {
+
+      .stats {
+        grid-template-columns: repeat(3, 1fr);
+      }
+
+      .dashboard-grid {
         grid-template-columns: 1fr;
-        gap: 0;
-      }
-
-      .card {
-        padding: 15px;
-      }
-
-      .header h1 {
-        font-size: 19px;
       }
 
     }
+
+    @media(max-width:700px) {
+
+      .sidebar {
+        transform: translateX(-100%);
+      }
+
+      .sidebar.open {
+        transform: translateX(0);
+      }
+
+      .main {
+        margin-left: 0;
+      }
+
+      .menu-toggle {
+        display: block;
+      }
+
+      .topbar {
+        padding: 0 15px;
+      }
+
+      .top-title {
+        font-size: 14px;
+      }
+
+      .status-pill {
+        display: none;
+      }
+
+      .content {
+        padding: 15px;
+      }
+
+      .stats {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .form-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .field.full {
+        grid-column: auto;
+      }
+
+      .quick-actions {
+        grid-template-columns: 1fr;
+      }
+
+      .search-row {
+        grid-template-columns: 1fr;
+      }
+
+    }
+
   </style>
 </head>
 
+
 <body>
 
-<div class="header">
-  <h1>MPGB - HARDWARE DATA COLLECTION</h1>
-  <p>Regional Office Jabalpur</p>
-</div>
 
+<!-- =====================================================
+     SIDEBAR
+====================================================== -->
 
-<div class="container">
+<aside class="sidebar" id="sidebar">
 
-  <div id="successBox" class="success"></div>
+  <div class="brand">
 
-  <div id="errorBox" class="error"></div>
-
-
-  <!-- BRANCH DETAILS -->
-
-  <div class="card">
-
-    <div class="section-title">
-      Branch Details
+    <div class="brand-logo">
+      MPGB
     </div>
 
-    <div class="row">
+    <div class="brand-title">
+      Hardware Portal
+    </div>
 
-      <div class="field">
-
-        <label>
-          SOL ID <span class="required">*</span>
-        </label>
-
-        <select id="solId" onchange="branchChanged()">
-
-          <option value="">
-            Select SOL ID
-          </option>
-
-        </select>
-
-      </div>
-
-
-      <div class="field">
-
-        <label>
-          Branch Name
-        </label>
-
-        <input
-          type="text"
-          id="branchName"
-          class="branch-name"
-          readonly
-          placeholder="Branch name will appear here"
-        >
-
-      </div>
-
+    <div class="brand-subtitle">
+      Regional Office Jabalpur
     </div>
 
   </div>
 
 
-  <!-- HARDWARE -->
+  <div class="menu">
 
-  <div class="card">
-
-    <div class="section-title">
-      Hardware Details
+    <div class="menu-label">
+      Main
     </div>
 
-    <div id="hardwareContainer">
+    <button
+      class="active"
+      onclick="showPage('dashboard', this)">
 
+      <span class="menu-icon">⌂</span>
+      Dashboard
+
+    </button>
+
+
+    <button
+      onclick="showPage('entry', this)">
+
+      <span class="menu-icon">＋</span>
+      Hardware Entry
+
+    </button>
+
+
+    <button
+      onclick="showPage('inventory', this)">
+
+      <span class="menu-icon">▣</span>
+      Hardware Inventory
+
+    </button>
+
+
+    <div class="menu-label">
+      Analysis
     </div>
 
 
     <button
-      type="button"
-      class="add-btn"
-      onclick="addHardware()"
-    >
-      + Add Another Hardware
+      onclick="showPage('reports', this)">
+
+      <span class="menu-icon">▥</span>
+      Reports
+
+    </button>
+
+
+    <button
+      onclick="showPage('search', this)">
+
+      <span class="menu-icon">⌕</span>
+      Search Hardware
+
+    </button>
+
+
+    <div class="menu-label">
+      System
+    </div>
+
+
+    <button
+      onclick="showPage('settings', this)">
+
+      <span class="menu-icon">⚙</span>
+      Settings
+
     </button>
 
   </div>
 
 
-  <div class="loading" id="loading">
-    Submitting data... Please wait.
+  <div class="sidebar-footer">
+
+    MPGB RO Jabalpur<br>
+    Hardware Data Collection
+
   </div>
 
+</aside>
 
-  <button
-    type="button"
-    class="submit-btn"
-    id="submitBtn"
-    onclick="submitData()"
-  >
-    SUBMIT HARDWARE DATA
-  </button>
 
+<!-- =====================================================
+     MAIN
+====================================================== -->
+
+<div class="main">
+
+
+  <!-- TOPBAR -->
+
+  <header class="topbar">
+
+    <button
+      class="menu-toggle"
+      onclick="toggleSidebar()">
+
+      ☰
+
+    </button>
+
+
+    <div class="top-title">
+      MPGB Hardware Management
+    </div>
+
+
+    <div class="top-right">
+
+      <div class="status-pill">
+        ● System Online
+      </div>
+
+    </div>
+
+  </header>
+
+
+  <main class="content">
+
+
+    <!-- =================================================
+         DASHBOARD
+    ================================================== -->
+
+    <section
+      id="dashboard"
+      class="page active">
+
+      <div class="page-heading">
+
+        <h1>
+          Dashboard
+        </h1>
+
+        <p>
+          Hardware inventory overview for Regional Office Jabalpur
+        </p>
+
+      </div>
+
+
+      <div class="stats">
+
+        <div class="stat-card">
+
+          <div class="stat-title">
+            Total Hardware
+          </div>
+
+          <div
+            class="stat-value"
+            id="totalCount">
+
+            0
+
+          </div>
+
+        </div>
+
+
+        <div class="stat-card">
+
+          <div class="stat-title">
+            Working
+          </div>
+
+          <div
+            class="stat-value"
+            id="workingCount">
+
+            0
+
+          </div>
+
+        </div>
+
+
+        <div class="stat-card">
+
+          <div class="stat-title">
+            Poor Condition
+          </div>
+
+          <div
+            class="stat-value"
+            id="poorCount">
+
+            0
+
+          </div>
+
+        </div>
+
+
+        <div class="stat-card">
+
+          <div class="stat-title">
+            Repair Required
+          </div>
+
+          <div
+            class="stat-value"
+            id="repairCount">
+
+            0
+
+          </div>
+
+        </div>
+
+
+        <div class="stat-card">
+
+          <div class="stat-title">
+            Not Working
+          </div>
+
+          <div
+            class="stat-value"
+            id="notWorkingCount">
+
+            0
+
+          </div>
+
+        </div>
+
+      </div>
+
+
+      <div class="dashboard-grid">
+
+
+        <div class="card">
+
+          <div class="card-title">
+
+            <h3>
+              Quick Actions
+            </h3>
+
+          </div>
+
+
+          <div class="quick-actions">
+
+
+            <button
+              class="quick-btn"
+              onclick="showPageById('entry')">
+
+              <div class="quick-icon">
+                💻
+              </div>
+
+              <div class="quick-title">
+                Add Hardware
+              </div>
+
+              <div class="quick-text">
+                Submit branch hardware details
+              </div>
+
+            </button>
+
+
+            <button
+              class="quick-btn"
+              onclick="showPageById('inventory')">
+
+              <div class="quick-icon">
+                📋
+              </div>
+
+              <div class="quick-title">
+                View Inventory
+              </div>
+
+              <div class="quick-text">
+                View submitted hardware
+              </div>
+
+            </button>
+
+
+            <button
+              class="quick-btn"
+              onclick="showPageById('search')">
+
+              <div class="quick-icon">
+                🔍
+              </div>
+
+              <div class="quick-title">
+                Search
+              </div>
+
+              <div class="quick-text">
+                Find hardware by serial/SOL
+              </div>
+
+            </button>
+
+
+          </div>
+
+        </div>
+
+
+        <div class="card">
+
+          <div class="card-title">
+
+            <h3>
+              System Information
+            </h3>
+
+          </div>
+
+          <p style="font-size:12px;color:#718078;line-height:1.7">
+
+            <strong>Organization:</strong>
+            Madhya Pradesh Gramin Bank
+
+            <br>
+
+            <strong>Office:</strong>
+            Regional Office Jabalpur
+
+            <br>
+
+            <strong>Branches:</strong>
+            52
+
+            <br>
+
+            <strong>Database:</strong>
+            Google Sheets
+
+            <br>
+
+            <strong>Status:</strong>
+            <span style="color:#008f4c">
+              Online
+            </span>
+
+          </p>
+
+        </div>
+
+      </div>
+
+
+    </section>
+
+
+    <!-- =================================================
+         HARDWARE ENTRY
+    ================================================== -->
+
+    <section
+      id="entry"
+      class="page">
+
+      <div class="page-heading">
+
+        <h1>
+          Hardware Entry
+        </h1>
+
+        <p>
+          Enter branch-wise physical hardware inventory
+        </p>
+
+      </div>
+
+
+      <div
+        id="successAlert"
+        class="alert alert-success">
+      </div>
+
+
+      <div
+        id="errorAlert"
+        class="alert alert-error">
+      </div>
+
+
+      <!-- BRANCH -->
+
+      <div class="card">
+
+        <div class="card-title">
+
+          <h3>
+            Branch Information
+          </h3>
+
+        </div>
+
+
+        <div class="form-grid">
+
+          <div class="field">
+
+            <label>
+              SOL ID <span class="required">*</span>
+            </label>
+
+            <select
+              id="solId"
+              onchange="branchChanged()">
+
+              <option value="">
+                Select SOL ID
+              </option>
+
+            </select>
+
+          </div>
+
+
+          <div class="field">
+
+            <label>
+              Branch Name
+            </label>
+
+            <input
+              id="branchName"
+              readonly
+              placeholder="Auto populated">
+
+          </div>
+
+        </div>
+
+      </div>
+
+
+      <!-- HARDWARE -->
+
+      <div class="card">
+
+        <div class="card-title">
+
+          <h3>
+            Hardware Details
+          </h3>
+
+          <button
+            class="btn btn-secondary"
+            onclick="addHardware()">
+
+            + Add Hardware
+
+          </button>
+
+        </div>
+
+
+        <div id="hardwareContainer"></div>
+
+
+        <div class="button-row">
+
+          <div
+            class="loading"
+            id="loading">
+
+            <div class="spinner"></div>
+
+            Saving data...
+
+          </div>
+
+
+          <button
+            id="submitBtn"
+            class="btn btn-primary"
+            onclick="submitForm()">
+
+            Submit Hardware Data
+
+          </button>
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- =================================================
+         INVENTORY
+    ================================================== -->
+
+    <section
+      id="inventory"
+      class="page">
+
+      <div class="page-heading">
+
+        <h1>
+          Hardware Inventory
+        </h1>
+
+        <p>
+          Submitted hardware records
+        </p>
+
+      </div>
+
+
+      <div class="card">
+
+        <div class="card-title">
+
+          <h3>
+            Inventory Records
+          </h3>
+
+          <button
+            class="mini-btn"
+            onclick="loadInventory()">
+
+            Refresh
+
+          </button>
+
+        </div>
+
+
+        <div
+          id="inventoryLoading"
+          style="font-size:12px;color:#718078">
+
+          Click Refresh to load records.
+
+        </div>
+
+
+        <div
+          class="table-wrapper"
+          id="inventoryTable"
+          style="display:none">
+
+          <table>
+
+            <thead>
+
+              <tr>
+
+                <th>Timestamp</th>
+                <th>SOL ID</th>
+                <th>Branch</th>
+                <th>Hardware</th>
+                <th>Sub Type</th>
+                <th>Make</th>
+                <th>Model</th>
+                <th>Serial No</th>
+                <th>Condition</th>
+
+              </tr>
+
+            </thead>
+
+            <tbody
+              id="inventoryBody">
+            </tbody>
+
+          </table>
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- =================================================
+         REPORTS
+    ================================================== -->
+
+    <section
+      id="reports"
+      class="page">
+
+      <div class="page-heading">
+
+        <h1>
+          Reports
+        </h1>
+
+        <p>
+          Hardware inventory summary
+        </p>
+
+      </div>
+
+
+      <div class="stats">
+
+        <div class="stat-card">
+          <div class="stat-title">
+            Total Hardware
+          </div>
+
+          <div
+            class="stat-value"
+            id="reportTotal">
+            0
+          </div>
+        </div>
+
+
+        <div class="stat-card">
+          <div class="stat-title">
+            CPU
+          </div>
+
+          <div
+            class="stat-value"
+            id="cpuCount">
+            0
+          </div>
+        </div>
+
+
+        <div class="stat-card">
+          <div class="stat-title">
+            Monitor
+          </div>
+
+          <div
+            class="stat-value"
+            id="monitorCount">
+            0
+          </div>
+        </div>
+
+
+        <div class="stat-card">
+          <div class="stat-title">
+            Printer
+          </div>
+
+          <div
+            class="stat-value"
+            id="printerCount">
+            0
+          </div>
+        </div>
+
+
+        <div class="stat-card">
+          <div class="stat-title">
+            CCTV
+          </div>
+
+          <div
+            class="stat-value"
+            id="cctvCount">
+            0
+          </div>
+        </div>
+
+      </div>
+
+
+      <div class="card">
+
+        <div class="card-title">
+
+          <h3>
+            Report Information
+          </h3>
+
+        </div>
+
+        <p style="font-size:12px;color:#718078">
+
+          Reports are generated from the
+          <strong>Hardware_Data</strong>
+          Google Sheet.
+
+        </p>
+
+      </div>
+
+    </section>
+
+
+    <!-- =================================================
+         SEARCH
+    ================================================== -->
+
+    <section
+      id="search"
+      class="page">
+
+      <div class="page-heading">
+
+        <h1>
+          Search Hardware
+        </h1>
+
+        <p>
+          Search hardware by SOL ID, serial number or model
+        </p>
+
+      </div>
+
+
+      <div class="card">
+
+        <div class="search-row">
+
+          <input
+            id="searchText"
+            placeholder="Serial No / Model / Make">
+
+          <select id="searchSol">
+
+            <option value="">
+              All SOL IDs
+            </option>
+
+          </select>
+
+
+          <select id="searchCondition">
+
+            <option value="">
+              All Conditions
+            </option>
+
+            <option>
+              Working
+            </option>
+
+            <option>
+              Working - Poor Condition
+            </option>
+
+            <option>
+              Repair Required
+            </option>
+
+            <option>
+              Not Working
+            </option>
+
+            <option>
+              Condemned
+            </option>
+
+          </select>
+
+
+          <button
+            class="btn btn-primary"
+            onclick="searchHardware()">
+
+            Search
+
+          </button>
+
+        </div>
+
+
+        <div
+          class="table-wrapper"
+          id="searchResults">
+
+          <p style="font-size:12px;color:#718078">
+
+            Enter search criteria and click Search.
+
+          </p>
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- =================================================
+         SETTINGS
+    ================================================== -->
+
+    <section
+      id="settings"
+      class="page">
+
+      <div class="page-heading">
+
+        <h1>
+          Settings
+        </h1>
+
+        <p>
+          System information
+        </p>
+
+      </div>
+
+
+      <div class="card">
+
+        <div class="form-grid">
+
+          <div class="field">
+
+            <label>
+              Organization
+            </label>
+
+            <input
+              value="Madhya Pradesh Gramin Bank"
+              readonly>
+
+          </div>
+
+
+          <div class="field">
+
+            <label>
+              Regional Office
+            </label>
+
+            <input
+              value="Jabalpur"
+              readonly>
+
+          </div>
+
+
+          <div class="field">
+
+            <label>
+              Branches
+            </label>
+
+            <input
+              value="52"
+              readonly>
+
+          </div>
+
+
+          <div class="field">
+
+            <label>
+              Database
+            </label>
+
+            <input
+              value="Google Sheets"
+              readonly>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+  </main>
 
 </div>
-
-
-<div class="footer">
-  MPGB - Regional Office Jabalpur
-</div>
-
 
 
 <script>
 
-let branches = [];
+/* =====================================================
+   BRANCH MASTER
+===================================================== */
 
-let hardwareTypes = [];
+const branches = [
 
-let conditions = [];
+  ["12010","JABALPUR"],
+  ["12020","RANJHI"],
+  ["12030","SIHORA (JBP)"],
+  ["12040","KHITOLA BAZAR"],
+  ["12050","SAHAJPUR"],
+  ["12060","SHAHPURA (JBP)"],
+  ["12070","PANAGAR"],
+  ["12080","LAMKANA"],
+  ["12090","ADHARTAL JABALPUR"],
+  ["12100","PATAN"],
+  ["12110","MANJHOLI"],
+  ["12120","PISANHARI MADHIYA"],
+  ["12130","EKTA CHOUK, UKHARIROAD"],
+  ["12140","KARMETA GRAM"],
+  ["12150","BARGI"],
+  ["12160","GWARIGHAT ROAD"],
+  ["12170","BILHARI"],
+  ["12180","KUA"],
+  ["12190","KYMORE"],
+  ["12200","DEORA KALA"],
+  ["12210","VILAYAT KALA"],
+  ["12220","DASHARMAN"],
+  ["12230","AMGAWAN"],
+  ["12240","KATNI"],
+  ["12250","DEORI TOLA"],
+  ["12260","UMARIYAPAN"],
+  ["12270","BADWARA"],
+  ["12280","VIJAY RAGHAVGARH"],
+  ["12290","KHIRHANI DURGA CHOWK"],
+  ["12300","BARAHI"],
+  ["12310","BAHORIBAND"],
+  ["12320","NARSINGHPUR"],
+  ["12330","STATION GANJ NARSINGHPUR"],
+  ["12340","AMGAON BADA"],
+  ["12350","KANWAS"],
+  ["12360","PANARI"],
+  ["12370","BOHANI"],
+  ["12380","KARELI"],
+  ["12390","BAGASPUR"],
+  ["12400","SAIKHEDA"],
+  ["12410","CHICHALI"],
+  ["12420","BARAHATA"],
+  ["12430","KAMTI IMALYA"],
+  ["12440","SINGHPUR BADA"],
+  ["12450","GADARWARA"],
+  ["12460","DEORI LOLRI"],
+  ["12470","NARSINGHPUR BASTI"],
+  ["12480","KARAKBEL"],
+  ["12490","SOORWARI"],
+  ["12500","TENDUKHEDA"],
+  ["12510","GOTEGAON"],
+  ["12520","COLLECTORATE, NARSINGHPUR"],
+  ["12530","ADARSH SHIKSHAN SAMITI, KARELI"]
 
-let printerTypes = [];
-
-let hardwareCount = 0;
+];
 
 
-/* ==========================================
-   PAGE LOAD
-========================================== */
-
-window.onload = function() {
-
-  google.script.run
-    .withSuccessHandler(loadBranches)
-    .getBranches();
-
-
-  google.script.run
-    .withSuccessHandler(function(data) {
-      hardwareTypes = data;
-    })
-    .getHardwareTypes();
+const hardwareTypes = [
+  "CPU",
+  "Monitor",
+  "Printer",
+  "CCTV",
+  "Biometric",
+  "CTS Machine"
+];
 
 
-  google.script.run
-    .withSuccessHandler(function(data) {
-      conditions = data;
-    })
-    .getConditions();
+const printerTypes = [
+  "Laser",
+  "Passbook"
+];
 
 
-  google.script.run
-    .withSuccessHandler(function(data) {
-      printerTypes = data;
-    })
-    .getPrinterTypes();
+const conditions = [
+  "Working",
+  "Working - Poor Condition",
+  "Repair Required",
+  "Not Working",
+  "Condemned"
+];
 
 
-  addHardware();
-
-};
+let hardwareCounter = 0;
 
 
+/* =====================================================
+   NAVIGATION
+===================================================== */
 
-/* ==========================================
+function showPage(id, button) {
+
+  document.querySelectorAll(".page")
+    .forEach(function(page) {
+      page.classList.remove("active");
+    });
+
+  document.getElementById(id)
+    .classList.add("active");
+
+
+  document.querySelectorAll(".menu button")
+    .forEach(function(btn) {
+      btn.classList.remove("active");
+    });
+
+
+  if (button) {
+    button.classList.add("active");
+  }
+
+
+  document.querySelector(".top-title")
+    .textContent =
+      getPageTitle(id);
+
+
+  if (id === "inventory") {
+    loadInventory();
+  }
+
+
+  if (id === "dashboard") {
+    loadDashboard();
+  }
+
+
+  if (window.innerWidth <= 700) {
+    document.getElementById("sidebar")
+      .classList.remove("open");
+  }
+
+}
+
+
+function showPageById(id) {
+
+  const button =
+    Array.from(
+      document.querySelectorAll(".menu button")
+    ).find(function(btn) {
+
+      return btn.getAttribute("onclick") &&
+             btn.getAttribute("onclick").includes(
+               "'" + id + "'"
+             );
+
+    });
+
+
+  showPage(id, button);
+
+}
+
+
+function getPageTitle(id) {
+
+  const titles = {
+
+    dashboard: "MPGB Hardware Management",
+
+    entry: "Hardware Entry",
+
+    inventory: "Hardware Inventory",
+
+    reports: "Hardware Reports",
+
+    search: "Search Hardware",
+
+    settings: "System Settings"
+
+  };
+
+  return titles[id] || "MPGB Hardware Management";
+
+}
+
+
+function toggleSidebar() {
+
+  document.getElementById("sidebar")
+    .classList.toggle("open");
+
+}
+
+
+/* =====================================================
    LOAD BRANCHES
-========================================== */
+===================================================== */
 
-function loadBranches(data) {
-
-  branches = data || [];
+function loadBranches() {
 
   const select =
     document.getElementById("solId");
+
+
+  const searchSol =
+    document.getElementById("searchSol");
 
 
   branches.forEach(function(branch) {
@@ -405,172 +1774,170 @@ function loadBranches(data) {
     const option =
       document.createElement("option");
 
-    option.value = branch.solId;
+    option.value =
+      branch[0];
 
     option.textContent =
-      branch.solId + " - " + branch.branchName;
+      branch[0] + " - " + branch[1];
 
     select.appendChild(option);
+
+
+    const searchOption =
+      option.cloneNode(true);
+
+    searchSol.appendChild(searchOption);
 
   });
 
 }
 
 
-
-/* ==========================================
+/* =====================================================
    BRANCH CHANGE
-========================================== */
+===================================================== */
 
 function branchChanged() {
 
-  const solId =
+  const sol =
     document.getElementById("solId").value;
-
-  const branchName =
-    document.getElementById("branchName");
-
-
-  branchName.value = "";
 
 
   const branch =
     branches.find(function(item) {
 
-      return String(item.solId) ===
-             String(solId);
+      return item[0] === sol;
 
     });
 
 
-  if (branch) {
-
-    branchName.value =
-      branch.branchName;
-
-  }
+  document.getElementById("branchName")
+    .value =
+      branch ? branch[1] : "";
 
 }
 
 
-
-/* ==========================================
+/* =====================================================
    ADD HARDWARE
-========================================== */
+===================================================== */
 
 function addHardware() {
 
-  hardwareCount++;
+  hardwareCounter++;
+
 
   const container =
-    document.getElementById("hardwareContainer");
+    document.getElementById(
+      "hardwareContainer"
+    );
 
 
-  const card =
+  const div =
     document.createElement("div");
 
-  card.className =
-    "hardware-card";
 
-  card.id =
-    "hardware-" + hardwareCount;
+  div.className =
+    "hardware-item";
 
 
-  card.innerHTML = `
+  div.id =
+    "hardware-" + hardwareCounter;
 
-    <div class="hardware-number">
-      Hardware Item ${hardwareCount}
-    </div>
 
-    ${
-      hardwareCount > 1
-      ?
-      `<button
+  div.innerHTML = `
+
+    <div class="hardware-item-header">
+
+      <div class="hardware-item-title">
+        Hardware Item ${hardwareCounter}
+      </div>
+
+      <button
         type="button"
         class="remove-btn"
-        onclick="removeHardware(${hardwareCount})">
+        onclick="removeHardware(${hardwareCounter})">
+
         Remove
-      </button>`
-      :
-      ""
-    }
+
+      </button>
+
+    </div>
 
 
-    <div class="row">
+    <div class="form-grid">
+
 
       <div class="field">
 
         <label>
-          Hardware Type <span class="required">*</span>
+          Hardware Type
+          <span class="required">*</span>
         </label>
 
         <select
           class="hardwareType"
-          onchange="hardwareTypeChanged(this)"
-        >
+          onchange="hardwareTypeChanged(this)">
 
           <option value="">
-            Select Hardware
+            Select Hardware Type
           </option>
 
-          ${
-            hardwareTypes.map(function(type) {
+          ${hardwareTypes.map(function(type) {
 
-              return `<option value="${type}">
+            return `
+              <option value="${type}">
                 ${type}
-              </option>`;
+              </option>
+            `;
 
-            }).join("")
-          }
+          }).join("")}
 
         </select>
 
       </div>
 
 
-      <div class="field printerSubTypeField"
-           style="display:none;">
+      <div
+        class="field printerField"
+        style="display:none">
 
         <label>
-          Printer Type <span class="required">*</span>
+          Printer Type
+          <span class="required">*</span>
         </label>
 
-        <select class="hardwareSubType">
+        <select class="printerType">
 
           <option value="">
             Select Printer Type
           </option>
 
-          ${
-            printerTypes.map(function(type) {
+          ${printerTypes.map(function(type) {
 
-              return `<option value="${type}">
+            return `
+              <option value="${type}">
                 ${type}
-              </option>`;
+              </option>
+            `;
 
-            }).join("")
-          }
+          }).join("")}
 
         </select>
 
       </div>
 
-    </div>
-
-
-    <div class="row">
 
       <div class="field">
 
         <label>
-          Make <span class="required">*</span>
+          Make
+          <span class="required">*</span>
         </label>
 
         <input
-          type="text"
           class="make"
-          placeholder="Enter Make"
-        >
+          placeholder="Enter make">
 
       </div>
 
@@ -579,32 +1946,26 @@ function addHardware() {
 
         <label>
           Model
+          <span class="required">*</span>
         </label>
 
         <input
-          type="text"
           class="model"
-          placeholder="Enter Model"
-        >
+          placeholder="Enter model">
 
       </div>
 
-    </div>
-
-
-    <div class="row">
 
       <div class="field">
 
         <label>
-          Serial No. <span class="required">*</span>
+          Serial No.
+          <span class="required">*</span>
         </label>
 
         <input
-          type="text"
           class="serialNo"
-          placeholder="Enter Serial Number"
-        >
+          placeholder="Enter serial number">
 
       </div>
 
@@ -612,7 +1973,8 @@ function addHardware() {
       <div class="field">
 
         <label>
-          Condition <span class="required">*</span>
+          Condition
+          <span class="required">*</span>
         </label>
 
         <select class="condition">
@@ -621,143 +1983,123 @@ function addHardware() {
             Select Condition
           </option>
 
-          ${
-            conditions.map(function(condition) {
+          ${conditions.map(function(condition) {
 
-              return `<option value="${condition}">
+            return `
+              <option value="${condition}">
                 ${condition}
-              </option>`;
+              </option>
+            `;
 
-            }).join("")
-          }
+          }).join("")}
 
         </select>
 
       </div>
 
-    </div>
 
+      <div class="field full">
 
-    <div class="field">
+        <label>
+          Remarks
+        </label>
 
-      <label>
-        Remarks
-      </label>
+        <textarea
+          class="remarks"
+          placeholder="Enter remarks"></textarea>
 
-      <textarea
-        class="remarks"
-        placeholder="Enter remarks if any"
-      ></textarea>
+      </div>
+
 
     </div>
 
   `;
 
 
-  container.appendChild(card);
+  container.appendChild(div);
 
 }
 
 
-
-/* ==========================================
-   HARDWARE TYPE CHANGE
-========================================== */
+/* =====================================================
+   HARDWARE TYPE
+===================================================== */
 
 function hardwareTypeChanged(select) {
 
   const card =
-    select.closest(".hardware-card");
+    select.closest(".hardware-item");
 
-  const subtypeField =
-    card.querySelector(
-      ".printerSubTypeField"
-    );
 
-  const subtype =
-    card.querySelector(
-      ".hardwareSubType"
-    );
+  const printerField =
+    card.querySelector(".printerField");
+
+
+  const printerType =
+    card.querySelector(".printerType");
 
 
   if (select.value === "Printer") {
 
-    subtypeField.style.display =
-      "block";
+    printerField.style.display =
+      "flex";
 
   } else {
 
-    subtypeField.style.display =
+    printerField.style.display =
       "none";
 
-    subtype.value = "";
+    printerType.value =
+      "";
 
   }
 
 }
 
 
-
-/* ==========================================
+/* =====================================================
    REMOVE HARDWARE
-========================================== */
+===================================================== */
 
 function removeHardware(id) {
 
-  const element =
+  const item =
     document.getElementById(
       "hardware-" + id
     );
 
-  if (element) {
 
-    element.remove();
-
+  if (item) {
+    item.remove();
   }
 
 }
 
 
-
-/* ==========================================
-   SHOW ERROR
-========================================== */
-
-function showError(message) {
-
-  const box =
-    document.getElementById("errorBox");
-
-  box.innerHTML =
-    "⚠️ " + message;
-
-  box.style.display =
-    "block";
-
-
-  window.scrollTo({
-    top: 0,
-    behavior: "smooth"
-  });
-
-}
-
-
-
-/* ==========================================
-   SHOW SUCCESS
-========================================== */
+/* =====================================================
+   ALERTS
+===================================================== */
 
 function showSuccess(message) {
 
   const box =
-    document.getElementById("successBox");
+    document.getElementById(
+      "successAlert"
+    );
+
 
   box.innerHTML =
-    "✅ " + message;
+    message;
+
 
   box.style.display =
     "block";
+
+
+  document.getElementById(
+    "errorAlert"
+  ).style.display =
+    "none";
 
 
   window.scrollTo({
@@ -768,64 +2110,66 @@ function showSuccess(message) {
 }
 
 
+function showError(message) {
 
-/* ==========================================
-   SUBMIT DATA
-========================================== */
+  const box =
+    document.getElementById(
+      "errorAlert"
+    );
 
-function submitData() {
+
+  box.innerHTML =
+    message;
+
+
+  box.style.display =
+    "block";
+
 
   document.getElementById(
-    "errorBox"
-  ).style.display = "none";
+    "successAlert"
+  ).style.display =
+    "none";
 
 
-  document.getElementById(
-    "successBox"
-  ).style.display = "none";
+  window.scrollTo({
+    top: 0,
+    behavior: "smooth"
+  });
 
+}
+
+
+/* =====================================================
+   SUBMIT
+===================================================== */
+
+function submitForm() {
 
   const solId =
-    document.getElementById(
-      "solId"
-    ).value;
+    document.getElementById("solId").value;
 
 
   const branchName =
-    document.getElementById(
-      "branchName"
-    ).value;
+    document.getElementById("branchName").value;
 
 
   if (!solId) {
 
-    showError(
-      "Please select SOL ID."
-    );
+    showError("Please select SOL ID.");
 
     return;
 
   }
 
 
-  if (!branchName) {
-
-    showError(
-      "Branch Name is missing."
-    );
-
-    return;
-
-  }
-
-
-  const cards =
+  const items =
     document.querySelectorAll(
-      ".hardware-card"
+      ".hardware-item"
     );
 
 
-  if (cards.length === 0) {
+  if (items.length === 0) {
 
     showError(
       "Please add at least one hardware item."
@@ -836,64 +2180,67 @@ function submitData() {
   }
 
 
-  const hardwareList = [];
-
-  let validationError = "";
+  const data = [];
 
 
-  cards.forEach(function(card) {
+  for (
+    let i = 0;
+    i < items.length;
+    i++
+  ) {
 
-    if (validationError) {
-      return;
-    }
+    const item =
+      items[i];
 
 
     const hardwareType =
-      card.querySelector(
+      item.querySelector(
         ".hardwareType"
       ).value;
 
 
-    const hardwareSubType =
-      card.querySelector(
-        ".hardwareSubType"
+    const printerType =
+      item.querySelector(
+        ".printerType"
       ).value;
 
 
     const make =
-      card.querySelector(
+      item.querySelector(
         ".make"
       ).value.trim();
 
 
     const model =
-      card.querySelector(
+      item.querySelector(
         ".model"
       ).value.trim();
 
 
     const serialNo =
-      card.querySelector(
+      item.querySelector(
         ".serialNo"
       ).value.trim();
 
 
     const condition =
-      card.querySelector(
+      item.querySelector(
         ".condition"
       ).value;
 
 
     const remarks =
-      card.querySelector(
+      item.querySelector(
         ".remarks"
       ).value.trim();
 
 
     if (!hardwareType) {
 
-      validationError =
-        "Please select Hardware Type.";
+      showError(
+        "Please select Hardware Type for Item " +
+        (i + 1)
+      );
 
       return;
 
@@ -902,58 +2249,43 @@ function submitData() {
 
     if (
       hardwareType === "Printer" &&
-      !hardwareSubType
+      !printerType
     ) {
 
-      validationError =
-        "Please select Printer Type.";
+      showError(
+        "Please select Printer Type for Item " +
+        (i + 1)
+      );
 
       return;
 
     }
 
 
-    if (!make) {
+    if (!make || !model || !serialNo || !condition) {
 
-      validationError =
-        "Please enter Make.";
-
-      return;
-
-    }
-
-
-    if (!serialNo) {
-
-      validationError =
-        "Please enter Serial No.";
+      showError(
+        "Please complete all required fields for Item " +
+        (i + 1)
+      );
 
       return;
 
     }
 
 
-    if (!condition) {
-
-      validationError =
-        "Please select Condition.";
-
-      return;
-
-    }
-
-
-    hardwareList.push({
+    data.push({
 
       solId: solId,
 
       branchName: branchName,
 
-      hardwareType:
-        hardwareType,
+      hardwareType: hardwareType,
 
       hardwareSubType:
-        hardwareSubType,
+        hardwareType === "Printer"
+          ? printerType
+          : "",
 
       make: make,
 
@@ -967,38 +2299,27 @@ function submitData() {
 
     });
 
-  });
-
-
-  if (validationError) {
-
-    showError(validationError);
-
-    return;
-
   }
 
 
-  /* Disable button */
-
-  const submitBtn =
+  const button =
     document.getElementById(
       "submitBtn"
     );
 
-  submitBtn.disabled = true;
 
-  submitBtn.innerHTML =
-    "SUBMITTING...";
+  button.disabled =
+    true;
 
 
   document.getElementById(
     "loading"
-  ).style.display = "block";
+  ).style.display =
+    "flex";
 
 
-  saveNextHardware(
-    hardwareList,
+  saveItems(
+    data,
     0,
     []
   );
@@ -1006,144 +2327,522 @@ function submitData() {
 }
 
 
+/* =====================================================
+   SAVE MULTIPLE
+===================================================== */
 
-/* ==========================================
-   SAVE HARDWARE ONE BY ONE
-========================================== */
-
-function saveNextHardware(
-  list,
+function saveItems(
+  data,
   index,
   results
 ) {
 
-
-  if (index >= list.length) {
+  if (
+    index >= data.length
+  ) {
 
     document.getElementById(
       "loading"
-    ).style.display = "none";
+    ).style.display =
+    "none";
 
 
     document.getElementById(
       "submitBtn"
-    ).disabled = false;
-
-
-    document.getElementById(
-      "submitBtn"
-    ).innerHTML =
-      "SUBMIT HARDWARE DATA";
+    ).disabled =
+    false;
 
 
     const ids =
-      results.join(", ");
+      results.map(function(result) {
+
+        return result.submissionId;
+
+      });
 
 
     showSuccess(
-      "Hardware data submitted successfully.<br>" +
-      "Submission ID(s): " + ids
+      "Hardware data saved successfully.<br><br>" +
+      "<strong>Submission ID:</strong> " +
+      ids.join(", ")
     );
 
 
-    document.getElementById(
-      "hardwareContainer"
-    ).innerHTML = "";
-
-
-    hardwareCount = 0;
-
-    addHardware();
-
+    resetForm();
 
     return;
 
   }
 
 
-  const item =
-    list[index];
-
-
   google.script.run
 
-    .withSuccessHandler(
-      function(response) {
+    .withSuccessHandler(function(result) {
 
-        if (!response.success) {
-
-          document.getElementById(
-            "loading"
-          ).style.display =
-            "none";
-
-
-          document.getElementById(
-            "submitBtn"
-          ).disabled = false;
-
-
-          document.getElementById(
-            "submitBtn"
-          ).innerHTML =
-            "SUBMIT HARDWARE DATA";
-
-
-          showError(
-            response.message
-          );
-
-
-          return;
-
-        }
-
-
-        results.push(
-          response.submissionId
-        );
-
-
-        saveNextHardware(
-          list,
-          index + 1,
-          results
-        );
-
-      }
-    )
-
-    .withFailureHandler(
-      function(error) {
+      if (
+        !result ||
+        result.status !== "success"
+      ) {
 
         document.getElementById(
           "loading"
         ).style.display =
-          "none";
+        "none";
 
 
         document.getElementById(
           "submitBtn"
-        ).disabled = false;
-
-
-        document.getElementById(
-          "submitBtn"
-        ).innerHTML =
-          "SUBMIT HARDWARE DATA";
+        ).disabled =
+        false;
 
 
         showError(
-          error.message ||
-          "Unable to submit data."
+          result && result.message
+            ? result.message
+            : "Unable to save data."
         );
 
-      }
-    )
+        return;
 
-    .saveHardware(item);
+      }
+
+
+      results.push(result);
+
+
+      saveItems(
+        data,
+        index + 1,
+        results
+      );
+
+    })
+
+
+    .withFailureHandler(function(error) {
+
+      document.getElementById(
+        "loading"
+      ).style.display =
+      "none";
+
+
+      document.getElementById(
+        "submitBtn"
+      ).disabled =
+      false;
+
+
+      showError(
+        error.message ||
+        "Server error."
+      );
+
+    })
+
+
+    .saveHardware(
+      data[index]
+    );
 
 }
+
+
+/* =====================================================
+   RESET
+===================================================== */
+
+function resetForm() {
+
+  document.getElementById(
+    "solId"
+  ).value = "";
+
+
+  document.getElementById(
+    "branchName"
+  ).value = "";
+
+
+  document.getElementById(
+    "hardwareContainer"
+  ).innerHTML = "";
+
+
+  hardwareCounter = 0;
+
+
+  addHardware();
+
+}
+
+
+/* =====================================================
+   DASHBOARD
+===================================================== */
+
+function loadDashboard() {
+
+  google.script.run
+
+    .withSuccessHandler(function(data) {
+
+      if (!data) return;
+
+
+      document.getElementById(
+        "totalCount"
+      ).textContent =
+        data.total || 0;
+
+
+      document.getElementById(
+        "workingCount"
+      ).textContent =
+        data.working || 0;
+
+
+      document.getElementById(
+        "poorCount"
+      ).textContent =
+        data.poor || 0;
+
+
+      document.getElementById(
+        "repairCount"
+      ).textContent =
+        data.repair || 0;
+
+
+      document.getElementById(
+        "notWorkingCount"
+      ).textContent =
+        data.notWorking || 0;
+
+
+      document.getElementById(
+        "reportTotal"
+      ).textContent =
+        data.total || 0;
+
+
+      document.getElementById(
+        "cpuCount"
+      ).textContent =
+        data.cpu || 0;
+
+
+      document.getElementById(
+        "monitorCount"
+      ).textContent =
+        data.monitor || 0;
+
+
+      document.getElementById(
+        "printerCount"
+      ).textContent =
+        data.printer || 0;
+
+
+      document.getElementById(
+        "cctvCount"
+      ).textContent =
+        data.cctv || 0;
+
+    })
+
+    .getDashboardStats();
+
+}
+
+
+/* =====================================================
+   INVENTORY
+===================================================== */
+
+function loadInventory() {
+
+  const loading =
+    document.getElementById(
+      "inventoryLoading"
+    );
+
+
+  loading.style.display =
+    "block";
+
+
+  loading.textContent =
+    "Loading records...";
+
+
+  document.getElementById(
+    "inventoryTable"
+  ).style.display =
+    "none";
+
+
+  google.script.run
+
+    .withSuccessHandler(function(rows) {
+
+      const body =
+        document.getElementById(
+          "inventoryBody"
+        );
+
+
+      body.innerHTML =
+        "";
+
+
+      if (
+        !rows ||
+        rows.length === 0
+      ) {
+
+        loading.textContent =
+          "No hardware records found.";
+
+        return;
+
+      }
+
+
+      rows.forEach(function(row) {
+
+        const tr =
+          document.createElement("tr");
+
+
+        tr.innerHTML = `
+
+          <td>${escapeHtml(row.timestamp)}</td>
+
+          <td>${escapeHtml(row.solId)}</td>
+
+          <td>${escapeHtml(row.branchName)}</td>
+
+          <td>
+            <span class="badge">
+              ${escapeHtml(row.hardwareType)}
+            </span>
+          </td>
+
+          <td>${escapeHtml(row.hardwareSubType)}</td>
+
+          <td>${escapeHtml(row.make)}</td>
+
+          <td>${escapeHtml(row.model)}</td>
+
+          <td>${escapeHtml(row.serialNo)}</td>
+
+          <td>${escapeHtml(row.condition)}</td>
+
+        `;
+
+
+        body.appendChild(tr);
+
+      });
+
+
+      loading.style.display =
+        "none";
+
+
+      document.getElementById(
+        "inventoryTable"
+      ).style.display =
+        "block";
+
+    })
+
+    .withFailureHandler(function(error) {
+
+      loading.textContent =
+        error.message ||
+        "Unable to load records.";
+
+    })
+
+    .getHardwareRecords();
+
+}
+
+
+/* =====================================================
+   SEARCH
+===================================================== */
+
+function searchHardware() {
+
+  const text =
+    document.getElementById(
+      "searchText"
+    ).value.trim();
+
+
+  const sol =
+    document.getElementById(
+      "searchSol"
+    ).value;
+
+
+  const condition =
+    document.getElementById(
+      "searchCondition"
+    ).value;
+
+
+  google.script.run
+
+    .withSuccessHandler(function(rows) {
+
+      const container =
+        document.getElementById(
+          "searchResults"
+        );
+
+
+      if (
+        !rows ||
+        rows.length === 0
+      ) {
+
+        container.innerHTML =
+          "<p style='font-size:12px;color:#718078'>No records found.</p>";
+
+        return;
+
+      }
+
+
+      let html = `
+
+        <table>
+
+          <thead>
+
+            <tr>
+
+              <th>SOL ID</th>
+              <th>Branch</th>
+              <th>Hardware</th>
+              <th>Make</th>
+              <th>Model</th>
+              <th>Serial No</th>
+              <th>Condition</th>
+
+            </tr>
+
+          </thead>
+
+          <tbody>
+
+      `;
+
+
+      rows.forEach(function(row) {
+
+        html += `
+
+          <tr>
+
+            <td>${escapeHtml(row.solId)}</td>
+
+            <td>${escapeHtml(row.branchName)}</td>
+
+            <td>${escapeHtml(row.hardwareType)}</td>
+
+            <td>${escapeHtml(row.make)}</td>
+
+            <td>${escapeHtml(row.model)}</td>
+
+            <td>${escapeHtml(row.serialNo)}</td>
+
+            <td>${escapeHtml(row.condition)}</td>
+
+          </tr>
+
+        `;
+
+      });
+
+
+      html += `
+          </tbody>
+        </table>
+      `;
+
+
+      container.innerHTML =
+        html;
+
+    })
+
+    .withFailureHandler(function(error) {
+
+      document.getElementById(
+        "searchResults"
+      ).innerHTML =
+        "<p style='color:#c62828'>" +
+        escapeHtml(error.message) +
+        "</p>";
+
+    })
+
+    .searchHardware(
+      text,
+      sol,
+      condition
+    );
+
+}
+
+
+/* =====================================================
+   ESCAPE HTML
+===================================================== */
+
+function escapeHtml(value) {
+
+  if (value === null ||
+      value === undefined) {
+
+    return "";
+
+  }
+
+
+  return String(value)
+
+    .replace(/&/g, "&amp;")
+
+    .replace(/</g, "&lt;")
+
+    .replace(/>/g, "&gt;")
+
+    .replace(/"/g, "&quot;")
+
+    .replace(/'/g, "&#039;");
+
+}
+
+
+/* =====================================================
+   INITIALIZE
+===================================================== */
+
+window.onload = function() {
+
+  loadBranches();
+
+  addHardware();
+
+  loadDashboard();
+
+};
 
 </script>
 
