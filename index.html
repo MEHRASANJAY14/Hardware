@@ -1964,90 +1964,123 @@ function showPageByName(page) {
 
 function loadBranches() {
 
-  google.script.run
+  branches = [
 
-    .withSuccessHandler(
-      function(data) {
+    {solId:"12010", name:"JABALPUR"},
+    {solId:"12020", name:"RANJHI"},
+    {solId:"12030", name:"SIHORA (JBP)"},
+    {solId:"12040", name:"KHITOLA BAZAR"},
+    {solId:"12050", name:"SAHAJPUR"},
+    {solId:"12060", name:"SHAHPURA (JBP)"},
+    {solId:"12070", name:"PANAGAR"},
+    {solId:"12080", name:"LAMKANA"},
+    {solId:"12090", name:"ADHARTAL JABALPUR"},
+    {solId:"12100", name:"PATAN"},
+    {solId:"12110", name:"MANJHOLI"},
+    {solId:"12120", name:"PISANHARI MADHIYA"},
+    {solId:"12130", name:"EKTA CHOUK, UKHARIROAD"},
+    {solId:"12140", name:"KARMETA GRAM"},
+    {solId:"12150", name:"BARGI"},
+    {solId:"12160", name:"GWARIGHAT ROAD"},
+    {solId:"12170", name:"BILHARI"},
+    {solId:"12180", name:"KUA"},
+    {solId:"12190", name:"KYMORE"},
+    {solId:"12200", name:"DEORA KALA"},
+    {solId:"12210", name:"VILAYAT KALA"},
+    {solId:"12220", name:"DASHARMAN"},
+    {solId:"12230", name:"AMGAWAN"},
+    {solId:"12240", name:"KATNI"},
+    {solId:"12250", name:"DEORI TOLA"},
+    {solId:"12260", name:"UMARIYAPAN"},
+    {solId:"12270", name:"BADWARA"},
+    {solId:"12280", name:"VIJAY RAGHAVGARH"},
+    {solId:"12290", name:"KHIRHANI DURGA CHOWK"},
+    {solId:"12300", name:"BARAHI"},
+    {solId:"12310", name:"BAHORIBAND"},
+    {solId:"12320", name:"NARSINGHPUR"},
+    {solId:"12330", name:"STATION GANJ NARSINGHPUR"},
+    {solId:"12340", name:"AMGAON BADA"},
+    {solId:"12350", name:"KANWAS"},
+    {solId:"12360", name:"PANARI"},
+    {solId:"12370", name:"BOHANI"},
+    {solId:"12380", name:"KARELI"},
+    {solId:"12390", name:"BAGASPUR"},
+    {solId:"12400", name:"SAIKHEDA"},
+    {solId:"12410", name:"CHICHALI"},
+    {solId:"12420", name:"BARAHATA"},
+    {solId:"12430", name:"KAMTI IMALYA"},
+    {solId:"12440", name:"SINGHPUR BADA"},
+    {solId:"12450", name:"GADARWARA"},
+    {solId:"12460", name:"DEORI LOLRI"},
+    {solId:"12470", name:"NARSINGHPUR BASTI"},
+    {solId:"12480", name:"KARAKBEL"},
+    {solId:"12490", name:"SOORWARI"},
+    {solId:"12500", name:"TENDUKHEDA"},
+    {solId:"12510", name:"GOTEGAON"},
+    {solId:"12520", name:"COLLECTORATE, NARSINGHPUR"},
+    {solId:"12530", name:"ADARSH SHIKSHAN SAMITI, KARELI"}
 
-        branches =
-          data || [];
+  ];
 
 
-        var sol =
-          document.getElementById(
-            "solId"
-          );
+  var sol =
+    document.getElementById("solId");
+
+  var searchSol =
+    document.getElementById("searchSol");
 
 
-        var searchSol =
-          document.getElementById(
-            "searchSol"
-          );
+  /*
+   * Clear existing options
+   */
+
+  sol.innerHTML =
+    '<option value="">Select SOL ID</option>';
+
+  searchSol.innerHTML =
+    '<option value="">All SOL</option>';
 
 
-        branches.forEach(
-          function(branch) {
+  /*
+   * Fill SOL dropdown
+   */
 
-            var option =
-              document.createElement(
-                "option"
-              );
+  branches.forEach(function(branch) {
 
+    var option =
+      document.createElement("option");
 
-            option.value =
-              branch.solId;
+    option.value =
+      branch.solId;
 
+    option.textContent =
+      branch.solId +
+      " - " +
+      branch.name;
 
-            option.textContent =
-              branch.solId +
-              " - " +
-              branch.name;
-
-
-            sol.appendChild(option);
+    sol.appendChild(option);
 
 
-            var option2 =
-              document.createElement(
-                "option"
-              );
+    /*
+     * Search dropdown
+     */
 
+    var option2 =
+      document.createElement("option");
 
-            option2.value =
-              branch.solId;
+    option2.value =
+      branch.solId;
 
+    option2.textContent =
+      branch.solId +
+      " - " +
+      branch.name;
 
-            option2.textContent =
-              branch.solId +
-              " - " +
-              branch.name;
+    searchSol.appendChild(option2);
 
-
-            searchSol.appendChild(
-              option2
-            );
-
-          }
-        );
-
-      }
-    )
-
-    .withFailureHandler(
-      function(error) {
-
-        showError(
-          error.message ||
-          "Unable to load branches."
-        );
-
-      }
-    )
-
-    .getBranches();
+  });
 
 }
-
 
 /* =====================================================
    BRANCH CHANGE
