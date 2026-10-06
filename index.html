@@ -6,7 +6,7 @@
 <meta charset="UTF-8">
 
 <meta name="viewport"
-content="width=device-width,initial-scale=1">
+content="width=device-width, initial-scale=1.0">
 
 <title>MPGB Hardware Portal</title>
 
@@ -18,8 +18,8 @@ box-sizing:border-box;
 
 body{
 margin:0;
-font-family:Arial,sans-serif;
-background:#f3f6f9;
+font-family:Arial,Helvetica,sans-serif;
+background:#f4f7f9;
 color:#263238;
 }
 
@@ -30,7 +30,7 @@ top:0;
 bottom:0;
 width:240px;
 background:#006633;
-color:white;
+color:#fff;
 z-index:1000;
 }
 
@@ -45,6 +45,7 @@ border-bottom:1px solid rgba(255,255,255,.2);
 display:block;
 font-size:11px;
 margin-top:5px;
+opacity:.8;
 }
 
 .menu{
@@ -53,19 +54,20 @@ padding:15px 10px;
 
 .menu button{
 width:100%;
-padding:13px;
-margin-bottom:5px;
 border:0;
-border-radius:7px;
 background:transparent;
-color:white;
+color:#fff;
+padding:13px 15px;
+margin-bottom:5px;
+border-radius:7px;
 text-align:left;
 cursor:pointer;
+font-size:14px;
 }
 
 .menu button:hover,
 .menu button.active{
-background:rgba(255,255,255,.17);
+background:rgba(255,255,255,.18);
 }
 
 .main{
@@ -75,12 +77,12 @@ min-height:100vh;
 
 .topbar{
 height:65px;
-background:white;
+background:#fff;
+border-bottom:1px solid #ddd;
 display:flex;
 align-items:center;
 justify-content:space-between;
 padding:0 25px;
-border-bottom:1px solid #ddd;
 }
 
 .topbar h2{
@@ -101,7 +103,7 @@ display:block;
 }
 
 .panel{
-background:white;
+background:#fff;
 padding:22px;
 border-radius:12px;
 margin-bottom:20px;
@@ -121,7 +123,7 @@ margin-bottom:20px;
 }
 
 .card{
-background:white;
+background:#fff;
 padding:20px;
 border-radius:12px;
 box-shadow:0 2px 10px rgba(0,0,0,.05);
@@ -159,11 +161,18 @@ margin-bottom:6px;
 input,
 select,
 textarea{
+width:100%;
 padding:11px;
-border:1px solid #d5dce0;
+border:1px solid #d3dce1;
 border-radius:7px;
 font-size:14px;
-width:100%;
+outline:none;
+}
+
+input:focus,
+select:focus,
+textarea:focus{
+border-color:#006633;
 }
 
 textarea{
@@ -181,27 +190,22 @@ font-weight:bold;
 
 .btn-primary{
 background:#006633;
-color:white;
+color:#fff;
 }
 
 .btn-secondary{
-background:#e6f4ec;
+background:#e5f3eb;
 color:#006633;
 }
 
 .btn-danger{
 background:#dc3545;
-color:white;
-}
-
-.btn-info{
-background:#1c4fa3;
-color:white;
+color:#fff;
 }
 
 .hardware-item{
 background:#fafcfd;
-border:1px solid #dce3e7;
+border:1px solid #dce4e8;
 border-radius:10px;
 padding:18px;
 margin-bottom:15px;
@@ -209,12 +213,13 @@ margin-bottom:15px;
 
 .hardware-header{
 display:flex;
+align-items:center;
 justify-content:space-between;
 margin-bottom:15px;
 }
 
 .table-wrap{
-overflow-x:auto;
+overflow:auto;
 }
 
 table{
@@ -222,7 +227,8 @@ width:100%;
 border-collapse:collapse;
 }
 
-th,td{
+th,
+td{
 padding:10px;
 border-bottom:1px solid #ddd;
 font-size:13px;
@@ -232,7 +238,7 @@ white-space:nowrap;
 
 th{
 background:#006633;
-color:white;
+color:#fff;
 }
 
 .badge{
@@ -243,29 +249,29 @@ font-size:11px;
 font-weight:bold;
 }
 
-.working{
-background:#d9f5e3;
+.badge-working{
+background:#d8f3e2;
 color:#087a35;
 }
 
-.poor{
-background:#fff0c2;
+.badge-poor{
+background:#fff0bd;
 color:#856404;
 }
 
-.repair{
-background:#ffe0c2;
+.badge-repair{
+background:#ffe1c2;
 color:#a34d00;
 }
 
-.notworking{
-background:#ffd6d6;
+.badge-not{
+background:#ffd5d5;
 color:#b00000;
 }
 
-.condemned{
+.badge-condemned{
 background:#333;
-color:white;
+color:#fff;
 }
 
 .report-grid{
@@ -281,10 +287,19 @@ padding:20px;
 border-radius:8px;
 }
 
+.empty{
+text-align:center;
+padding:35px;
+color:#777;
+}
+
 #loadingOverlay{
 display:none;
 position:fixed;
-inset:0;
+left:0;
+top:0;
+right:0;
+bottom:0;
 background:rgba(0,0,0,.45);
 z-index:9999;
 align-items:center;
@@ -292,10 +307,11 @@ justify-content:center;
 }
 
 .loading-box{
-background:white;
+background:#fff;
 padding:30px 45px;
 border-radius:12px;
 text-align:center;
+min-width:220px;
 }
 
 .spinner{
@@ -305,19 +321,13 @@ border:4px solid #ddd;
 border-top-color:#006633;
 border-radius:50%;
 animation:spin 1s linear infinite;
-margin:auto auto 15px;
+margin:0 auto 15px;
 }
 
 @keyframes spin{
 to{
 transform:rotate(360deg);
 }
-}
-
-.empty{
-text-align:center;
-padding:35px;
-color:#777;
 }
 
 @media(max-width:800px){
@@ -345,6 +355,7 @@ padding:15px;
 
 </head>
 
+
 <body>
 
 
@@ -353,9 +364,15 @@ padding:15px;
 <div class="sidebar" id="sidebar">
 
 <div class="logo">
+
 MPGB Hardware
-<small>Regional Office Jabalpur</small>
+
+<small>
+Regional Office Jabalpur
+</small>
+
 </div>
+
 
 <div class="menu">
 
@@ -392,6 +409,7 @@ onclick="showPage('dashboard',this)">
 <!-- MAIN -->
 
 <div class="main">
+
 
 <div class="topbar">
 
@@ -509,11 +527,14 @@ id="page-entry">
 Hardware Entry
 </h3>
 
+
 <div class="form-grid">
 
 <div class="form-group">
 
-<label>SOL ID *</label>
+<label>
+SOL ID *
+</label>
 
 <select id="solId"
 onchange="branchChanged()">
@@ -529,7 +550,9 @@ Select SOL ID
 
 <div class="form-group">
 
-<label>Branch Name</label>
+<label>
+Branch Name
+</label>
 
 <input id="branchName"
 readonly>
@@ -549,7 +572,9 @@ readonly>
 Hardware Items
 </h3>
 
-<button class="btn btn-secondary"
+<button
+type="button"
+class="btn btn-secondary"
 onclick="addHardwareItem()">
 
 + Add Hardware
@@ -562,9 +587,11 @@ onclick="addHardwareItem()">
 <div id="hardwareItems"></div>
 
 
-<div style="text-align:right">
+<div style="text-align:right;margin-top:20px">
 
-<button class="btn btn-primary"
+<button
+type="button"
+class="btn btn-primary"
 onclick="saveHardware()">
 
 💾 Save Hardware
@@ -596,16 +623,18 @@ Hardware Inventory
 <thead>
 
 <tr>
+
 <th>SL</th>
-<th>SOL</th>
+<th>SOL ID</th>
 <th>Branch</th>
 <th>Type</th>
 <th>Sub Type</th>
 <th>Make</th>
 <th>Model</th>
-<th>Serial</th>
+<th>Serial No</th>
 <th>Condition</th>
 <th>Remarks</th>
+
 </tr>
 
 </thead>
@@ -643,6 +672,7 @@ All Branches
 
 </div>
 
+
 <div class="panel">
 
 <div class="table-wrap">
@@ -652,12 +682,14 @@ All Branches
 <thead>
 
 <tr>
+
 <th>Type</th>
 <th>Sub Type</th>
 <th>Make</th>
 <th>Model</th>
-<th>Serial</th>
+<th>Serial No</th>
 <th>Condition</th>
+
 </tr>
 
 </thead>
@@ -686,8 +718,8 @@ Search Hardware
 
 <input
 id="searchInput"
-placeholder="Search SOL, branch, serial, make, model..."
-onkeyup="performSearch()">
+placeholder="Search SOL / branch / serial / make / model"
+onkeyup="renderSearch()">
 
 <br><br>
 
@@ -698,6 +730,7 @@ onkeyup="performSearch()">
 <thead>
 
 <tr>
+
 <th>SOL</th>
 <th>Branch</th>
 <th>Type</th>
@@ -705,6 +738,7 @@ onkeyup="performSearch()">
 <th>Model</th>
 <th>Serial</th>
 <th>Condition</th>
+
 </tr>
 
 </thead>
@@ -731,35 +765,70 @@ id="page-reports">
 Reports
 </h3>
 
+
 <div class="cards">
 
 <div class="card">
-<div class="card-title">Total</div>
-<div class="card-value"
-id="reportTotal">0</div>
+
+<div class="card-title">
+Total
 </div>
+
+<div class="card-value"
+id="reportTotal">
+0
+</div>
+
+</div>
+
 
 <div class="card">
-<div class="card-title">Working</div>
-<div class="card-value"
-id="reportWorking">0</div>
+
+<div class="card-title">
+Working
 </div>
+
+<div class="card-value"
+id="reportWorking">
+0
+</div>
+
+</div>
+
 
 <div class="card">
-<div class="card-title">Repair</div>
-<div class="card-value"
-id="reportRepair">0</div>
+
+<div class="card-title">
+Repair Required
 </div>
+
+<div class="card-value"
+id="reportRepair">
+0
+</div>
+
+</div>
+
 
 <div class="card">
-<div class="card-title">Not Working</div>
+
+<div class="card-title">
+Not Working
+</div>
+
 <div class="card-value"
-id="reportNotWorking">0</div>
+id="reportNotWorking">
+0
 </div>
 
 </div>
 
-<button class="btn btn-primary"
+</div>
+
+
+<button
+type="button"
+class="btn btn-primary"
 onclick="exportCSV()">
 
 ⬇ Export CSV
@@ -772,6 +841,7 @@ onclick="exportCSV()">
 
 
 </div>
+
 </div>
 
 
@@ -784,7 +854,7 @@ onclick="exportCSV()">
 <div class="spinner"></div>
 
 <div id="loadingText">
-Processing...
+Saving...
 </div>
 
 </div>
@@ -794,11 +864,11 @@ Processing...
 
 <script>
 
-/* =========================================
-   BRANCH MASTER
-========================================= */
+/*****************************************************
+ * BRANCH MASTER
+ *****************************************************/
 
-const branches = [
+var branches = [
 
 ["12010","JABALPUR"],
 ["12020","RANJHI"],
@@ -857,12 +927,12 @@ const branches = [
 ];
 
 
-let allHardware = [];
+var allHardware = [];
 
 
-/* =========================================
-   INIT
-========================================= */
+/*****************************************************
+ * PAGE LOAD
+ *****************************************************/
 
 window.onload = function(){
 
@@ -877,158 +947,242 @@ updateClock,
 1000
 );
 
-/*
-IMPORTANT:
-Do not call dashboard automatically.
-This prevents page loading from hanging.
-*/
-
 };
 
 
-/* =========================================
-   CLOCK
-========================================= */
+/*****************************************************
+ * CLOCK
+ *****************************************************/
 
 function updateClock(){
 
-document.getElementById("clock").innerText =
-new Date().toLocaleString("en-IN");
+document.getElementById(
+"clock"
+).innerText =
+new Date().toLocaleString(
+"en-IN"
+);
 
 }
 
 
-/* =========================================
-   PAGE
-========================================= */
+/*****************************************************
+ * NAVIGATION
+ *****************************************************/
 
-function showPage(page,btn){
+function showPage(
+page,
+button
+){
 
-document
-.querySelectorAll(".page")
-.forEach(function(p){
-p.classList.remove("active");
-});
+var pages =
+document.querySelectorAll(
+".page"
+);
 
-document
-.getElementById("page-"+page)
-.classList.add("active");
+for(
+var i=0;
+i<pages.length;
+i++
+){
 
-
-if(btn){
-
-document
-.querySelectorAll(".menu button")
-.forEach(function(b){
-b.classList.remove("active");
-});
-
-btn.classList.add("active");
+pages[i].classList.remove(
+"active"
+);
 
 }
 
 
-if(page==="dashboard"){
+document
+.getElementById(
+"page-" + page
+)
+.classList.add(
+"active"
+);
+
+
+var buttons =
+document.querySelectorAll(
+".menu button"
+);
+
+for(
+var j=0;
+j<buttons.length;
+j++
+){
+
+buttons[j].classList.remove(
+"active"
+);
+
+}
+
+
+if(button){
+button.classList.add(
+"active"
+);
+}
+
+
+if(page === "dashboard"){
 loadDashboard();
 }
 
-if(page==="inventory"){
-loadInventory();
+
+if(
+page === "inventory" ||
+page === "branch" ||
+page === "search"
+){
+
+loadAllHardware();
+
 }
 
-if(page==="branch"){
-loadAllData();
-}
 
-if(page==="search"){
-loadAllData();
-}
-
-if(page==="reports"){
+if(page === "reports"){
 loadReports();
 }
 
 }
 
 
-/* =========================================
-   BRANCH
-========================================= */
+/*****************************************************
+ * BRANCH DROPDOWNS
+ *****************************************************/
 
 function loadBranches(){
 
-const select =
-document.getElementById("solId");
+var solSelect =
+document.getElementById(
+"solId"
+);
 
-branches.forEach(function(b){
-
-const option =
-document.createElement("option");
-
-option.value=b[0];
-
-option.textContent=
-b[0]+" - "+b[1];
-
-select.appendChild(option);
-
-});
+var branchSelect =
+document.getElementById(
+"branchFilter"
+);
 
 
-const filter =
-document.getElementById("branchFilter");
+for(
+var i=0;
+i<branches.length;
+i++
+){
 
-branches.forEach(function(b){
+var option =
+document.createElement(
+"option"
+);
 
-const option =
-document.createElement("option");
+option.value =
+branches[i][0];
 
-option.value=b[0];
+option.textContent =
+branches[i][0] +
+" - " +
+branches[i][1];
 
-option.textContent=
-b[0]+" - "+b[1];
+solSelect.appendChild(
+option
+);
 
-filter.appendChild(option);
 
-});
+var branchOption =
+document.createElement(
+"option"
+);
+
+branchOption.value =
+branches[i][0];
+
+branchOption.textContent =
+branches[i][0] +
+" - " +
+branches[i][1];
+
+branchSelect.appendChild(
+branchOption
+);
 
 }
 
+}
+
+
+/*****************************************************
+ * SOL CHANGE
+ *****************************************************/
 
 function branchChanged(){
 
-const sol =
-document.getElementById("solId").value;
+var sol =
+document.getElementById(
+"solId"
+).value;
 
-const branch =
-branches.find(function(b){
-return b[0]===sol;
-});
 
-document.getElementById("branchName").value =
-branch ? branch[1] : "";
+var branchName = "";
+
+
+for(
+var i=0;
+i<branches.length;
+i++
+){
+
+if(
+branches[i][0] === sol
+){
+
+branchName =
+branches[i][1];
+
+break;
+
+}
 
 }
 
 
-/* =========================================
-   ADD HARDWARE
-========================================= */
+document.getElementById(
+"branchName"
+).value =
+branchName;
+
+}
+
+
+/*****************************************************
+ * ADD HARDWARE
+ *****************************************************/
 
 function addHardwareItem(){
 
-const container =
-document.getElementById("hardwareItems");
+var container =
+document.getElementById(
+"hardwareItems"
+);
 
-const number =
-container.children.length+1;
 
-const div =
-document.createElement("div");
+var number =
+container.children.length + 1;
 
-div.className="hardware-item";
 
-div.innerHTML=`
+var div =
+document.createElement(
+"div"
+);
+
+
+div.className =
+"hardware-item";
+
+
+div.innerHTML = `
 
 <div class="hardware-header">
 
@@ -1050,26 +1204,44 @@ Remove
 
 <div class="form-grid">
 
+
 <div class="form-group">
 
-<label>Hardware Type *</label>
+<label>
+Hardware Type *
+</label>
 
-<select class="hardwareType"
-onchange="typeChanged(this)">
+<select
+class="hardwareType"
+onchange="hardwareTypeChanged(this)">
 
-<option value="">Select Type</option>
+<option value="">
+Select Type
+</option>
 
-<option>CPU</option>
+<option value="CPU">
+CPU
+</option>
 
-<option>Monitor</option>
+<option value="Monitor">
+Monitor
+</option>
 
-<option>Printer</option>
+<option value="Printer">
+Printer
+</option>
 
-<option>CCTV</option>
+<option value="CCTV">
+CCTV
+</option>
 
-<option>Biometric</option>
+<option value="Biometric">
+Biometric
+</option>
 
-<option>CTS Machine</option>
+<option value="CTS Machine">
+CTS Machine
+</option>
 
 </select>
 
@@ -1078,16 +1250,25 @@ onchange="typeChanged(this)">
 
 <div class="form-group">
 
-<label>Hardware Sub Type</label>
+<label>
+Hardware Sub Type
+</label>
 
-<select class="hardwareSubType"
+<select
+class="hardwareSubType"
 disabled>
 
-<option value="">Not Applicable</option>
+<option value="">
+Not Applicable
+</option>
 
-<option>Laser</option>
+<option value="Laser">
+Laser
+</option>
 
-<option>Passbook</option>
+<option value="Passbook">
+Passbook
+</option>
 
 </select>
 
@@ -1096,49 +1277,74 @@ disabled>
 
 <div class="form-group">
 
-<label>Make *</label>
+<label>
+Make *
+</label>
 
-<input class="make"
-placeholder="HP / Dell / Canon etc.">
-
-</div>
-
-
-<div class="form-group">
-
-<label>Model *</label>
-
-<input class="model">
+<input
+class="make"
+placeholder="HP / Dell / Canon">
 
 </div>
 
 
 <div class="form-group">
 
-<label>Serial No *</label>
+<label>
+Model *
+</label>
 
-<input class="serialNo">
+<input
+class="model"
+placeholder="Model">
 
 </div>
 
 
 <div class="form-group">
 
-<label>Condition *</label>
+<label>
+Serial No *
+</label>
+
+<input
+class="serialNo"
+placeholder="Serial Number">
+
+</div>
+
+
+<div class="form-group">
+
+<label>
+Condition *
+</label>
 
 <select class="condition">
 
-<option value="">Select Condition</option>
+<option value="">
+Select Condition
+</option>
 
-<option>Working</option>
+<option value="Working">
+Working
+</option>
 
-<option>Working - Poor Condition</option>
+<option value="Working - Poor Condition">
+Working - Poor Condition
+</option>
 
-<option>Repair Required</option>
+<option value="Repair Required">
+Repair Required
+</option>
 
-<option>Not Working</option>
+<option value="Not Working">
+Not Working
+</option>
 
-<option>Condemned</option>
+<option value="Condemned">
+Condemned
+</option>
 
 </select>
 
@@ -1148,134 +1354,214 @@ placeholder="HP / Dell / Canon etc.">
 <div class="form-group"
 style="grid-column:1/-1">
 
-<label>Remarks</label>
+<label>
+Remarks
+</label>
 
-<textarea class="remarks"></textarea>
+<textarea
+class="remarks"
+placeholder="Remarks"></textarea>
 
 </div>
 
+
 </div>
+
 `;
 
-container.appendChild(div);
+
+container.appendChild(
+div
+);
 
 }
 
 
-function removeHardwareItem(btn){
+/*****************************************************
+ * PRINTER SUBTYPE
+ *****************************************************/
 
-btn.closest(".hardware-item").remove();
+function hardwareTypeChanged(
+select
+){
 
-renumberItems();
-
-}
-
-
-function renumberItems(){
-
-document
-.querySelectorAll(".hardware-item")
-.forEach(function(item,i){
-
-item
-.querySelector("strong")
-.innerText=
-"Hardware Item #"+(i+1);
-
-});
-
-}
+var item =
+select.closest(
+".hardware-item"
+);
 
 
-function typeChanged(select){
+var subtype =
+item.querySelector(
+".hardwareSubType"
+);
 
-const item =
-select.closest(".hardware-item");
 
-const subtype =
-item.querySelector(".hardwareSubType");
+if(
+select.value === "Printer"
+){
 
-if(select.value==="Printer"){
-
-subtype.disabled=false;
+subtype.disabled =
+false;
 
 }else{
 
-subtype.disabled=true;
-subtype.value="";
+subtype.disabled =
+true;
+
+subtype.value =
+"";
 
 }
 
 }
 
 
-/* =========================================
-   SAVE HARDWARE
-========================================= */
+/*****************************************************
+ * REMOVE ITEM
+ *****************************************************/
+
+function removeHardwareItem(
+button
+){
+
+var item =
+button.closest(
+".hardware-item"
+);
+
+
+if(item){
+item.remove();
+}
+
+
+var items =
+document.querySelectorAll(
+".hardware-item"
+);
+
+
+for(
+var i=0;
+i<items.length;
+i++
+){
+
+items[i]
+.querySelector(
+"strong"
+)
+.innerText =
+"Hardware Item #" +
+(i + 1);
+
+}
+
+}
+
+
+/*****************************************************
+ * SAVE HARDWARE
+ *****************************************************/
 
 function saveHardware(){
 
-const solId =
-document.getElementById("solId").value;
+var solId =
+document.getElementById(
+"solId"
+).value;
 
-const branchName =
-document.getElementById("branchName").value;
+
+var branchName =
+document.getElementById(
+"branchName"
+).value;
 
 
 if(!solId){
 
-alert("Please select SOL ID.");
+alert(
+"Please select SOL ID."
+);
 
 return;
 
 }
 
 
-const cards =
-document.querySelectorAll(".hardware-item");
+var cards =
+document.querySelectorAll(
+".hardware-item"
+);
 
-if(cards.length===0){
 
-alert("Please add hardware.");
+if(cards.length === 0){
+
+alert(
+"Please add hardware."
+);
 
 return;
 
 }
 
 
-const data=[];
+var data = [];
 
 
-for(let i=0;i<cards.length;i++){
+for(
+var i=0;
+i<cards.length;
+i++
+){
 
-const card=cards[i];
+var card =
+cards[i];
 
-const item={
 
-solId:solId,
+var item = {
 
-branchName:branchName,
+solId:
+solId,
+
+branchName:
+branchName,
 
 hardwareType:
-card.querySelector(".hardwareType").value,
+card.querySelector(
+".hardwareType"
+).value,
 
 hardwareSubType:
-card.querySelector(".hardwareSubType").value,
+card.querySelector(
+".hardwareSubType"
+).value,
 
 make:
-card.querySelector(".make").value.trim(),
+card.querySelector(
+".make"
+).value.trim(),
 
 model:
-card.querySelector(".model").value.trim(),
+card.querySelector(
+".model"
+).value.trim(),
 
 serialNo:
-card.querySelector(".serialNo").value.trim(),
+card.querySelector(
+".serialNo"
+).value.trim(),
 
 condition:
-card.querySelector(".condition").value,
+card.querySelector(
+".condition"
+).value,
 
 remarks:
-card.querySelector(".remarks").value.trim()
+card.querySelector(
+".remarks"
+).value.trim()
 
 };
 
@@ -1283,133 +1569,191 @@ card.querySelector(".remarks").value.trim()
 if(!item.hardwareType){
 
 alert(
-"Select Hardware Type for item #"+(i+1)
+"Please select Hardware Type for item #" +
+(i + 1)
 );
 
 return;
 
 }
+
 
 if(!item.make){
 
 alert(
-"Enter Make for item #"+(i+1)
+"Please enter Make for item #" +
+(i + 1)
 );
 
 return;
 
 }
+
 
 if(!item.model){
 
 alert(
-"Enter Model for item #"+(i+1)
+"Please enter Model for item #" +
+(i + 1)
 );
 
 return;
 
 }
+
 
 if(!item.serialNo){
 
 alert(
-"Enter Serial No for item #"+(i+1)
+"Please enter Serial No for item #" +
+(i + 1)
 );
 
 return;
 
 }
+
 
 if(!item.condition){
 
 alert(
-"Select Condition for item #"+(i+1)
+"Please select Condition for item #" +
+(i + 1)
 );
 
 return;
 
 }
 
-data.push(item);
+
+data.push(
+item
+);
 
 }
 
 
-showLoading("Saving hardware...");
+/***************************************************
+ * IMPORTANT
+ ***************************************************/
+
+showLoading(
+"Saving hardware..."
+);
 
 
 google.script.run
 
-.withSuccessHandler(function(result){
+.withSuccessHandler(
+function(result){
 
 hideLoading();
 
-if(result &&
-result.status==="success"){
+
+if(
+result &&
+result.status ===
+"success"
+){
 
 alert(
-"✅ SAVED SUCCESSFULLY\n\n"+
-"Items: "+result.count+
-"\nSubmission ID: "+
+"Hardware saved successfully.\n\n" +
+"Items: " +
+result.count +
+"\nSubmission ID: " +
 result.submissionId
 );
 
-resetForm();
+
+resetHardwareForm();
+
 
 }else{
 
 alert(
-"❌ SAVE FAILED\n\n"+
-(result.message || "Unknown error")
+"Save failed.\n\n" +
+(
+result &&
+result.message
+? result.message
+: "Unknown error"
+)
 );
 
 }
 
-})
+}
+)
 
-.withFailureHandler(function(error){
+.withFailureHandler(
+function(error){
 
 hideLoading();
 
+
 alert(
-"❌ SERVER ERROR\n\n"+
-(error.message || error)
+"Server error.\n\n" +
+(
+error &&
+error.message
+? error.message
+: String(error)
+)
 );
 
-})
+}
+)
 
-.saveHardwareBatch(data);
+.saveHardwareBatch(
+data
+);
 
 }
 
 
-/* =========================================
-   RESET
-========================================= */
+/*****************************************************
+ * RESET
+ *****************************************************/
 
-function resetForm(){
+function resetHardwareForm(){
 
-document.getElementById("solId").value="";
+document.getElementById(
+"solId"
+).value = "";
 
-document.getElementById("branchName").value="";
 
-document.getElementById("hardwareItems").innerHTML="";
+document.getElementById(
+"branchName"
+).value = "";
+
+
+document.getElementById(
+"hardwareItems"
+).innerHTML = "";
+
 
 addHardwareItem();
 
 }
 
 
-/* =========================================
-   LOADING
-========================================= */
+/*****************************************************
+ * LOADING
+ *****************************************************/
 
-function showLoading(text){
+function showLoading(
+message
+){
 
-document.getElementById("loadingText").innerText =
-text || "Processing...";
+document.getElementById(
+"loadingText"
+).innerText =
+message || "Processing...";
 
-document.getElementById("loadingOverlay").style.display =
+
+document.getElementById(
+"loadingOverlay"
+).style.display =
 "flex";
 
 }
@@ -1417,197 +1761,276 @@ document.getElementById("loadingOverlay").style.display =
 
 function hideLoading(){
 
-document.getElementById("loadingOverlay").style.display =
+document.getElementById(
+"loadingOverlay"
+).style.display =
 "none";
 
 }
 
 
-/* =========================================
-   LOAD ALL DATA
-========================================= */
+/*****************************************************
+ * LOAD ALL HARDWARE
+ *****************************************************/
 
-function loadAllData(){
+function loadAllHardware(){
 
-showLoading("Loading data...");
+showLoading(
+"Loading data..."
+);
+
 
 google.script.run
 
-.withSuccessHandler(function(data){
+.withSuccessHandler(
+function(data){
 
 hideLoading();
 
-allHardware=data || [];
-
-renderBranch();
-
-performSearch();
-
-})
-
-.withFailureHandler(function(error){
-
-hideLoading();
-
-console.log(error);
-
-})
-
-.getHardwareData();
-
-}
-
-
-/* =========================================
-   INVENTORY
-========================================= */
-
-function loadInventory(){
-
-showLoading("Loading inventory...");
-
-google.script.run
-
-.withSuccessHandler(function(data){
-
-hideLoading();
-
-allHardware=data || [];
+allHardware =
+data || [];
 
 renderInventory();
 
-})
+renderBranch();
 
-.withFailureHandler(function(error){
+renderSearch();
+
+}
+)
+
+.withFailureHandler(
+function(error){
 
 hideLoading();
 
-alert(error.message || error);
+console.log(
+error
+);
 
-})
+}
+)
 
 .getHardwareData();
 
 }
 
 
+/*****************************************************
+ * INVENTORY
+ *****************************************************/
+
 function renderInventory(){
 
-const tbody =
-document.getElementById("inventoryTable");
+var tbody =
+document.getElementById(
+"inventoryTable"
+);
 
-tbody.innerHTML="";
 
-if(!allHardware.length){
+tbody.innerHTML = "";
 
-tbody.innerHTML=
-'<tr><td colspan="10" class="empty">No data found</td></tr>';
+
+if(
+!allHardware.length
+){
+
+tbody.innerHTML =
+'<tr><td colspan="10" class="empty">No hardware data found.</td></tr>';
 
 return;
 
 }
 
-allHardware.forEach(function(x,i){
 
-tbody.innerHTML+=`
+for(
+var i=0;
+i<allHardware.length;
+i++
+){
+
+var x =
+allHardware[i];
+
+
+tbody.innerHTML += `
 
 <tr>
 
-<td>${i+1}</td>
+<td>${i + 1}</td>
+
 <td>${esc(x.solId)}</td>
+
 <td>${esc(x.branchName)}</td>
+
 <td>${esc(x.hardwareType)}</td>
+
 <td>${esc(x.hardwareSubType)}</td>
+
 <td>${esc(x.make)}</td>
+
 <td>${esc(x.model)}</td>
+
 <td>${esc(x.serialNo)}</td>
-<td>${badge(x.condition)}</td>
+
+<td>${conditionBadge(x.condition)}</td>
+
 <td>${esc(x.remarks)}</td>
 
 </tr>
 
 `;
 
-});
+}
 
 }
 
 
-/* =========================================
-   BRANCH
-========================================= */
+/*****************************************************
+ * BRANCH
+ *****************************************************/
 
 function renderBranch(){
 
-const sol =
-document.getElementById("branchFilter").value;
+var filter =
+document.getElementById(
+"branchFilter"
+);
 
-const tbody =
-document.getElementById("branchTable");
 
-tbody.innerHTML="";
+if(!filter){
+return;
+}
 
-const data =
-sol
-? allHardware.filter(function(x){
-return String(x.solId)===String(sol);
-})
-:allHardware;
+
+var sol =
+filter.value;
+
+
+var tbody =
+document.getElementById(
+"branchTable"
+);
+
+
+tbody.innerHTML = "";
+
+
+var data =
+[];
+
+
+for(
+var i=0;
+i<allHardware.length;
+i++
+){
+
+if(
+!sol ||
+String(
+allHardware[i].solId
+) === String(sol)
+){
+
+data.push(
+allHardware[i]
+);
+
+}
+
+}
+
 
 if(!data.length){
 
-tbody.innerHTML=
-'<tr><td colspan="6" class="empty">No data found</td></tr>';
+tbody.innerHTML =
+'<tr><td colspan="6" class="empty">No data found.</td></tr>';
 
 return;
 
 }
 
-data.forEach(function(x){
 
-tbody.innerHTML+=`
+for(
+var j=0;
+j<data.length;
+j++
+){
+
+var x =
+data[j];
+
+
+tbody.innerHTML += `
 
 <tr>
 
 <td>${esc(x.hardwareType)}</td>
+
 <td>${esc(x.hardwareSubType)}</td>
+
 <td>${esc(x.make)}</td>
+
 <td>${esc(x.model)}</td>
+
 <td>${esc(x.serialNo)}</td>
-<td>${badge(x.condition)}</td>
+
+<td>${conditionBadge(x.condition)}</td>
 
 </tr>
 
 `;
 
-});
+}
 
 }
 
 
-/* =========================================
-   SEARCH
-========================================= */
+/*****************************************************
+ * SEARCH
+ *****************************************************/
 
-function performSearch(){
+function renderSearch(){
 
-const keyword =
-(document.getElementById("searchInput")?.value || "")
+var input =
+document.getElementById(
+"searchInput"
+);
+
+
+var tbody =
+document.getElementById(
+"searchTable"
+);
+
+
+if(!input || !tbody){
+return;
+}
+
+
+var keyword =
+input.value
 .toLowerCase()
 .trim();
 
-const tbody =
-document.getElementById("searchTable");
 
-if(!tbody)return;
+var data = [];
 
-tbody.innerHTML="";
 
-const data =
-keyword
-?allHardware.filter(function(x){
+for(
+var i=0;
+i<allHardware.length;
+i++
+){
 
-return [
+var x =
+allHardware[i];
+
+
+var text = [
+
 x.solId,
 x.branchName,
 x.hardwareType,
@@ -1617,153 +2040,256 @@ x.model,
 x.serialNo,
 x.condition,
 x.remarks
+
 ]
 .join(" ")
-.toLowerCase()
-.includes(keyword);
+.toLowerCase();
 
-})
-:allHardware;
+
+if(
+!keyword ||
+text.indexOf(
+keyword
+) !== -1
+){
+
+data.push(
+x
+);
+
+}
+
+}
+
+
+tbody.innerHTML = "";
+
 
 if(!data.length){
 
-tbody.innerHTML=
-'<tr><td colspan="7" class="empty">No matching data</td></tr>';
+tbody.innerHTML =
+'<tr><td colspan="7" class="empty">No matching data found.</td></tr>';
 
 return;
 
 }
 
-data.forEach(function(x){
 
-tbody.innerHTML+=`
+for(
+var j=0;
+j<data.length;
+j++
+){
+
+var row =
+data[j];
+
+
+tbody.innerHTML += `
 
 <tr>
 
-<td>${esc(x.solId)}</td>
-<td>${esc(x.branchName)}</td>
-<td>${esc(x.hardwareType)}</td>
-<td>${esc(x.make)}</td>
-<td>${esc(x.model)}</td>
-<td>${esc(x.serialNo)}</td>
-<td>${badge(x.condition)}</td>
+<td>${esc(row.solId)}</td>
+
+<td>${esc(row.branchName)}</td>
+
+<td>${esc(row.hardwareType)}</td>
+
+<td>${esc(row.make)}</td>
+
+<td>${esc(row.model)}</td>
+
+<td>${esc(row.serialNo)}</td>
+
+<td>${conditionBadge(row.condition)}</td>
 
 </tr>
 
 `;
 
-});
+}
 
 }
 
 
-/* =========================================
-   DASHBOARD
-========================================= */
+/*****************************************************
+ * DASHBOARD
+ *****************************************************/
 
 function loadDashboard(){
 
 google.script.run
 
-.withSuccessHandler(function(data){
+.withSuccessHandler(
+function(data){
 
-document.getElementById("totalCount").innerText=data.total;
-
-document.getElementById("workingCount").innerText=data.working;
-
-document.getElementById("poorCount").innerText=data.poor;
-
-document.getElementById("repairCount").innerText=data.repair;
-
-document.getElementById("notWorkingCount").innerText=data.notWorking;
-
-document.getElementById("condemnedCount").innerText=data.condemned;
-
-document.getElementById("branchCount").innerText=data.branches;
+document.getElementById(
+"totalCount"
+).innerText =
+data.total;
 
 
-const box =
-document.getElementById("typeSummary");
+document.getElementById(
+"workingCount"
+).innerText =
+data.working;
 
-box.innerHTML="";
 
-Object.keys(data.types).forEach(function(type){
+document.getElementById(
+"poorCount"
+).innerText =
+data.poor;
 
-box.innerHTML+=`
+
+document.getElementById(
+"repairCount"
+).innerText =
+data.repair;
+
+
+document.getElementById(
+"notWorkingCount"
+).innerText =
+data.notWorking;
+
+
+document.getElementById(
+"condemnedCount"
+).innerText =
+data.condemned;
+
+
+document.getElementById(
+"branchCount"
+).innerText =
+data.branches;
+
+
+var box =
+document.getElementById(
+"typeSummary"
+);
+
+
+box.innerHTML = "";
+
+
+for(
+var type in data.types
+){
+
+box.innerHTML += `
 
 <div class="report-card">
 
-<strong>${esc(type)}</strong>
+<strong>
+${esc(type)}
+</strong>
 
-<div style="font-size:25px;margin-top:7px">
+<div style="
+font-size:25px;
+font-weight:bold;
+margin-top:7px">
+
 ${data.types[type]}
+
 </div>
 
 </div>
 
 `;
 
-});
+}
 
-})
+}
+)
 
-.withFailureHandler(function(error){
+.withFailureHandler(
+function(error){
 
-console.log(error);
+console.log(
+error
+);
 
-})
+}
+)
 
 .getDashboardData();
 
 }
 
 
-/* =========================================
-   REPORTS
-========================================= */
+/*****************************************************
+ * REPORTS
+ *****************************************************/
 
 function loadReports(){
 
 google.script.run
 
-.withSuccessHandler(function(data){
+.withSuccessHandler(
+function(data){
 
-document.getElementById("reportTotal").innerText=data.total;
+document.getElementById(
+"reportTotal"
+).innerText =
+data.total;
 
-document.getElementById("reportWorking").innerText=data.working;
 
-document.getElementById("reportRepair").innerText=data.repair;
+document.getElementById(
+"reportWorking"
+).innerText =
+data.working;
 
-document.getElementById("reportNotWorking").innerText=data.notWorking;
 
-})
+document.getElementById(
+"reportRepair"
+).innerText =
+data.repair;
+
+
+document.getElementById(
+"reportNotWorking"
+).innerText =
+data.notWorking;
+
+}
+)
 
 .getDashboardData();
 
 }
 
 
-/* =========================================
-   CSV
-========================================= */
+/*****************************************************
+ * CSV EXPORT
+ *****************************************************/
 
 function exportCSV(){
 
-if(!allHardware.length){
+if(
+!allHardware.length
+){
 
-showLoading("Preparing CSV...");
+showLoading(
+"Preparing CSV..."
+);
+
 
 google.script.run
 
-.withSuccessHandler(function(data){
+.withSuccessHandler(
+function(data){
 
 hideLoading();
 
-allHardware=data || [];
+allHardware =
+data || [];
 
 downloadCSV();
 
-})
+}
+)
 
 .getHardwareData();
 
@@ -1778,18 +2304,32 @@ downloadCSV();
 
 function downloadCSV(){
 
-if(!allHardware.length){
+if(
+!allHardware.length
+){
 
-alert("No data available.");
+alert(
+"No data available."
+);
 
 return;
 
 }
 
-let csv=
+
+var csv =
 "Timestamp,Submission ID,SOL ID,Branch Name,Hardware Type,Hardware Sub Type,Make,Model,Serial No,Condition,Remarks\n";
 
-allHardware.forEach(function(x){
+
+for(
+var i=0;
+i<allHardware.length;
+i++
+){
+
+var x =
+allHardware[i];
+
 
 csv += [
 
@@ -1805,87 +2345,187 @@ x.serialNo,
 x.condition,
 x.remarks
 
-].map(csvEscape).join(",")+"\n";
-
-});
-
-const blob =
-new Blob([csv],{
-type:"text/csv;charset=utf-8"
-});
-
-const url =
-URL.createObjectURL(blob);
-
-const a =
-document.createElement("a");
-
-a.href=url;
-
-a.download="MPGB_Hardware_Inventory.csv";
-
-a.click();
-
-URL.revokeObjectURL(url);
+]
+.map(
+csvEscape
+)
+.join(",") +
+"\n";
 
 }
 
 
-/* =========================================
-   HELPERS
-========================================= */
+var blob =
+new Blob(
+[csv],
+{
+type:
+"text/csv;charset=utf-8;"
+}
+);
 
-function csvEscape(v){
 
-return '"'+
-String(v || "")
-.replace(/"/g,'""')+
+var url =
+URL.createObjectURL(
+blob
+);
+
+
+var a =
+document.createElement(
+"a"
+);
+
+
+a.href =
+url;
+
+a.download =
+"MPGB_Hardware_Inventory.csv";
+
+document.body.appendChild(
+a
+);
+
+a.click();
+
+document.body.removeChild(
+a
+);
+
+URL.revokeObjectURL(
+url
+);
+
+}
+
+
+/*****************************************************
+ * HELPERS
+ *****************************************************/
+
+function csvEscape(
+value
+){
+
+return '"' +
+String(
+value || ""
+)
+.replace(
+/"/g,
+'""'
+) +
 '"';
 
 }
 
 
-function esc(v){
+function esc(
+value
+){
 
-return String(v || "")
-.replace(/&/g,"&amp;")
-.replace(/</g,"&lt;")
-.replace(/>/g,"&gt;")
-.replace(/"/g,"&quot;")
-.replace(/'/g,"&#039;");
+return String(
+value || ""
+)
+
+.replace(
+/&/g,
+"&amp;"
+)
+
+.replace(
+/</g,
+"&lt;"
+)
+
+.replace(
+/>/g,
+"&gt;"
+)
+
+.replace(
+/"/g,
+"&quot;"
+)
+
+.replace(
+/'/g,
+"&#039;"
+);
 
 }
 
 
-function badge(v){
+function conditionBadge(
+condition
+){
 
-let cls="badge";
+var cls =
+"badge";
 
-if(v==="Working"){
-cls+=" working";
+
+if(
+condition ===
+"Working"
+){
+
+cls +=
+" badge-working";
+
 }
 
-else if(v==="Working - Poor Condition"){
-cls+=" poor";
+else if(
+condition ===
+"Working - Poor Condition"
+){
+
+cls +=
+" badge-poor";
+
 }
 
-else if(v==="Repair Required"){
-cls+=" repair";
+else if(
+condition ===
+"Repair Required"
+){
+
+cls +=
+" badge-repair";
+
 }
 
-else if(v==="Not Working"){
-cls+=" notworking";
+else if(
+condition ===
+"Not Working"
+){
+
+cls +=
+" badge-not";
+
 }
 
-else if(v==="Condemned"){
-cls+=" condemned";
+else if(
+condition ===
+"Condemned"
+){
+
+cls +=
+" badge-condemned";
+
 }
 
-return `<span class="${cls}">${esc(v)}</span>`;
+
+return `
+<span class="${cls}">
+${esc(condition)}
+</span>
+`;
 
 }
 
 </script>
 
 </body>
+
 </html>
