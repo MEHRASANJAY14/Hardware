@@ -1,1037 +1,3156 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Hardware Summary - MPGB</title>
+<meta charset="UTF-8">
+
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0">
+
+<title>MPGB Hardware - Hardware Summary</title>
+
+<link rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
 
 <style>
 
+/* =========================================================
+   GLOBAL
+========================================================= */
+
 *{
-    box-sizing:border-box;
-    margin:0;
-    padding:0;
-    font-family:Arial,Helvetica,sans-serif;
+  box-sizing:border-box;
+}
+
+html{
+  scroll-behavior:smooth;
 }
 
 body{
-    background:#f4f7f6;
-    color:#222;
+  margin:0;
+  padding:0;
+  background:#f4f7f5;
+  color:#263238;
+  font-family:Arial,Helvetica,sans-serif;
+  overflow-x:hidden;
 }
 
-/* ================= SIDEBAR ================= */
-
-.sidebar{
-    position:fixed;
-    left:0;
-    top:0;
-    width:245px;
-    height:100vh;
-    background:#006400;
-    color:#fff;
-    padding:22px 14px;
-    z-index:1000;
-    box-shadow:3px 0 12px rgba(0,0,0,.12);
-}
-
-.logo{
-    text-align:center;
-    font-size:24px;
-    font-weight:bold;
-    margin-bottom:28px;
-}
-
-.logo small{
-    display:block;
-    font-size:11px;
-    font-weight:normal;
-    margin-top:5px;
-}
-
-.menu a{
-    display:flex;
-    align-items:center;
-    gap:12px;
-    color:#fff;
-    text-decoration:none;
-    padding:13px 14px;
-    border-radius:9px;
-    margin:5px 0;
-    font-size:14px;
-    transition:.2s;
-}
-
-.menu a:hover{
-    background:#00823b;
-}
-
-.menu a.active{
-    background:#00823b;
-    box-shadow:inset 4px 0 #fff;
-}
-
-.menu i{
-    width:22px;
-    text-align:center;
-    font-style:normal;
-    font-size:18px;
-}
-
-/* ================= MAIN ================= */
-
-.main{
-    margin-left:245px;
-    padding:25px;
-}
-
-.header{
-    background:#fff;
-    border-radius:14px;
-    padding:22px;
-    margin-bottom:20px;
-    box-shadow:0 3px 12px rgba(0,0,0,.07);
-}
-
-.header h1{
-    color:#006400;
-    font-size:27px;
-}
-
-.header p{
-    color:#666;
-    margin-top:7px;
-}
-
-/* ================= FILTER ================= */
-
-.filter-card{
-    background:#fff;
-    padding:18px;
-    border-radius:14px;
-    margin-bottom:20px;
-    box-shadow:0 3px 12px rgba(0,0,0,.07);
-}
-
-.filter-row{
-    display:flex;
-    gap:12px;
-}
-
-input,
-select{
-    width:100%;
-    padding:11px 12px;
-    border:1px solid #d4dcd7;
-    border-radius:8px;
-    outline:none;
-    background:#fff;
-    font-size:13px;
-}
-
-input:focus,
-select:focus{
-    border-color:#00823b;
-}
-
+button,
 input{
-    flex:1;
-}
-
-select{
-    max-width:300px;
+  font-family:inherit;
 }
 
 button{
-    border:0;
-    border-radius:8px;
-    padding:11px 18px;
-    cursor:pointer;
-    font-weight:bold;
+  cursor:pointer;
 }
 
-.btn-reset{
-    background:#e9eeeb;
-    color:#333;
+
+/* =========================================================
+   MAIN
+========================================================= */
+
+.main{
+  margin-left:250px;
+  min-height:100vh;
+  padding:20px;
+  transition:margin-left .25s ease;
 }
 
-/* ================= SUMMARY CARDS ================= */
-
-.cards{
-    display:grid;
-    grid-template-columns:repeat(5,1fr);
-    gap:14px;
-    margin-bottom:20px;
+.page{
+  width:100%;
+  max-width:1500px;
+  margin:0 auto;
 }
 
-.card{
+
+/* =========================================================
+   HEADER
+========================================================= */
+
+.page-header{
+  background:#fff;
+  border:1px solid #dce5df;
+  border-radius:20px;
+  padding:19px 22px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:15px;
+  margin-bottom:16px;
+  box-shadow:0 5px 18px rgba(0,0,0,.045);
+}
+
+.page-header-left{
+  display:flex;
+  align-items:center;
+  gap:13px;
+  min-width:0;
+}
+
+.header-icon{
+  width:50px;
+  height:50px;
+  border-radius:14px;
+  background:#e6f6ed;
+  color:#006633;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:22px;
+  flex:none;
+}
+
+.page-title{
+  margin:0;
+  color:#344054;
+  font-size:21px;
+  font-weight:900;
+}
+
+.page-subtitle{
+  margin-top:4px;
+  font-size:12px;
+  color:#98a2b3;
+}
+
+.branch-pill{
+  background:#edf9f1;
+  color:#176b3a;
+  border-radius:25px;
+  padding:9px 15px;
+  font-size:11px;
+  font-weight:900;
+  white-space:nowrap;
+}
+
+
+/* =========================================================
+   KPI
+========================================================= */
+
+.kpi-grid{
+  display:grid;
+  grid-template-columns:repeat(5,minmax(0,1fr));
+  gap:11px;
+  margin-bottom:15px;
+}
+
+.kpi-card{
+  background:#fff;
+  border:1px solid #dce5df;
+  border-radius:15px;
+  padding:14px;
+  box-shadow:0 5px 16px rgba(0,0,0,.035);
+  min-width:0;
+}
+
+.kpi-label{
+  color:#667085;
+  font-size:9px;
+  font-weight:900;
+  text-transform:uppercase;
+}
+
+.kpi-value{
+  margin-top:5px;
+  color:#006633;
+  font-size:26px;
+  font-weight:900;
+}
+
+.kpi-note{
+  margin-top:3px;
+  color:#98a2b3;
+  font-size:9px;
+}
+
+.kpi-working .kpi-value{
+  color:#087a35;
+}
+
+.kpi-notworking .kpi-value{
+  color:#b42318;
+}
+
+.kpi-repair .kpi-value{
+  color:#9a6700;
+}
+
+.kpi-damaged .kpi-value{
+  color:#7a3da5;
+}
+
+
+/* =========================================================
+   TOOLBAR
+========================================================= */
+
+.toolbar{
+  background:#fff;
+  border:1px solid #dce5df;
+  border-radius:15px;
+  padding:11px;
+  display:flex;
+  align-items:center;
+  gap:8px;
+  flex-wrap:wrap;
+  margin-bottom:15px;
+  box-shadow:0 5px 16px rgba(0,0,0,.035);
+}
+
+.search-box{
+  flex:1;
+  min-width:220px;
+  position:relative;
+}
+
+.search-box i{
+  position:absolute;
+  left:11px;
+  top:50%;
+  transform:translateY(-50%);
+  color:#98a2b3;
+  font-size:12px;
+}
+
+.search-box input{
+  width:100%;
+  height:39px;
+  border:1px solid #ccd6d0;
+  border-radius:8px;
+  outline:none;
+  padding:0 10px 0 34px;
+  font-size:11px;
+}
+
+.search-box input:focus{
+  border-color:#33935d;
+  box-shadow:0 0 0 3px rgba(51,147,93,.10);
+}
+
+.toolbar-btn{
+  height:39px;
+  border:none;
+  border-radius:8px;
+  padding:0 13px;
+  background:#006633;
+  color:#fff;
+  font-size:10px;
+  font-weight:900;
+}
+
+.toolbar-btn.light{
+  background:#e9f0ec;
+  color:#28553a;
+}
+
+.toolbar-btn:hover{
+  transform:translateY(-1px);
+}
+
+
+/* =========================================================
+   SUMMARY CARD
+========================================================= */
+
+.summary-card{
+  background:#fff;
+  border:1px solid #aebbb3;
+  border-radius:17px;
+  overflow:hidden;
+  box-shadow:0 6px 20px rgba(0,0,0,.045);
+}
+
+.summary-header{
+  padding:14px 16px;
+  border-bottom:1px solid #c9d2cc;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:10px;
+}
+
+.summary-title{
+  font-size:14px;
+  color:#344054;
+  font-weight:900;
+}
+
+.summary-subtitle{
+  margin-top:3px;
+  color:#98a2b3;
+  font-size:9px;
+}
+
+.summary-count{
+  color:#667085;
+  font-size:10px;
+  font-weight:900;
+}
+
+
+/* =========================================================
+   TABLE
+   NO HORIZONTAL SCROLL
+========================================================= */
+
+.summary-table-wrap{
+  width:100%;
+  overflow:visible;
+}
+
+.summary-table{
+  width:100%;
+  table-layout:fixed;
+  border-collapse:collapse;
+}
+
+.summary-table th{
+  background:#eef3f0;
+  border:1px solid #b9c5be;
+  color:#344054;
+  padding:10px 5px;
+  font-size:9px;
+  font-weight:900;
+  text-align:center;
+  vertical-align:middle;
+  line-height:1.15;
+  white-space:normal;
+  overflow-wrap:anywhere;
+}
+
+.summary-table td{
+  background:#fff;
+  border:1px solid #c7d0ca;
+  color:#344054;
+  padding:9px 5px;
+  font-size:10px;
+  text-align:center;
+  vertical-align:middle;
+  line-height:1.15;
+  white-space:normal;
+  overflow-wrap:anywhere;
+}
+
+.summary-table tbody tr:hover td{
+  background:#f7fbf8;
+}
+
+
+/* widths */
+
+.summary-table th:nth-child(1),
+.summary-table td:nth-child(1){
+  width:31%;
+  text-align:left;
+}
+
+.summary-table th:nth-child(2),
+.summary-table td:nth-child(2){
+  width:12%;
+}
+
+.summary-table th:nth-child(3),
+.summary-table td:nth-child(3){
+  width:14%;
+}
+
+.summary-table th:nth-child(4),
+.summary-table td:nth-child(4){
+  width:14%;
+}
+
+.summary-table th:nth-child(5),
+.summary-table td:nth-child(5){
+  width:15%;
+}
+
+.summary-table th:nth-child(6),
+.summary-table td:nth-child(6){
+  width:14%;
+}
+
+
+/* =========================================================
+   HARDWARE NAME
+========================================================= */
+
+.hw-name{
+  display:flex;
+  align-items:center;
+  gap:9px;
+  min-width:0;
+}
+
+.hw-icon{
+  width:30px;
+  height:30px;
+  min-width:30px;
+  border-radius:8px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  background:#e8f6ed;
+  color:#006633;
+  font-size:12px;
+}
+
+.hw-label{
+  font-size:10px;
+  font-weight:900;
+  color:#263238;
+  overflow-wrap:anywhere;
+}
+
+
+/* =========================================================
+   COUNT BUTTON
+========================================================= */
+
+.count-btn{
+  border:none;
+  background:transparent;
+  color:#006633;
+  font-size:17px;
+  font-weight:900;
+  padding:3px 7px;
+  border-radius:6px;
+}
+
+.count-btn:hover{
+  background:#e8f7ed;
+  text-decoration:underline;
+  transform:scale(1.06);
+}
+
+
+/* =========================================================
+   STATUS BADGES
+========================================================= */
+
+.status-num{
+  display:inline-flex;
+  min-width:27px;
+  height:24px;
+  align-items:center;
+  justify-content:center;
+  border-radius:6px;
+  font-size:9px;
+  font-weight:900;
+}
+
+.status-working{
+  background:#d8f5e3;
+  color:#166534;
+}
+
+.status-notworking{
+  background:#fee2e2;
+  color:#991b1b;
+}
+
+.status-repair{
+  background:#fff0bd;
+  color:#8a5700;
+}
+
+.status-damaged{
+  background:#eadcff;
+  color:#6b2991;
+}
+
+
+/* =========================================================
+   GRAND TOTAL
+========================================================= */
+
+.grand-total td{
+  background:#006633 !important;
+  color:#fff !important;
+  border-color:#005426 !important;
+  font-weight:900;
+}
+
+.grand-btn{
+  border:none;
+  background:transparent;
+  color:#fff;
+  font-size:18px;
+  font-weight:900;
+  padding:2px 7px;
+  border-radius:6px;
+}
+
+.grand-btn:hover{
+  background:rgba(255,255,255,.14);
+  text-decoration:underline;
+}
+
+
+/* =========================================================
+   RECORDS
+========================================================= */
+
+.records-section{
+  display:none;
+  margin-top:17px;
+  background:#fff;
+  border:1px solid #aebbb3;
+  border-radius:17px;
+  overflow:hidden;
+  box-shadow:0 7px 22px rgba(0,0,0,.05);
+}
+
+.records-header{
+  padding:14px 16px;
+  background:#edf8f1;
+  border-bottom:1px solid #c6d7cb;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:10px;
+}
+
+.records-title{
+  font-size:14px;
+  color:#17452d;
+  font-weight:900;
+}
+
+.records-subtitle{
+  margin-top:3px;
+  color:#667085;
+  font-size:9px;
+}
+
+.record-buttons{
+  display:flex;
+  gap:6px;
+  flex-wrap:wrap;
+}
+
+.record-btn{
+  height:33px;
+  border:none;
+  border-radius:7px;
+  padding:0 10px;
+  background:#006633;
+  color:#fff;
+  font-size:9px;
+  font-weight:900;
+}
+
+.record-btn.light{
+  background:#e8efea;
+  color:#28553a;
+}
+
+
+/* =========================================================
+   RECORD SEARCH
+========================================================= */
+
+.record-search{
+  display:none;
+  padding:10px;
+  border-bottom:1px solid #ccd5cf;
+}
+
+.record-search input{
+  width:100%;
+  height:36px;
+  border:1px solid #c5d0c9;
+  border-radius:7px;
+  padding:0 10px;
+  outline:none;
+  font-size:10px;
+}
+
+
+/* =========================================================
+   RECORD TABLE
+========================================================= */
+
+.records-wrap{
+  width:100%;
+  overflow:visible;
+}
+
+.record-table{
+  width:100%;
+  table-layout:fixed;
+  border-collapse:collapse;
+}
+
+.record-table th{
+  background:#006633;
+  color:#fff;
+  border:1px solid #005426;
+  padding:9px 5px;
+  font-size:9px;
+  font-weight:900;
+  text-align:center;
+  vertical-align:middle;
+  line-height:1.15;
+  white-space:normal;
+  overflow-wrap:anywhere;
+}
+
+.record-table td{
+  background:#fff;
+  color:#344054;
+  border:1px solid #c4cec8;
+  padding:9px 5px;
+  font-size:9px;
+  line-height:1.2;
+  vertical-align:middle;
+  text-align:center;
+  overflow-wrap:anywhere;
+  word-break:break-word;
+}
+
+.record-table tbody tr:hover td{
+  background:#f8fbf9;
+}
+
+.record-table th:nth-child(1){width:9%}
+.record-table th:nth-child(2){width:15%}
+.record-table th:nth-child(3){width:15%}
+.record-table th:nth-child(4){width:10%}
+.record-table th:nth-child(5){width:11%}
+.record-table th:nth-child(6){width:13%}
+.record-table th:nth-child(7){width:10%}
+.record-table th:nth-child(8){width:17%}
+
+.record-table td:nth-child(2),
+.record-table td:nth-child(3),
+.record-table td:nth-child(4),
+.record-table td:nth-child(5),
+.record-table td:nth-child(6),
+.record-table td:nth-child(8){
+  text-align:left;
+}
+
+.serial-no{
+  font-family:"Courier New",monospace;
+  font-size:9px;
+  font-weight:700;
+  color:#24382d;
+}
+
+
+/* =========================================================
+   CONDITION
+========================================================= */
+
+.condition-badge{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  padding:4px 7px;
+  border-radius:13px;
+  font-size:7px;
+  font-weight:900;
+  white-space:nowrap;
+}
+
+.condition-working{
+  background:#d8f5e3;
+  color:#166534;
+}
+
+.condition-notworking{
+  background:#fee2e2;
+  color:#991b1b;
+}
+
+.condition-repair{
+  background:#fff0bd;
+  color:#8a5700;
+}
+
+.condition-damaged{
+  background:#eadcff;
+  color:#6b2991;
+}
+
+.condition-default{
+  background:#edf0f2;
+  color:#475467;
+}
+
+
+/* =========================================================
+   EMPTY / LOADING
+========================================================= */
+
+.loading-cell{
+  text-align:center !important;
+  padding:30px !important;
+  color:#98a2b3;
+}
+
+
+/* =========================================================
+   TOAST
+========================================================= */
+
+.toast{
+  position:fixed;
+  right:20px;
+  bottom:20px;
+  padding:11px 14px;
+  border-radius:8px;
+  background:#173e29;
+  color:#fff;
+  font-size:10px;
+  font-weight:800;
+  opacity:0;
+  visibility:hidden;
+  transform:translateY(10px);
+  transition:.2s ease;
+  z-index:10000;
+}
+
+.toast.show{
+  opacity:1;
+  visibility:visible;
+  transform:translateY(0);
+}
+
+
+/* =========================================================
+   LOADER
+========================================================= */
+
+.page-loader{
+  position:fixed;
+  inset:0;
+  z-index:9999;
+  background:rgba(255,255,255,.88);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+
+.loader-box{
+  background:#fff;
+  padding:23px 27px;
+  border-radius:14px;
+  box-shadow:0 10px 35px rgba(0,0,0,.12);
+  text-align:center;
+  color:#006633;
+  font-size:11px;
+  font-weight:900;
+}
+
+.loader-spinner{
+  width:34px;
+  height:34px;
+  border:4px solid #dcefe3;
+  border-top-color:#006633;
+  border-radius:50%;
+  margin:0 auto 9px;
+  animation:spin .8s linear infinite;
+}
+
+@keyframes spin{
+  to{
+    transform:rotate(360deg);
+  }
+}
+
+
+/* =========================================================
+   PRINT
+========================================================= */
+
+@media print{
+
+  body{
     background:#fff;
-    border-radius:14px;
-    padding:18px;
-    box-shadow:0 3px 12px rgba(0,0,0,.07);
-    border-left:5px solid #006400;
+  }
+
+  .main{
+    margin-left:0 !important;
+    padding:0 !important;
+  }
+
+  .toolbar,
+  .page-header,
+  .kpi-grid,
+  .record-buttons,
+  .record-search,
+  .page-loader,
+  .toast{
+    display:none !important;
+  }
+
+  .records-section{
+    display:block !important;
+  }
+
 }
 
-.card-title{
-    color:#777;
-    font-size:12px;
-    margin-bottom:8px;
-}
 
-.card-value{
-    color:#006400;
-    font-size:28px;
-    font-weight:bold;
-}
-
-/* ================= TABLE ================= */
-
-.table-card{
-    background:#fff;
-    border-radius:14px;
-    padding:20px;
-    box-shadow:0 3px 12px rgba(0,0,0,.07);
-}
-
-.table-title{
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    margin-bottom:15px;
-}
-
-.table-title h2{
-    color:#006400;
-    font-size:20px;
-}
-
-.count{
-    background:#e6f4eb;
-    color:#006400;
-    padding:7px 12px;
-    border-radius:20px;
-    font-size:12px;
-    font-weight:bold;
-}
-
-.table-wrap{
-    overflow:auto;
-    max-height:calc(100vh - 330px);
-}
-
-table{
-    width:100%;
-    border-collapse:collapse;
-    min-width:900px;
-}
-
-th{
-    background:#006400;
-    color:#fff;
-    padding:11px 8px;
-    font-size:12px;
-    text-align:center;
-    position:sticky;
-    top:0;
-    z-index:5;
-}
-
-td{
-    padding:10px 8px;
-    border-bottom:1px solid #eee;
-    font-size:12px;
-    text-align:center;
-}
-
-tr:hover{
-    background:#f3faf5;
-}
-
-td.hardware{
-    text-align:left;
-    font-weight:bold;
-}
-
-.total{
-    font-weight:bold;
-    color:#006400;
-}
-
-.working{
-    color:#08752d;
-    font-weight:bold;
-}
-
-.notworking{
-    color:#b00020;
-    font-weight:bold;
-}
-
-.repair{
-    color:#9a6100;
-    font-weight:bold;
-}
-
-.damaged{
-    color:#666;
-    font-weight:bold;
-}
-
-.percent{
-    color:#006400;
-    font-weight:bold;
-}
-
-/* ================= LOADING ================= */
-
-.loading{
-    padding:40px;
-    text-align:center;
-    color:#777;
-}
-
-.error{
-    background:#ffe8e8;
-    color:#b00020;
-    padding:15px;
-    border-radius:8px;
-}
-
-/* ================= RESPONSIVE ================= */
+/* =========================================================
+   RESPONSIVE
+========================================================= */
 
 @media(max-width:1100px){
 
-    .cards{
-        grid-template-columns:repeat(3,1fr);
-    }
+  .kpi-grid{
+    grid-template-columns:repeat(3,minmax(0,1fr));
+  }
+
+  .summary-table th,
+  .summary-table td{
+    font-size:8px;
+    padding:7px 3px;
+  }
+
+  .hw-label{
+    font-size:9px;
+  }
 
 }
 
 @media(max-width:800px){
 
-    .sidebar{
-        width:70px;
-        padding:15px 8px;
-    }
+  .main{
+    margin-left:70px;
+    padding:15px;
+  }
 
-    .logo{
-        font-size:0;
-    }
+  .page-header{
+    padding:15px;
+  }
 
-    .logo:before{
-        content:"MP";
-        font-size:20px;
-    }
+  .page-title{
+    font-size:18px;
+  }
 
-    .logo small,
-    .menu span{
-        display:none;
-    }
+  .kpi-grid{
+    grid-template-columns:repeat(2,minmax(0,1fr));
+  }
 
-    .menu a{
-        justify-content:center;
-        padding:12px;
-    }
+  .summary-table th,
+  .summary-table td{
+    font-size:7px;
+    padding:6px 2px;
+  }
 
-    .main{
-        margin-left:70px;
-        padding:15px;
-    }
+  .count-btn{
+    font-size:15px;
+  }
 
-    .filter-row{
-        flex-direction:column;
-    }
+  .hw-icon{
+    width:25px;
+    height:25px;
+    min-width:25px;
+    font-size:10px;
+  }
 
-    select{
-        max-width:none;
-    }
+  .hw-label{
+    font-size:8px;
+  }
 
 }
 
-@media(max-width:500px){
+@media(max-width:600px){
 
-    .main{
-        padding:10px;
-    }
+  .main{
+    margin-left:64px;
+    padding:10px;
+  }
 
-    .cards{
-        grid-template-columns:1fr;
-    }
+  .page-header{
+    padding:13px;
+  }
+
+  .header-icon{
+    width:40px;
+    height:40px;
+    font-size:17px;
+  }
+
+  .page-title{
+    font-size:16px;
+  }
+
+  .page-subtitle{
+    font-size:9px;
+  }
+
+  .branch-pill{
+    display:none;
+  }
+
+  .kpi-grid{
+    grid-template-columns:1fr 1fr;
+    gap:8px;
+  }
+
+  .kpi-card{
+    padding:11px;
+  }
+
+  .kpi-value{
+    font-size:21px;
+  }
+
+  .search-box{
+    min-width:100%;
+  }
+
+  .toolbar-btn{
+    width:100%;
+  }
+
+  .records-header{
+    flex-direction:column;
+    align-items:flex-start;
+  }
+
+  .record-buttons{
+    width:100%;
+  }
+
+  .record-btn{
+    flex:1;
+  }
 
 }
 
 </style>
+
 </head>
+
 
 <body>
 
-<!-- ================= SIDEBAR ================= -->
 
-<aside class="sidebar">
+<!-- =========================================================
+     EXISTING GREEN SIDEBAR
+========================================================= -->
 
-    <div class="logo">
-        MPGB
-        <small>Hardware Management</small>
-    </div>
-
-    <nav class="menu">
-
-        <a href="index.html">
-            <i>⌂</i>
-            <span>Dashboard</span>
-        </a>
-
-        <a href="add-hardware.html">
-            <i>＋</i>
-            <span>Add Hardware</span>
-        </a>
-
-        <a href="records.html">
-            <i>▣</i>
-            <span>Hardware Records</span>
-        </a>
-
-        <a href="edit-hardware.html">
-            <i>✎</i>
-            <span>Edit / Update</span>
-        </a>
-
-        <a href="branch-summary.html">
-            <i>▥</i>
-            <span>Branch Summary</span>
-        </a>
-
-        <a href="hardware-summary.html">
-            <i>◈</i>
-            <span>Hardware Summary</span>
-        </a>
-
-        <a href="reports.html">
-            <i>▤</i>
-            <span>Reports</span>
-        </a>
-
-    </nav>
-
-</aside>
+<script src="sidebar.js"></script>
 
 
-<!-- ================= MAIN ================= -->
+<!-- =========================================================
+     LOADING
+========================================================= -->
+
+<div
+  id="pageLoader"
+  class="page-loader">
+
+  <div class="loader-box">
+
+    <div class="loader-spinner"></div>
+
+    Loading Hardware Summary...
+
+  </div>
+
+</div>
+
+
+<!-- =========================================================
+     MAIN
+========================================================= -->
 
 <main class="main">
 
-    <div class="header">
+<div class="page">
 
-        <h1>Hardware-wise Summary</h1>
 
-        <p>
-            Hardware type-wise inventory and condition analysis
-        </p>
+<!-- =========================================================
+     HEADER
+========================================================= -->
+
+<div class="page-header">
+
+  <div class="page-header-left">
+
+    <div class="header-icon">
+      <i class="fa-solid fa-desktop"></i>
+    </div>
+
+    <div>
+
+      <h1 class="page-title">
+        Hardware-wise Summary
+      </h1>
+
+      <div class="page-subtitle">
+        Hardware type-wise inventory status across RO Jabalpur
+      </div>
+
+    </div>
+
+  </div>
+
+
+  <div
+    id="typePill"
+    class="branch-pill">
+
+    0 Hardware Types
+
+  </div>
+
+</div>
+
+
+<!-- =========================================================
+     KPI
+========================================================= -->
+
+<div class="kpi-grid">
+
+
+  <div class="kpi-card">
+
+    <div class="kpi-label">
+      Total Hardware
+    </div>
+
+    <div
+      id="kpiTotal"
+      class="kpi-value">
+      0
+    </div>
+
+    <div class="kpi-note">
+      All hardware records
+    </div>
+
+  </div>
+
+
+  <div class="kpi-card kpi-working">
+
+    <div class="kpi-label">
+      Working
+    </div>
+
+    <div
+      id="kpiWorking"
+      class="kpi-value">
+      0
+    </div>
+
+    <div class="kpi-note">
+      Working hardware
+    </div>
+
+  </div>
+
+
+  <div class="kpi-card kpi-notworking">
+
+    <div class="kpi-label">
+      Not Working
+    </div>
+
+    <div
+      id="kpiNotWorking"
+      class="kpi-value">
+      0
+    </div>
+
+    <div class="kpi-note">
+      Not working hardware
+    </div>
+
+  </div>
+
+
+  <div class="kpi-card kpi-repair">
+
+    <div class="kpi-label">
+      Under Repair
+    </div>
+
+    <div
+      id="kpiRepair"
+      class="kpi-value">
+      0
+    </div>
+
+    <div class="kpi-note">
+      Repair required
+    </div>
+
+  </div>
+
+
+  <div class="kpi-card kpi-damaged">
+
+    <div class="kpi-label">
+      Damaged
+    </div>
+
+    <div
+      id="kpiDamaged"
+      class="kpi-value">
+      0
+    </div>
+
+    <div class="kpi-note">
+      Damaged hardware
+    </div>
+
+  </div>
+
+
+</div>
+
+
+<!-- =========================================================
+     TOOLBAR
+========================================================= -->
+
+<div class="toolbar">
+
+
+  <div class="search-box">
+
+    <i class="fa-solid fa-magnifying-glass"></i>
+
+    <input
+      id="typeSearch"
+      type="text"
+      placeholder="Search hardware type..."
+      oninput="filterTypes()">
+
+  </div>
+
+
+  <button
+    class="toolbar-btn light"
+    onclick="resetTypeSearch()">
+
+    <i class="fa-solid fa-rotate-left"></i>
+    Reset
+
+  </button>
+
+
+  <button
+    class="toolbar-btn"
+    onclick="loadHardwareSummary()">
+
+    <i class="fa-solid fa-arrows-rotate"></i>
+    Refresh
+
+  </button>
+
+
+  <button
+    class="toolbar-btn"
+    onclick="exportSummary()">
+
+    <i class="fa-solid fa-file-csv"></i>
+    Export CSV
+
+  </button>
+
+
+  <button
+    class="toolbar-btn light"
+    onclick="window.print()">
+
+    <i class="fa-solid fa-print"></i>
+    Print
+
+  </button>
+
+</div>
+
+
+<!-- =========================================================
+     SUMMARY
+========================================================= -->
+
+<div class="summary-card">
+
+
+  <div class="summary-header">
+
+    <div>
+
+      <div class="summary-title">
+        Hardware Type Summary
+      </div>
+
+      <div class="summary-subtitle">
+        Click Total to view records of that hardware type
+      </div>
 
     </div>
 
 
-    <!-- ================= FILTER ================= -->
+    <div
+      id="visibleCount"
+      class="summary-count">
 
-    <div class="filter-card">
+      0 hardware types
 
-        <div class="filter-row">
+    </div>
 
-            <input
-                type="text"
-                id="search"
-                placeholder="Search hardware type..."
-            >
+  </div>
 
-            <select id="hardwareFilter">
 
-                <option value="">
-                    All Hardware
-                </option>
+  <div class="summary-table-wrap">
 
-                <option value="CPU">
-                    CPU
-                </option>
+    <table class="summary-table">
 
-                <option value="Monitor">
-                    Monitor
-                </option>
+      <thead>
 
-                <option value="Passbook Printer">
-                    Passbook Printer
-                </option>
+        <tr>
 
-                <option value="Laser Printer">
-                    Laser Printer
-                </option>
+          <th>Hardware Type</th>
 
-                <option value="Scanner">
-                    Scanner
-                </option>
+          <th>Total</th>
 
-                <option value="CTS Machine">
-                    CTS Machine
-                </option>
+          <th>Working</th>
 
-                <option value="CCTV Monitor">
-                    CCTV Monitor
-                </option>
+          <th>Not Working</th>
 
-                <option value="Biometric Device">
-                    Biometric Device
-                </option>
+          <th>Under Repair</th>
 
-                <option value="UPS">
-                    UPS
-                </option>
+          <th>Damaged</th>
 
-                <option value="Other">
-                    Other
-                </option>
+        </tr>
 
-            </select>
+      </thead>
 
-            <button
-                class="btn-reset"
-                onclick="resetFilters()">
 
-                Reset
+      <tbody
+        id="summaryBody">
 
-            </button>
+        <tr>
 
-        </div>
+          <td
+            colspan="6"
+            class="loading-cell">
+
+            Loading...
+
+          </td>
+
+        </tr>
+
+      </tbody>
+
+
+    </table>
+
+  </div>
+
+</div>
+
+
+<!-- =========================================================
+     RECORDS
+========================================================= -->
+
+<div
+  id="recordsSection"
+  class="records-section">
+
+
+  <div class="records-header">
+
+
+    <div>
+
+      <div
+        id="recordsTitle"
+        class="records-title">
+
+        Hardware Records
+
+      </div>
+
+
+      <div
+        id="recordsSubtitle"
+        class="records-subtitle">
+
+        Click hardware total to view records
+
+      </div>
 
     </div>
 
 
-    <!-- ================= CARDS ================= -->
-
-    <div class="cards">
-
-        <div class="card">
-
-            <div class="card-title">
-                Total Hardware
-            </div>
-
-            <div
-                class="card-value"
-                id="totalHardware">
-
-                0
-
-            </div>
-
-        </div>
+    <div class="record-buttons">
 
 
-        <div class="card">
+      <button
+        class="record-btn"
+        onclick="toggleRecordSearch()">
 
-            <div class="card-title">
-                Working
-            </div>
+        <i class="fa-solid fa-search"></i>
+        Search
 
-            <div
-                class="card-value"
-                id="totalWorking">
-
-                0
-
-            </div>
-
-        </div>
+      </button>
 
 
-        <div class="card">
+      <button
+        class="record-btn"
+        onclick="exportCurrentRecords()">
 
-            <div class="card-title">
-                Not Working
-            </div>
+        <i class="fa-solid fa-file-csv"></i>
+        Export
 
-            <div
-                class="card-value"
-                id="totalNotWorking">
-
-                0
-
-            </div>
-
-        </div>
+      </button>
 
 
-        <div class="card">
+      <button
+        class="record-btn light"
+        onclick="printRecords()">
 
-            <div class="card-title">
-                Under Repair
-            </div>
+        <i class="fa-solid fa-print"></i>
+        Print
 
-            <div
-                class="card-value"
-                id="totalRepair">
-
-                0
-
-            </div>
-
-        </div>
+      </button>
 
 
-        <div class="card">
+      <button
+        class="record-btn light"
+        onclick="closeRecords()">
 
-            <div class="card-title">
-                Damaged
-            </div>
+        <i class="fa-solid fa-xmark"></i>
+        Close
 
-            <div
-                class="card-value"
-                id="totalDamaged">
+      </button>
 
-                0
-
-            </div>
-
-        </div>
 
     </div>
 
-
-    <!-- ================= TABLE ================= -->
-
-    <div class="table-card">
-
-        <div class="table-title">
-
-            <h2>Hardware Details</h2>
-
-            <div class="count">
-
-                Types:
-                <span id="typeCount">0</span>
-
-            </div>
-
-        </div>
+  </div>
 
 
-        <div
-            id="tableContainer"
-            class="loading">
+  <div
+    id="recordSearchBox"
+    class="record-search">
 
-            Loading hardware summary...
+    <input
+      id="recordSearch"
+      type="text"
+      placeholder="Search SOL, branch, make, model, serial, remarks..."
+      oninput="searchRecords()">
 
-        </div>
+  </div>
 
-    </div>
+
+  <div class="records-wrap">
+
+    <table class="record-table">
+
+      <thead>
+
+        <tr>
+
+          <th>SOL ID</th>
+          <th>Branch</th>
+          <th>Hardware Type</th>
+          <th>Make</th>
+          <th>Model</th>
+          <th>Serial No</th>
+          <th>Condition</th>
+          <th>Remarks</th>
+
+        </tr>
+
+      </thead>
+
+
+      <tbody
+        id="recordsBody">
+
+        <tr>
+
+          <td
+            colspan="8"
+            class="loading-cell">
+
+            Select a hardware type
+
+          </td>
+
+        </tr>
+
+      </tbody>
+
+    </table>
+
+  </div>
+
+
+</div>
+
+
+</div>
 
 </main>
 
 
+<!-- =========================================================
+     TOAST
+========================================================= -->
+
+<div
+  id="toast"
+  class="toast">
+
+  Done
+
+</div>
+
+
 <script>
 
-/* =====================================================
+/* =========================================================
    API
-===================================================== */
+========================================================= */
 
 var API_URL =
-"https://script.google.com/macros/s/AKfycbyqpcO42kRHBBp_n1TEAHyI4SGGBNcf_5qQMN3ZARnZ4WLlUsgokf4k2BrHYfKX1lMB/exec";
+  "https://script.google.com/macros/s/AKfycbyqpcO42kRHBBp_n1TEAHyI4SGGBNcf_5qQMN3ZARnZ4WLlUsgokf4k2BrHYfKX1lMB/exec";
 
 
-var hardwareData=[];
+/* =========================================================
+   DATA
+========================================================= */
+
+var hardwareData = [];
+
+var currentRecords = [];
+
+var currentHardwareType = "";
+
+var visibleHardwareData = [];
 
 
-/* =====================================================
-   ACTIVE SIDEBAR
-===================================================== */
+/* =========================================================
+   DEFAULT HARDWARE TYPES
+   "Other" intentionally excluded
+========================================================= */
 
-document.addEventListener("DOMContentLoaded",function(){
+var HARDWARE_TYPES = [
 
-    var currentPage =
-        window.location.pathname
-        .split("/")
-        .pop()
-        .toLowerCase();
+  "CPU",
 
-    if(!currentPage){
-        currentPage="index.html";
-    }
+  "Monitor",
 
-    document.querySelectorAll(".menu a")
-    .forEach(function(link){
+  "Passbook Printer",
 
-        var linkPage =
-            link.getAttribute("href")
-            .split("/")
-            .pop()
-            .toLowerCase();
+  "Laser Printer",
 
-        if(linkPage===currentPage){
+  "Scanner",
 
-            link.classList.add("active");
+  "CTS Machine",
 
-        }
+  "CCTV Monitor",
 
-    });
+  "Biometric Device",
 
+  "UPS"
+
+];
+
+
+/* =========================================================
+   ICONS
+========================================================= */
+
+var HARDWARE_ICONS = {
+
+  "CPU":
+    "fa-solid fa-computer",
+
+  "Monitor":
+    "fa-solid fa-display",
+
+  "Passbook Printer":
+    "fa-solid fa-print",
+
+  "Laser Printer":
+    "fa-solid fa-print",
+
+  "Scanner":
+    "fa-solid fa-scanner",
+
+  "CTS Machine":
+    "fa-solid fa-file-invoice",
+
+  "CCTV Monitor":
+    "fa-solid fa-camera",
+
+  "Biometric Device":
+    "fa-solid fa-fingerprint",
+
+  "UPS":
+    "fa-solid fa-bolt"
+
+};
+
+
+/* =========================================================
+   INIT
+========================================================= */
+
+document.addEventListener(
+  "DOMContentLoaded",
+  function(){
 
     loadHardwareSummary();
 
-});
+  }
+);
 
 
-/* =====================================================
-   LOAD SUMMARY
-===================================================== */
+/* =========================================================
+   LOAD HARDWARE SUMMARY
+========================================================= */
 
 function loadHardwareSummary(){
 
-    var container =
-        document.getElementById(
-            "tableContainer"
+  showLoader(true);
+
+
+  fetch(
+    API_URL +
+    "?action=hardwareSummary&_=" +
+    new Date().getTime()
+  )
+
+  .then(
+    function(response){
+
+      return response.json();
+
+    }
+  )
+
+  .then(
+    function(result){
+
+      if(
+        !result ||
+        result.status !== "success"
+      ){
+
+        throw new Error(
+          result &&
+          result.message
+            ? result.message
+            : "Unable to load hardware summary"
+        );
+
+      }
+
+
+      hardwareData =
+        result.data || [];
+
+
+      hardwareData =
+        HARDWARE_TYPES.map(
+          function(type){
+
+            var found =
+              findHardware(
+                hardwareData,
+                type
+              );
+
+
+            return found || {
+
+              hardwareType:type,
+
+              total:0,
+
+              working:0,
+
+              notWorking:0,
+
+              repair:0,
+
+              damaged:0
+
+            };
+
+          }
         );
 
 
-    fetch(API_URL+"?action=hardwareSummary")
-
-    .then(function(response){
-
-        if(!response.ok){
-
-            throw new Error(
-                "Server error"
-            );
-
-        }
-
-        return response.json();
-
-    })
-
-    .then(function(result){
-
-        if(result.status==="error"){
-
-            throw new Error(
-                result.message ||
-                "Unable to load summary"
-            );
-
-        }
+      visibleHardwareData =
+        hardwareData.slice();
 
 
-        hardwareData =
-            result.data || [];
+      renderHardwareSummary(
+        visibleHardwareData
+      );
 
 
-        renderTable();
+      showLoader(false);
 
-    })
+    }
+  )
 
-    .catch(function(error){
+  .catch(
+    function(error){
 
-        console.error(error);
+      console.error(error);
 
-        container.innerHTML =
-            "<div class='error'>" +
-            "Unable to load hardware summary." +
-            "</div>";
+      document.getElementById(
+        "summaryBody"
+      ).innerHTML =
 
-    });
+        '<tr>' +
+
+          '<td colspan="6" class="loading-cell">' +
+
+            'Unable to load hardware summary.' +
+
+          '</td>' +
+
+        '</tr>';
+
+
+      showLoader(false);
+
+      showToast(
+        "Unable to load hardware summary"
+      );
+
+    }
+  );
 
 }
 
 
-/* =====================================================
-   FILTER EVENTS
-===================================================== */
+/* =========================================================
+   FIND HARDWARE
+========================================================= */
 
-document.getElementById("search")
-.addEventListener(
-    "input",
-    renderTable
-);
+function findHardware(
+  data,
+  type
+){
 
-
-document.getElementById("hardwareFilter")
-.addEventListener(
-    "change",
-    renderTable
-);
+  var wanted =
+    type
+      .trim()
+      .toLowerCase();
 
 
-/* =====================================================
-   RENDER TABLE
-===================================================== */
+  for(
+    var i=0;
+    i<data.length;
+    i++
+  ){
 
-function renderTable(){
-
-    var search =
-        document.getElementById(
-            "search"
-        ).value
-        .toLowerCase()
-        .trim();
+    var item =
+      data[i];
 
 
-    var selected =
-        document.getElementById(
-            "hardwareFilter"
-        ).value;
+    var name =
+      String(
+        item.hardwareType ||
+        item.type ||
+        ""
+      )
+      .trim()
+      .toLowerCase();
 
 
-    var filtered =
-        hardwareData.filter(function(row){
+    if(
+      name === wanted
+    ){
 
-            var type =
-                String(
-                    row.hardwareType || ""
-                );
-
-
-            var searchOK =
-                !search ||
-                type.toLowerCase()
-                    .indexOf(search)!==-1;
-
-
-            var typeOK =
-                !selected ||
-                type===selected;
-
-
-            return searchOK && typeOK;
-
-        });
-
-
-    /* ================= TOTALS ================= */
-
-    var total=0;
-    var working=0;
-    var notWorking=0;
-    var repair=0;
-    var damaged=0;
-
-
-    filtered.forEach(function(row){
-
-        total +=
-            Number(row.total || 0);
-
-        working +=
-            Number(row.working || 0);
-
-        notWorking +=
-            Number(row.notWorking || 0);
-
-        repair +=
-            Number(row.repair || 0);
-
-        damaged +=
-            Number(row.damaged || 0);
-
-    });
-
-
-    document.getElementById(
-        "totalHardware"
-    ).innerText=total;
-
-
-    document.getElementById(
-        "totalWorking"
-    ).innerText=working;
-
-
-    document.getElementById(
-        "totalNotWorking"
-    ).innerText=notWorking;
-
-
-    document.getElementById(
-        "totalRepair"
-    ).innerText=repair;
-
-
-    document.getElementById(
-        "totalDamaged"
-    ).innerText=damaged;
-
-
-    document.getElementById(
-        "typeCount"
-    ).innerText=filtered.length;
-
-
-    /* ================= NO DATA ================= */
-
-    if(filtered.length===0){
-
-        document.getElementById(
-            "tableContainer"
-        ).innerHTML =
-            "<div class='loading'>" +
-            "No hardware type found." +
-            "</div>";
-
-        return;
+      return item;
 
     }
 
-
-    /* ================= TABLE ================= */
-
-    var html="";
-
-    html +=
-        "<div class='table-wrap'>";
-
-    html += "<table>";
-
-    html += "<thead>";
-
-    html += "<tr>";
-
-    html += "<th>S.No.</th>";
-    html += "<th>Hardware Type</th>";
-    html += "<th>Total</th>";
-    html += "<th>Working</th>";
-    html += "<th>Not Working</th>";
-    html += "<th>Under Repair</th>";
-    html += "<th>Damaged</th>";
-    html += "<th>Working %</th>";
-
-    html += "</tr>";
-
-    html += "</thead>";
-
-    html += "<tbody>";
+  }
 
 
-    filtered.forEach(function(row,index){
-
-        var total =
-            Number(row.total || 0);
-
-        var working =
-            Number(row.working || 0);
-
-
-        var percentage =
-            total > 0 ?
-            ((working / total) * 100)
-            .toFixed(1) :
-            "0.0";
-
-
-        html += "<tr>";
-
-        html +=
-            "<td>"+
-            (index+1)+
-            "</td>";
-
-
-        html +=
-            "<td class='hardware'>"+
-            safe(row.hardwareType)+
-            "</td>";
-
-
-        html +=
-            "<td class='total'>"+
-            total+
-            "</td>";
-
-
-        html +=
-            "<td class='working'>"+
-            working+
-            "</td>";
-
-
-        html +=
-            "<td class='notworking'>"+
-            Number(row.notWorking || 0)+
-            "</td>";
-
-
-        html +=
-            "<td class='repair'>"+
-            Number(row.repair || 0)+
-            "</td>";
-
-
-        html +=
-            "<td class='damaged'>"+
-            Number(row.damaged || 0)+
-            "</td>";
-
-
-        html +=
-            "<td class='percent'>"+
-            percentage+
-            "%</td>";
-
-
-        html += "</tr>";
-
-    });
-
-
-    html += "</tbody>";
-
-    html += "</table>";
-
-    html += "</div>";
-
-
-    document.getElementById(
-        "tableContainer"
-    ).innerHTML=html;
+  return null;
 
 }
 
 
-/* =====================================================
-   RESET
-===================================================== */
+/* =========================================================
+   RENDER SUMMARY
+========================================================= */
 
-function resetFilters(){
+function renderHardwareSummary(
+  data
+){
 
+  var tbody =
     document.getElementById(
-        "search"
-    ).value="";
+      "summaryBody"
+    );
 
 
-    document.getElementById(
-        "hardwareFilter"
-    ).value="";
+  tbody.innerHTML =
+    "";
 
 
-    renderTable();
+  if(
+    !data.length
+  ){
 
-}
+    tbody.innerHTML =
+
+      '<tr>' +
+
+        '<td colspan="6" class="loading-cell">' +
+
+          'No hardware summary available.' +
+
+        '</td>' +
+
+      '</tr>';
+
+    updateKPI(
+      []
+    );
+
+    return;
+
+  }
 
 
-/* =====================================================
-   SAFE HTML
-===================================================== */
+  data.forEach(
+    function(item,index){
 
-function safe(value){
+      var r =
+        normalizeSummary(
+          item
+        );
 
-    if(value===null ||
-       value===undefined){
 
-        return "";
+      var tr =
+        document.createElement(
+          "tr"
+        );
+
+
+      tr.setAttribute(
+        "data-type",
+        r.hardwareType
+          .toLowerCase()
+      );
+
+
+      tr.innerHTML =
+
+        /* TYPE */
+
+        '<td>' +
+
+          '<div class="hw-name">' +
+
+            '<div class="hw-icon">' +
+
+              '<i class="' +
+              getHardwareIcon(
+                r.hardwareType
+              ) +
+              '"></i>' +
+
+            '</div>' +
+
+            '<div class="hw-label">' +
+
+              escapeHtml(
+                r.hardwareType
+              ) +
+
+            '</div>' +
+
+          '</div>' +
+
+        '</td>' +
+
+
+        /* TOTAL */
+
+        '<td>' +
+
+          '<button ' +
+            'class="count-btn" ' +
+            'title="View records" ' +
+            'onclick="showHardwareRecords(' +
+              '\'' +
+              jsSafe(
+                r.hardwareType
+              ) +
+              '\'' +
+            ')">' +
+
+            r.total +
+
+          '</button>' +
+
+        '</td>' +
+
+
+        /* WORKING */
+
+        '<td>' +
+
+          '<span class="status-num status-working">' +
+
+            r.working +
+
+          '</span>' +
+
+        '</td>' +
+
+
+        /* NOT WORKING */
+
+        '<td>' +
+
+          '<span class="status-num status-notworking">' +
+
+            r.notWorking +
+
+          '</span>' +
+
+        '</td>' +
+
+
+        /* REPAIR */
+
+        '<td>' +
+
+          '<span class="status-num status-repair">' +
+
+            r.repair +
+
+          '</span>' +
+
+        '</td>' +
+
+
+        /* DAMAGED */
+
+        '<td>' +
+
+          '<span class="status-num status-damaged">' +
+
+            r.damaged +
+
+          '</span>' +
+
+        '</td>';
+
+
+      tbody.appendChild(
+        tr
+      );
 
     }
+  );
 
-    return String(value)
-        .replace(/&/g,"&amp;")
-        .replace(/</g,"&lt;")
-        .replace(/>/g,"&gt;")
-        .replace(/"/g,"&quot;")
-        .replace(/'/g,"&#039;");
+
+  updateKPI(
+    data
+  );
+
+}
+
+
+/* =========================================================
+   NORMALIZE SUMMARY
+========================================================= */
+
+function normalizeSummary(
+  r
+){
+
+  return {
+
+    hardwareType:
+      r.hardwareType ||
+      r.HARDWARE_TYPE ||
+      r["Hardware Type"] ||
+      "",
+
+    total:
+      Number(
+        r.total ||
+        r.Total ||
+        0
+      ),
+
+    working:
+      Number(
+        r.working ||
+        r.Working ||
+        0
+      ),
+
+    notWorking:
+      Number(
+        r.notWorking ||
+        r.NotWorking ||
+        0
+      ),
+
+    repair:
+      Number(
+        r.repair ||
+        r.Repair ||
+        0
+      ),
+
+    damaged:
+      Number(
+        r.damaged ||
+        r.Damaged ||
+        0
+      )
+
+  };
+
+}
+
+
+/* =========================================================
+   KPI
+========================================================= */
+
+function updateKPI(
+  data
+){
+
+  var total = 0;
+
+  var working = 0;
+
+  var notWorking = 0;
+
+  var repair = 0;
+
+  var damaged = 0;
+
+
+  for(
+    var i=0;
+    i<data.length;
+    i++
+  ){
+
+    var r =
+      normalizeSummary(
+        data[i]
+      );
+
+
+    total += r.total;
+
+    working += r.working;
+
+    notWorking += r.notWorking;
+
+    repair += r.repair;
+
+    damaged += r.damaged;
+
+  }
+
+
+  document.getElementById(
+    "kpiTotal"
+  ).innerText =
+    total;
+
+
+  document.getElementById(
+    "kpiWorking"
+  ).innerText =
+    working;
+
+
+  document.getElementById(
+    "kpiNotWorking"
+  ).innerText =
+    notWorking;
+
+
+  document.getElementById(
+    "kpiRepair"
+  ).innerText =
+    repair;
+
+
+  document.getElementById(
+    "kpiDamaged"
+  ).innerText =
+    damaged;
+
+
+  document.getElementById(
+    "typePill"
+  ).innerText =
+    HARDWARE_TYPES.length +
+    " Hardware Types";
+
+
+  document.getElementById(
+    "visibleCount"
+  ).innerText =
+    data.length +
+    " hardware types";
+
+}
+
+
+/* =========================================================
+   SEARCH
+========================================================= */
+
+function filterTypes(){
+
+  var q =
+    String(
+      document.getElementById(
+        "typeSearch"
+      ).value || ""
+    )
+    .trim()
+    .toLowerCase();
+
+
+  visibleHardwareData =
+    hardwareData.filter(
+      function(item){
+
+        var name =
+          String(
+            normalizeSummary(
+              item
+            ).hardwareType
+          )
+          .toLowerCase();
+
+
+        return (
+          !q ||
+          name.indexOf(q) !== -1
+        );
+
+      }
+    );
+
+
+  renderHardwareSummary(
+    visibleHardwareData
+  );
+
+}
+
+
+function resetTypeSearch(){
+
+  document.getElementById(
+    "typeSearch"
+  ).value =
+    "";
+
+
+  visibleHardwareData =
+    hardwareData.slice();
+
+
+  renderHardwareSummary(
+    visibleHardwareData
+  );
+
+}
+
+
+/* =========================================================
+   SHOW TYPE RECORDS
+========================================================= */
+
+function showHardwareRecords(
+  hardwareType
+){
+
+  currentHardwareType =
+    String(
+      hardwareType || ""
+    ).trim();
+
+
+  var section =
+    document.getElementById(
+      "recordsSection"
+    );
+
+
+  section.style.display =
+    "block";
+
+
+  document.getElementById(
+    "recordsTitle"
+  ).innerText =
+
+    currentHardwareType +
+    " — Hardware Records";
+
+
+  document.getElementById(
+    "recordsSubtitle"
+  ).innerText =
+
+    "Hardware Type: " +
+    currentHardwareType +
+    " | Loading records...";
+
+
+  document.getElementById(
+    "recordsBody"
+  ).innerHTML =
+
+    '<tr>' +
+
+      '<td colspan="8" class="loading-cell">' +
+
+        '<i class="fa-solid fa-spinner fa-spin"></i>' +
+        ' Loading records...'
+
+      + '</td>' +
+
+    '</tr>';
+
+
+  document.getElementById(
+    "recordSearch"
+  ).value =
+    "";
+
+
+  document.getElementById(
+    "recordSearchBox"
+  ).style.display =
+    "none";
+
+
+  section.scrollIntoView({
+
+    behavior:"smooth",
+
+    block:"start"
+
+  });
+
+
+  fetch(
+
+    API_URL +
+    "?action=records&_=" +
+    new Date().getTime()
+
+  )
+
+  .then(
+    function(response){
+
+      return response.json();
+
+    }
+  )
+
+  .then(
+    function(result){
+
+      if(
+        !result ||
+        result.status !== "success"
+      ){
+
+        throw new Error(
+          result &&
+          result.message
+            ? result.message
+            : "Unable to load records"
+        );
+
+      }
+
+
+      var all =
+        result.data ||
+        result.records ||
+        [];
+
+
+      currentRecords =
+        all.filter(
+          function(item){
+
+            var r =
+              normalizeRecord(
+                item
+              );
+
+
+            return (
+              String(
+                r.hardwareType
+              )
+              .trim()
+              .toLowerCase()
+              ===
+              currentHardwareType
+                .trim()
+                .toLowerCase()
+            );
+
+          }
+        );
+
+
+      document.getElementById(
+        "recordsSubtitle"
+      ).innerText =
+
+        "Hardware Type: " +
+        currentHardwareType +
+        " | " +
+        currentRecords.length +
+        " Hardware Records";
+
+
+      renderRecords(
+        currentRecords
+      );
+
+    }
+  )
+
+  .catch(
+    function(error){
+
+      console.error(error);
+
+
+      currentRecords = [];
+
+
+      document.getElementById(
+        "recordsSubtitle"
+      ).innerText =
+        "Unable to load records";
+
+
+      document.getElementById(
+        "recordsBody"
+      ).innerHTML =
+
+        '<tr>' +
+
+          '<td colspan="8" class="loading-cell">' +
+
+            'Unable to load records.'
+
+          + '</td>' +
+
+        '</tr>';
+
+    }
+  );
+
+}
+
+
+/* =========================================================
+   NORMALIZE RECORD
+========================================================= */
+
+function normalizeRecord(
+  r
+){
+
+  if(
+    Array.isArray(r)
+  ){
+
+    return {
+
+      solId:r[2] || "",
+
+      branchName:r[3] || "",
+
+      hardwareType:r[4] || "",
+
+      make:r[6] || "",
+
+      model:r[7] || "",
+
+      serialNo:r[8] || "",
+
+      condition:r[9] || "",
+
+      remarks:r[10] || ""
+
+    };
+
+  }
+
+
+  return {
+
+    solId:
+      r.solId ||
+      r.SOL_ID ||
+      r["SOL ID"] ||
+      r.sol ||
+      "",
+
+    branchName:
+      r.branchName ||
+      r.BRANCH_NAME ||
+      r["Branch Name"] ||
+      r.branch ||
+      "",
+
+    hardwareType:
+      r.hardwareType ||
+      r.HARDWARE_TYPE ||
+      r["Hardware Type"] ||
+      r.type ||
+      "",
+
+    make:
+      r.make ||
+      r.Make ||
+      r.MAKE ||
+      "",
+
+    model:
+      r.model ||
+      r.Model ||
+      r.MODEL ||
+      "",
+
+    serialNo:
+      r.serialNo ||
+      r.SERIAL_NO ||
+      r["Serial No"] ||
+      r.serial ||
+      "",
+
+    condition:
+      r.condition ||
+      r.Condition ||
+      r.CONDITION ||
+      "",
+
+    remarks:
+      r.remarks ||
+      r.Remarks ||
+      r.REMARKS ||
+      ""
+
+  };
+
+}
+
+
+/* =========================================================
+   RENDER RECORDS
+========================================================= */
+
+function renderRecords(
+  records
+){
+
+  var tbody =
+    document.getElementById(
+      "recordsBody"
+    );
+
+
+  tbody.innerHTML =
+    "";
+
+
+  if(
+    !records ||
+    records.length === 0
+  ){
+
+    tbody.innerHTML =
+
+      '<tr>' +
+
+        '<td colspan="8" class="loading-cell">' +
+
+          'No hardware records found.'
+
+        + '</td>' +
+
+      '</tr>';
+
+    return;
+
+  }
+
+
+  records.forEach(
+    function(item){
+
+      var r =
+        normalizeRecord(
+          item
+        );
+
+
+      var tr =
+        document.createElement(
+          "tr"
+        );
+
+
+      tr.innerHTML =
+
+        '<td>' +
+
+          escapeHtml(
+            r.solId
+          ) +
+
+        '</td>' +
+
+
+        '<td>' +
+
+          escapeHtml(
+            r.branchName
+          ) +
+
+        '</td>' +
+
+
+        '<td>' +
+
+          escapeHtml(
+            r.hardwareType
+          ) +
+
+        '</td>' +
+
+
+        '<td>' +
+
+          escapeHtml(
+            r.make
+          ) +
+
+        '</td>' +
+
+
+        '<td>' +
+
+          escapeHtml(
+            r.model
+          ) +
+
+        '</td>' +
+
+
+        '<td>' +
+
+          '<span class="serial-no">' +
+
+            escapeHtml(
+              r.serialNo
+            ) +
+
+          '</span>' +
+
+        '</td>' +
+
+
+        '<td>' +
+
+          getConditionBadge(
+            r.condition
+          ) +
+
+        '</td>' +
+
+
+        '<td>' +
+
+          escapeHtml(
+            r.remarks
+          ) +
+
+        '</td>';
+
+
+      tbody.appendChild(
+        tr
+      );
+
+    }
+  );
+
+}
+
+
+/* =========================================================
+   RECORD SEARCH
+========================================================= */
+
+function toggleRecordSearch(){
+
+  var box =
+    document.getElementById(
+      "recordSearchBox"
+    );
+
+
+  if(
+    box.style.display === "" ||
+    box.style.display === "none"
+  ){
+
+    box.style.display =
+      "block";
+
+
+    document.getElementById(
+      "recordSearch"
+    ).focus();
+
+  }
+  else{
+
+    box.style.display =
+      "none";
+
+
+    document.getElementById(
+      "recordSearch"
+    ).value =
+      "";
+
+
+    renderRecords(
+      currentRecords
+    );
+
+  }
+
+}
+
+
+function searchRecords(){
+
+  var q =
+    String(
+      document.getElementById(
+        "recordSearch"
+      ).value || ""
+    )
+    .trim()
+    .toLowerCase();
+
+
+  if(!q){
+
+    renderRecords(
+      currentRecords
+    );
+
+    return;
+
+  }
+
+
+  var filtered =
+    currentRecords.filter(
+      function(item){
+
+        var r =
+          normalizeRecord(
+            item
+          );
+
+
+        var text =
+          [
+
+            r.solId,
+
+            r.branchName,
+
+            r.hardwareType,
+
+            r.make,
+
+            r.model,
+
+            r.serialNo,
+
+            r.condition,
+
+            r.remarks
+
+          ]
+          .join(" ")
+          .toLowerCase();
+
+
+        return (
+          text.indexOf(q) !== -1
+        );
+
+      }
+    );
+
+
+  renderRecords(
+    filtered
+  );
+
+}
+
+
+/* =========================================================
+   CLOSE RECORDS
+========================================================= */
+
+function closeRecords(){
+
+  document.getElementById(
+    "recordsSection"
+  ).style.display =
+    "none";
+
+}
+
+
+/* =========================================================
+   CONDITION BADGE
+========================================================= */
+
+function getConditionBadge(
+  condition
+){
+
+  var c =
+    String(
+      condition || ""
+    )
+    .trim()
+    .toUpperCase();
+
+
+  var cls =
+    "condition-default";
+
+
+  if(
+    c === "WORKING"
+  ){
+
+    cls =
+      "condition-working";
+
+  }
+  else if(
+    c === "NOT WORKING"
+  ){
+
+    cls =
+      "condition-notworking";
+
+  }
+  else if(
+    c === "UNDER REPAIR"
+  ){
+
+    cls =
+      "condition-repair";
+
+  }
+  else if(
+    c === "DAMAGED"
+  ){
+
+    cls =
+      "condition-damaged";
+
+  }
+
+
+  return (
+
+    '<span class="condition-badge ' +
+      cls +
+    '">' +
+
+      escapeHtml(
+        condition || "-"
+      ) +
+
+    '</span>'
+
+  );
+
+}
+
+
+/* =========================================================
+   HARDWARE ICON
+========================================================= */
+
+function getHardwareIcon(
+  type
+){
+
+  return (
+
+    HARDWARE_ICONS[type] ||
+    "fa-solid fa-desktop"
+
+  );
+
+}
+
+
+/* =========================================================
+   EXPORT SUMMARY
+========================================================= */
+
+function exportSummary(){
+
+  if(
+    !hardwareData.length
+  ){
+
+    showToast(
+      "No summary data available"
+    );
+
+    return;
+
+  }
+
+
+  var lines = [];
+
+
+  lines.push(
+
+    [
+      "Hardware Type",
+      "Total",
+      "Working",
+      "Not Working",
+      "Under Repair",
+      "Damaged"
+    ]
+    .join(",")
+
+  );
+
+
+  hardwareData.forEach(
+    function(item){
+
+      var r =
+        normalizeSummary(
+          item
+        );
+
+
+      lines.push(
+
+        [
+
+          csvValue(
+            r.hardwareType
+          ),
+
+          r.total,
+
+          r.working,
+
+          r.notWorking,
+
+          r.repair,
+
+          r.damaged
+
+        ]
+        .join(",")
+
+      );
+
+    }
+  );
+
+
+  downloadCSV(
+
+    lines.join("\n"),
+
+    "Hardware_Wise_Summary.csv"
+
+  );
+
+}
+
+
+/* =========================================================
+   EXPORT CURRENT RECORDS
+========================================================= */
+
+function exportCurrentRecords(){
+
+  if(
+    !currentRecords.length
+  ){
+
+    showToast(
+      "No records available"
+    );
+
+    return;
+
+  }
+
+
+  var lines = [];
+
+
+  lines.push(
+
+    [
+
+      "SOL ID",
+      "Branch",
+      "Hardware Type",
+      "Make",
+      "Model",
+      "Serial No",
+      "Condition",
+      "Remarks"
+
+    ]
+    .join(",")
+
+  );
+
+
+  currentRecords.forEach(
+    function(item){
+
+      var r =
+        normalizeRecord(
+          item
+        );
+
+
+      lines.push(
+
+        [
+
+          csvValue(
+            r.solId
+          ),
+
+          csvValue(
+            r.branchName
+          ),
+
+          csvValue(
+            r.hardwareType
+          ),
+
+          csvValue(
+            r.make
+          ),
+
+          csvValue(
+            r.model
+          ),
+
+          csvValue(
+            r.serialNo
+          ),
+
+          csvValue(
+            r.condition
+          ),
+
+          csvValue(
+            r.remarks
+          )
+
+        ]
+        .join(",")
+
+      );
+
+    }
+  );
+
+
+  downloadCSV(
+
+    lines.join("\n"),
+
+    currentHardwareType.replace(
+      /[^a-z0-9]+/gi,
+      "_"
+    ) +
+    "_Hardware_Records.csv"
+
+  );
+
+}
+
+
+/* =========================================================
+   PRINT RECORDS
+========================================================= */
+
+function printRecords(){
+
+  var section =
+    document.getElementById(
+      "recordsSection"
+    );
+
+
+  if(
+    section.style.display !== "block"
+  ){
+
+    return;
+
+  }
+
+
+  window.print();
+
+}
+
+
+/* =========================================================
+   CSV
+========================================================= */
+
+function csvValue(
+  value
+){
+
+  return '"' +
+
+    String(
+      value == null
+        ? ""
+        : value
+    )
+    .replace(
+      /"/g,
+      '""'
+    ) +
+
+    '"';
+
+}
+
+
+function downloadCSV(
+  content,
+  filename
+){
+
+  var blob =
+    new Blob(
+      [content],
+      {
+        type:
+          "text/csv;charset=utf-8;"
+      }
+    );
+
+
+  var url =
+    URL.createObjectURL(
+      blob
+    );
+
+
+  var a =
+    document.createElement(
+      "a"
+    );
+
+
+  a.href =
+    url;
+
+  a.download =
+    filename;
+
+
+  document.body.appendChild(
+    a
+  );
+
+
+  a.click();
+
+
+  document.body.removeChild(
+    a
+  );
+
+
+  URL.revokeObjectURL(
+    url
+  );
+
+
+  showToast(
+    "CSV downloaded"
+  );
+
+}
+
+
+/* =========================================================
+   ESCAPE
+========================================================= */
+
+function escapeHtml(
+  value
+){
+
+  return String(
+    value == null
+      ? ""
+      : value
+  )
+  .replace(
+    /&/g,
+    "&amp;"
+  )
+  .replace(
+    /</g,
+    "&lt;"
+  )
+  .replace(
+    />/g,
+    "&gt;"
+  )
+  .replace(
+    /"/g,
+    "&quot;"
+  )
+  .replace(
+    /'/g,
+    "&#039;"
+  );
+
+}
+
+
+function jsSafe(
+  value
+){
+
+  return String(
+    value == null
+      ? ""
+      : value
+  )
+  .replace(
+    /\\/g,
+    "\\\\"
+  )
+  .replace(
+    /'/g,
+    "\\'"
+  );
+
+}
+
+
+/* =========================================================
+   LOADER
+========================================================= */
+
+function showLoader(
+  show
+){
+
+  document.getElementById(
+    "pageLoader"
+  ).style.display =
+    show
+      ? "flex"
+      : "none";
+
+}
+
+
+/* =========================================================
+   TOAST
+========================================================= */
+
+function showToast(
+  message
+){
+
+  var toast =
+    document.getElementById(
+      "toast"
+    );
+
+
+  toast.innerText =
+    message;
+
+
+  toast.classList.add(
+    "show"
+  );
+
+
+  setTimeout(
+    function(){
+
+      toast.classList.remove(
+        "show"
+      );
+
+    },
+    2200
+  );
 
 }
 
