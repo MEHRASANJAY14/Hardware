@@ -1,1008 +1,1081 @@
-/* =========================================================
-   MPGB HARDWARE PORTAL - DYNAMIC SIDEBAR
-   Clean Version
-   ========================================================= */
-
 (function () {
 
-    "use strict";
+  "use strict";
+
+  /* =========================================================
+     MPGB HARDWARE PORTAL - DYNAMIC SIDEBAR
+     ========================================================= */
+
+  var CONFIG = {
+
+    brand: {
+      short: "MP",
+      title: "MPGB",
+      subtitle: "Hardware Portal"
+    },
+
+    menu: [
+
+      {
+        id: "dashboard",
+        title: "Dashboard",
+        icon: "⌂",
+        url: "index.html"
+      },
+
+      {
+        id: "add",
+        title: "Add Hardware",
+        icon: "＋",
+        url: "add-hardware.html"
+      },
+
+      {
+        id: "records",
+        title: "Hardware Records",
+        icon: "▣",
+        url: "records.html"
+      },
+
+      {
+        id: "edit",
+        title: "Edit / Update",
+        icon: "✎",
+        url: "edit-hardware.html"
+      },
+
+      {
+        id: "branch-summary",
+        title: "Branch Summary",
+        icon: "▥",
+        url: "branch-summary.html"
+      },
+
+      {
+        id: "hardware-summary",
+        title: "Hardware Summary",
+        icon: "◈",
+        url: "hardware-summary.html"
+      },
+
+      {
+        id: "reports",
+        title: "Reports",
+        icon: "▤",
+        url: "reports.html"
+      }
+
+    ]
+
+  };
 
 
-    /* ================= MENU ================= */
+  /* =========================================================
+     CURRENT PAGE
+     ========================================================= */
 
-    var MENU = [
+  var currentPage =
+    window.location.pathname
+      .split("/")
+      .pop()
+      .toLowerCase();
 
-        {
-            id: "dashboard",
-            title: "Dashboard",
-            icon: "⌂",
-            url: "index.html"
-        },
-
-        {
-            id: "add",
-            title: "Add Hardware",
-            icon: "＋",
-            url: "add-hardware.html"
-        },
-
-        {
-            id: "records",
-            title: "Hardware Records",
-            icon: "▣",
-            url: "records.html"
-        },
-
-        {
-            id: "edit",
-            title: "Edit / Update",
-            icon: "✎",
-            url: "edit-hardware.html"
-        },
-
-        {
-            id: "branch",
-            title: "Branch Summary",
-            icon: "▥",
-            url: "branch-summary.html"
-        },
-
-        {
-            id: "hardware",
-            title: "Hardware Summary",
-            icon: "◈",
-            url: "hardware-summary.html"
-        },
-
-        {
-            id: "reports",
-            title: "Reports",
-            icon: "▤",
-            url: "reports.html"
-        }
-
-    ];
+  if (!currentPage) {
+    currentPage = "index.html";
+  }
 
 
-    /* ================= CREATE SIDEBAR ================= */
+  /* =========================================================
+     REMOVE OLD SIDEBAR IF EXISTS
+     ========================================================= */
 
-    function createSidebar() {
+  var oldSidebar =
+    document.querySelector(".sidebar");
 
-        var old =
-            document.querySelector(
-                ".mpgb-sidebar"
-            );
-
-        if (old) {
-            old.remove();
-        }
+  if (oldSidebar) {
+    oldSidebar.remove();
+  }
 
 
-        var sidebar =
-            document.createElement(
-                "aside"
-            );
+  /* =========================================================
+     CREATE SIDEBAR
+     ========================================================= */
+
+  var sidebar =
+    document.createElement("aside");
+
+  sidebar.className = "mpgb-sidebar";
+
+  sidebar.innerHTML = `
+
+    <!-- BRAND -->
+
+    <div class="mpgb-brand"
+         id="mpgbBrand"
+         title="Click to collapse sidebar">
+
+      <div class="mpgb-logo">
+        ${CONFIG.brand.short}
+      </div>
+
+      <div class="mpgb-brand-text">
+
+        <div class="mpgb-brand-title">
+          ${CONFIG.brand.title}
+        </div>
+
+        <div class="mpgb-brand-subtitle">
+          ${CONFIG.brand.subtitle}
+        </div>
+
+      </div>
+
+      <div class="mpgb-collapse-icon">
+        ‹
+      </div>
+
+    </div>
 
 
-        sidebar.className =
-            "mpgb-sidebar";
+    <!-- MENU -->
 
+    <nav class="mpgb-menu">
 
-        sidebar.innerHTML = `
+      ${CONFIG.menu.map(function (item) {
 
-            <!-- BRAND -->
+        var active =
+          currentPage ===
+          item.url.toLowerCase()
+            ? "active"
+            : "";
 
-            <div class="sidebar-brand">
+        return `
 
-                <div class="brand-logo">
-                    MP
-                </div>
+          <a
+            href="${item.url}"
+            class="mpgb-menu-item ${active}"
+            data-page="${item.url}"
+            title="${item.title}"
+          >
 
-                <div class="brand-name">
+            <span class="mpgb-menu-icon">
+              ${item.icon}
+            </span>
 
-                    <strong>
-                        MPGB
-                    </strong>
+            <span class="mpgb-menu-text">
+              ${item.title}
+            </span>
 
-                    <small>
-                        Hardware Management
-                    </small>
+            <span class="mpgb-active-arrow">
+              ›
+            </span>
 
-                </div>
-
-            </div>
-
-
-            <!-- MENU TITLE -->
-
-            <div class="menu-title">
-                MAIN MENU
-            </div>
-
-
-            <!-- MENU -->
-
-            <nav
-                class="mpgb-menu"
-                id="mpgbMenu">
-
-            </nav>
-
-
-            <!-- BOTTOM -->
-
-            <div class="sidebar-footer">
-
-                <div class="portal-status">
-
-                    <span class="status-dot"></span>
-
-                    <span>
-                        MPGB Portal
-                    </span>
-
-                </div>
-
-            </div>
+          </a>
 
         `;
 
+      }).join("")}
 
-        document.body.prepend(
-            sidebar
+    </nav>
+
+  `;
+
+
+  /* =========================================================
+     INSERT SIDEBAR
+     ========================================================= */
+
+  document.body.insertBefore(
+    sidebar,
+    document.body.firstChild
+  );
+
+
+  /* =========================================================
+     CSS
+     ========================================================= */
+
+  var style =
+    document.createElement("style");
+
+  style.id = "mpgb-sidebar-style";
+
+  style.textContent = `
+
+    /* =====================================================
+       RESET
+       ===================================================== */
+
+    .mpgb-sidebar,
+    .mpgb-sidebar * {
+      box-sizing: border-box;
+    }
+
+
+    /* =====================================================
+       SIDEBAR
+       ===================================================== */
+
+    .mpgb-sidebar {
+
+      position: fixed;
+
+      left: 0;
+      top: 0;
+
+      width: 260px;
+      height: 100vh;
+
+      background:
+        linear-gradient(
+          180deg,
+          #005b2a 0%,
+          #006633 48%,
+          #004c25 100%
         );
 
+      color: #ffffff;
 
-        createMenu();
+      z-index: 99999;
 
-        addStyles();
+      display: flex;
 
-        setupSidebar();
+      flex-direction: column;
 
-    }
+      box-shadow:
+        5px 0 25px rgba(0,0,0,.12);
 
+      transition:
+        width .28s ease,
+        transform .28s ease;
 
-    /* ================= CREATE MENU ================= */
-
-    function createMenu() {
-
-        var menu =
-            document.getElementById(
-                "mpgbMenu"
-            );
-
-
-        if (!menu) {
-            return;
-        }
-
-
-        var currentPage =
-            getCurrentPage();
-
-
-        MENU.forEach(
-            function (item) {
-
-                var link =
-                    document.createElement(
-                        "a"
-                    );
-
-
-                link.href =
-                    item.url;
-
-
-                link.className =
-                    "mpgb-menu-item";
-
-
-                link.setAttribute(
-                    "data-page",
-                    item.id
-                );
-
-
-                link.setAttribute(
-                    "title",
-                    item.title
-                );
-
-
-                if (
-                    currentPage ===
-                    item.url.toLowerCase()
-                ) {
-
-                    link.classList.add(
-                        "active"
-                    );
-
-                }
-
-
-                link.innerHTML = `
-
-                    <span class="menu-icon">
-                        ${item.icon}
-                    </span>
-
-                    <span class="menu-label">
-                        ${item.title}
-                    </span>
-
-                    <span class="menu-arrow">
-                        ›
-                    </span>
-
-                `;
-
-
-                menu.appendChild(
-                    link
-                );
-
-            }
-        );
-
-    }
-
-
-    /* ================= CURRENT PAGE ================= */
-
-    function getCurrentPage() {
-
-        var page =
-            window.location.pathname
-            .split("/")
-            .pop()
-            .toLowerCase();
-
-
-        if (!page) {
-            page = "index.html";
-        }
-
-
-        return page;
-
-    }
-
-
-    /* ================= SIDEBAR SETUP ================= */
-
-    function setupSidebar() {
-
-        /*
-         * Restore collapsed state
-         */
-
-        var saved =
-            localStorage.getItem(
-                "mpgb_sidebar_collapsed"
-            );
-
-
-        if (
-            saved === "true" &&
-            window.innerWidth > 800
-        ) {
-
-            document.body.classList.add(
-                "sidebar-collapsed"
-            );
-
-        }
-
-
-        /*
-         * Double click / mobile
-         */
-
-        var sidebar =
-            document.querySelector(
-                ".mpgb-sidebar"
-            );
-
-
-        if (!sidebar) {
-            return;
-        }
-
-
-        /*
-         * Desktop toggle
-         * Click brand logo
-         */
-
-        var logo =
-            sidebar.querySelector(
-                ".brand-logo"
-            );
-
-
-        if (logo) {
-
-            logo.addEventListener(
-                "click",
-                function () {
-
-                    if (
-                        window.innerWidth <= 800
-                    ) {
-
-                        return;
-
-                    }
-
-
-                    document.body.classList.toggle(
-                        "sidebar-collapsed"
-                    );
-
-
-                    var collapsed =
-                        document.body.classList.contains(
-                            "sidebar-collapsed"
-                        );
-
-
-                    localStorage.setItem(
-                        "mpgb_sidebar_collapsed",
-                        collapsed
-                    );
-
-                }
-            );
-
-        }
+      overflow: hidden;
 
     }
 
 
     /* =====================================================
-       CSS
+       BRAND
        ===================================================== */
 
-    function addStyles() {
+    .mpgb-brand {
 
-        if (
-            document.getElementById(
-                "mpgbSidebarCSS"
-            )
-        ) {
+      height: 82px;
 
-            return;
+      min-height: 82px;
 
-        }
+      display: flex;
 
+      align-items: center;
 
-        var style =
-            document.createElement(
-                "style"
-            );
+      padding: 14px 16px;
 
+      border-bottom:
+        1px solid rgba(255,255,255,.13);
 
-        style.id =
-            "mpgbSidebarCSS";
+      cursor: pointer;
 
+      user-select: none;
 
-        style.innerHTML = `
-
-
-        /* ==========================================
-           SIDEBAR
-        ========================================== */
-
-        .mpgb-sidebar {
-
-            position:fixed;
-
-            left:0;
-            top:0;
-
-            width:255px;
-            height:100vh;
-
-            background:
-                linear-gradient(
-                    180deg,
-                    #004d00 0%,
-                    #006400 50%,
-                    #005500 100%
-                );
-
-            color:#fff;
-
-            padding:20px 13px;
-
-            z-index:9999;
-
-            display:flex;
-
-            flex-direction:column;
-
-            box-shadow:
-                4px 0 22px
-                rgba(0,0,0,.14);
-
-            transition:
-                width .3s ease;
-
-        }
-
-
-        /* ==========================================
-           BRAND
-        ========================================== */
-
-        .sidebar-brand {
-
-            display:flex;
-
-            align-items:center;
-
-            gap:11px;
-
-            padding:
-                3px 7px 20px;
-
-        }
-
-
-        .brand-logo {
-
-            width:45px;
-            height:45px;
-
-            flex-shrink:0;
-
-            border-radius:13px;
-
-            background:
-                linear-gradient(
-                    135deg,
-                    #fff,
-                    #dff6e6
-                );
-
-            color:#006400;
-
-            display:flex;
-
-            align-items:center;
-
-            justify-content:center;
-
-            font-size:15px;
-
-            font-weight:900;
-
-            cursor:pointer;
-
-            box-shadow:
-                0 6px 15px
-                rgba(0,0,0,.15);
-
-            transition:.25s;
-
-        }
-
-
-        .brand-logo:hover {
-
-            transform:
-                scale(1.06)
-                rotate(-2deg);
-
-        }
-
-
-        .brand-name strong {
-
-            display:block;
-
-            font-size:19px;
-
-            letter-spacing:.5px;
-
-        }
-
-
-        .brand-name small {
-
-            display:block;
-
-            font-size:9px;
-
-            color:
-                rgba(255,255,255,.65);
-
-            margin-top:3px;
-
-        }
-
-
-        /* ==========================================
-           MENU TITLE
-        ========================================== */
-
-        .menu-title {
-
-            padding:
-                4px 13px 9px;
-
-            font-size:9px;
-
-            letter-spacing:1.6px;
-
-            color:
-                rgba(255,255,255,.48);
-
-        }
-
-
-        /* ==========================================
-           MENU
-        ========================================== */
-
-        .mpgb-menu {
-
-            display:flex;
-
-            flex-direction:column;
-
-            gap:4px;
-
-            overflow-y:auto;
-
-            padding:
-                0 2px;
-
-        }
-
-
-        .mpgb-menu::-webkit-scrollbar {
-
-            width:3px;
-
-        }
-
-
-        .mpgb-menu::-webkit-scrollbar-thumb {
-
-            background:
-                rgba(255,255,255,.2);
-
-            border-radius:10px;
-
-        }
-
-
-        .mpgb-menu-item {
-
-            position:relative;
-
-            display:flex;
-
-            align-items:center;
-
-            gap:12px;
-
-            min-height:47px;
-
-            padding:
-                8px 11px;
-
-            border-radius:11px;
-
-            color:
-                rgba(255,255,255,.80);
-
-            text-decoration:none;
-
-            font-size:13px;
-
-            transition:
-                all .2s ease;
-
-        }
-
-
-        .mpgb-menu-item:hover {
-
-            color:#fff;
-
-            background:
-                rgba(255,255,255,.10);
-
-            transform:
-                translateX(3px);
-
-        }
-
-
-        /* ==========================================
-           ACTIVE
-        ========================================== */
-
-        .mpgb-menu-item.active {
-
-            color:#fff;
-
-            background:
-                linear-gradient(
-                    90deg,
-                    #008c45,
-                    #007c3d
-                );
-
-            box-shadow:
-                0 5px 15px
-                rgba(0,0,0,.13);
-
-        }
-
-
-        .mpgb-menu-item.active::before {
-
-            content:"";
-
-            position:absolute;
-
-            left:0;
-
-            top:8px;
-
-            bottom:8px;
-
-            width:4px;
-
-            border-radius:
-                0 5px 5px 0;
-
-            background:#fff;
-
-        }
-
-
-        /* ==========================================
-           ICON
-        ========================================== */
-
-        .menu-icon {
-
-            width:34px;
-            height:34px;
-
-            flex-shrink:0;
-
-            border-radius:9px;
-
-            display:flex;
-
-            align-items:center;
-
-            justify-content:center;
-
-            background:
-                rgba(255,255,255,.08);
-
-            font-size:17px;
-
-            transition:.2s;
-
-        }
-
-
-        .mpgb-menu-item:hover
-        .menu-icon {
-
-            background:
-                rgba(255,255,255,.14);
-
-        }
-
-
-        .mpgb-menu-item.active
-        .menu-icon {
-
-            background:
-                rgba(255,255,255,.18);
-
-        }
-
-
-        /* ==========================================
-           LABEL
-        ========================================== */
-
-        .menu-label {
-
-            flex:1;
-
-            white-space:nowrap;
-
-            overflow:hidden;
-
-            text-overflow:ellipsis;
-
-        }
-
-
-        /* ==========================================
-           ARROW
-        ========================================== */
-
-        .menu-arrow {
-
-            font-size:20px;
-
-            opacity:.3;
-
-            transition:.2s;
-
-        }
-
-
-        .mpgb-menu-item:hover
-        .menu-arrow {
-
-            opacity:.9;
-
-            transform:
-                translateX(2px);
-
-        }
-
-
-        /* ==========================================
-           FOOTER
-        ========================================== */
-
-        .sidebar-footer {
-
-            margin-top:auto;
-
-            padding-top:14px;
-
-        }
-
-
-        .portal-status {
-
-            display:flex;
-
-            align-items:center;
-
-            gap:9px;
-
-            padding:
-                11px 12px;
-
-            border-radius:10px;
-
-            background:
-                rgba(255,255,255,.07);
-
-            border:
-                1px solid
-                rgba(255,255,255,.06);
-
-            font-size:10px;
-
-            color:
-                rgba(255,255,255,.75);
-
-        }
-
-
-        .status-dot {
-
-            width:7px;
-            height:7px;
-
-            border-radius:50%;
-
-            background:#48e879;
-
-            box-shadow:
-                0 0 8px
-                rgba(72,232,121,.8);
-
-        }
-
-
-        /* ==========================================
-           MAIN CONTENT
-        ========================================== */
-
-        .main {
-
-            margin-left:255px;
-
-            transition:
-                margin-left .3s ease;
-
-        }
-
-
-        body.sidebar-collapsed
-        .main {
-
-            margin-left:78px;
-
-        }
-
-
-        /* ==========================================
-           COLLAPSED
-        ========================================== */
-
-        body.sidebar-collapsed
-        .mpgb-sidebar {
-
-            width:78px;
-
-        }
-
-
-        body.sidebar-collapsed
-        .brand-name,
-
-        body.sidebar-collapsed
-        .menu-title,
-
-        body.sidebar-collapsed
-        .menu-label,
-
-        body.sidebar-collapsed
-        .menu-arrow,
-
-        body.sidebar-collapsed
-        .portal-status span:not(.status-dot) {
-
-            display:none;
-
-        }
-
-
-        body.sidebar-collapsed
-        .sidebar-brand {
-
-            justify-content:center;
-
-        }
-
-
-        body.sidebar-collapsed
-        .mpgb-menu-item {
-
-            justify-content:center;
-
-            padding:
-                7px;
-
-        }
-
-
-        body.sidebar-collapsed
-        .menu-icon {
-
-            width:40px;
-            height:40px;
-
-        }
-
-
-        body.sidebar-collapsed
-        .portal-status {
-
-            justify-content:center;
-
-            padding:12px 5px;
-
-        }
-
-
-        /* ==========================================
-           MOBILE
-        ========================================== */
-
-        @media(max-width:800px){
-
-            .mpgb-sidebar {
-
-                width:72px;
-
-                padding:
-                    15px 8px;
-
-            }
-
-
-            .brand-name,
-            .menu-title,
-            .menu-label,
-            .menu-arrow,
-            .portal-status span:not(.status-dot) {
-
-                display:none;
-
-            }
-
-
-            .sidebar-brand {
-
-                justify-content:center;
-
-                padding:
-                    3px 0 20px;
-
-            }
-
-
-            .mpgb-menu-item {
-
-                justify-content:center;
-
-                padding:7px;
-
-            }
-
-
-            .menu-icon {
-
-                width:42px;
-                height:42px;
-
-            }
-
-
-            .portal-status {
-
-                justify-content:center;
-
-            }
-
-
-            .main {
-
-                margin-left:72px;
-
-            }
-
-        }
-
-        `;
-
-
-        document.head.appendChild(
-            style
-        );
+      position: relative;
 
     }
 
 
-    /* ================= INIT ================= */
+    .mpgb-logo {
+
+      width: 48px;
+      height: 48px;
+
+      min-width: 48px;
+
+      border-radius: 14px;
+
+      display: flex;
+
+      align-items: center;
+      justify-content: center;
+
+      background: #ffffff;
+
+      color: #006633;
+
+      font-size: 17px;
+
+      font-weight: 800;
+
+      letter-spacing: .5px;
+
+      box-shadow:
+        0 5px 15px rgba(0,0,0,.18);
+
+      transition:
+        transform .25s ease;
+
+    }
+
+
+    .mpgb-brand:hover .mpgb-logo {
+
+      transform:
+        rotate(-4deg)
+        scale(1.04);
+
+    }
+
+
+    .mpgb-brand-text {
+
+      margin-left: 13px;
+
+      white-space: nowrap;
+
+      overflow: hidden;
+
+      transition:
+        opacity .2s ease,
+        width .25s ease;
+
+    }
+
+
+    .mpgb-brand-title {
+
+      font-size: 19px;
+
+      font-weight: 800;
+
+      letter-spacing: .5px;
+
+    }
+
+
+    .mpgb-brand-subtitle {
+
+      font-size: 11px;
+
+      opacity: .72;
+
+      margin-top: 4px;
+
+    }
+
+
+    .mpgb-collapse-icon {
+
+      margin-left: auto;
+
+      width: 26px;
+      height: 26px;
+
+      border-radius: 7px;
+
+      display: flex;
+
+      align-items: center;
+      justify-content: center;
+
+      font-size: 22px;
+
+      background:
+        rgba(255,255,255,.10);
+
+      opacity: .7;
+
+      transition:
+        transform .25s ease,
+        opacity .2s ease;
+
+    }
+
+
+    .mpgb-brand:hover
+    .mpgb-collapse-icon {
+
+      opacity: 1;
+
+    }
+
+
+    /* =====================================================
+       MENU
+       ===================================================== */
+
+    .mpgb-menu {
+
+      padding: 18px 12px;
+
+      display: flex;
+
+      flex-direction: column;
+
+      gap: 6px;
+
+      overflow-y: auto;
+
+      overflow-x: hidden;
+
+      flex: 1;
+
+    }
+
+
+    .mpgb-menu::-webkit-scrollbar {
+
+      width: 4px;
+
+    }
+
+
+    .mpgb-menu::-webkit-scrollbar-thumb {
+
+      background:
+        rgba(255,255,255,.20);
+
+      border-radius: 10px;
+
+    }
+
+
+    /* =====================================================
+       MENU ITEM
+       ===================================================== */
+
+    .mpgb-menu-item {
+
+      position: relative;
+
+      height: 50px;
+
+      min-height: 50px;
+
+      display: flex;
+
+      align-items: center;
+
+      padding: 0 12px;
+
+      border-radius: 12px;
+
+      color:
+        rgba(255,255,255,.82);
+
+      text-decoration: none;
+
+      transition:
+        background .2s ease,
+        color .2s ease,
+        transform .2s ease,
+        box-shadow .2s ease;
+
+    }
+
+
+    .mpgb-menu-item:hover {
+
+      color: #ffffff;
+
+      background:
+        rgba(255,255,255,.10);
+
+      transform:
+        translateX(3px);
+
+    }
+
+
+    /* =====================================================
+       ICON
+       ===================================================== */
+
+    .mpgb-menu-icon {
+
+      width: 34px;
+      height: 34px;
+
+      min-width: 34px;
+
+      border-radius: 9px;
+
+      display: flex;
+
+      align-items: center;
+      justify-content: center;
+
+      font-size: 18px;
+
+      background:
+        rgba(255,255,255,.07);
+
+      transition:
+        background .2s ease,
+        transform .2s ease;
+
+    }
+
+
+    .mpgb-menu-item:hover
+    .mpgb-menu-icon {
+
+      background:
+        rgba(255,255,255,.15);
+
+      transform:
+        scale(1.05);
+
+    }
+
+
+    /* =====================================================
+       TEXT
+       ===================================================== */
+
+    .mpgb-menu-text {
+
+      margin-left: 11px;
+
+      font-size: 13.5px;
+
+      font-weight: 500;
+
+      white-space: nowrap;
+
+      overflow: hidden;
+
+      text-overflow: ellipsis;
+
+      transition:
+        opacity .2s ease;
+
+    }
+
+
+    /* =====================================================
+       ACTIVE ITEM
+       ===================================================== */
+
+    .mpgb-menu-item.active {
+
+      color: #006633;
+
+      background: #ffffff;
+
+      font-weight: 700;
+
+      box-shadow:
+        0 5px 15px rgba(0,0,0,.13);
+
+    }
+
+
+    .mpgb-menu-item.active
+    .mpgb-menu-icon {
+
+      color: #006633;
+
+      background:
+        #e6f4ec;
+
+    }
+
+
+    .mpgb-menu-item.active::before {
+
+      content: "";
+
+      position: absolute;
+
+      left: 0;
+
+      top: 8px;
+
+      bottom: 8px;
+
+      width: 4px;
+
+      border-radius:
+        0 5px 5px 0;
+
+      background:
+        #00a651;
+
+    }
+
+
+    .mpgb-active-arrow {
+
+      margin-left: auto;
+
+      font-size: 19px;
+
+      opacity: 0;
+
+      transform:
+        translateX(-5px);
+
+      transition:
+        opacity .2s ease,
+        transform .2s ease;
+
+    }
+
+
+    .mpgb-menu-item.active
+    .mpgb-active-arrow {
+
+      opacity: 1;
+
+      transform:
+        translateX(0);
+
+    }
+
+
+    /* =====================================================
+       COLLAPSED STATE
+       ===================================================== */
+
+    .mpgb-sidebar.collapsed {
+
+      width: 78px;
+
+    }
+
+
+    .mpgb-sidebar.collapsed
+    .mpgb-brand {
+
+      justify-content: center;
+
+      padding:
+        14px 10px;
+
+    }
+
+
+    .mpgb-sidebar.collapsed
+    .mpgb-brand-text {
+
+      width: 0;
+
+      opacity: 0;
+
+      margin: 0;
+
+    }
+
+
+    .mpgb-sidebar.collapsed
+    .mpgb-collapse-icon {
+
+      display: none;
+
+    }
+
+
+    .mpgb-sidebar.collapsed
+    .mpgb-menu {
+
+      padding:
+        18px 10px;
+
+    }
+
+
+    .mpgb-sidebar.collapsed
+    .mpgb-menu-item {
+
+      justify-content: center;
+
+      padding: 0;
+
+    }
+
+
+    .mpgb-sidebar.collapsed
+    .mpgb-menu-text {
+
+      width: 0;
+
+      opacity: 0;
+
+      margin: 0;
+
+    }
+
+
+    .mpgb-sidebar.collapsed
+    .mpgb-active-arrow {
+
+      display: none;
+
+    }
+
+
+    .mpgb-sidebar.collapsed
+    .mpgb-menu-item:hover {
+
+      transform:
+        translateX(0);
+
+    }
+
+
+    .mpgb-sidebar.collapsed
+    .mpgb-menu-item::after {
+
+      content:
+        attr(title);
+
+      position: absolute;
+
+      left: 67px;
+
+      top: 50%;
+
+      transform:
+        translateY(-50%)
+        translateX(-5px);
+
+      background:
+        #1f2937;
+
+      color:
+        #ffffff;
+
+      padding:
+        7px 10px;
+
+      border-radius: 7px;
+
+      font-size: 12px;
+
+      white-space: nowrap;
+
+      opacity: 0;
+
+      pointer-events: none;
+
+      transition:
+        opacity .15s ease,
+        transform .15s ease;
+
+      box-shadow:
+        0 5px 15px rgba(0,0,0,.18);
+
+    }
+
+
+    .mpgb-sidebar.collapsed
+    .mpgb-menu-item:hover::after {
+
+      opacity: 1;
+
+      transform:
+        translateY(-50%)
+        translateX(0);
+
+    }
+
+
+    /* =====================================================
+       MAIN CONTENT
+       ===================================================== */
+
+    body {
+
+      --mpgb-sidebar-width: 260px;
+
+    }
+
+
+    .main {
+
+      margin-left:
+        var(--mpgb-sidebar-width);
+
+      transition:
+        margin-left .28s ease;
+
+    }
+
+
+    body.mpgb-sidebar-collapsed {
+
+      --mpgb-sidebar-width: 78px;
+
+    }
+
+
+    /* =====================================================
+       MOBILE
+       ===================================================== */
+
+    @media(max-width:900px) {
+
+      .mpgb-sidebar {
+
+        width: 72px;
+
+      }
+
+
+      .mpgb-brand {
+
+        justify-content: center;
+
+        padding:
+          14px 8px;
+
+      }
+
+
+      .mpgb-brand-text {
+
+        width: 0;
+
+        opacity: 0;
+
+        margin: 0;
+
+      }
+
+
+      .mpgb-collapse-icon {
+
+        display: none;
+
+      }
+
+
+      .mpgb-menu {
+
+        padding:
+          18px 8px;
+
+      }
+
+
+      .mpgb-menu-item {
+
+        justify-content: center;
+
+        padding: 0;
+
+      }
+
+
+      .mpgb-menu-text {
+
+        width: 0;
+
+        opacity: 0;
+
+        margin: 0;
+
+      }
+
+
+      .mpgb-active-arrow {
+
+        display: none;
+
+      }
+
+
+      .main {
+
+        margin-left: 72px !important;
+
+      }
+
+    }
+
+
+    /* =====================================================
+       SMALL MOBILE
+       ===================================================== */
+
+    @media(max-width:480px) {
+
+      .mpgb-sidebar {
+
+        width: 64px;
+
+      }
+
+
+      .mpgb-logo {
+
+        width: 42px;
+
+        height: 42px;
+
+        min-width: 42px;
+
+        font-size: 15px;
+
+      }
+
+
+      .mpgb-menu {
+
+        padding:
+          15px 6px;
+
+      }
+
+
+      .mpgb-menu-item {
+
+        height: 46px;
+
+        min-height: 46px;
+
+      }
+
+
+      .mpgb-menu-icon {
+
+        width: 32px;
+
+        height: 32px;
+
+        min-width: 32px;
+
+      }
+
+
+      .main {
+
+        margin-left: 64px !important;
+
+      }
+
+    }
+
+  `;
+
+
+  document.head.appendChild(style);
+
+
+  /* =========================================================
+     COLLAPSE / EXPAND
+     ========================================================= */
+
+  var brand =
+    document.getElementById("mpgbBrand");
+
+
+  brand.addEventListener(
+    "click",
+    function () {
+
+      if (window.innerWidth <= 900) {
+        return;
+      }
+
+      var isCollapsed =
+        sidebar.classList.toggle("collapsed");
+
+      document.body.classList.toggle(
+        "mpgb-sidebar-collapsed",
+        isCollapsed
+      );
+
+
+      /* Save preference */
+
+      try {
+
+        localStorage.setItem(
+          "mpgbSidebarCollapsed",
+          isCollapsed
+            ? "1"
+            : "0"
+        );
+
+      } catch (e) {}
+
+    }
+  );
+
+
+  /* =========================================================
+     RESTORE COLLAPSED STATE
+     ========================================================= */
+
+  try {
 
     if (
-        document.readyState ===
-        "loading"
+      localStorage.getItem(
+        "mpgbSidebarCollapsed"
+      ) === "1" &&
+      window.innerWidth > 900
     ) {
 
-        document.addEventListener(
-            "DOMContentLoaded",
-            createSidebar
+      sidebar.classList.add(
+        "collapsed"
+      );
+
+      document.body.classList.add(
+        "mpgb-sidebar-collapsed"
+      );
+
+    }
+
+  } catch (e) {}
+
+
+  /* =========================================================
+     PAGE TRANSITION
+     ========================================================= */
+
+  var links =
+    sidebar.querySelectorAll(
+      ".mpgb-menu-item"
+    );
+
+
+  links.forEach(function (link) {
+
+    link.addEventListener(
+      "click",
+      function () {
+
+        link.classList.add(
+          "loading"
         );
 
-    }
-    else {
+      }
+    );
 
-        createSidebar();
+  });
+
+
+  /* =========================================================
+     HANDLE WINDOW RESIZE
+     ========================================================= */
+
+  window.addEventListener(
+    "resize",
+    function () {
+
+      if (window.innerWidth <= 900) {
+
+        sidebar.classList.remove(
+          "collapsed"
+        );
+
+        document.body.classList.remove(
+          "mpgb-sidebar-collapsed"
+        );
+
+      }
 
     }
+  );
 
 
 })();
