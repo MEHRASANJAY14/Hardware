@@ -314,6 +314,52 @@ textarea{
 }
 
 /* =========================================================
+   DUPLICATE SERIAL WARNING
+   ========================================================= */
+
+.duplicate-panel{
+  display:none;
+  margin-top:8px;
+  padding:12px 13px;
+  border-radius:10px;
+  border:1px solid #fecaca;
+  background:#fff5f5;
+  color:#991b1b;
+  font-size:11px;
+  line-height:1.5;
+}
+
+.duplicate-panel.show{
+  display:block;
+}
+
+.duplicate-panel.checking{
+  color:#1e40af;
+  background:#eff6ff;
+  border-color:#bfdbfe;
+}
+
+.duplicate-panel.safe{
+  color:#166534;
+  background:#f0fdf4;
+  border-color:#bbf7d0;
+}
+
+.duplicate-title{
+  font-size:12px;
+  font-weight:800;
+  margin-bottom:6px;
+}
+
+.duplicate-record{
+  margin-top:7px;
+  padding:8px 9px;
+  background:#fff;
+  border:1px solid #fecaca;
+  border-radius:8px;
+}
+
+/* =========================================================
    REMARKS COUNTER
    ========================================================= */
 
@@ -1077,6 +1123,8 @@ textarea{
                 autocomplete="off"
               >
 
+              <div id="duplicatePanel" class="duplicate-panel"></div>
+
             </div>
 
 
@@ -1372,10 +1420,343 @@ var conditionEl =
 var remarksEl =
   document.getElementById("remarks");
 
+var duplicatePanel =
+  document.getElementById("duplicatePanel");
+
+var duplicateCheckTimer = null;
+var recordsCache = null;
+var recordsCacheTime = 0;
+
+
+/* =========================================================
+   SERIAL DUPLICATE CHECK
+   ========================================================= */
+
+function normalizeSerial(value){
+
+  return String(value || "")
+    .replace(/\u00A0/g," ")
+    .trim()
+    .replace(/\s+/g," ")
+    .toUpperCase();
+
+}
+
+
+function escapeHtml(value){
+
+  return String(value || "")
+    .replace(/&/g,"&amp;")
+    .replace(/</g,"&lt;")
+    .replace(/>/g,"&gt;")
+    .replace(/"/g,"&quot;")
+    .replace(/'/g,"&#039;");
+
+}
+
+
+function clearDuplicatePanel(){
+
+  if(!duplicatePanel){
+    return;
+  }
+
+  duplicatePanel.className =
+    "duplicate-panel";
+
+  duplicatePanel.innerHTML =
+    "";
+
+}
+
+
+function showDuplicateChecking(){
+
+  if(!duplicatePanel){
+    return;
+  }
+
+  duplicatePanel.className =
+    "duplicate-panel show checking";
+
+  duplicatePanel.innerHTML =
+    '<div class="duplicate-title">🔎 Checking Serial Number...</div>' +
+    'Checking existing hardware records.';
+
+}
+
+
+function showDuplicateSafe(){
+
+  if(!duplicatePanel){
+    return;
+  }
+
+  duplicatePanel.className =
+    "duplicate-panel show safe";
+
+  duplicatePanel.innerHTML =
+    '<div class="duplicate-title">✓ Serial Number Available</div>' +
+    'No existing record was found with this serial number.';
+
+}
+
+
+function showDuplicateRecords(matches){
+
+  if(!duplicatePanel){
+    return;
+  }
+
+  var serial =
+    serialNoEl.value.trim();
+
+  var html =
+    '<div class="duplicate-title">⚠ Duplicate Serial Number Found</div>' +
+    '<div>Serial No <strong>' +
+    escapeHtml(serial) +
+    '</strong> already exists in ' +
+    matches.length +
+    ' record(s):</div>';
+
+  matches.forEach(function(item){
+
+    var makeModel =
+      [item.make || "", item.model || ""]
+        .filter(Boolean)
+        .join(" ");
+
+    html +=
+      '<div class="duplicate-record">' +
+        '<div><strong>SOL ID:</strong> ' +
+          escapeHtml(item.solId) +
+        '</div>' +
+        '<div><strong>Branch:</strong> ' +
+          escapeHtml(item.branchName) +
+        '</div>' +
+        '<div><strong>Hardware:</strong> ' +
+          escapeHtml(item.hardwareType) +
+        '</div>' +
+        '<div><strong>Make / Model:</strong> ' +
+          escapeHtml(makeModel || "—") +
+        '</div>' +
+        '<div><strong>Serial No:</strong> ' +
+          escapeHtml(item.serialNo) +
+        '</div>' +
+        '<div><strong>Condition:</strong> ' +
+          escapeHtml(item.condition) +
+        '</div>' +
+      '</div>';
+
+  });
+
+  duplicatePanel.className =
+    "duplicate-panel show";
+
+  duplicatePanel.innerHTML =
+    html;
+
+}
+
+
+function loadRecordsForDuplicateCheck(){
+
+  var now =
+    new Date().getTime();
+
+  /* Cache for 30 seconds so typing does not repeatedly
+     download the complete records list. */
+  if(
+    recordsCache &&
+    (now - recordsCacheTime) < 30000
+  ){
+
+    return Promise.resolve(
+      recordsCache
+    );
+
+  }
+
+  return fetch(
+    API_URL +
+    "?action=records&_=" +
+    now,
+    {
+      method:"GET",
+      cache:"no-store"
+    }
+  )
+  .then(function(response){
+
+    if(!response.ok){
+
+      throw new Error(
+        "Server returned HTTP " +
+        response.status
+      );
+
+    }
+
+    return response.text();
+
+  })
+  .then(function(text){
+
+    var result;
+
+    try{
+
+      result =
+        JSON.parse(text);
+
+    }
+    catch(error){
+
+      console.error(
+        "RECORDS RESPONSE:",
+        text
+      );
+
+      throw new Error(
+        "Invalid records response received."
+      );
+
+    }
+
+    if(!result.success){
+
+      throw new Error(
+        result.message ||
+        "Unable to load existing records."
+      );
+
+    }
+
+    recordsCache =
+      result.data ||
+      result.records ||
+      [];
+
+    recordsCacheTime =
+      new Date().getTime();
+
+    return recordsCache;
+
+  });
+
+}
+
+
+function checkDuplicateSerial(){
+
+  var serial =
+    normalizeSerial(
+      serialNoEl ?
+      serialNoEl.value :
+      ""
+    );
+
+  if(!serial){
+
+    clearDuplicatePanel();
+    return;
+
+  }
+
+  /* Ignore common placeholder values. */
+  if(
+    serial === "N/A" ||
+    serial === "NA" ||
+    serial === "-" ||
+    serial === "NONE"
+  ){
+
+    clearDuplicatePanel();
+    return;
+
+  }
+
+  showDuplicateChecking();
+
+  loadRecordsForDuplicateCheck()
+    .then(function(records){
+
+      /* User may have changed the serial while the request
+         was running. Check the latest value again. */
+      var latestSerial =
+        normalizeSerial(
+          serialNoEl.value
+        );
+
+      if(latestSerial !== serial){
+
+        return;
+
+      }
+
+      var matches =
+        (records || []).filter(function(item){
+
+          return normalizeSerial(item.serialNo) === serial;
+
+        });
+
+      if(matches.length > 0){
+
+        showDuplicateRecords(
+          matches
+        );
+
+      }
+      else{
+
+        showDuplicateSafe();
+
+      }
+
+    })
+    .catch(function(error){
+
+      console.error(
+        "DUPLICATE SERIAL CHECK ERROR:",
+        error
+      );
+
+      if(duplicatePanel){
+
+        duplicatePanel.className =
+          "duplicate-panel show checking";
+
+        duplicatePanel.innerHTML =
+          '<div class="duplicate-title">⚠ Duplicate check unavailable</div>' +
+          escapeHtml(error.message) +
+          '<br>Please check Hardware Records manually.';
+
+      }
+
+    });
+
+}
+
+
+function scheduleDuplicateSerialCheck(){
+
+  clearTimeout(
+    duplicateCheckTimer
+  );
+
+  duplicateCheckTimer =
+    setTimeout(
+      checkDuplicateSerial,
+      450
+    );
+
+}
+
 
 /* =========================================================
    NORMALIZE SOL
-   ========================================================= */
+   =========================================================
 
 function normalizeSOL(value){
 
@@ -1875,6 +2256,33 @@ function updatePreview(){
 
 
 /* =========================================================
+   SERIAL DUPLICATE CHECK EVENTS
+   ========================================================= */
+
+serialNoEl.addEventListener(
+  "input",
+  function(){
+
+    scheduleDuplicateSerialCheck();
+
+  }
+);
+
+serialNoEl.addEventListener(
+  "blur",
+  function(){
+
+    clearTimeout(
+      duplicateCheckTimer
+    );
+
+    checkDuplicateSerial();
+
+  }
+);
+
+
+/* =========================================================
    REMARKS COUNTER
    ========================================================= */
 
@@ -2136,6 +2544,16 @@ form.addEventListener(
         branchName.value =
           "";
 
+        clearTimeout(
+          duplicateCheckTimer
+        );
+
+        clearDuplicatePanel();
+
+        /* Refresh duplicate-check cache after saving. */
+        recordsCache = null;
+        recordsCacheTime = 0;
+
         if(charCount){
 
           charCount.textContent =
@@ -2205,6 +2623,12 @@ resetBtn.addEventListener(
       "";
 
     clearMessage();
+
+    clearTimeout(
+      duplicateCheckTimer
+    );
+
+    clearDuplicatePanel();
 
     if(charCount){
 
