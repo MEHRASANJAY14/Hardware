@@ -1,24 +1,1196 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+  <base target="_top">
+
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1">
+
+  <title>Hardware Inventory</title>
+
+
+  <style>
+
+    * {
+      box-sizing: border-box;
+    }
+
+
+    body {
+
+      margin: 0;
+
+      font-family:
+        Arial,
+        Helvetica,
+        sans-serif;
+
+      background: #f4f7f6;
+
+      color: #222;
+
+    }
+
+
+    /* HEADER */
+
+    .header {
+
+      background:
+        linear-gradient(
+          135deg,
+          #006633,
+          #00994d
+        );
+
+      color: white;
+
+      padding: 18px 25px;
+
+      box-shadow:
+        0 2px 8px
+        rgba(0,0,0,.15);
+
+    }
+
+
+    .header h1 {
+
+      margin: 0;
+
+      font-size: 24px;
+
+    }
+
+
+    .header p {
+
+      margin:
+        5px 0 0;
+
+      opacity: .9;
+
+      font-size: 13px;
+
+    }
+
+
+    /* CONTAINER */
+
+    .container {
+
+      max-width: 1200px;
+
+      margin:
+        25px auto;
+
+      padding:
+        0 15px;
+
+    }
+
+
+    /* CARDS */
+
+    .dashboard {
+
+      display: grid;
+
+      grid-template-columns:
+        repeat(
+          4,
+          1fr
+        );
+
+      gap: 15px;
+
+      margin-bottom: 20px;
+
+    }
+
+
+    .stat {
+
+      background: white;
+
+      border-radius: 10px;
+
+      padding: 18px;
+
+      box-shadow:
+        0 2px 10px
+        rgba(0,0,0,.08);
+
+    }
+
+
+    .stat-title {
+
+      font-size: 13px;
+
+      color: #777;
+
+      margin-bottom: 8px;
+
+    }
+
+
+    .stat-value {
+
+      font-size: 28px;
+
+      font-weight: bold;
+
+      color: #006633;
+
+    }
+
+
+    /* FORM CARD */
+
+    .card {
+
+      background: white;
+
+      border-radius: 12px;
+
+      padding: 25px;
+
+      box-shadow:
+        0 3px 15px
+        rgba(0,0,0,.08);
+
+      margin-bottom: 20px;
+
+    }
+
+
+    .card-title {
+
+      margin: 0 0 20px;
+
+      color: #006633;
+
+      font-size: 20px;
+
+    }
+
+
+    .form-grid {
+
+      display: grid;
+
+      grid-template-columns:
+        repeat(
+          2,
+          1fr
+        );
+
+      gap: 18px;
+
+    }
+
+
+    .form-group {
+
+      display: flex;
+
+      flex-direction: column;
+
+    }
+
+
+    .form-group.full {
+
+      grid-column:
+        1 / -1;
+
+    }
+
+
+    label {
+
+      font-size: 14px;
+
+      font-weight: 600;
+
+      margin-bottom: 7px;
+
+    }
+
+
+    input,
+    select,
+    textarea {
+
+      width: 100%;
+
+      padding: 11px 12px;
+
+      border:
+        1px solid #ccc;
+
+      border-radius: 7px;
+
+      font-size: 14px;
+
+      outline: none;
+
+    }
+
+
+    input:focus,
+    select:focus,
+    textarea:focus {
+
+      border-color:
+        #006633;
+
+      box-shadow:
+        0 0 0 2px
+        rgba(
+          0,
+          102,
+          51,
+          .08
+        );
+
+    }
+
+
+    textarea {
+
+      min-height: 90px;
+
+      resize: vertical;
+
+    }
+
+
+    .required {
+
+      color: red;
+
+    }
+
+
+    /* BUTTON */
+
+    .button-row {
+
+      margin-top: 22px;
+
+      display: flex;
+
+      gap: 10px;
+
+    }
+
+
+    button {
+
+      border: none;
+
+      border-radius: 7px;
+
+      padding:
+        12px 22px;
+
+      font-size: 14px;
+
+      font-weight: 600;
+
+      cursor: pointer;
+
+    }
+
+
+    .btn-save {
+
+      background: #006633;
+
+      color: white;
+
+    }
+
+
+    .btn-save:hover {
+
+      background: #004d26;
+
+    }
+
+
+    .btn-reset {
+
+      background: #777;
+
+      color: white;
+
+    }
+
+
+    .btn-reset:hover {
+
+      background: #555;
+
+    }
+
+
+    /* LOADING */
+
+    .loading {
+
+      display: none;
+
+      position: fixed;
+
+      top: 0;
+
+      left: 0;
+
+      right: 0;
+
+      bottom: 0;
+
+      background:
+        rgba(
+          0,
+          0,
+          0,
+          .45
+        );
+
+      z-index: 9999;
+
+      align-items: center;
+
+      justify-content: center;
+
+    }
+
+
+    .loading-box {
+
+      background: white;
+
+      padding: 25px 35px;
+
+      border-radius: 10px;
+
+      text-align: center;
+
+      box-shadow:
+        0 5px 30px
+        rgba(0,0,0,.3);
+
+    }
+
+
+    .spinner {
+
+      width: 35px;
+
+      height: 35px;
+
+      border:
+        4px solid #ddd;
+
+      border-top-color:
+        #006633;
+
+      border-radius: 50%;
+
+      animation:
+        spin 1s linear infinite;
+
+      margin:
+        0 auto 12px;
+
+    }
+
+
+    @keyframes spin {
+
+      to {
+        transform:
+          rotate(360deg);
+      }
+
+    }
+
+
+    /* TABLE */
+
+    .table-wrapper {
+
+      overflow-x: auto;
+
+    }
+
+
+    table {
+
+      width: 100%;
+
+      border-collapse:
+        collapse;
+
+      min-width: 950px;
+
+    }
+
+
+    th {
+
+      background: #006633;
+
+      color: white;
+
+      padding: 11px;
+
+      text-align: left;
+
+      font-size: 13px;
+
+      white-space: nowrap;
+
+    }
+
+
+    td {
+
+      padding: 10px;
+
+      border-bottom:
+        1px solid #eee;
+
+      font-size: 13px;
+
+      white-space: nowrap;
+
+    }
+
+
+    tr:hover td {
+
+      background: #f5faf7;
+
+    }
+
+
+    .badge {
+
+      display: inline-block;
+
+      padding:
+        4px 8px;
+
+      border-radius: 20px;
+
+      font-size: 11px;
+
+      font-weight: 600;
+
+    }
+
+
+    .working {
+
+      background: #dff5e6;
+
+      color: #176b32;
+
+    }
+
+
+    .not-working {
+
+      background: #ffe1e1;
+
+      color: #a00000;
+
+    }
+
+
+    .other {
+
+      background: #eee;
+
+      color: #555;
+
+    }
+
+
+    .empty {
+
+      text-align: center;
+
+      padding: 30px;
+
+      color: #888;
+
+    }
+
+
+    /* RESPONSIVE */
+
+    @media(max-width: 800px) {
+
+      .dashboard {
+
+        grid-template-columns:
+          repeat(
+            2,
+            1fr
+          );
+
+      }
+
+
+      .form-grid {
+
+        grid-template-columns:
+          1fr;
+
+      }
+
+
+      .form-group.full {
+
+        grid-column:
+          auto;
+
+      }
+
+    }
+
+
+    @media(max-width: 500px) {
+
+      .dashboard {
+
+        grid-template-columns:
+          1fr;
+
+      }
+
+
+      .header h1 {
+
+        font-size: 20px;
+
+      }
+
+
+      .card {
+
+        padding: 17px;
+
+      }
+
+    }
+
+  </style>
+
+</head>
+
+
+<body>
+
+
+<!-- HEADER -->
+
+<div class="header">
+
+  <h1>
+    Hardware Inventory Management
+  </h1>
+
+  <p>
+    One Hardware Item Entry at a Time
+  </p>
+
+</div>
+
+
+<div class="container">
+
+
+  <!-- DASHBOARD -->
+
+  <div class="dashboard">
+
+    <div class="stat">
+
+      <div class="stat-title">
+        Total Hardware
+      </div>
+
+      <div
+        class="stat-value"
+        id="totalHardware">
+        0
+      </div>
+
+    </div>
+
+
+    <div class="stat">
+
+      <div class="stat-title">
+        Working
+      </div>
+
+      <div
+        class="stat-value"
+        id="workingHardware">
+        0
+      </div>
+
+    </div>
+
+
+    <div class="stat">
+
+      <div class="stat-title">
+        Not Working
+      </div>
+
+      <div
+        class="stat-value"
+        id="notWorkingHardware">
+        0
+      </div>
+
+    </div>
+
+
+    <div class="stat">
+
+      <div class="stat-title">
+        Other
+      </div>
+
+      <div
+        class="stat-value"
+        id="otherHardware">
+        0
+      </div>
+
+    </div>
+
+  </div>
+
+
+
+  <!-- ENTRY FORM -->
+
+  <div class="card">
+
+    <h2 class="card-title">
+
+      Add Hardware
+
+    </h2>
+
+
+    <div class="form-grid">
+
+
+      <!-- SOL -->
+
+      <div class="form-group">
+
+        <label>
+
+          SOL ID
+          <span class="required">*</span>
+
+        </label>
+
+        <input
+          type="text"
+          id="solId"
+          placeholder="Enter SOL ID"
+          autocomplete="off">
+
+      </div>
+
+
+      <!-- BRANCH -->
+
+      <div class="form-group">
+
+        <label>
+
+          Branch Name
+          <span class="required">*</span>
+
+        </label>
+
+        <input
+          type="text"
+          id="branchName"
+          placeholder="Enter Branch Name"
+          autocomplete="off">
+
+      </div>
+
+
+      <!-- HARDWARE TYPE -->
+
+      <div class="form-group">
+
+        <label>
+
+          Hardware Type
+          <span class="required">*</span>
+
+        </label>
+
+        <select id="hardwareType">
+
+          <option value="">
+            Select Hardware Type
+          </option>
+
+          <option value="CPU">
+            CPU
+          </option>
+
+          <option value="Monitor">
+            Monitor
+          </option>
+
+          <option value="Passbook Printer">
+            Passbook Printer
+          </option>
+
+          <option value="Laser Printer">
+            Laser Printer
+          </option>
+
+          <option value="Scanner">
+            Scanner
+          </option>
+
+          <option value="CTS Machine">
+            CTS Machine
+          </option>
+
+          <option value="CCTV Monitor">
+            CCTV Monitor
+          </option>
+
+          <option value="UPS">
+            UPS
+          </option>
+
+          <option value="Other">
+            Other
+          </option>
+
+        </select>
+
+      </div>
+
+
+      <!-- SUB TYPE -->
+
+      <div class="form-group">
+
+        <label>
+          Hardware Sub Type
+        </label>
+
+        <input
+          type="text"
+          id="hardwareSubType"
+          placeholder="Example: Desktop / 24 inch">
+
+      </div>
+
+
+      <!-- MAKE -->
+
+      <div class="form-group">
+
+        <label>
+
+          Make
+          <span class="required">*</span>
+
+        </label>
+
+        <input
+          type="text"
+          id="make"
+          placeholder="Example: HP / Dell / Canon">
+
+      </div>
+
+
+      <!-- MODEL -->
+
+      <div class="form-group">
+
+        <label>
+
+          Model
+          <span class="required">*</span>
+
+        </label>
+
+        <input
+          type="text"
+          id="model"
+          placeholder="Enter Model">
+
+      </div>
+
+
+      <!-- SERIAL -->
+
+      <div class="form-group">
+
+        <label>
+
+          Serial No.
+          <span class="required">*</span>
+
+        </label>
+
+        <input
+          type="text"
+          id="serialNo"
+          placeholder="Enter Serial Number">
+
+      </div>
+
+
+      <!-- CONDITION -->
+
+      <div class="form-group">
+
+        <label>
+
+          Condition
+          <span class="required">*</span>
+
+        </label>
+
+        <select id="condition">
+
+          <option value="">
+            Select Condition
+          </option>
+
+          <option value="WORKING">
+            WORKING
+          </option>
+
+          <option value="NOT WORKING">
+            NOT WORKING
+          </option>
+
+          <option value="DAMAGED">
+            DAMAGED
+          </option>
+
+          <option value="UNDER REPAIR">
+            UNDER REPAIR
+          </option>
+
+          <option value="SCRAP">
+            SCRAP
+          </option>
+
+          <option value="OTHER">
+            OTHER
+          </option>
+
+        </select>
+
+      </div>
+
+
+      <!-- REMARKS -->
+
+      <div class="form-group full">
+
+        <label>
+          Remarks
+        </label>
+
+        <textarea
+          id="remarks"
+          placeholder="Enter remarks if required"></textarea>
+
+      </div>
+
+    </div>
+
+
+    <!-- BUTTONS -->
+
+    <div class="button-row">
+
+      <button
+        type="button"
+        class="btn-save"
+        onclick="saveHardware()">
+
+        💾 Save Hardware
+
+      </button>
+
+
+      <button
+        type="button"
+        class="btn-reset"
+        onclick="resetHardwareForm()">
+
+        ↻ Clear
+
+      </button>
+
+    </div>
+
+  </div>
+
+
+
+  <!-- RECENT HARDWARE -->
+
+  <div class="card">
+
+    <h2 class="card-title">
+
+      Recently Added Hardware
+
+    </h2>
+
+
+    <div class="table-wrapper">
+
+      <table>
+
+        <thead>
+
+          <tr>
+
+            <th>
+              Submission ID
+            </th>
+
+            <th>
+              SOL ID
+            </th>
+
+            <th>
+              Branch
+            </th>
+
+            <th>
+              Hardware Type
+            </th>
+
+            <th>
+              Sub Type
+            </th>
+
+            <th>
+              Make
+            </th>
+
+            <th>
+              Model
+            </th>
+
+            <th>
+              Serial No
+            </th>
+
+            <th>
+              Condition
+            </th>
+
+            <th>
+              Remarks
+            </th>
+
+          </tr>
+
+        </thead>
+
+        <tbody id="recentBody">
+
+          <tr>
+
+            <td
+              colspan="10"
+              class="empty">
+
+              Loading...
+
+            </td>
+
+          </tr>
+
+        </tbody>
+
+      </table>
+
+    </div>
+
+  </div>
+
+
+</div>
+
+
+
+<!-- LOADING -->
+
+<div
+  class="loading"
+  id="loading">
+
+  <div class="loading-box">
+
+    <div class="spinner"></div>
+
+    <div id="loadingText">
+      Saving hardware...
+    </div>
+
+  </div>
+
+</div>
+
+
+
+<script>
+
+
+/*
+====================================================
+LOADING
+====================================================
+*/
+
+function showLoading(message) {
+
+  document.getElementById(
+    "loadingText"
+  ).innerText =
+    message || "Please wait...";
+
+
+  document.getElementById(
+    "loading"
+  ).style.display =
+    "flex";
+
+}
+
+
+function hideLoading() {
+
+  document.getElementById(
+    "loading"
+  ).style.display =
+    "none";
+
+}
+
+
+
+/*
+====================================================
+SAVE HARDWARE
+====================================================
+ONE ITEM ONLY
+====================================================
+*/
+
 function saveHardware() {
 
   try {
 
+
     var solId =
       document.getElementById(
         "solId"
-      ).value;
+      ).value.trim();
 
 
     var branchName =
       document.getElementById(
         "branchName"
+      ).value.trim();
+
+
+    var hardwareType =
+      document.getElementById(
+        "hardwareType"
       ).value;
 
+
+    var hardwareSubType =
+      document.getElementById(
+        "hardwareSubType"
+      ).value.trim();
+
+
+    var make =
+      document.getElementById(
+        "make"
+      ).value.trim();
+
+
+    var model =
+      document.getElementById(
+        "model"
+      ).value.trim();
+
+
+    var serialNo =
+      document.getElementById(
+        "serialNo"
+      ).value.trim();
+
+
+    var condition =
+      document.getElementById(
+        "condition"
+      ).value;
+
+
+    var remarks =
+      document.getElementById(
+        "remarks"
+      ).value.trim();
+
+
+
+    /*
+     * VALIDATION
+     */
 
     if (!solId) {
 
       alert(
-        "Please select SOL ID."
+        "Please enter SOL ID."
       );
+
+      document.getElementById(
+        "solId"
+      ).focus();
 
       return;
 
@@ -28,26 +1200,22 @@ function saveHardware() {
     if (!branchName) {
 
       alert(
-        "Branch Name not found."
+        "Please enter Branch Name."
       );
+
+      document.getElementById(
+        "branchName"
+      ).focus();
 
       return;
 
     }
 
 
-    var cards =
-      document.querySelectorAll(
-        ".hardware-item"
-      );
-
-
-    if (
-      cards.length === 0
-    ) {
+    if (!hardwareType) {
 
       alert(
-        "Please add hardware."
+        "Please select Hardware Type."
       );
 
       return;
@@ -55,164 +1223,89 @@ function saveHardware() {
     }
 
 
-    var data = [];
+    if (!make) {
 
+      alert(
+        "Please enter Make."
+      );
 
-    for (
-      var i = 0;
-      i < cards.length;
-      i++
-    ) {
-
-      var card =
-        cards[i];
-
-
-      var hardwareType =
-        card.querySelector(
-          ".hardwareType"
-        ).value;
-
-
-      var hardwareSubType =
-        card.querySelector(
-          ".hardwareSubType"
-        ).value;
-
-
-      var make =
-        card.querySelector(
-          ".make"
-        ).value
-        .trim();
-
-
-      var model =
-        card.querySelector(
-          ".model"
-        ).value
-        .trim();
-
-
-      var serialNo =
-        card.querySelector(
-          ".serialNo"
-        ).value
-        .trim();
-
-
-      var condition =
-        card.querySelector(
-          ".condition"
-        ).value;
-
-
-      var remarks =
-        card.querySelector(
-          ".remarks"
-        ).value
-        .trim();
-
-
-      if (!hardwareType) {
-
-        alert(
-          "Please select Hardware Type for item #" +
-          (i + 1)
-        );
-
-        return;
-
-      }
-
-
-      if (!make) {
-
-        alert(
-          "Please enter Make for item #" +
-          (i + 1)
-        );
-
-        return;
-
-      }
-
-
-      if (!model) {
-
-        alert(
-          "Please enter Model for item #" +
-          (i + 1)
-        );
-
-        return;
-
-      }
-
-
-      if (!serialNo) {
-
-        alert(
-          "Please enter Serial No for item #" +
-          (i + 1)
-        );
-
-        return;
-
-      }
-
-
-      if (!condition) {
-
-        alert(
-          "Please select Condition for item #" +
-          (i + 1)
-        );
-
-        return;
-
-      }
-
-
-      data.push({
-
-        solId:
-          String(solId),
-
-        branchName:
-          String(branchName),
-
-        hardwareType:
-          String(hardwareType),
-
-        hardwareSubType:
-          String(
-            hardwareSubType || ""
-          ),
-
-        make:
-          String(make),
-
-        model:
-          String(model),
-
-        serialNo:
-          String(serialNo),
-
-        condition:
-          String(condition),
-
-        remarks:
-          String(remarks || "")
-
-      });
+      return;
 
     }
+
+
+    if (!model) {
+
+      alert(
+        "Please enter Model."
+      );
+
+      return;
+
+    }
+
+
+    if (!serialNo) {
+
+      alert(
+        "Please enter Serial No."
+      );
+
+      return;
+
+    }
+
+
+    if (!condition) {
+
+      alert(
+        "Please select Condition."
+      );
+
+      return;
+
+    }
+
 
 
     /*
-     * Convert the array to a simple JSON string.
-     * This is the important fix.
+     * ONE OBJECT
+     */
+
+    var data = {
+
+      solId:
+        solId,
+
+      branchName:
+        branchName,
+
+      hardwareType:
+        hardwareType,
+
+      hardwareSubType:
+        hardwareSubType,
+
+      make:
+        make,
+
+      model:
+        model,
+
+      serialNo:
+        serialNo,
+
+      condition:
+        condition,
+
+      remarks:
+        remarks
+
+    };
+
+
+    /*
+     * Convert to JSON
      */
 
     var jsonData =
@@ -221,17 +1314,34 @@ function saveHardware() {
       );
 
 
+    console.log(
+      "Sending:",
+      jsonData
+    );
+
+
     showLoading(
       "Saving hardware..."
     );
 
+
+    /*
+     * CALL APPS SCRIPT
+     */
 
     google.script.run
 
       .withSuccessHandler(
         function(result) {
 
+
           hideLoading();
+
+
+          console.log(
+            "Server Response:",
+            result
+          );
 
 
           if (
@@ -240,18 +1350,21 @@ function saveHardware() {
             "success"
           ) {
 
+
             alert(
 
               "✅ Hardware Saved Successfully\n\n" +
 
-              "Items: " +
-              result.count +
+              "Submission ID: " +
 
-              "\nSubmission ID: " +
               result.submissionId
 
             );
 
+
+            /*
+             * Clear form
+             */
 
             resetHardwareForm();
 
@@ -262,8 +1375,13 @@ function saveHardware() {
 
             loadDashboard();
 
+
+            loadRecentHardware();
+
+
           }
           else {
+
 
             alert(
 
@@ -272,21 +1390,32 @@ function saveHardware() {
               (
                 result &&
                 result.message
+
                   ? result.message
-                  : "Unknown error"
+
+                  : "Unknown server error."
               )
 
             );
 
           }
 
+
         }
+
       )
 
       .withFailureHandler(
         function(error) {
 
+
           hideLoading();
+
+
+          console.error(
+            "Server Error:",
+            error
+          );
 
 
           alert(
@@ -296,13 +1425,17 @@ function saveHardware() {
             (
               error &&
               error.message
+
                 ? error.message
+
                 : String(error)
             )
 
           );
 
+
         }
+
       )
 
       .saveHardwareBatch(
@@ -310,7 +1443,10 @@ function saveHardware() {
       );
 
 
-  } catch (error) {
+  }
+
+  catch (error) {
+
 
     hideLoading();
 
@@ -322,7 +1458,9 @@ function saveHardware() {
       (
         error &&
         error.message
+
           ? error.message
+
           : String(error)
       )
 
@@ -331,3 +1469,437 @@ function saveHardware() {
   }
 
 }
+
+
+
+/*
+====================================================
+RESET FORM
+====================================================
+*/
+
+function resetHardwareForm() {
+
+  document.getElementById(
+    "solId"
+  ).value = "";
+
+
+  document.getElementById(
+    "branchName"
+  ).value = "";
+
+
+  document.getElementById(
+    "hardwareType"
+  ).value = "";
+
+
+  document.getElementById(
+    "hardwareSubType"
+  ).value = "";
+
+
+  document.getElementById(
+    "make"
+  ).value = "";
+
+
+  document.getElementById(
+    "model"
+  ).value = "";
+
+
+  document.getElementById(
+    "serialNo"
+  ).value = "";
+
+
+  document.getElementById(
+    "condition"
+  ).value = "";
+
+
+  document.getElementById(
+    "remarks"
+  ).value = "";
+
+
+  document.getElementById(
+    "solId"
+  ).focus();
+
+}
+
+
+
+/*
+====================================================
+DASHBOARD
+====================================================
+*/
+
+function loadDashboard() {
+
+  google.script.run
+
+    .withSuccessHandler(
+      function(result) {
+
+
+        if (
+          !result ||
+          result.status !==
+          "success"
+        ) {
+
+          return;
+
+        }
+
+
+        var total =
+          result.total || 0;
+
+
+        var conditions =
+          result.conditions || {};
+
+
+        var working =
+          conditions["WORKING"] ||
+          0;
+
+
+        var notWorking =
+          conditions["NOT WORKING"] ||
+          0;
+
+
+        var other =
+          total -
+          working -
+          notWorking;
+
+
+        if (other < 0) {
+          other = 0;
+        }
+
+
+        document.getElementById(
+          "totalHardware"
+        ).innerText =
+          total;
+
+
+        document.getElementById(
+          "workingHardware"
+        ).innerText =
+          working;
+
+
+        document.getElementById(
+          "notWorkingHardware"
+        ).innerText =
+          notWorking;
+
+
+        document.getElementById(
+          "otherHardware"
+        ).innerText =
+          other;
+
+
+      }
+
+    )
+
+    .withFailureHandler(
+      function(error) {
+
+        console.error(
+          error
+        );
+
+      }
+
+    )
+
+    .getDashboard();
+
+}
+
+
+
+/*
+====================================================
+RECENT HARDWARE
+====================================================
+*/
+
+function loadRecentHardware() {
+
+  google.script.run
+
+    .withSuccessHandler(
+      function(result) {
+
+
+        var body =
+          document.getElementById(
+            "recentBody"
+          );
+
+
+        if (
+          !result ||
+          result.status !==
+          "success"
+        ) {
+
+          body.innerHTML =
+            "<tr><td colspan='10' class='empty'>" +
+            "Unable to load data." +
+            "</td></tr>";
+
+          return;
+
+        }
+
+
+        var data =
+          result.data || [];
+
+
+        if (
+          data.length === 0
+        ) {
+
+          body.innerHTML =
+            "<tr><td colspan='10' class='empty'>" +
+            "No hardware records found." +
+            "</td></tr>";
+
+          return;
+
+        }
+
+
+        var html = "";
+
+
+        for (
+          var i = 0;
+          i < data.length;
+          i++
+        ) {
+
+
+          var row =
+            data[i];
+
+
+          var conditionClass =
+            "";
+
+
+          if (
+            row.condition ===
+            "WORKING"
+          ) {
+
+            conditionClass =
+              "working";
+
+          }
+          else if (
+            row.condition ===
+            "NOT WORKING"
+          ) {
+
+            conditionClass =
+              "not-working";
+
+          }
+          else {
+
+            conditionClass =
+              "other";
+
+          }
+
+
+          html +=
+
+            "<tr>" +
+
+            "<td>" +
+            escapeHtml(
+              row.submissionId
+            ) +
+            "</td>" +
+
+            "<td>" +
+            escapeHtml(
+              row.solId
+            ) +
+            "</td>" +
+
+            "<td>" +
+            escapeHtml(
+              row.branchName
+            ) +
+            "</td>" +
+
+            "<td>" +
+            escapeHtml(
+              row.hardwareType
+            ) +
+            "</td>" +
+
+            "<td>" +
+            escapeHtml(
+              row.hardwareSubType
+            ) +
+            "</td>" +
+
+            "<td>" +
+            escapeHtml(
+              row.make
+            ) +
+            "</td>" +
+
+            "<td>" +
+            escapeHtml(
+              row.model
+            ) +
+            "</td>" +
+
+            "<td>" +
+            escapeHtml(
+              row.serialNo
+            ) +
+            "</td>" +
+
+            "<td>" +
+
+            "<span class='badge " +
+            conditionClass +
+            "'>" +
+
+            escapeHtml(
+              row.condition
+            ) +
+
+            "</span>" +
+
+            "</td>" +
+
+            "<td>" +
+            escapeHtml(
+              row.remarks
+            ) +
+            "</td>" +
+
+            "</tr>";
+
+        }
+
+
+        body.innerHTML =
+          html;
+
+
+      }
+
+    )
+
+    .withFailureHandler(
+      function(error) {
+
+        console.error(
+          error
+        );
+
+      }
+
+    )
+
+    .getRecentHardware();
+
+}
+
+
+
+/*
+====================================================
+HTML ESCAPE
+====================================================
+*/
+
+function escapeHtml(value) {
+
+  if (
+    value === null ||
+    value === undefined
+  ) {
+
+    return "";
+
+  }
+
+
+  return String(value)
+
+    .replace(
+      /&/g,
+      "&amp;"
+    )
+
+    .replace(
+      /</g,
+      "&lt;"
+    )
+
+    .replace(
+      />/g,
+      "&gt;"
+    )
+
+    .replace(
+      /"/g,
+      "&quot;"
+    )
+
+    .replace(
+      /'/g,
+      "&#039;"
+    );
+
+}
+
+
+
+/*
+====================================================
+INITIAL LOAD
+====================================================
+*/
+
+window.onload =
+  function() {
+
+    loadDashboard();
+
+    loadRecentHardware();
+
+  };
+
+
+</script>
+
+
+</body>
+
+</html>
