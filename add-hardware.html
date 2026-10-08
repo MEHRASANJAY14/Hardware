@@ -2,12 +2,11 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>MPGB - Add Hardware</title>
+<title>MPGB | Add Hardware</title>
 
 <style>
-
 *{
     box-sizing:border-box;
     margin:0;
@@ -15,135 +14,134 @@
 }
 
 body{
-    font-family:Arial,Helvetica,sans-serif;
-    background:#f4f7f5;
-    color:#222;
+    font-family:Inter,Arial,sans-serif;
+    background:#f3f7f4;
+    color:#1f2937;
 }
-
-/* ================= SIDEBAR ================= */
-
-.sidebar{
-    position:fixed;
-    left:0;
-    top:0;
-    width:245px;
-    height:100vh;
-    background:#006400;
-    color:#fff;
-    padding:22px 14px;
-    z-index:1000;
-    box-shadow:3px 0 12px rgba(0,0,0,.12);
-}
-
-.logo{
-    text-align:center;
-    font-size:24px;
-    font-weight:bold;
-    margin-bottom:28px;
-}
-
-.logo small{
-    display:block;
-    font-size:11px;
-    font-weight:normal;
-    margin-top:5px;
-}
-
-.menu a{
-    display:flex;
-    align-items:center;
-    gap:12px;
-    color:#fff;
-    text-decoration:none;
-    padding:13px 14px;
-    border-radius:9px;
-    margin:5px 0;
-    font-size:14px;
-    transition:.2s;
-}
-
-.menu a:hover{
-    background:#00823b;
-}
-
-.menu a.active{
-    background:#00823b;
-    box-shadow:inset 4px 0 #fff;
-}
-
-.menu i{
-    width:22px;
-    text-align:center;
-    font-style:normal;
-    font-size:18px;
-}
-
 
 /* ================= MAIN ================= */
 
 .main{
-    margin-left:245px;
-    padding:25px;
+    margin-left:255px;
+    min-height:100vh;
+    padding:28px;
+    transition:.3s;
 }
 
-.header{
-    margin-bottom:20px;
+/* ================= PAGE HEADER ================= */
+
+.page-header{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    margin-bottom:24px;
 }
 
-.header h1{
-    color:#006400;
-    font-size:27px;
+.page-title{
+    display:flex;
+    align-items:center;
+    gap:14px;
 }
 
-.header p{
-    color:#777;
-    margin-top:5px;
-}
-
-
-/* ================= CARD ================= */
-
-.card{
-    background:#fff;
+.page-icon{
+    width:52px;
+    height:52px;
     border-radius:14px;
-    padding:25px;
-    max-width:1050px;
-    box-shadow:0 2px 12px rgba(0,0,0,.08);
+    background:linear-gradient(135deg,#006400,#00994d);
+    color:white;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:25px;
+    box-shadow:0 8px 20px rgba(0,100,0,.18);
 }
 
-
-/* ================= MESSAGE ================= */
-
-.message{
-    display:none;
-    padding:13px 15px;
-    border-radius:8px;
-    margin-bottom:18px;
-    font-size:14px;
+.page-title h1{
+    font-size:25px;
+    color:#064e24;
 }
 
-.message.success{
-    display:block;
-    background:#dff5e4;
-    color:#08752a;
-    border:1px solid #b9e6c4;
+.page-title p{
+    font-size:12px;
+    color:#7b8794;
+    margin-top:4px;
 }
 
-.message.error{
-    display:block;
-    background:#ffe1e1;
-    color:#a00000;
-    border:1px solid #f2bcbc;
+/* ================= TOP BADGE ================= */
+
+.top-badge{
+    background:#e5f6eb;
+    color:#006400;
+    padding:9px 14px;
+    border-radius:20px;
+    font-size:12px;
+    font-weight:bold;
 }
 
-.message.loading{
-    display:block;
-    background:#eef5ff;
-    color:#1c4fa3;
+.top-badge span{
+    display:inline-block;
+    width:7px;
+    height:7px;
+    border-radius:50%;
+    background:#16a34a;
+    margin-right:6px;
 }
 
+/* ================= FORM CARD ================= */
+
+.form-card{
+    background:#fff;
+    border-radius:18px;
+    box-shadow:0 8px 30px rgba(0,0,0,.07);
+    overflow:hidden;
+    max-width:1100px;
+}
+
+/* ================= CARD HEADER ================= */
+
+.card-header{
+    padding:20px 25px;
+    background:linear-gradient(
+        135deg,
+        #006400,
+        #008c45
+    );
+    color:#fff;
+}
+
+.card-header h2{
+    font-size:18px;
+}
+
+.card-header p{
+    font-size:12px;
+    opacity:.8;
+    margin-top:4px;
+}
 
 /* ================= FORM ================= */
+
+.form-body{
+    padding:27px;
+}
+
+.section-title{
+    display:flex;
+    align-items:center;
+    gap:9px;
+    font-size:13px;
+    font-weight:bold;
+    color:#006400;
+    margin-bottom:17px;
+}
+
+.section-title::before{
+    content:"";
+    width:4px;
+    height:17px;
+    border-radius:4px;
+    background:#006400;
+}
 
 .form-grid{
     display:grid;
@@ -151,538 +149,608 @@ body{
     gap:20px;
 }
 
-.form-group label{
+.form-group{
+    position:relative;
+}
+
+.form-group.full{
+    grid-column:1/-1;
+}
+
+label{
     display:block;
-    font-size:13px;
-    font-weight:bold;
-    color:#444;
+    font-size:12px;
+    font-weight:700;
+    color:#374151;
     margin-bottom:7px;
+}
+
+.required{
+    color:#dc2626;
 }
 
 input,
 select,
 textarea{
     width:100%;
+    border:1px solid #d7dee5;
+    background:#fbfcfc;
+    border-radius:9px;
     padding:12px 13px;
-    border:1px solid #ccc;
-    border-radius:7px;
-    font-size:14px;
-    background:#fff;
+    font-size:13px;
+    color:#222;
     outline:none;
+    transition:.2s;
+}
+
+input:hover,
+select:hover,
+textarea:hover{
+    border-color:#a9c7b3;
 }
 
 input:focus,
 select:focus,
 textarea:focus{
-    border-color:#006400;
-    box-shadow:0 0 0 2px rgba(0,100,0,.08);
+    border-color:#008c45;
+    background:#fff;
+    box-shadow:
+        0 0 0 3px rgba(0,140,69,.08);
 }
 
 textarea{
-    height:95px;
+    height:90px;
     resize:vertical;
 }
 
-.full{
-    grid-column:1/-1;
-}
-
-
 /* ================= SOL ================= */
 
-.sol-loading{
-    color:#777;
+.sol-wrapper{
+    position:relative;
 }
 
-.branch-info{
+.sol-wrapper select{
+    padding-right:40px;
+}
+
+.branch-display{
+    min-height:18px;
     margin-top:7px;
-    font-size:12px;
-    font-weight:bold;
+    font-size:11px;
     color:#006400;
-    min-height:15px;
+    font-weight:600;
 }
 
+.branch-display::before{
+    content:"▸ ";
+}
 
-/* ================= BUTTONS ================= */
+/* ================= SERIAL ================= */
 
-.button-row{
-    display:flex;
-    gap:10px;
+.serial-hint{
+    font-size:10px;
+    color:#9ca3af;
     margin-top:5px;
 }
 
-button{
-    border:0;
-    border-radius:7px;
+/* ================= DIVIDER ================= */
+
+.divider{
+    height:1px;
+    background:#edf0f2;
+    margin:27px 0;
+}
+
+/* ================= BUTTONS ================= */
+
+.action-area{
+    display:flex;
+    justify-content:flex-end;
+    gap:10px;
+}
+
+.btn{
+    border:none;
     padding:12px 22px;
-    cursor:pointer;
-    font-size:14px;
+    border-radius:9px;
+    font-size:13px;
     font-weight:bold;
+    cursor:pointer;
+    transition:.2s;
 }
 
 .btn-save{
-    background:#006400;
     color:#fff;
+    background:linear-gradient(
+        135deg,
+        #006400,
+        #008c45
+    );
+    box-shadow:0 6px 15px rgba(0,100,0,.18);
 }
 
 .btn-save:hover{
-    background:#00823b;
+    transform:translateY(-1px);
+    box-shadow:0 8px 20px rgba(0,100,0,.25);
 }
 
 .btn-reset{
-    background:#777;
-    color:#fff;
+    background:#eef1f2;
+    color:#4b5563;
 }
 
 .btn-reset:hover{
-    background:#555;
+    background:#e1e5e7;
 }
 
-button:disabled{
+.btn:disabled{
     opacity:.6;
     cursor:not-allowed;
 }
 
+/* ================= MESSAGE ================= */
 
-/* ================= STATUS ================= */
-
-.api-status{
-    margin-top:18px;
-    font-size:12px;
-    color:#777;
+.message{
+    display:none;
+    margin-bottom:20px;
+    padding:13px 15px;
+    border-radius:9px;
+    font-size:13px;
+    font-weight:600;
 }
 
-.api-status span{
-    font-weight:bold;
+.message.success{
+    display:block;
+    background:#e7f8ed;
+    border:1px solid #b9e7c7;
+    color:#08752d;
 }
 
+.message.error{
+    display:block;
+    background:#fff0f0;
+    border:1px solid #f1c1c1;
+    color:#a00000;
+}
+
+.message.loading{
+    display:block;
+    background:#edf5ff;
+    border:1px solid #c9ddfa;
+    color:#1d4f91;
+}
+
+/* ================= API STATUS ================= */
+
+.api-footer{
+    margin-top:16px;
+    font-size:11px;
+    color:#8b949e;
+}
+
+.api-dot{
+    display:inline-block;
+    width:7px;
+    height:7px;
+    border-radius:50%;
+    background:#aaa;
+    margin-right:5px;
+}
+
+.api-dot.online{
+    background:#16a34a;
+}
 
 /* ================= MOBILE ================= */
 
 @media(max-width:800px){
 
-    .sidebar{
-        width:70px;
-        padding:15px 8px;
-    }
-
-    .logo{
-        font-size:0;
-    }
-
-    .logo:before{
-        content:"MP";
-        font-size:20px;
-    }
-
-    .logo small,
-    .menu span{
-        display:none;
-    }
-
-    .menu a{
-        justify-content:center;
-        padding:12px;
-    }
-
     .main{
-        margin-left:70px;
-        padding:15px;
+        margin-left:75px;
+        padding:18px;
     }
 
     .form-grid{
         grid-template-columns:1fr;
     }
 
-    .full{
+    .form-group.full{
         grid-column:auto;
     }
 
+    .page-header{
+        align-items:flex-start;
+    }
+
+    .top-badge{
+        display:none;
+    }
 }
 
-@media(max-width:500px){
+@media(max-width:550px){
 
     .main{
-        padding:10px;
+        margin-left:70px;
+        padding:12px;
     }
 
-    .card{
-        padding:16px;
+    .page-title h1{
+        font-size:20px;
     }
 
-    .button-row{
+    .page-icon{
+        width:44px;
+        height:44px;
+    }
+
+    .form-body{
+        padding:18px;
+    }
+
+    .action-area{
         flex-direction:column;
     }
 
-    button{
+    .btn{
         width:100%;
     }
-
 }
-
 </style>
 </head>
 
-
 <body>
 
+<!--
+    sidebar.js
+    Same folder mein hona chahiye
+-->
+<script src="sidebar.js"></script>
 
-<!-- ================= SIDEBAR ================= -->
-
-<aside class="sidebar">
-
-    <div class="logo">
-        MPGB
-        <small>Hardware Management</small>
-    </div>
-
-    <nav class="menu">
-
-        <a href="index.html">
-            <i>⌂</i>
-            <span>Dashboard</span>
-        </a>
-
-        <a href="add-hardware.html">
-            <i>＋</i>
-            <span>Add Hardware</span>
-        </a>
-
-        <a href="records.html">
-            <i>▣</i>
-            <span>Hardware Records</span>
-        </a>
-
-        <a href="edit-hardware.html">
-            <i>✎</i>
-            <span>Edit / Update</span>
-        </a>
-
-        <a href="branch-summary.html">
-            <i>▥</i>
-            <span>Branch Summary</span>
-        </a>
-
-        <a href="hardware-summary.html">
-            <i>◈</i>
-            <span>Hardware Summary</span>
-        </a>
-
-        <a href="reports.html">
-            <i>▤</i>
-            <span>Reports</span>
-        </a>
-
-    </nav>
-
-</aside>
-
-
-<!-- ================= MAIN ================= -->
 
 <main class="main">
 
+    <!-- ================= HEADER ================= -->
 
-    <div class="header">
+    <div class="page-header">
 
-        <h1>Add Hardware</h1>
+        <div class="page-title">
 
-        <p>
-            MPGB Hardware Inventory Management
-        </p>
+            <div class="page-icon">
+                ＋
+            </div>
+
+            <div>
+                <h1>Add Hardware</h1>
+
+                <p>
+                    Register new hardware in MPGB inventory
+                </p>
+            </div>
+
+        </div>
+
+        <div class="top-badge">
+            <span></span>
+            System Online
+        </div>
 
     </div>
 
 
-    <div class="card">
+    <!-- ================= FORM CARD ================= -->
 
+    <div class="form-card">
 
-        <!-- MESSAGE -->
+        <div class="card-header">
 
-        <div
-            id="message"
-            class="message">
+            <h2>Hardware Registration</h2>
+
+            <p>
+                Enter hardware details and save the inventory record
+            </p>
+
         </div>
 
 
-        <!-- FORM -->
+        <div class="form-body">
 
-        <form id="hardwareForm">
 
+            <!-- MESSAGE -->
 
-            <div class="form-grid">
-
-
-                <!-- SOL ID -->
-
-                <div class="form-group">
-
-                    <label>
-                        SOL ID *
-                    </label>
-
-                    <select
-                        id="solId"
-                        required>
-
-                        <option value="">
-                            Loading SOL list...
-                        </option>
-
-                    </select>
-
-                    <div
-                        id="branchInfo"
-                        class="branch-info">
-                    </div>
-
-                </div>
-
-
-                <!-- HARDWARE TYPE -->
-
-                <div class="form-group">
-
-                    <label>
-                        Hardware Type *
-                    </label>
-
-                    <select
-                        id="hardwareType"
-                        required>
-
-                        <option value="">
-                            Select Hardware Type
-                        </option>
-
-                        <option value="CPU">
-                            CPU
-                        </option>
-
-                        <option value="Monitor">
-                            Monitor
-                        </option>
-
-                        <option value="Passbook Printer">
-                            Passbook Printer
-                        </option>
-
-                        <option value="Laser Printer">
-                            Laser Printer
-                        </option>
-
-                        <option value="Scanner">
-                            Scanner
-                        </option>
-
-                        <option value="CTS Machine">
-                            CTS Machine
-                        </option>
-
-                        <option value="CCTV Monitor">
-                            CCTV Monitor
-                        </option>
-
-                        <option value="Biometric Device">
-                            Biometric Device
-                        </option>
-
-                        <option value="UPS">
-                            UPS
-                        </option>
-
-                        <option value="Other">
-                            Other
-                        </option>
-
-                    </select>
-
-                </div>
-
-
-                <!-- SUB TYPE -->
-
-                <div class="form-group">
-
-                    <label>
-                        Hardware Sub Type
-                    </label>
-
-                    <input
-                        type="text"
-                        id="hardwareSubType"
-                        placeholder="Enter hardware sub type">
-
-                </div>
-
-
-                <!-- MAKE -->
-
-                <div class="form-group">
-
-                    <label>
-                        Make
-                    </label>
-
-                    <input
-                        type="text"
-                        id="make"
-                        placeholder="HP / Dell / Canon etc.">
-
-                </div>
-
-
-                <!-- MODEL -->
-
-                <div class="form-group">
-
-                    <label>
-                        Model
-                    </label>
-
-                    <input
-                        type="text"
-                        id="model"
-                        placeholder="Enter model">
-
-                </div>
-
-
-                <!-- SERIAL -->
-
-                <div class="form-group">
-
-                    <label>
-                        Serial No.
-                    </label>
-
-                    <input
-                        type="text"
-                        id="serialNo"
-                        placeholder="Enter serial number">
-
-                </div>
-
-
-                <!-- CONDITION -->
-
-                <div class="form-group">
-
-                    <label>
-                        Condition *
-                    </label>
-
-                    <select
-                        id="condition"
-                        required>
-
-                        <option value="">
-                            Select Condition
-                        </option>
-
-                        <option value="WORKING">
-                            WORKING
-                        </option>
-
-                        <option value="NOT WORKING">
-                            NOT WORKING
-                        </option>
-
-                        <option value="UNDER REPAIR">
-                            UNDER REPAIR
-                        </option>
-
-                        <option value="DAMAGED">
-                            DAMAGED
-                        </option>
-
-                    </select>
-
-                </div>
-
-
-                <!-- REMARKS -->
-
-                <div class="form-group full">
-
-                    <label>
-                        Remarks
-                    </label>
-
-                    <textarea
-                        id="remarks"
-                        placeholder="Enter remarks">
-                    </textarea>
-
-                </div>
-
-
-                <!-- BUTTONS -->
-
-                <div class="form-group full">
-
-                    <div class="button-row">
-
-                        <button
-                            type="submit"
-                            id="saveBtn"
-                            class="btn-save">
-
-                            Save Hardware
-
-                        </button>
-
-
-                        <button
-                            type="button"
-                            class="btn-reset"
-                            onclick="resetForm()">
-
-                            Reset
-
-                        </button>
-
-                    </div>
-
-                </div>
-
-
+            <div
+                id="message"
+                class="message">
             </div>
 
 
-        </form>
+            <form id="hardwareForm">
 
 
-        <div class="api-status">
+                <!-- ================= LOCATION ================= -->
 
-            API Status:
-            <span id="apiStatus">
-                Checking...
-            </span>
+                <div class="section-title">
+                    Branch Information
+                </div>
+
+
+                <div class="form-grid">
+
+                    <div class="form-group">
+
+                        <label>
+                            SOL ID
+                            <span class="required">*</span>
+                        </label>
+
+                        <div class="sol-wrapper">
+
+                            <select
+                                id="solId"
+                                required>
+
+                                <option value="">
+                                    Loading SOL list...
+                                </option>
+
+                            </select>
+
+                        </div>
+
+                        <div
+                            id="branchInfo"
+                            class="branch-display">
+                        </div>
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label>
+                            Hardware Type
+                            <span class="required">*</span>
+                        </label>
+
+                        <select
+                            id="hardwareType"
+                            required>
+
+                            <option value="">
+                                Select Hardware Type
+                            </option>
+
+                            <option value="CPU">
+                                CPU
+                            </option>
+
+                            <option value="Monitor">
+                                Monitor
+                            </option>
+
+                            <option value="Passbook Printer">
+                                Passbook Printer
+                            </option>
+
+                            <option value="Laser Printer">
+                                Laser Printer
+                            </option>
+
+                            <option value="Scanner">
+                                Scanner
+                            </option>
+
+                            <option value="CTS Machine">
+                                CTS Machine
+                            </option>
+
+                            <option value="CCTV Monitor">
+                                CCTV Monitor
+                            </option>
+
+                            <option value="Biometric Device">
+                                Biometric Device
+                            </option>
+
+                            <option value="UPS">
+                                UPS
+                            </option>
+
+                            <option value="Other">
+                                Other
+                            </option>
+
+                        </select>
+
+                    </div>
+
+                </div>
+
+
+                <div class="divider"></div>
+
+
+                <!-- ================= HARDWARE ================= -->
+
+                <div class="section-title">
+                    Hardware Details
+                </div>
+
+
+                <div class="form-grid">
+
+
+                    <!-- MAKE -->
+
+                    <div class="form-group">
+
+                        <label>
+                            Make
+                        </label>
+
+                        <input
+                            type="text"
+                            id="make"
+                            placeholder="e.g. HP, Dell, Canon">
+
+                    </div>
+
+
+                    <!-- MODEL -->
+
+                    <div class="form-group">
+
+                        <label>
+                            Model
+                        </label>
+
+                        <input
+                            type="text"
+                            id="model"
+                            placeholder="Enter model number">
+
+                    </div>
+
+
+                    <!-- SERIAL -->
+
+                    <div class="form-group">
+
+                        <label>
+                            Serial Number
+                        </label>
+
+                        <input
+                            type="text"
+                            id="serialNo"
+                            placeholder="Enter serial number">
+
+                        <div class="serial-hint">
+                            Enter the exact serial number printed on the device
+                        </div>
+
+                    </div>
+
+
+                    <!-- CONDITION -->
+
+                    <div class="form-group">
+
+                        <label>
+                            Condition
+                            <span class="required">*</span>
+                        </label>
+
+                        <select
+                            id="condition"
+                            required>
+
+                            <option value="">
+                                Select Condition
+                            </option>
+
+                            <option value="WORKING">
+                                WORKING
+                            </option>
+
+                            <option value="NOT WORKING">
+                                NOT WORKING
+                            </option>
+
+                            <option value="UNDER REPAIR">
+                                UNDER REPAIR
+                            </option>
+
+                            <option value="DAMAGED">
+                                DAMAGED
+                            </option>
+
+                        </select>
+
+                    </div>
+
+
+                    <!-- REMARKS -->
+
+                    <div class="form-group full">
+
+                        <label>
+                            Remarks
+                        </label>
+
+                        <textarea
+                            id="remarks"
+                            placeholder="Enter additional remarks, if any">
+                        </textarea>
+
+                    </div>
+
+                </div>
+
+
+                <div class="divider"></div>
+
+
+                <!-- ================= ACTION ================= -->
+
+                <div class="action-area">
+
+                    <button
+                        type="button"
+                        class="btn btn-reset"
+                        onclick="resetForm()">
+
+                        Reset
+
+                    </button>
+
+
+                    <button
+                        type="submit"
+                        id="saveBtn"
+                        class="btn btn-save">
+
+                        Save Hardware
+
+                    </button>
+
+                </div>
+
+
+            </form>
+
+
+            <!-- API STATUS -->
+
+            <div class="api-footer">
+
+                <span
+                    id="apiDot"
+                    class="api-dot">
+                </span>
+
+                API:
+                <span id="apiStatus">
+                    Checking connection...
+                </span>
+
+            </div>
 
         </div>
 
-
     </div>
-
 
 </main>
 
 
 <script>
 
-
 /* =========================================================
-   API URL
+   API
 ========================================================= */
 
 var API_URL =
 "https://script.google.com/macros/s/AKfycbyqpcO42kRHBBp_n1TEAHyI4SGGBNcf_5qQMN3ZARnZ4WLlUsgokf4k2BrHYfKX1lMB/exec";
 
-
-/* =========================================================
-   GLOBAL DATA
-========================================================= */
 
 var branchList = [];
 
@@ -695,8 +763,6 @@ document.addEventListener(
     "DOMContentLoaded",
     function(){
 
-        setActiveMenu();
-
         checkAPI();
 
         loadSOLList();
@@ -706,66 +772,15 @@ document.addEventListener(
 
 
 /* =========================================================
-   ACTIVE SIDEBAR
-========================================================= */
-
-function setActiveMenu(){
-
-    var currentPage =
-        window.location.pathname
-        .split("/")
-        .pop()
-        .toLowerCase();
-
-
-    if(!currentPage){
-
-        currentPage =
-            "index.html";
-
-    }
-
-
-    document
-        .querySelectorAll(".menu a")
-        .forEach(function(link){
-
-            var linkPage =
-                link
-                .getAttribute("href")
-                .split("/")
-                .pop()
-                .toLowerCase();
-
-
-            if(
-                linkPage ===
-                currentPage
-            ){
-
-                link.classList.add(
-                    "active"
-                );
-
-            }
-
-        });
-
-}
-
-
-/* =========================================================
-   CHECK API
+   API CHECK
 ========================================================= */
 
 function checkAPI(){
 
     fetch(
-        API_URL,
-        {
-            method:"GET",
-            cache:"no-store"
-        }
+        API_URL +
+        "?action=getSOLList&t=" +
+        Date.now()
     )
 
     .then(function(response){
@@ -781,18 +796,23 @@ function checkAPI(){
             result.status === "success"
         ){
 
-            document
-                .getElementById("apiStatus")
-                .innerText =
+            document.getElementById(
+                "apiStatus"
+            ).innerText =
                 "Connected";
+
+            document.getElementById(
+                "apiDot"
+            ).classList.add(
+                "online"
+            );
 
         }
         else{
 
-            document
-                .getElementById("apiStatus")
-                .innerText =
-                "Error";
+            throw new Error(
+                "API Error"
+            );
 
         }
 
@@ -800,10 +820,10 @@ function checkAPI(){
 
     .catch(function(){
 
-        document
-            .getElementById("apiStatus")
-            .innerText =
-            "Not Connected";
+        document.getElementById(
+            "apiStatus"
+        ).innerText =
+            "Connection Error";
 
     });
 
@@ -811,13 +831,13 @@ function checkAPI(){
 
 
 /* =========================================================
-   LOAD SOL LIST DYNAMICALLY
+   LOAD SOL
 ========================================================= */
 
 function loadSOLList(){
 
     showMessage(
-        "Loading SOL / Branch list...",
+        "Loading branch list...",
         "loading"
     );
 
@@ -825,11 +845,7 @@ function loadSOLList(){
     fetch(
         API_URL +
         "?action=getSOLList&t=" +
-        new Date().getTime(),
-        {
-            method:"GET",
-            cache:"no-store"
-        }
+        Date.now()
     )
 
     .then(function(response){
@@ -837,7 +853,7 @@ function loadSOLList(){
         if(!response.ok){
 
             throw new Error(
-                "HTTP Error " +
+                "HTTP " +
                 response.status
             );
 
@@ -870,7 +886,6 @@ function loadSOLList(){
 
         populateSOL();
 
-
         hideMessage();
 
     })
@@ -883,23 +898,13 @@ function loadSOLList(){
             "error"
         );
 
-
-        var select =
-            document.getElementById(
-                "solId"
-            );
-
-
-        select.innerHTML =
-            '<option value="">Unable to load SOL list</option>';
-
     });
 
 }
 
 
 /* =========================================================
-   POPULATE SOL DROPDOWN
+   POPULATE SOL
 ========================================================= */
 
 function populateSOL(){
@@ -917,6 +922,12 @@ function populateSOL(){
     branchList.forEach(
         function(branch){
 
+            var sol =
+                normalizeSol(
+                    branch.solId
+                );
+
+
             var option =
                 document.createElement(
                     "option"
@@ -924,15 +935,11 @@ function populateSOL(){
 
 
             option.value =
-                normalizeSolId(
-                    branch.solId
-                );
+                sol;
 
 
             option.textContent =
-                normalizeSolId(
-                    branch.solId
-                ) +
+                sol +
                 " - " +
                 branch.branchName;
 
@@ -951,16 +958,12 @@ function populateSOL(){
     );
 
 
-    /*
-     * If no branches returned
-     */
-
     if(
         branchList.length === 0
     ){
 
         select.innerHTML =
-            '<option value="">No SOL found</option>';
+            '<option value="">No SOL available</option>';
 
     }
 
@@ -972,158 +975,118 @@ function populateSOL(){
 ========================================================= */
 
 document
-    .getElementById("solId")
-    .addEventListener(
-        "change",
-        function(){
+.getElementById("solId")
+.addEventListener(
+    "change",
+    function(){
 
-            showBranchName(
+        var sol =
+            normalizeSol(
                 this.value
             );
 
-        }
-    );
 
+        var branch =
+            branchList.find(
+                function(item){
 
-/* =========================================================
-   SHOW BRANCH
-========================================================= */
-
-function showBranchName(solId){
-
-    var branchInfo =
-        document.getElementById(
-            "branchInfo"
-        );
-
-
-    if(!solId){
-
-        branchInfo.innerText =
-            "";
-
-        return;
-
-    }
-
-
-    var branch =
-        branchList.find(
-            function(item){
-
-                return (
-                    normalizeSolId(
+                    return normalizeSol(
                         item.solId
-                    ) ===
-                    normalizeSolId(
-                        solId
-                    )
-                );
+                    ) === sol;
 
-            }
-        );
+                }
+            );
 
 
-    if(branch){
+        var info =
+            document.getElementById(
+                "branchInfo"
+            );
 
-        branchInfo.innerText =
-            "Branch: " +
-            branch.branchName;
+
+        if(branch){
+
+            info.innerText =
+                "Branch: " +
+                branch.branchName;
+
+        }
+        else{
+
+            info.innerText =
+                "";
+
+        }
 
     }
-    else{
-
-        branchInfo.innerText =
-            "";
-
-    }
-
-}
+);
 
 
 /* =========================================================
-   FORM SUBMIT
+   SAVE
 ========================================================= */
 
 document
-    .getElementById("hardwareForm")
-    .addEventListener(
-        "submit",
-        function(event){
+.getElementById("hardwareForm")
+.addEventListener(
+    "submit",
+    function(event){
 
-            event.preventDefault();
+        event.preventDefault();
 
+        saveHardware();
 
-            saveHardware();
+    }
+);
 
-        }
-    );
-
-
-/* =========================================================
-   SAVE HARDWARE
-========================================================= */
 
 function saveHardware(){
 
     var solId =
-        normalizeSolId(
-            document
-                .getElementById("solId")
-                .value
+        normalizeSol(
+            document.getElementById(
+                "solId"
+            ).value
         );
 
 
     var hardwareType =
-        document
-            .getElementById("hardwareType")
-            .value
-            .trim();
-
-
-    var hardwareSubType =
-        document
-            .getElementById("hardwareSubType")
-            .value
-            .trim();
+        document.getElementById(
+            "hardwareType"
+        ).value.trim();
 
 
     var make =
-        document
-            .getElementById("make")
-            .value
-            .trim();
+        document.getElementById(
+            "make"
+        ).value.trim();
 
 
     var model =
-        document
-            .getElementById("model")
-            .value
-            .trim();
+        document.getElementById(
+            "model"
+        ).value.trim();
 
 
     var serialNo =
-        document
-            .getElementById("serialNo")
-            .value
-            .trim();
+        document.getElementById(
+            "serialNo"
+        ).value.trim();
 
 
     var condition =
-        document
-            .getElementById("condition")
-            .value
-            .trim();
+        document.getElementById(
+            "condition"
+        ).value.trim();
 
 
     var remarks =
-        document
-            .getElementById("remarks")
-            .value
-            .trim();
+        document.getElementById(
+            "remarks"
+        ).value.trim();
 
 
-    /* CLIENT VALIDATION */
+    /* ================= VALIDATION ================= */
 
     if(!solId){
 
@@ -1152,7 +1115,7 @@ function saveHardware(){
     if(!condition){
 
         showMessage(
-            "Please select Condition.",
+            "Please select hardware condition.",
             "error"
         );
 
@@ -1161,19 +1124,13 @@ function saveHardware(){
     }
 
 
-    /*
-     * Verify SOL exists in dynamic master
-     */
-
     var branch =
         branchList.find(
             function(item){
 
-                return (
-                    normalizeSolId(
-                        item.solId
-                    ) === solId
-                );
+                return normalizeSol(
+                    item.solId
+                ) === solId;
 
             }
         );
@@ -1182,7 +1139,7 @@ function saveHardware(){
     if(!branch){
 
         showMessage(
-            "Invalid SOL ID. Please select a valid SOL from the list.",
+            "Invalid SOL ID. Please select SOL from the dropdown.",
             "error"
         );
 
@@ -1190,6 +1147,8 @@ function saveHardware(){
 
     }
 
+
+    /* ================= DATA ================= */
 
     var data = {
 
@@ -1199,9 +1158,6 @@ function saveHardware(){
 
         hardwareType:
             hardwareType,
-
-        hardwareSubType:
-            hardwareSubType,
 
         make:make,
 
@@ -1222,15 +1178,14 @@ function saveHardware(){
         );
 
 
-    button.disabled =
-        true;
+    button.disabled = true;
 
     button.innerText =
         "Saving...";
 
 
     showMessage(
-        "Saving hardware...",
+        "Saving hardware record...",
         "loading"
     );
 
@@ -1254,15 +1209,6 @@ function saveHardware(){
 
     .then(function(response){
 
-        if(!response.ok){
-
-            throw new Error(
-                "HTTP Error " +
-                response.status
-            );
-
-        }
-
         return response.json();
 
     })
@@ -1270,7 +1216,7 @@ function saveHardware(){
     .then(function(result){
 
         console.log(
-            "SAVE RESPONSE:",
+            "SAVE RESULT:",
             result
         );
 
@@ -1280,85 +1226,72 @@ function saveHardware(){
             result.status === "success"
         ){
 
+            var msg =
+                "Hardware saved successfully.";
+
+
+            if(
+                result.submissionId
+            ){
+
+                msg +=
+                    " Submission ID: " +
+                    result.submissionId;
+
+            }
+
+
             showMessage(
-
-                "Hardware saved successfully." +
-
-                (
-                    result.submissionId
-                    ? " Submission ID: " +
-                      result.submissionId
-                    : ""
-                ),
-
+                msg,
                 "success"
-
             );
+
+
+            /* Clear hardware fields */
+
+            document.getElementById(
+                "hardwareType"
+            ).value = "";
+
+
+            document.getElementById(
+                "make"
+            ).value = "";
+
+
+            document.getElementById(
+                "model"
+            ).value = "";
+
+
+            document.getElementById(
+                "serialNo"
+            ).value = "";
+
+
+            document.getElementById(
+                "condition"
+            ).value = "";
+
+
+            document.getElementById(
+                "remarks"
+            ).value = "";
 
 
             /*
-             * Reset only hardware fields.
-             * SOL remains selected for faster
-             * multiple entries of same branch.
+             * SOL remains selected so
+             * multiple hardware can be
+             * entered for same branch.
              */
-
-            document
-                .getElementById(
-                    "hardwareType"
-                )
-                .value = "";
-
-            document
-                .getElementById(
-                    "hardwareSubType"
-                )
-                .value = "";
-
-            document
-                .getElementById(
-                    "make"
-                )
-                .value = "";
-
-            document
-                .getElementById(
-                    "model"
-                )
-                .value = "";
-
-            document
-                .getElementById(
-                    "serialNo"
-                )
-                .value = "";
-
-            document
-                .getElementById(
-                    "condition"
-                )
-                .value = "";
-
-            document
-                .getElementById(
-                    "remarks"
-                )
-                .value = "";
-
-
-            showBranchName(
-                solId
-            );
 
         }
         else{
 
             showMessage(
-
                 result.message ||
                 "Unable to save hardware.",
-
                 "error"
-
             );
 
         }
@@ -1368,18 +1301,14 @@ function saveHardware(){
     .catch(function(error){
 
         console.error(
-            "SAVE ERROR:",
             error
         );
 
 
         showMessage(
-
             "Unable to save hardware: " +
             error.message,
-
             "error"
-
         );
 
     })
@@ -1398,24 +1327,23 @@ function saveHardware(){
 
 
 /* =========================================================
-   RESET FORM
+   RESET
 ========================================================= */
 
 function resetForm(){
 
     document
-        .getElementById(
-            "hardwareForm"
-        )
-        .reset();
+    .getElementById(
+        "hardwareForm"
+    )
+    .reset();
 
 
     document
-        .getElementById(
-            "branchInfo"
-        )
-        .innerText =
-        "";
+    .getElementById(
+        "branchInfo"
+    )
+    .innerText = "";
 
 
     hideMessage();
@@ -1427,7 +1355,7 @@ function resetForm(){
    NORMALIZE SOL
 ========================================================= */
 
-function normalizeSolId(value){
+function normalizeSol(value){
 
     var text =
         String(value || "")
@@ -1437,11 +1365,6 @@ function normalizeSolId(value){
         )
         .trim();
 
-
-    /*
-     * Extract 5 digit SOL if
-     * "12010 - JABALPUR" is received.
-     */
 
     var match =
         text.match(
@@ -1494,19 +1417,11 @@ function showMessage(
 }
 
 
-/* =========================================================
-   HIDE MESSAGE
-========================================================= */
-
 function hideMessage(){
 
-    var box =
-        document.getElementById(
-            "message"
-        );
-
-
-    box.style.display =
+    document.getElementById(
+        "message"
+    ).style.display =
         "none";
 
 }
