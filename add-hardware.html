@@ -3,1242 +3,785 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>MPGB | Add Hardware</title>
+<title>Add Hardware | MPGB</title>
 
 <style>
 *{
-    box-sizing:border-box;
+  box-sizing:border-box;
 }
 
-html,body{
-    margin:0;
-    padding:0;
-    font-family:Arial,Helvetica,sans-serif;
-    background:#f4f7f5;
-    color:#263238;
+body{
+  margin:0;
+  font-family:Arial,Helvetica,sans-serif;
+  background:#f4f7f6;
+  color:#1f2937;
 }
-
-/* ================= MAIN ================= */
 
 .main{
-    margin-left:255px;
-    min-height:100vh;
-    padding:22px;
+  margin-left:255px;
+  min-height:100vh;
+  padding:30px;
+  transition:.25s;
 }
-
-/* ================= HEADER ================= */
 
 .page-header{
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    margin-bottom:18px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin-bottom:25px;
 }
 
-.title-box{
-    display:flex;
-    align-items:center;
-    gap:12px;
+.page-title h1{
+  margin:0;
+  font-size:28px;
+  color:#006633;
 }
 
-.title-icon{
-    width:46px;
-    height:46px;
-    border-radius:11px;
-    background:#006400;
-    color:#fff;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    font-size:23px;
+.page-title p{
+  margin:6px 0 0;
+  color:#6b7280;
+  font-size:14px;
 }
-
-.title-box h1{
-    margin:0;
-    color:#075b2b;
-    font-size:23px;
-}
-
-.title-box p{
-    margin:3px 0 0;
-    color:#7b8790;
-    font-size:11px;
-}
-
-.status{
-    font-size:11px;
-    color:#08752d;
-    background:#e7f7ec;
-    padding:8px 12px;
-    border-radius:18px;
-}
-
-.status-dot{
-    display:inline-block;
-    width:7px;
-    height:7px;
-    border-radius:50%;
-    background:#16a34a;
-    margin-right:5px;
-}
-
-/* ================= CARD ================= */
 
 .card{
-    max-width:1050px;
-    background:#fff;
-    border-radius:14px;
-    box-shadow:0 3px 15px rgba(0,0,0,.07);
-    overflow:hidden;
-}
-
-/* ================= CARD HEADER ================= */
-
-.card-header{
-    background:#006400;
-    color:#fff;
-    padding:17px 22px;
-}
-
-.card-header h2{
-    margin:0;
-    font-size:16px;
-}
-
-.card-header p{
-    margin:4px 0 0;
-    font-size:11px;
-    opacity:.78;
-}
-
-/* ================= FORM ================= */
-
-.form-body{
-    padding:22px;
-}
-
-.section{
-    margin-bottom:20px;
+  background:#fff;
+  border-radius:16px;
+  padding:28px;
+  box-shadow:0 5px 25px rgba(0,0,0,.07);
+  max-width:1000px;
 }
 
 .section-title{
-    font-size:12px;
-    font-weight:bold;
-    color:#006400;
-    border-left:4px solid #006400;
-    padding-left:8px;
-    margin-bottom:13px;
+  font-size:18px;
+  font-weight:700;
+  color:#006633;
+  margin-bottom:22px;
+  padding-bottom:12px;
+  border-bottom:1px solid #e5e7eb;
 }
 
-.grid{
-    display:grid;
-    grid-template-columns:1fr 1fr;
-    gap:16px;
+.form-grid{
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:20px;
 }
 
-.field label{
-    display:block;
-    font-size:11px;
-    font-weight:bold;
-    color:#46515a;
-    margin-bottom:6px;
+.form-group{
+  display:flex;
+  flex-direction:column;
+}
+
+.form-group.full{
+  grid-column:1/-1;
+}
+
+label{
+  font-size:13px;
+  font-weight:600;
+  margin-bottom:7px;
+  color:#374151;
 }
 
 .required{
-    color:#d32f2f;
+  color:#dc2626;
 }
 
 input,
 select,
 textarea{
-    width:100%;
-    border:1px solid #d8dee2;
-    border-radius:7px;
-    background:#fafcfa;
-    padding:10px 11px;
-    font-size:13px;
-    color:#263238;
-    outline:none;
+  width:100%;
+  padding:12px 13px;
+  border:1px solid #d1d5db;
+  border-radius:9px;
+  font-size:14px;
+  outline:none;
+  background:#fff;
+  transition:.2s;
 }
 
 input:focus,
 select:focus,
 textarea:focus{
-    border-color:#00823b;
-    background:#fff;
-    box-shadow:0 0 0 2px rgba(0,130,59,.08);
+  border-color:#00994d;
+  box-shadow:0 0 0 3px rgba(0,153,77,.10);
+}
+
+input[readonly]{
+  background:#f3f4f6;
+  color:#4b5563;
 }
 
 textarea{
-    height:75px;
-    resize:vertical;
+  resize:vertical;
+  min-height:95px;
 }
-
-.full{
-    grid-column:1/-1;
-}
-
-/* ================= BRANCH ================= */
-
-.branch-name{
-    min-height:17px;
-    margin-top:5px;
-    font-size:10px;
-    color:#006400;
-    font-weight:bold;
-}
-
-/* ================= BUTTON ================= */
 
 .actions{
-    border-top:1px solid #edf0ef;
-    padding-top:17px;
-    display:flex;
-    justify-content:flex-end;
-    gap:9px;
+  display:flex;
+  gap:12px;
+  margin-top:25px;
+  padding-top:20px;
+  border-top:1px solid #e5e7eb;
 }
 
-button{
-    border:0;
-    border-radius:7px;
-    padding:10px 20px;
-    font-size:12px;
-    font-weight:bold;
-    cursor:pointer;
+.btn{
+  border:0;
+  padding:12px 22px;
+  border-radius:9px;
+  font-size:14px;
+  font-weight:600;
+  cursor:pointer;
+  transition:.2s;
 }
 
-.save-btn{
-    background:#006400;
-    color:#fff;
+.btn-save{
+  background:#006633;
+  color:white;
 }
 
-.save-btn:hover{
-    background:#00823b;
+.btn-save:hover{
+  background:#004d26;
 }
 
-.reset-btn{
-    background:#eef1f2;
-    color:#4b5563;
+.btn-reset{
+  background:#e5e7eb;
+  color:#374151;
 }
 
-button:disabled{
-    opacity:.6;
-    cursor:not-allowed;
+.btn-reset:hover{
+  background:#d1d5db;
 }
 
-/* ================= MESSAGE ================= */
+.btn:disabled{
+  opacity:.6;
+  cursor:not-allowed;
+}
 
 .message{
-    display:none;
-    padding:10px 12px;
-    border-radius:7px;
-    margin-bottom:17px;
-    font-size:12px;
+  display:none;
+  margin-bottom:20px;
+  padding:13px 16px;
+  border-radius:9px;
+  font-size:14px;
 }
 
 .message.success{
-    display:block;
-    background:#e8f7ed;
-    color:#08752d;
-    border:1px solid #c5e8ce;
+  display:block;
+  background:#dcfce7;
+  color:#166534;
+  border:1px solid #bbf7d0;
 }
 
 .message.error{
+  display:block;
+  background:#fee2e2;
+  color:#991b1b;
+  border:1px solid #fecaca;
+}
+
+.loading{
+  color:#6b7280;
+  font-size:13px;
+  margin-top:5px;
+}
+
+.sol-info{
+  margin-top:7px;
+  font-size:12px;
+  color:#006633;
+  font-weight:600;
+}
+
+@media(max-width:900px){
+  .main{
+    margin-left:72px;
+    padding:20px;
+  }
+
+  .form-grid{
+    grid-template-columns:1fr;
+  }
+
+  .form-group.full{
+    grid-column:auto;
+  }
+}
+
+@media(max-width:600px){
+  .main{
+    padding:15px;
+  }
+
+  .page-header{
     display:block;
-    background:#fff0f0;
-    color:#a00000;
-    border:1px solid #f0c5c5;
-}
+  }
 
-.message.loading{
-    display:block;
-    background:#edf5ff;
-    color:#24558c;
-    border:1px solid #d0e1f5;
-}
+  .page-title h1{
+    font-size:23px;
+  }
 
-/* ================= LOADING ================= */
+  .card{
+    padding:20px;
+  }
 
-.loading-option{
-    color:#888;
-}
+  .actions{
+    flex-direction:column;
+  }
 
-/* ================= MOBILE ================= */
-
-@media(max-width:800px){
-
-    .main{
-        margin-left:72px;
-        padding:15px;
-    }
-
-    .grid{
-        grid-template-columns:1fr;
-    }
-
-    .full{
-        grid-column:auto;
-    }
-
-    .status{
-        display:none;
-    }
-
-}
-
-@media(max-width:500px){
-
-    .main{
-        margin-left:70px;
-        padding:10px;
-    }
-
-    .page-header{
-        margin-bottom:13px;
-    }
-
-    .title-box h1{
-        font-size:19px;
-    }
-
-    .title-icon{
-        width:40px;
-        height:40px;
-        font-size:19px;
-    }
-
-    .form-body{
-        padding:16px;
-    }
-
-    .actions{
-        flex-direction:column;
-    }
-
-    button{
-        width:100%;
-    }
-
+  .btn{
+    width:100%;
+  }
 }
 </style>
 </head>
 
 <body>
 
-<!-- DYNAMIC SIDEBAR -->
+<!-- Dynamic Sidebar -->
 <script src="sidebar.js"></script>
-
 
 <main class="main">
 
-    <!-- HEADER -->
+  <div class="page-header">
+    <div class="page-title">
+      <h1>➕ Add Hardware</h1>
+      <p>Add new hardware details to the MPGB Hardware Management System</p>
+    </div>
+  </div>
 
-    <div class="page-header">
+  <div id="message" class="message"></div>
 
-        <div class="title-box">
+  <div class="card">
 
-            <div class="title-icon">
-                ＋
-            </div>
-
-            <div>
-
-                <h1>Add Hardware</h1>
-
-                <p>
-                    MPGB Hardware Inventory Portal
-                </p>
-
-            </div>
-
-        </div>
-
-
-        <div class="status">
-            <span class="status-dot"></span>
-            Portal Active
-        </div>
-
+    <div class="section-title">
+      Hardware Information
     </div>
 
+    <form id="hardwareForm">
 
-    <!-- CARD -->
+      <div class="form-grid">
 
-    <div class="card">
+        <!-- SOL ID -->
+        <div class="form-group">
+          <label>
+            SOL ID <span class="required">*</span>
+          </label>
 
-        <div class="card-header">
+          <select id="solId" required>
+            <option value="">Loading SOL List...</option>
+          </select>
 
-            <h2>Hardware Registration</h2>
-
-            <p>
-                Enter the hardware details below
-            </p>
-
+          <div id="solLoading" class="loading"></div>
         </div>
 
-
-        <div class="form-body">
-
-            <!-- MESSAGE -->
-
-            <div
-                id="message"
-                class="message">
-            </div>
-
-
-            <form id="hardwareForm">
-
-
-                <!-- ================= BRANCH ================= -->
-
-                <div class="section">
-
-                    <div class="section-title">
-                        Branch Information
-                    </div>
-
-
-                    <div class="grid">
-
-
-                        <!-- SOL -->
-
-                        <div class="field">
-
-                            <label>
-                                SOL ID
-                                <span class="required">*</span>
-                            </label>
-
-                            <select
-                                id="solId"
-                                required>
-
-                                <option value="">
-                                    Loading branches...
-                                </option>
-
-                            </select>
-
-
-                            <div
-                                id="branchName"
-                                class="branch-name">
-                            </div>
-
-                        </div>
-
-
-                        <!-- HARDWARE TYPE -->
-
-                        <div class="field">
-
-                            <label>
-                                Hardware Type
-                                <span class="required">*</span>
-                            </label>
-
-                            <select
-                                id="hardwareType"
-                                required>
-
-                                <option value="">
-                                    Select Hardware Type
-                                </option>
-
-                                <option value="CPU">
-                                    CPU
-                                </option>
-
-                                <option value="Monitor">
-                                    Monitor
-                                </option>
-
-                                <option value="Passbook Printer">
-                                    Passbook Printer
-                                </option>
-
-                                <option value="Laser Printer">
-                                    Laser Printer
-                                </option>
-
-                                <option value="Scanner">
-                                    Scanner
-                                </option>
-
-                                <option value="CTS Machine">
-                                    CTS Machine
-                                </option>
-
-                                <option value="CCTV Monitor">
-                                    CCTV Monitor
-                                </option>
-
-                                <option value="Biometric Device">
-                                    Biometric Device
-                                </option>
-
-                                <option value="UPS">
-                                    UPS
-                                </option>
-
-                                <option value="Other">
-                                    Other
-                                </option>
-
-                            </select>
-
-                        </div>
-
-                    </div>
-
-                </div>
-
-
-                <!-- ================= HARDWARE ================= -->
-
-                <div class="section">
-
-                    <div class="section-title">
-                        Hardware Details
-                    </div>
-
-
-                    <div class="grid">
-
-
-                        <!-- MAKE -->
-
-                        <div class="field">
-
-                            <label>
-                                Make
-                            </label>
-
-                            <input
-                                type="text"
-                                id="make"
-                                placeholder="HP / Dell / Canon">
-
-                        </div>
-
-
-                        <!-- MODEL -->
-
-                        <div class="field">
-
-                            <label>
-                                Model
-                            </label>
-
-                            <input
-                                type="text"
-                                id="model"
-                                placeholder="Enter model">
-
-                        </div>
-
-
-                        <!-- SERIAL -->
-
-                        <div class="field">
-
-                            <label>
-                                Serial Number
-                            </label>
-
-                            <input
-                                type="text"
-                                id="serialNo"
-                                placeholder="Enter serial number">
-
-                        </div>
-
-
-                        <!-- CONDITION -->
-
-                        <div class="field">
-
-                            <label>
-                                Condition
-                                <span class="required">*</span>
-                            </label>
-
-                            <select
-                                id="condition"
-                                required>
-
-                                <option value="">
-                                    Select Condition
-                                </option>
-
-                                <option value="WORKING">
-                                    WORKING
-                                </option>
-
-                                <option value="NOT WORKING">
-                                    NOT WORKING
-                                </option>
-
-                                <option value="UNDER REPAIR">
-                                    UNDER REPAIR
-                                </option>
-
-                                <option value="DAMAGED">
-                                    DAMAGED
-                                </option>
-
-                            </select>
-
-                        </div>
-
-
-                        <!-- REMARKS -->
-
-                        <div class="field full">
-
-                            <label>
-                                Remarks
-                            </label>
-
-                            <textarea
-                                id="remarks"
-                                placeholder="Enter remarks if required"></textarea>
-
-                        </div>
-
-                    </div>
-
-                </div>
-
-
-                <!-- ACTION -->
-
-                <div class="actions">
-
-                    <button
-                        type="button"
-                        class="reset-btn"
-                        onclick="resetForm()">
-
-                        Reset
-
-                    </button>
-
-
-                    <button
-                        type="submit"
-                        class="save-btn"
-                        id="saveButton">
-
-                        Save Hardware
-
-                    </button>
-
-                </div>
-
-
-            </form>
-
+        <!-- Branch Name -->
+        <div class="form-group">
+          <label>Branch Name</label>
+
+          <input
+            type="text"
+            id="branchName"
+            readonly
+            placeholder="Branch name will appear automatically"
+          >
         </div>
 
-    </div>
+        <!-- Hardware Type -->
+        <div class="form-group">
+          <label>
+            Hardware Type <span class="required">*</span>
+          </label>
+
+          <select id="hardwareType" required>
+            <option value="">Select Hardware Type</option>
+            <option value="CPU">CPU</option>
+            <option value="Monitor">Monitor</option>
+            <option value="Passbook Printer">Passbook Printer</option>
+            <option value="Laser Printer">Laser Printer</option>
+            <option value="Scanner">Scanner</option>
+            <option value="CTS Machine">CTS Machine</option>
+            <option value="CCTV Monitor">CCTV Monitor</option>
+            <option value="Biometric Device">Biometric Device</option>
+            <option value="UPS">UPS</option>
+            <option value="Other">Other</option>
+          </select>
+        </div>
+
+        <!-- Make -->
+        <div class="form-group">
+          <label>Make</label>
+
+          <input
+            type="text"
+            id="make"
+            placeholder="e.g. HP, Dell, Canon"
+          >
+        </div>
+
+        <!-- Model -->
+        <div class="form-group">
+          <label>Model</label>
+
+          <input
+            type="text"
+            id="model"
+            placeholder="Enter model"
+          >
+        </div>
+
+        <!-- Serial -->
+        <div class="form-group">
+          <label>Serial Number</label>
+
+          <input
+            type="text"
+            id="serialNo"
+            placeholder="Enter serial number"
+          >
+        </div>
+
+        <!-- Condition -->
+        <div class="form-group">
+          <label>
+            Condition <span class="required">*</span>
+          </label>
+
+          <select id="condition" required>
+            <option value="">Select Condition</option>
+            <option value="Working">Working</option>
+            <option value="Not Working">Not Working</option>
+            <option value="Under Repair">Under Repair</option>
+            <option value="Damaged">Damaged</option>
+          </select>
+        </div>
+
+        <!-- Remarks -->
+        <div class="form-group full">
+          <label>Remarks</label>
+
+          <textarea
+            id="remarks"
+            placeholder="Enter remarks, if any..."
+          ></textarea>
+        </div>
+
+      </div>
+
+      <div class="actions">
+
+        <button
+          type="submit"
+          class="btn btn-save"
+          id="saveBtn"
+        >
+          💾 Save Hardware
+        </button>
+
+        <button
+          type="button"
+          class="btn btn-reset"
+          id="resetBtn"
+        >
+          ↺ Reset
+        </button>
+
+      </div>
+
+    </form>
+
+  </div>
 
 </main>
 
-
 <script>
 
-/* =========================================================
-   API
-========================================================= */
+/* ==========================================
+   GOOGLE APPS SCRIPT WEB APP URL
+   ========================================== */
 
 var API_URL =
 "https://script.google.com/macros/s/AKfycbyqpcO42kRHBBp_n1TEAHyI4SGGBNcf_5qQMN3ZARnZ4WLlUsgokf4k2BrHYfKX1lMB/exec";
 
 
-var branches = [];
+/* ==========================================
+   ELEMENTS
+   ========================================== */
+
+var solSelect = document.getElementById("solId");
+var branchInput = document.getElementById("branchName");
+var messageBox = document.getElementById("message");
+var saveBtn = document.getElementById("saveBtn");
+var solLoading = document.getElementById("solLoading");
 
 
-/* =========================================================
-   LOAD
-========================================================= */
+/* ==========================================
+   SHOW MESSAGE
+   ========================================== */
 
-document.addEventListener(
-    "DOMContentLoaded",
-    function(){
+function showMessage(text, type){
 
-        loadBranches();
+  messageBox.className = "message " + type;
+  messageBox.textContent = text;
 
-    }
-);
-
-
-/* =========================================================
-   LOAD BRANCH LIST
-========================================================= */
-
-function loadBranches(){
-
-    var select =
-        document.getElementById(
-            "solId"
-        );
+  window.scrollTo({
+    top:0,
+    behavior:"smooth"
+  });
+}
 
 
-    select.innerHTML =
-        '<option value="">Loading branches...</option>';
+/* ==========================================
+   CLEAR MESSAGE
+   ========================================== */
 
+function clearMessage(){
 
-    fetch(
-        API_URL +
-        "?action=getSOLList&t=" +
-        Date.now()
-    )
-
-    .then(function(response){
-
-        if(!response.ok){
-
-            throw new Error(
-                "Server error"
-            );
-
-        }
-
-        return response.json();
-
-    })
-
-    .then(function(result){
-
-        if(
-            result.success !== true &&
-            result.status !== "success"
-        ){
-
-            throw new Error(
-                result.message ||
-                "Unable to load branches"
-            );
-
-        }
-
-
-        branches =
-            Array.isArray(result.data)
-            ? result.data
-            : [];
-
-
-        select.innerHTML =
-            '<option value="">Select SOL ID</option>';
-
-
-        branches.forEach(
-            function(branch){
-
-                var sol =
-                    normalizeSOL(
-                        branch.solId
-                    );
-
-
-                var option =
-                    document.createElement(
-                        "option"
-                    );
-
-
-                option.value =
-                    sol;
-
-
-                option.textContent =
-                    sol +
-                    " - " +
-                    branch.branchName;
-
-
-                select.appendChild(
-                    option
-                );
-
-            }
-        );
-
-
-        if(!branches.length){
-
-            select.innerHTML =
-                '<option value="">No branch found</option>';
-
-        }
-
-    })
-
-    .catch(function(error){
-
-        select.innerHTML =
-            '<option value="">Unable to load branches</option>';
-
-
-        showMessage(
-            "Branch list could not be loaded. Please refresh the page.",
-            "error"
-        );
-
-
-        console.error(
-            error
-        );
-
-    });
+  messageBox.className = "message";
+  messageBox.textContent = "";
 
 }
 
 
-/* =========================================================
-   SOL CHANGE
-========================================================= */
-
-document
-.getElementById("solId")
-.addEventListener(
-    "change",
-    function(){
-
-        var sol =
-            normalizeSOL(
-                this.value
-            );
-
-
-        var branch =
-            branches.find(
-                function(item){
-
-                    return normalizeSOL(
-                        item.solId
-                    ) === sol;
-
-                }
-            );
-
-
-        document
-        .getElementById(
-            "branchName"
-        )
-        .innerText =
-            branch
-            ? "Branch: " +
-              branch.branchName
-            : "";
-
-    }
-);
-
-
-/* =========================================================
-   SAVE
-========================================================= */
-
-document
-.getElementById("hardwareForm")
-.addEventListener(
-    "submit",
-    function(event){
-
-        event.preventDefault();
-
-        saveHardware();
-
-    }
-);
-
-
-function saveHardware(){
-
-    var sol =
-        normalizeSOL(
-            document.getElementById(
-                "solId"
-            ).value
-        );
-
-
-    var hardwareType =
-        document.getElementById(
-            "hardwareType"
-        ).value.trim();
-
-
-    var make =
-        document.getElementById(
-            "make"
-        ).value.trim();
-
-
-    var model =
-        document.getElementById(
-            "model"
-        ).value.trim();
-
-
-    var serialNo =
-        document.getElementById(
-            "serialNo"
-        ).value.trim();
-
-
-    var condition =
-        document.getElementById(
-            "condition"
-        ).value.trim();
-
-
-    var remarks =
-        document.getElementById(
-            "remarks"
-        ).value.trim();
-
-
-    /* VALIDATION */
-
-    if(!sol){
-
-        showMessage(
-            "Please select SOL ID.",
-            "error"
-        );
-
-        return;
-
-    }
-
-
-    if(!hardwareType){
-
-        showMessage(
-            "Please select Hardware Type.",
-            "error"
-        );
-
-        return;
-
-    }
-
-
-    if(!condition){
-
-        showMessage(
-            "Please select Condition.",
-            "error"
-        );
-
-        return;
-
-    }
-
-
-    var branch =
-        branches.find(
-            function(item){
-
-                return normalizeSOL(
-                    item.solId
-                ) === sol;
-
-            }
-        );
-
-
-    if(!branch){
-
-        showMessage(
-            "Invalid SOL ID.",
-            "error"
-        );
-
-        return;
-
-    }
-
-
-    /* DATA */
-
-    var data = {
-
-        action:"save",
-
-        solId:sol,
-
-        hardwareType:
-            hardwareType,
-
-        make:make,
-
-        model:model,
-
-        serialNo:serialNo,
-
-        condition:condition,
-
-        remarks:remarks
-
-    };
-
-
-    var button =
-        document.getElementById(
-            "saveButton"
-        );
-
-
-    button.disabled =
-        true;
-
-    button.innerText =
-        "Saving...";
-
-
-    showMessage(
-        "Saving hardware record...",
-        "loading"
-    );
-
-
-    fetch(
-        API_URL,
-        {
-            method:"POST",
-
-            headers:{
-                "Content-Type":
-                    "application/json"
-            },
-
-            body:
-                JSON.stringify(data)
-        }
-    )
-
-    .then(function(response){
-
-        if(!response.ok){
-
-            throw new Error(
-                "Server error"
-            );
-
-        }
-
-        return response.json();
-
-    })
-
-    .then(function(result){
-
-        if(
-            result.success === true ||
-            result.status === "success"
-        ){
-
-            var message =
-                "Hardware saved successfully.";
-
-            if(result.submissionId){
-
-                message +=
-                    " ID: " +
-                    result.submissionId;
-
-            }
-
-
-            showMessage(
-                message,
-                "success"
-            );
-
-
-            /*
-             * Keep SOL selected.
-             * Clear remaining fields.
-             */
-
-            document.getElementById(
-                "hardwareType"
-            ).value = "";
-
-
-            document.getElementById(
-                "make"
-            ).value = "";
-
-
-            document.getElementById(
-                "model"
-            ).value = "";
-
-
-            document.getElementById(
-                "serialNo"
-            ).value = "";
-
-
-            document.getElementById(
-                "condition"
-            ).value = "";
-
-
-            document.getElementById(
-                "remarks"
-            ).value = "";
-
-        }
-        else{
-
-            showMessage(
-                result.message ||
-                "Unable to save record.",
-                "error"
-            );
-
-        }
-
-    })
-
-    .catch(function(error){
-
-        console.error(
-            error
-        );
-
-
-        showMessage(
-            "Unable to save record. Please try again.",
-            "error"
-        );
-
-    })
-
-    .finally(function(){
-
-        button.disabled =
-            false;
-
-        button.innerText =
-            "Save Hardware";
-
-    });
-
-}
-
-
-/* =========================================================
-   RESET
-========================================================= */
-
-function resetForm(){
-
-    document
-    .getElementById(
-        "hardwareForm"
-    )
-    .reset();
-
-
-    document
-    .getElementById(
-        "branchName"
-    )
-    .innerText =
-        "";
-
-
-    hideMessage();
-
-}
-
-
-/* =========================================================
-   NORMALIZE SOL
-========================================================= */
+/* ==========================================
+   NORMALIZE SOL ID
+   ========================================== */
 
 function normalizeSOL(value){
 
-    var text =
-        String(value || "")
-        .replace(
-            /\u00A0/g,
-            " "
-        )
-        .trim();
+  value = String(value || "")
+    .replace(/\u00A0/g," ")
+    .trim();
+
+  var match = value.match(/\b\d{5}\b/);
+
+  if(match){
+    return match[0];
+  }
+
+  return value.replace(/\s+/g,"");
+}
 
 
-    var match =
-        text.match(
-            /\b\d{5}\b/
-        );
+/* ==========================================
+   LOAD SOL LIST
+   ========================================== */
+
+function loadSOLList(){
+
+  solLoading.textContent = "Loading branch list...";
+
+  fetch(API_URL + "?action=getSOLList", {
+    method:"GET"
+  })
+  .then(function(response){
+
+    if(!response.ok){
+      throw new Error("Server returned " + response.status);
+    }
+
+    return response.text();
+
+  })
+  .then(function(text){
+
+    var data;
+
+    try{
+      data = JSON.parse(text);
+    }
+    catch(e){
+      throw new Error("Invalid server response");
+    }
+
+    if(!data.success){
+      throw new Error(data.message || "Unable to load SOL list");
+    }
+
+    solSelect.innerHTML =
+      '<option value="">Select SOL ID</option>';
+
+    var list = data.data || [];
+
+    list.forEach(function(item){
+
+      var option = document.createElement("option");
+
+      option.value = normalizeSOL(item.solId);
+
+      option.textContent =
+        normalizeSOL(item.solId) +
+        " - " +
+        (item.branchName || "");
+
+      option.setAttribute(
+        "data-branch",
+        item.branchName || ""
+      );
+
+      solSelect.appendChild(option);
+
+    });
+
+    solLoading.textContent =
+      list.length + " SOLs loaded";
+
+  })
+  .catch(function(error){
+
+    console.error(error);
+
+    solSelect.innerHTML =
+      '<option value="">Unable to load SOL list</option>';
+
+    solLoading.textContent = "";
+
+    showMessage(
+      "Unable to load SOL list: " + error.message,
+      "error"
+    );
+
+  });
+
+}
 
 
-    if(match){
+/* ==========================================
+   SOL CHANGE
+   ========================================== */
 
-        return match[0];
+solSelect.addEventListener("change", function(){
+
+  var selected =
+    solSelect.options[solSelect.selectedIndex];
+
+  if(!selected || !selected.value){
+
+    branchInput.value = "";
+    return;
+
+  }
+
+  branchInput.value =
+    selected.getAttribute("data-branch") || "";
+
+});
+
+
+/* ==========================================
+   SAVE HARDWARE
+   CORS-SAFE FORM POST
+   ========================================== */
+
+document.getElementById("hardwareForm")
+.addEventListener("submit", function(e){
+
+  e.preventDefault();
+
+  clearMessage();
+
+  var sol =
+    normalizeSOL(
+      document.getElementById("solId").value
+    );
+
+  var hardwareType =
+    document.getElementById("hardwareType").value;
+
+  var make =
+    document.getElementById("make").value.trim();
+
+  var model =
+    document.getElementById("model").value.trim();
+
+  var serialNo =
+    document.getElementById("serialNo").value.trim();
+
+  var condition =
+    document.getElementById("condition").value;
+
+  var remarks =
+    document.getElementById("remarks").value.trim();
+
+
+  /* VALIDATION */
+
+  if(!sol){
+
+    showMessage(
+      "Please select SOL ID.",
+      "error"
+    );
+
+    return;
+  }
+
+  if(!/^\d{5}$/.test(sol)){
+
+    showMessage(
+      "Invalid SOL ID. Please select a valid 5 digit SOL ID.",
+      "error"
+    );
+
+    return;
+  }
+
+  if(!hardwareType){
+
+    showMessage(
+      "Please select Hardware Type.",
+      "error"
+    );
+
+    return;
+  }
+
+  if(!condition){
+
+    showMessage(
+      "Please select Condition.",
+      "error"
+    );
+
+    return;
+  }
+
+
+  /* DISABLE BUTTON */
+
+  saveBtn.disabled = true;
+  saveBtn.textContent = "⏳ Saving...";
+
+
+  /*
+     IMPORTANT:
+     Do NOT use application/json here.
+
+     URLSearchParams sends normal form data
+     and avoids CORS preflight.
+  */
+
+  var formData = new URLSearchParams();
+
+  formData.append("action","save");
+  formData.append("solId",sol);
+  formData.append("hardwareType",hardwareType);
+  formData.append("make",make);
+  formData.append("model",model);
+  formData.append("serialNo",serialNo);
+  formData.append("condition",condition);
+  formData.append("remarks",remarks);
+
+
+  fetch(API_URL, {
+
+    method:"POST",
+
+    body:formData
+
+  })
+
+  .then(function(response){
+
+    if(!response.ok){
+
+      throw new Error(
+        "Server returned " + response.status
+      );
+
+    }
+
+    return response.text();
+
+  })
+
+  .then(function(text){
+
+    var result;
+
+    try{
+
+      result = JSON.parse(text);
+
+    }
+    catch(e){
+
+      console.error("Server response:",text);
+
+      throw new Error(
+        "Invalid response received from server."
+      );
 
     }
 
 
-    return text.replace(
-        /\s+/g,
-        ""
+    if(result.success){
+
+      showMessage(
+        "✅ Hardware saved successfully.",
+        "success"
+      );
+
+      document.getElementById("hardwareForm").reset();
+
+      branchInput.value = "";
+
+      /* Keep SOL list */
+
+    }
+    else{
+
+      throw new Error(
+        result.message ||
+        "Unable to save hardware."
+      );
+
+    }
+
+  })
+
+  .catch(function(error){
+
+    console.error("SAVE ERROR:",error);
+
+    showMessage(
+      "Unable to save hardware: " +
+      error.message,
+      "error"
     );
 
-}
+  })
+
+  .finally(function(){
+
+    saveBtn.disabled = false;
+    saveBtn.textContent = "💾 Save Hardware";
+
+  });
+
+});
 
 
-/* =========================================================
-   MESSAGE
-========================================================= */
+/* ==========================================
+   RESET
+   ========================================== */
 
-function showMessage(
-    text,
-    type
-){
+document.getElementById("resetBtn")
+.addEventListener("click", function(){
 
-    var box =
-        document.getElementById(
-            "message"
-        );
+  document.getElementById("hardwareForm").reset();
 
+  branchInput.value = "";
 
-    box.className =
-        "message " +
-        type;
+  clearMessage();
+
+});
 
 
-    box.innerText =
-        text;
+/* ==========================================
+   INITIAL LOAD
+   ========================================== */
 
-
-    box.style.display =
-        "block";
-
-}
-
-
-function hideMessage(){
-
-    document.getElementById(
-        "message"
-    ).style.display =
-        "none";
-
-}
+loadSOLList();
 
 </script>
 
