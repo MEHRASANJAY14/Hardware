@@ -1,5 +1,5 @@
 <!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Hardware Dashboard</title><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"><style>
+<title>Edit Hardware</title><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"><style>
 *{box-sizing:border-box}body{margin:0;font-family:Arial,sans-serif;background:#f3f6f5;color:#1f2937}
 .sidebar{position:fixed;inset:0 auto 0 0;width:245px;background:linear-gradient(180deg,#006633,#003d1d);color:white;padding-bottom:55px}
 .brand{padding:22px 18px;border-bottom:1px solid #ffffff22;display:flex;gap:12px;align-items:center}.brand i{font-size:24px;background:#ffffff18;padding:12px;border-radius:12px}.brand b{display:block}.brand small{opacity:.7}
@@ -14,17 +14,14 @@ nav{padding:16px 10px}nav a{display:block;color:#fff;text-decoration:none;paddin
 .mobile{display:none}@media(max-width:1100px){.cards{grid-template-columns:repeat(3,1fr)}}@media(max-width:800px){.sidebar{transform:translateX(-245px);z-index:1000}.sidebar.open{transform:translateX(0)}.main{margin-left:0}.mobile{display:inline-block;border:0;background:none;font-size:20px}.grid{grid-template-columns:1fr}.full{grid-column:auto}.cards{grid-template-columns:repeat(2,1fr)}.content{padding:13px}}@media(max-width:500px){.cards{grid-template-columns:1fr}}
 @media print{.sidebar,.top,.no-print{display:none!important}.main{margin-left:0}.content{padding:0}}
 </style></head>
-<body><aside class="sidebar"><div class="brand"><i class="fa-solid fa-server"></i><div><b>MPGB Hardware</b><small>RO Jabalpur</small></div></div><nav><a class="active" href="index.html">📊 Dashboard</a><a class="" href="add-hardware.html">➕ Add Hardware</a><a class="" href="records.html">🗃️ Hardware Records</a><a class="" href="branch-summary.html">🏢 Branch-wise Summary</a><a class="" href="hardware-summary.html">📈 Hardware-wise Summary</a><a class="" href="reports.html">📄 Reports</a></nav><div class="foot">MPGB • RO Jabalpur<br>Hardware Asset Management</div></aside>
-<main class="main"><header class="top"><div><button class="mobile" onclick="toggleMenu()">☰</button><span class="title">Hardware Dashboard</span><div class="sub">Hardware Asset Management System</div></div><b>RO Jabalpur</b></header><div class="content">
-<div class="hero"><h1>Hardware Inventory Dashboard</h1><p>Branch-wise hardware monitoring and asset management</p></div>
-<div class="cards">
-<div class="card"><small>Total Hardware</small><div class="num" id="total">0</div></div>
-<div class="card"><small>Working</small><div class="num" id="working">0</div></div>
-<div class="card"><small>Not Working</small><div class="num" id="notWorking">0</div></div>
-<div class="card"><small>Under Repair</small><div class="num" id="repair">0</div></div>
-<div class="card"><small>Damaged</small><div class="num" id="damaged">0</div></div>
-</div>
-<div class="panel"><div class="head"><b>Recently Added Hardware</b><button class="btn" onclick="load()">↻ Refresh</button></div><div class="tablewrap" id="recent">Loading...</div></div>
+<body><aside class="sidebar"><div class="brand"><i class="fa-solid fa-server"></i><div><b>MPGB Hardware</b><small>RO Jabalpur</small></div></div><nav><a class="" href="index.html">📊 Dashboard</a><a class="" href="add-hardware.html">➕ Add Hardware</a><a class="active" href="records.html">🗃️ Hardware Records</a><a class="" href="branch-summary.html">🏢 Branch-wise Summary</a><a class="" href="hardware-summary.html">📈 Hardware-wise Summary</a><a class="" href="reports.html">📄 Reports</a></nav><div class="foot">MPGB • RO Jabalpur<br>Hardware Asset Management</div></aside>
+<main class="main"><header class="top"><div><button class="mobile" onclick="toggleMenu()">☰</button><span class="title">Edit Hardware</span><div class="sub">Update existing hardware record</div></div><b>RO Jabalpur</b></header><div class="content">
+<div class="panel"><div class="head"><b>Edit Hardware</b></div><div class="body"><p>Submission ID: <b id="sid"></b></p><div class="grid">
+<div><label>SOL ID *</label><select id="solId" onchange="branchChange()"></select></div><div><label>Branch</label><div class="branch" id="branchName"></div></div>
+<div><label>Hardware Type *</label><select id="hardwareType"><option>CPU</option><option>Monitor</option><option>Passbook Printer</option><option>Laser Printer</option><option>Scanner</option><option>CTS Machine</option><option>CCTV Monitor</option><option>Biometric Device</option><option>UPS</option><option>Other</option></select></div>
+<div><label>Hardware Sub Type</label><input id="hardwareSubType"></div><div><label>Make</label><input id="make"></div><div><label>Model</label><input id="model"></div><div><label>Serial No</label><input id="serialNo"></div>
+<div><label>Condition *</label><select id="condition"><option>WORKING</option><option>NOT WORKING</option><option>UNDER REPAIR</option><option>DAMAGED</option></select></div>
+<div class="full"><label>Remarks</label><textarea id="remarks"></textarea></div></div><div class="actions"><a class="btn secondary" href="records.html">Back</a><button class="btn primary" onclick="update()">Update Hardware</button></div></div></div>
 </div></main>
 <script>
 const GAS_URL='https://script.google.com/macros/s/AKfycbyqpcO42kRHBBp_n1TEAHyI4SGGBNcf_5qQMN3ZARnZ4WLlUsgokf4k2BrHYfKX1lMB/exec';
@@ -32,13 +29,9 @@ const esc=v=>String(v??'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>
 function badge(c){let x=String(c||'').toUpperCase();if(x==='WORKING')return '<span class="badge w">Working</span>';if(x==='UNDER REPAIR')return '<span class="badge r">Under Repair</span>';if(x==='DAMAGED')return '<span class="badge d">Damaged</span>';return '<span class="badge nw">'+esc(c)+'</span>';}
 function toggleMenu(){document.querySelector('.sidebar').classList.toggle('open')}
 
-async function load(){try{
-let d=await(await fetch(GAS_URL+'?action=dashboard&_='+Date.now())).json();
-['total','working','notWorking','repair','damaged'].forEach(k=>document.getElementById(k).textContent=d[k]||0);
-let r=await(await fetch(GAS_URL+'?action=recent&_='+Date.now())).json(), rows=(r.data||[]).slice(0,10);
-let h='<table><tr><th>SOL</th><th>Branch</th><th>Hardware</th><th>Make</th><th>Model</th><th>Condition</th></tr>';
-rows.forEach(x=>h+=`<tr><td>${esc(x.solId)}</td><td>${esc(x.branchName)}</td><td>${esc(x.hardwareType)}</td><td>${esc(x.make)}</td><td>${esc(x.model)}</td><td>${badge(x.condition)}</td></tr>`);
-document.getElementById('recent').innerHTML=h+'</table>';
-}catch(e){document.getElementById('recent').innerHTML='Unable to load data.'}}
-load();
+let rec;
+async function init(){rec=JSON.parse(localStorage.getItem('editHardwareRecord')||'null');if(!rec){location.href='records.html';return}sid.textContent=rec.submissionId;let d=await(await fetch(GAS_URL+'?action=getSOLList&_='+Date.now())).json();(d.data||[]).forEach(x=>{let o=document.createElement('option');o.value=x.solId;o.textContent=x.solId+' - '+x.branchName;o.dataset.branch=x.branchName;solId.appendChild(o)});solId.value=rec.solId;branchChange();hardwareType.value=rec.hardwareType;hardwareSubType.value=rec.hardwareSubType||'';make.value=rec.make||'';model.value=rec.model||'';serialNo.value=rec.serialNo||'';condition.value=rec.condition;remarks.value=rec.remarks||''}
+function branchChange(){let o=solId.options[solId.selectedIndex];branchName.textContent=o?o.dataset.branch:''}
+async function update(){let p=new URLSearchParams({action:'update',submissionId:rec.submissionId,solId:solId.value,hardwareType:hardwareType.value,hardwareSubType:hardwareSubType.value,make:make.value,model:model.value,serialNo:serialNo.value,condition:condition.value,remarks:remarks.value});let d=await(await fetch(GAS_URL+'?'+p)).json();if(d.status!=='success')return alert(d.message);localStorage.removeItem('editHardwareRecord');alert('Hardware updated successfully.');location.href='records.html'}
+init();
 </script></body></html>
