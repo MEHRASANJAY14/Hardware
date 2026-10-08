@@ -9,14 +9,14 @@
 <style>
 *{
     box-sizing:border-box;
-    margin:0;
-    padding:0;
 }
 
-body{
-    font-family:Inter,Arial,sans-serif;
-    background:#f3f7f4;
-    color:#1f2937;
+html,body{
+    margin:0;
+    padding:0;
+    font-family:Arial,Helvetica,sans-serif;
+    background:#f4f7f5;
+    color:#263238;
 }
 
 /* ================= MAIN ================= */
@@ -24,266 +24,205 @@ body{
 .main{
     margin-left:255px;
     min-height:100vh;
-    padding:28px;
-    transition:.3s;
+    padding:22px;
 }
 
-/* ================= PAGE HEADER ================= */
+/* ================= HEADER ================= */
 
 .page-header{
     display:flex;
-    align-items:center;
     justify-content:space-between;
-    margin-bottom:24px;
+    align-items:center;
+    margin-bottom:18px;
 }
 
-.page-title{
+.title-box{
     display:flex;
     align-items:center;
-    gap:14px;
+    gap:12px;
 }
 
-.page-icon{
-    width:52px;
-    height:52px;
-    border-radius:14px;
-    background:linear-gradient(135deg,#006400,#00994d);
-    color:white;
+.title-icon{
+    width:46px;
+    height:46px;
+    border-radius:11px;
+    background:#006400;
+    color:#fff;
     display:flex;
     align-items:center;
     justify-content:center;
-    font-size:25px;
-    box-shadow:0 8px 20px rgba(0,100,0,.18);
+    font-size:23px;
 }
 
-.page-title h1{
-    font-size:25px;
-    color:#064e24;
+.title-box h1{
+    margin:0;
+    color:#075b2b;
+    font-size:23px;
 }
 
-.page-title p{
-    font-size:12px;
-    color:#7b8794;
-    margin-top:4px;
+.title-box p{
+    margin:3px 0 0;
+    color:#7b8790;
+    font-size:11px;
 }
 
-/* ================= TOP BADGE ================= */
-
-.top-badge{
-    background:#e5f6eb;
-    color:#006400;
-    padding:9px 14px;
-    border-radius:20px;
-    font-size:12px;
-    font-weight:bold;
+.status{
+    font-size:11px;
+    color:#08752d;
+    background:#e7f7ec;
+    padding:8px 12px;
+    border-radius:18px;
 }
 
-.top-badge span{
+.status-dot{
     display:inline-block;
     width:7px;
     height:7px;
     border-radius:50%;
     background:#16a34a;
-    margin-right:6px;
+    margin-right:5px;
 }
 
-/* ================= FORM CARD ================= */
+/* ================= CARD ================= */
 
-.form-card{
+.card{
+    max-width:1050px;
     background:#fff;
-    border-radius:18px;
-    box-shadow:0 8px 30px rgba(0,0,0,.07);
+    border-radius:14px;
+    box-shadow:0 3px 15px rgba(0,0,0,.07);
     overflow:hidden;
-    max-width:1100px;
 }
 
 /* ================= CARD HEADER ================= */
 
 .card-header{
-    padding:20px 25px;
-    background:linear-gradient(
-        135deg,
-        #006400,
-        #008c45
-    );
+    background:#006400;
     color:#fff;
+    padding:17px 22px;
 }
 
 .card-header h2{
-    font-size:18px;
+    margin:0;
+    font-size:16px;
 }
 
 .card-header p{
-    font-size:12px;
-    opacity:.8;
-    margin-top:4px;
+    margin:4px 0 0;
+    font-size:11px;
+    opacity:.78;
 }
 
 /* ================= FORM ================= */
 
 .form-body{
-    padding:27px;
+    padding:22px;
+}
+
+.section{
+    margin-bottom:20px;
 }
 
 .section-title{
-    display:flex;
-    align-items:center;
-    gap:9px;
-    font-size:13px;
+    font-size:12px;
     font-weight:bold;
     color:#006400;
-    margin-bottom:17px;
+    border-left:4px solid #006400;
+    padding-left:8px;
+    margin-bottom:13px;
 }
 
-.section-title::before{
-    content:"";
-    width:4px;
-    height:17px;
-    border-radius:4px;
-    background:#006400;
-}
-
-.form-grid{
+.grid{
     display:grid;
-    grid-template-columns:repeat(2,1fr);
-    gap:20px;
+    grid-template-columns:1fr 1fr;
+    gap:16px;
 }
 
-.form-group{
-    position:relative;
-}
-
-.form-group.full{
-    grid-column:1/-1;
-}
-
-label{
+.field label{
     display:block;
-    font-size:12px;
-    font-weight:700;
-    color:#374151;
-    margin-bottom:7px;
+    font-size:11px;
+    font-weight:bold;
+    color:#46515a;
+    margin-bottom:6px;
 }
 
 .required{
-    color:#dc2626;
+    color:#d32f2f;
 }
 
 input,
 select,
 textarea{
     width:100%;
-    border:1px solid #d7dee5;
-    background:#fbfcfc;
-    border-radius:9px;
-    padding:12px 13px;
+    border:1px solid #d8dee2;
+    border-radius:7px;
+    background:#fafcfa;
+    padding:10px 11px;
     font-size:13px;
-    color:#222;
+    color:#263238;
     outline:none;
-    transition:.2s;
-}
-
-input:hover,
-select:hover,
-textarea:hover{
-    border-color:#a9c7b3;
 }
 
 input:focus,
 select:focus,
 textarea:focus{
-    border-color:#008c45;
+    border-color:#00823b;
     background:#fff;
-    box-shadow:
-        0 0 0 3px rgba(0,140,69,.08);
+    box-shadow:0 0 0 2px rgba(0,130,59,.08);
 }
 
 textarea{
-    height:90px;
+    height:75px;
     resize:vertical;
 }
 
-/* ================= SOL ================= */
-
-.sol-wrapper{
-    position:relative;
+.full{
+    grid-column:1/-1;
 }
 
-.sol-wrapper select{
-    padding-right:40px;
-}
+/* ================= BRANCH ================= */
 
-.branch-display{
-    min-height:18px;
-    margin-top:7px;
-    font-size:11px;
-    color:#006400;
-    font-weight:600;
-}
-
-.branch-display::before{
-    content:"▸ ";
-}
-
-/* ================= SERIAL ================= */
-
-.serial-hint{
-    font-size:10px;
-    color:#9ca3af;
+.branch-name{
+    min-height:17px;
     margin-top:5px;
+    font-size:10px;
+    color:#006400;
+    font-weight:bold;
 }
 
-/* ================= DIVIDER ================= */
+/* ================= BUTTON ================= */
 
-.divider{
-    height:1px;
-    background:#edf0f2;
-    margin:27px 0;
-}
-
-/* ================= BUTTONS ================= */
-
-.action-area{
+.actions{
+    border-top:1px solid #edf0ef;
+    padding-top:17px;
     display:flex;
     justify-content:flex-end;
-    gap:10px;
+    gap:9px;
 }
 
-.btn{
-    border:none;
-    padding:12px 22px;
-    border-radius:9px;
-    font-size:13px;
+button{
+    border:0;
+    border-radius:7px;
+    padding:10px 20px;
+    font-size:12px;
     font-weight:bold;
     cursor:pointer;
-    transition:.2s;
 }
 
-.btn-save{
+.save-btn{
+    background:#006400;
     color:#fff;
-    background:linear-gradient(
-        135deg,
-        #006400,
-        #008c45
-    );
-    box-shadow:0 6px 15px rgba(0,100,0,.18);
 }
 
-.btn-save:hover{
-    transform:translateY(-1px);
-    box-shadow:0 8px 20px rgba(0,100,0,.25);
+.save-btn:hover{
+    background:#00823b;
 }
 
-.btn-reset{
+.reset-btn{
     background:#eef1f2;
     color:#4b5563;
 }
 
-.btn-reset:hover{
-    background:#e1e5e7;
-}
-
-.btn:disabled{
+button:disabled{
     opacity:.6;
     cursor:not-allowed;
 }
@@ -292,53 +231,37 @@ textarea{
 
 .message{
     display:none;
-    margin-bottom:20px;
-    padding:13px 15px;
-    border-radius:9px;
-    font-size:13px;
-    font-weight:600;
+    padding:10px 12px;
+    border-radius:7px;
+    margin-bottom:17px;
+    font-size:12px;
 }
 
 .message.success{
     display:block;
-    background:#e7f8ed;
-    border:1px solid #b9e7c7;
+    background:#e8f7ed;
     color:#08752d;
+    border:1px solid #c5e8ce;
 }
 
 .message.error{
     display:block;
     background:#fff0f0;
-    border:1px solid #f1c1c1;
     color:#a00000;
+    border:1px solid #f0c5c5;
 }
 
 .message.loading{
     display:block;
     background:#edf5ff;
-    border:1px solid #c9ddfa;
-    color:#1d4f91;
+    color:#24558c;
+    border:1px solid #d0e1f5;
 }
 
-/* ================= API STATUS ================= */
+/* ================= LOADING ================= */
 
-.api-footer{
-    margin-top:16px;
-    font-size:11px;
-    color:#8b949e;
-}
-
-.api-dot{
-    display:inline-block;
-    width:7px;
-    height:7px;
-    border-radius:50%;
-    background:#aaa;
-    margin-right:5px;
-}
-
-.api-dot.online{
-    background:#16a34a;
+.loading-option{
+    color:#888;
 }
 
 /* ================= MOBILE ================= */
@@ -346,114 +269,116 @@ textarea{
 @media(max-width:800px){
 
     .main{
-        margin-left:75px;
-        padding:18px;
+        margin-left:72px;
+        padding:15px;
     }
 
-    .form-grid{
+    .grid{
         grid-template-columns:1fr;
     }
 
-    .form-group.full{
+    .full{
         grid-column:auto;
     }
 
-    .page-header{
-        align-items:flex-start;
-    }
-
-    .top-badge{
+    .status{
         display:none;
     }
+
 }
 
-@media(max-width:550px){
+@media(max-width:500px){
 
     .main{
         margin-left:70px;
-        padding:12px;
+        padding:10px;
     }
 
-    .page-title h1{
-        font-size:20px;
+    .page-header{
+        margin-bottom:13px;
     }
 
-    .page-icon{
-        width:44px;
-        height:44px;
+    .title-box h1{
+        font-size:19px;
+    }
+
+    .title-icon{
+        width:40px;
+        height:40px;
+        font-size:19px;
     }
 
     .form-body{
-        padding:18px;
+        padding:16px;
     }
 
-    .action-area{
+    .actions{
         flex-direction:column;
     }
 
-    .btn{
+    button{
         width:100%;
     }
+
 }
 </style>
 </head>
 
 <body>
 
-<!--
-    sidebar.js
-    Same folder mein hona chahiye
--->
+<!-- DYNAMIC SIDEBAR -->
 <script src="sidebar.js"></script>
 
 
 <main class="main">
 
-    <!-- ================= HEADER ================= -->
+    <!-- HEADER -->
 
     <div class="page-header">
 
-        <div class="page-title">
+        <div class="title-box">
 
-            <div class="page-icon">
+            <div class="title-icon">
                 ＋
             </div>
 
             <div>
+
                 <h1>Add Hardware</h1>
 
                 <p>
-                    Register new hardware in MPGB inventory
+                    MPGB Hardware Inventory Portal
                 </p>
+
             </div>
 
         </div>
 
-        <div class="top-badge">
-            <span></span>
-            System Online
+
+        <div class="status">
+            <span class="status-dot"></span>
+            Portal Active
         </div>
 
     </div>
 
 
-    <!-- ================= FORM CARD ================= -->
+    <!-- CARD -->
 
-    <div class="form-card">
+    <div class="card">
 
         <div class="card-header">
 
             <h2>Hardware Registration</h2>
 
             <p>
-                Enter hardware details and save the inventory record
+                Enter the hardware details below
             </p>
 
         </div>
 
 
         <div class="form-body">
-
 
             <!-- MESSAGE -->
 
@@ -466,237 +391,236 @@ textarea{
             <form id="hardwareForm">
 
 
-                <!-- ================= LOCATION ================= -->
+                <!-- ================= BRANCH ================= -->
 
-                <div class="section-title">
-                    Branch Information
-                </div>
+                <div class="section">
+
+                    <div class="section-title">
+                        Branch Information
+                    </div>
 
 
-                <div class="form-grid">
+                    <div class="grid">
 
-                    <div class="form-group">
 
-                        <label>
-                            SOL ID
-                            <span class="required">*</span>
-                        </label>
+                        <!-- SOL -->
 
-                        <div class="sol-wrapper">
+                        <div class="field">
+
+                            <label>
+                                SOL ID
+                                <span class="required">*</span>
+                            </label>
 
                             <select
                                 id="solId"
                                 required>
 
                                 <option value="">
-                                    Loading SOL list...
+                                    Loading branches...
+                                </option>
+
+                            </select>
+
+
+                            <div
+                                id="branchName"
+                                class="branch-name">
+                            </div>
+
+                        </div>
+
+
+                        <!-- HARDWARE TYPE -->
+
+                        <div class="field">
+
+                            <label>
+                                Hardware Type
+                                <span class="required">*</span>
+                            </label>
+
+                            <select
+                                id="hardwareType"
+                                required>
+
+                                <option value="">
+                                    Select Hardware Type
+                                </option>
+
+                                <option value="CPU">
+                                    CPU
+                                </option>
+
+                                <option value="Monitor">
+                                    Monitor
+                                </option>
+
+                                <option value="Passbook Printer">
+                                    Passbook Printer
+                                </option>
+
+                                <option value="Laser Printer">
+                                    Laser Printer
+                                </option>
+
+                                <option value="Scanner">
+                                    Scanner
+                                </option>
+
+                                <option value="CTS Machine">
+                                    CTS Machine
+                                </option>
+
+                                <option value="CCTV Monitor">
+                                    CCTV Monitor
+                                </option>
+
+                                <option value="Biometric Device">
+                                    Biometric Device
+                                </option>
+
+                                <option value="UPS">
+                                    UPS
+                                </option>
+
+                                <option value="Other">
+                                    Other
                                 </option>
 
                             </select>
 
                         </div>
 
-                        <div
-                            id="branchInfo"
-                            class="branch-display">
-                        </div>
-
-                    </div>
-
-
-                    <div class="form-group">
-
-                        <label>
-                            Hardware Type
-                            <span class="required">*</span>
-                        </label>
-
-                        <select
-                            id="hardwareType"
-                            required>
-
-                            <option value="">
-                                Select Hardware Type
-                            </option>
-
-                            <option value="CPU">
-                                CPU
-                            </option>
-
-                            <option value="Monitor">
-                                Monitor
-                            </option>
-
-                            <option value="Passbook Printer">
-                                Passbook Printer
-                            </option>
-
-                            <option value="Laser Printer">
-                                Laser Printer
-                            </option>
-
-                            <option value="Scanner">
-                                Scanner
-                            </option>
-
-                            <option value="CTS Machine">
-                                CTS Machine
-                            </option>
-
-                            <option value="CCTV Monitor">
-                                CCTV Monitor
-                            </option>
-
-                            <option value="Biometric Device">
-                                Biometric Device
-                            </option>
-
-                            <option value="UPS">
-                                UPS
-                            </option>
-
-                            <option value="Other">
-                                Other
-                            </option>
-
-                        </select>
-
                     </div>
 
                 </div>
-
-
-                <div class="divider"></div>
 
 
                 <!-- ================= HARDWARE ================= -->
 
-                <div class="section-title">
-                    Hardware Details
-                </div>
+                <div class="section">
 
-
-                <div class="form-grid">
-
-
-                    <!-- MAKE -->
-
-                    <div class="form-group">
-
-                        <label>
-                            Make
-                        </label>
-
-                        <input
-                            type="text"
-                            id="make"
-                            placeholder="e.g. HP, Dell, Canon">
-
+                    <div class="section-title">
+                        Hardware Details
                     </div>
 
 
-                    <!-- MODEL -->
-
-                    <div class="form-group">
-
-                        <label>
-                            Model
-                        </label>
-
-                        <input
-                            type="text"
-                            id="model"
-                            placeholder="Enter model number">
-
-                    </div>
+                    <div class="grid">
 
 
-                    <!-- SERIAL -->
+                        <!-- MAKE -->
 
-                    <div class="form-group">
+                        <div class="field">
 
-                        <label>
-                            Serial Number
-                        </label>
+                            <label>
+                                Make
+                            </label>
 
-                        <input
-                            type="text"
-                            id="serialNo"
-                            placeholder="Enter serial number">
+                            <input
+                                type="text"
+                                id="make"
+                                placeholder="HP / Dell / Canon">
 
-                        <div class="serial-hint">
-                            Enter the exact serial number printed on the device
+                        </div>
+
+
+                        <!-- MODEL -->
+
+                        <div class="field">
+
+                            <label>
+                                Model
+                            </label>
+
+                            <input
+                                type="text"
+                                id="model"
+                                placeholder="Enter model">
+
+                        </div>
+
+
+                        <!-- SERIAL -->
+
+                        <div class="field">
+
+                            <label>
+                                Serial Number
+                            </label>
+
+                            <input
+                                type="text"
+                                id="serialNo"
+                                placeholder="Enter serial number">
+
+                        </div>
+
+
+                        <!-- CONDITION -->
+
+                        <div class="field">
+
+                            <label>
+                                Condition
+                                <span class="required">*</span>
+                            </label>
+
+                            <select
+                                id="condition"
+                                required>
+
+                                <option value="">
+                                    Select Condition
+                                </option>
+
+                                <option value="WORKING">
+                                    WORKING
+                                </option>
+
+                                <option value="NOT WORKING">
+                                    NOT WORKING
+                                </option>
+
+                                <option value="UNDER REPAIR">
+                                    UNDER REPAIR
+                                </option>
+
+                                <option value="DAMAGED">
+                                    DAMAGED
+                                </option>
+
+                            </select>
+
+                        </div>
+
+
+                        <!-- REMARKS -->
+
+                        <div class="field full">
+
+                            <label>
+                                Remarks
+                            </label>
+
+                            <textarea
+                                id="remarks"
+                                placeholder="Enter remarks if required"></textarea>
+
                         </div>
 
                     </div>
 
-
-                    <!-- CONDITION -->
-
-                    <div class="form-group">
-
-                        <label>
-                            Condition
-                            <span class="required">*</span>
-                        </label>
-
-                        <select
-                            id="condition"
-                            required>
-
-                            <option value="">
-                                Select Condition
-                            </option>
-
-                            <option value="WORKING">
-                                WORKING
-                            </option>
-
-                            <option value="NOT WORKING">
-                                NOT WORKING
-                            </option>
-
-                            <option value="UNDER REPAIR">
-                                UNDER REPAIR
-                            </option>
-
-                            <option value="DAMAGED">
-                                DAMAGED
-                            </option>
-
-                        </select>
-
-                    </div>
-
-
-                    <!-- REMARKS -->
-
-                    <div class="form-group full">
-
-                        <label>
-                            Remarks
-                        </label>
-
-                        <textarea
-                            id="remarks"
-                            placeholder="Enter additional remarks, if any">
-                        </textarea>
-
-                    </div>
-
                 </div>
 
 
-                <div class="divider"></div>
+                <!-- ACTION -->
 
-
-                <!-- ================= ACTION ================= -->
-
-                <div class="action-area">
+                <div class="actions">
 
                     <button
                         type="button"
-                        class="btn btn-reset"
+                        class="reset-btn"
                         onclick="resetForm()">
 
                         Reset
@@ -706,8 +630,8 @@ textarea{
 
                     <button
                         type="submit"
-                        id="saveBtn"
-                        class="btn btn-save">
+                        class="save-btn"
+                        id="saveButton">
 
                         Save Hardware
 
@@ -717,23 +641,6 @@ textarea{
 
 
             </form>
-
-
-            <!-- API STATUS -->
-
-            <div class="api-footer">
-
-                <span
-                    id="apiDot"
-                    class="api-dot">
-                </span>
-
-                API:
-                <span id="apiStatus">
-                    Checking connection...
-                </span>
-
-            </div>
 
         </div>
 
@@ -752,94 +659,37 @@ var API_URL =
 "https://script.google.com/macros/s/AKfycbyqpcO42kRHBBp_n1TEAHyI4SGGBNcf_5qQMN3ZARnZ4WLlUsgokf4k2BrHYfKX1lMB/exec";
 
 
-var branchList = [];
+var branches = [];
 
 
 /* =========================================================
-   PAGE LOAD
+   LOAD
 ========================================================= */
 
 document.addEventListener(
     "DOMContentLoaded",
     function(){
 
-        checkAPI();
-
-        loadSOLList();
+        loadBranches();
 
     }
 );
 
 
 /* =========================================================
-   API CHECK
+   LOAD BRANCH LIST
 ========================================================= */
 
-function checkAPI(){
+function loadBranches(){
 
-    fetch(
-        API_URL +
-        "?action=getSOLList&t=" +
-        Date.now()
-    )
-
-    .then(function(response){
-
-        return response.json();
-
-    })
-
-    .then(function(result){
-
-        if(
-            result.success === true ||
-            result.status === "success"
-        ){
-
-            document.getElementById(
-                "apiStatus"
-            ).innerText =
-                "Connected";
-
-            document.getElementById(
-                "apiDot"
-            ).classList.add(
-                "online"
-            );
-
-        }
-        else{
-
-            throw new Error(
-                "API Error"
-            );
-
-        }
-
-    })
-
-    .catch(function(){
-
+    var select =
         document.getElementById(
-            "apiStatus"
-        ).innerText =
-            "Connection Error";
-
-    });
-
-}
+            "solId"
+        );
 
 
-/* =========================================================
-   LOAD SOL
-========================================================= */
-
-function loadSOLList(){
-
-    showMessage(
-        "Loading branch list...",
-        "loading"
-    );
+    select.innerHTML =
+        '<option value="">Loading branches...</option>';
 
 
     fetch(
@@ -853,8 +703,7 @@ function loadSOLList(){
         if(!response.ok){
 
             throw new Error(
-                "HTTP " +
-                response.status
+                "Server error"
             );
 
         }
@@ -872,100 +721,81 @@ function loadSOLList(){
 
             throw new Error(
                 result.message ||
-                "Unable to load SOL list"
+                "Unable to load branches"
             );
 
         }
 
 
-        branchList =
+        branches =
             Array.isArray(result.data)
             ? result.data
             : [];
 
 
-        populateSOL();
+        select.innerHTML =
+            '<option value="">Select SOL ID</option>';
 
-        hideMessage();
+
+        branches.forEach(
+            function(branch){
+
+                var sol =
+                    normalizeSOL(
+                        branch.solId
+                    );
+
+
+                var option =
+                    document.createElement(
+                        "option"
+                    );
+
+
+                option.value =
+                    sol;
+
+
+                option.textContent =
+                    sol +
+                    " - " +
+                    branch.branchName;
+
+
+                select.appendChild(
+                    option
+                );
+
+            }
+        );
+
+
+        if(!branches.length){
+
+            select.innerHTML =
+                '<option value="">No branch found</option>';
+
+        }
 
     })
 
     .catch(function(error){
 
+        select.innerHTML =
+            '<option value="">Unable to load branches</option>';
+
+
         showMessage(
-            "Unable to load SOL list: " +
-            error.message,
+            "Branch list could not be loaded. Please refresh the page.",
             "error"
         );
 
-    });
 
-}
-
-
-/* =========================================================
-   POPULATE SOL
-========================================================= */
-
-function populateSOL(){
-
-    var select =
-        document.getElementById(
-            "solId"
+        console.error(
+            error
         );
 
-
-    select.innerHTML =
-        '<option value="">Select SOL ID</option>';
-
-
-    branchList.forEach(
-        function(branch){
-
-            var sol =
-                normalizeSol(
-                    branch.solId
-                );
-
-
-            var option =
-                document.createElement(
-                    "option"
-                );
-
-
-            option.value =
-                sol;
-
-
-            option.textContent =
-                sol +
-                " - " +
-                branch.branchName;
-
-
-            option.setAttribute(
-                "data-branch",
-                branch.branchName
-            );
-
-
-            select.appendChild(
-                option
-            );
-
-        }
-    );
-
-
-    if(
-        branchList.length === 0
-    ){
-
-        select.innerHTML =
-            '<option value="">No SOL available</option>';
-
-    }
+    });
 
 }
 
@@ -981,16 +811,16 @@ document
     function(){
 
         var sol =
-            normalizeSol(
+            normalizeSOL(
                 this.value
             );
 
 
         var branch =
-            branchList.find(
+            branches.find(
                 function(item){
 
-                    return normalizeSol(
+                    return normalizeSOL(
                         item.solId
                     ) === sol;
 
@@ -998,25 +828,15 @@ document
             );
 
 
-        var info =
-            document.getElementById(
-                "branchInfo"
-            );
-
-
-        if(branch){
-
-            info.innerText =
-                "Branch: " +
-                branch.branchName;
-
-        }
-        else{
-
-            info.innerText =
-                "";
-
-        }
+        document
+        .getElementById(
+            "branchName"
+        )
+        .innerText =
+            branch
+            ? "Branch: " +
+              branch.branchName
+            : "";
 
     }
 );
@@ -1042,8 +862,8 @@ document
 
 function saveHardware(){
 
-    var solId =
-        normalizeSol(
+    var sol =
+        normalizeSOL(
             document.getElementById(
                 "solId"
             ).value
@@ -1086,9 +906,9 @@ function saveHardware(){
         ).value.trim();
 
 
-    /* ================= VALIDATION ================= */
+    /* VALIDATION */
 
-    if(!solId){
+    if(!sol){
 
         showMessage(
             "Please select SOL ID.",
@@ -1115,7 +935,7 @@ function saveHardware(){
     if(!condition){
 
         showMessage(
-            "Please select hardware condition.",
+            "Please select Condition.",
             "error"
         );
 
@@ -1125,12 +945,12 @@ function saveHardware(){
 
 
     var branch =
-        branchList.find(
+        branches.find(
             function(item){
 
-                return normalizeSol(
+                return normalizeSOL(
                     item.solId
-                ) === solId;
+                ) === sol;
 
             }
         );
@@ -1139,7 +959,7 @@ function saveHardware(){
     if(!branch){
 
         showMessage(
-            "Invalid SOL ID. Please select SOL from the dropdown.",
+            "Invalid SOL ID.",
             "error"
         );
 
@@ -1148,13 +968,13 @@ function saveHardware(){
     }
 
 
-    /* ================= DATA ================= */
+    /* DATA */
 
     var data = {
 
         action:"save",
 
-        solId:solId,
+        solId:sol,
 
         hardwareType:
             hardwareType,
@@ -1174,11 +994,12 @@ function saveHardware(){
 
     var button =
         document.getElementById(
-            "saveBtn"
+            "saveButton"
         );
 
 
-    button.disabled = true;
+    button.disabled =
+        true;
 
     button.innerText =
         "Saving...";
@@ -1193,7 +1014,6 @@ function saveHardware(){
     fetch(
         API_URL,
         {
-
             method:"POST",
 
             headers:{
@@ -1203,11 +1023,18 @@ function saveHardware(){
 
             body:
                 JSON.stringify(data)
-
         }
     )
 
     .then(function(response){
+
+        if(!response.ok){
+
+            throw new Error(
+                "Server error"
+            );
+
+        }
 
         return response.json();
 
@@ -1215,39 +1042,33 @@ function saveHardware(){
 
     .then(function(result){
 
-        console.log(
-            "SAVE RESULT:",
-            result
-        );
-
-
         if(
             result.success === true ||
             result.status === "success"
         ){
 
-            var msg =
+            var message =
                 "Hardware saved successfully.";
 
+            if(result.submissionId){
 
-            if(
-                result.submissionId
-            ){
-
-                msg +=
-                    " Submission ID: " +
+                message +=
+                    " ID: " +
                     result.submissionId;
 
             }
 
 
             showMessage(
-                msg,
+                message,
                 "success"
             );
 
 
-            /* Clear hardware fields */
+            /*
+             * Keep SOL selected.
+             * Clear remaining fields.
+             */
 
             document.getElementById(
                 "hardwareType"
@@ -1278,19 +1099,12 @@ function saveHardware(){
                 "remarks"
             ).value = "";
 
-
-            /*
-             * SOL remains selected so
-             * multiple hardware can be
-             * entered for same branch.
-             */
-
         }
         else{
 
             showMessage(
                 result.message ||
-                "Unable to save hardware.",
+                "Unable to save record.",
                 "error"
             );
 
@@ -1306,8 +1120,7 @@ function saveHardware(){
 
 
         showMessage(
-            "Unable to save hardware: " +
-            error.message,
+            "Unable to save record. Please try again.",
             "error"
         );
 
@@ -1341,9 +1154,10 @@ function resetForm(){
 
     document
     .getElementById(
-        "branchInfo"
+        "branchName"
     )
-    .innerText = "";
+    .innerText =
+        "";
 
 
     hideMessage();
@@ -1355,7 +1169,7 @@ function resetForm(){
    NORMALIZE SOL
 ========================================================= */
 
-function normalizeSol(value){
+function normalizeSOL(value){
 
     var text =
         String(value || "")
