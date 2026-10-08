@@ -6,7 +6,7 @@
 <meta charset="UTF-8">
 
 <meta name="viewport"
-      content="width=device-width, initial-scale=1">
+      content="width=device-width, initial-scale=1.0">
 
 <title>Hardware Inventory Management</title>
 
@@ -16,340 +16,916 @@
     box-sizing: border-box;
 }
 
+html,
 body {
     margin: 0;
+    padding: 0;
     font-family: Arial, Helvetica, sans-serif;
     background: #f4f7f6;
     color: #222;
 }
 
-/* ================= HEADER ================= */
 
-.header {
-    background: linear-gradient(135deg, #006633, #00994d);
-    color: #fff;
-    padding: 18px 30px;
-    box-shadow: 0 2px 8px rgba(0,0,0,.15);
-}
+/* =====================================================
+   SIDEBAR
+===================================================== */
 
-.header h1 {
-    margin: 0;
-    font-size: 25px;
-}
+.sidebar {
 
-.header p {
-    margin: 5px 0 0;
-    font-size: 13px;
-    opacity: .9;
-}
-
-/* ================= CONTAINER ================= */
-
-.container {
-    max-width: 1250px;
-    margin: 25px auto;
-    padding: 0 18px;
-}
-
-/* ================= DASHBOARD ================= */
-
-.dashboard {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 15px;
-    margin-bottom: 20px;
-}
-
-.stat {
-    background: #fff;
-    border-radius: 12px;
-    padding: 20px;
-    box-shadow: 0 2px 12px rgba(0,0,0,.08);
-}
-
-.stat-title {
-    color: #777;
-    font-size: 13px;
-    margin-bottom: 8px;
-}
-
-.stat-value {
-    font-size: 30px;
-    font-weight: bold;
-    color: #006633;
-}
-
-/* ================= CARD ================= */
-
-.card {
-    background: #fff;
-    border-radius: 12px;
-    padding: 25px;
-    margin-bottom: 20px;
-    box-shadow: 0 3px 15px rgba(0,0,0,.08);
-}
-
-.card-title {
-    color: #006633;
-    margin: 0 0 20px;
-    font-size: 21px;
-}
-
-/* ================= FORM ================= */
-
-.form-grid {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 18px;
-}
-
-.form-group {
-    display: flex;
-    flex-direction: column;
-}
-
-.full {
-    grid-column: 1 / -1;
-}
-
-label {
-    font-weight: 600;
-    margin-bottom: 7px;
-    font-size: 14px;
-}
-
-.required {
-    color: red;
-}
-
-input,
-select,
-textarea {
-    width: 100%;
-    padding: 11px 12px;
-    border: 1px solid #ccc;
-    border-radius: 7px;
-    font-size: 14px;
-    background: #fff;
-}
-
-input:focus,
-select:focus,
-textarea:focus {
-    outline: none;
-    border-color: #006633;
-    box-shadow: 0 0 0 2px rgba(0,102,51,.08);
-}
-
-textarea {
-    min-height: 90px;
-    resize: vertical;
-}
-
-/* ================= BUTTONS ================= */
-
-.buttons {
-    display: flex;
-    gap: 10px;
-    margin-top: 20px;
-}
-
-button {
-    border: none;
-    border-radius: 7px;
-    padding: 12px 25px;
-    font-size: 14px;
-    font-weight: 600;
-    cursor: pointer;
-}
-
-.save-btn {
-    background: #006633;
-    color: #fff;
-}
-
-.save-btn:hover {
-    background: #004d26;
-}
-
-.save-btn:disabled {
-    background: #999;
-    cursor: not-allowed;
-}
-
-.clear-btn {
-    background: #666;
-    color: #fff;
-}
-
-.clear-btn:hover {
-    background: #444;
-}
-
-/* ================= TABLE ================= */
-
-.table-wrap {
-    overflow-x: auto;
-}
-
-table {
-    width: 100%;
-    min-width: 1050px;
-    border-collapse: collapse;
-}
-
-th {
-    background: #006633;
-    color: #fff;
-    padding: 11px;
-    text-align: left;
-    white-space: nowrap;
-    font-size: 13px;
-}
-
-td {
-    padding: 10px;
-    border-bottom: 1px solid #eee;
-    font-size: 13px;
-    white-space: nowrap;
-}
-
-tr:hover td {
-    background: #f5faf7;
-}
-
-.empty {
-    text-align: center;
-    padding: 30px;
-    color: #888;
-}
-
-/* ================= BADGES ================= */
-
-.badge {
-    display: inline-block;
-    padding: 4px 9px;
-    border-radius: 20px;
-    font-size: 11px;
-    font-weight: bold;
-}
-
-.badge-working {
-    background: #dff5e6;
-    color: #176b32;
-}
-
-.badge-notworking {
-    background: #ffe1e1;
-    color: #a00000;
-}
-
-.badge-other {
-    background: #eee;
-    color: #555;
-}
-
-/* ================= LOADING ================= */
-
-.loading {
-    display: none;
     position: fixed;
+
     left: 0;
-    right: 0;
     top: 0;
     bottom: 0;
-    background: rgba(0,0,0,.45);
-    z-index: 99999;
+
+    width: 250px;
+
+    background: #064d2d;
+
+    color: #fff;
+
+    overflow-y: auto;
+
+    z-index: 1000;
+
+    box-shadow:
+        2px 0 10px
+        rgba(0,0,0,.15);
+
+}
+
+
+.sidebar-logo {
+
+    padding: 22px 18px;
+
+    background: #043b22;
+
+    border-bottom:
+        1px solid
+        rgba(255,255,255,.12);
+
+}
+
+
+.sidebar-logo h2 {
+
+    margin: 0;
+
+    font-size: 20px;
+
+}
+
+
+.sidebar-logo p {
+
+    margin:
+        6px 0 0;
+
+    font-size: 12px;
+
+    opacity: .8;
+
+}
+
+
+.menu-title {
+
+    padding:
+        18px 18px 7px;
+
+    font-size: 11px;
+
+    text-transform: uppercase;
+
+    letter-spacing: .7px;
+
+    opacity: .55;
+
+}
+
+
+.menu-item {
+
+    display: flex;
+
     align-items: center;
-    justify-content: center;
+
+    gap: 12px;
+
+    padding:
+        12px 18px;
+
+    color: #fff;
+
+    text-decoration: none;
+
+    font-size: 14px;
+
+    transition:
+        background .2s;
+
 }
 
-.loading-box {
-    background: #fff;
-    border-radius: 10px;
-    padding: 25px 35px;
+
+.menu-item:hover {
+
+    background:
+        rgba(255,255,255,.10);
+
+}
+
+
+.menu-item.active {
+
+    background:
+        #00994d;
+
+    border-left:
+        4px solid #fff;
+
+    padding-left: 14px;
+
+}
+
+
+.menu-icon {
+
+    width: 20px;
+
     text-align: center;
-    box-shadow: 0 5px 30px rgba(0,0,0,.3);
+
+    font-size: 16px;
+
 }
 
-.spinner {
-    width: 38px;
-    height: 38px;
-    border: 4px solid #ddd;
-    border-top: 4px solid #006633;
-    border-radius: 50%;
-    animation: spin 1s linear infinite;
-    margin: 0 auto 12px;
+
+/* =====================================================
+   MAIN
+===================================================== */
+
+.main {
+
+    margin-left: 250px;
+
+    min-height: 100vh;
+
 }
 
-@keyframes spin {
-    100% {
-        transform: rotate(360deg);
-    }
+
+/* =====================================================
+   TOP HEADER
+===================================================== */
+
+.topbar {
+
+    height: 65px;
+
+    background: #fff;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    padding:
+        0 25px;
+
+    box-shadow:
+        0 2px 8px
+        rgba(0,0,0,.08);
+
+    position: sticky;
+
+    top: 0;
+
+    z-index: 900;
+
 }
 
-/* ================= MESSAGE ================= */
+
+.topbar-title {
+
+    font-size: 20px;
+
+    font-weight: 700;
+
+    color: #006633;
+
+}
+
+
+.topbar-right {
+
+    font-size: 13px;
+
+    color: #777;
+
+}
+
+
+/* =====================================================
+   CONTENT
+===================================================== */
+
+.content {
+
+    padding: 22px;
+
+}
+
+
+/* =====================================================
+   PAGE TITLE
+===================================================== */
+
+.page-heading {
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    margin-bottom: 18px;
+
+}
+
+
+.page-heading h1 {
+
+    margin: 0;
+
+    font-size: 22px;
+
+    color: #006633;
+
+}
+
+
+.page-heading p {
+
+    margin:
+        4px 0 0;
+
+    color: #777;
+
+    font-size: 13px;
+
+}
+
+
+/* =====================================================
+   DASHBOARD CARDS
+===================================================== */
+
+.dashboard {
+
+    display: grid;
+
+    grid-template-columns:
+        repeat(4, 1fr);
+
+    gap: 15px;
+
+    margin-bottom: 20px;
+
+}
+
+
+.stat-card {
+
+    background: #fff;
+
+    border-radius: 10px;
+
+    padding: 18px;
+
+    box-shadow:
+        0 2px 10px
+        rgba(0,0,0,.07);
+
+    border-left:
+        4px solid #00994d;
+
+}
+
+
+.stat-label {
+
+    font-size: 12px;
+
+    color: #777;
+
+    margin-bottom: 8px;
+
+}
+
+
+.stat-number {
+
+    font-size: 27px;
+
+    font-weight: 700;
+
+    color: #006633;
+
+}
+
+
+/* =====================================================
+   CARD
+===================================================== */
+
+.card {
+
+    background: #fff;
+
+    border-radius: 10px;
+
+    padding: 22px;
+
+    margin-bottom: 20px;
+
+    box-shadow:
+        0 2px 10px
+        rgba(0,0,0,.07);
+
+}
+
+
+.card-header {
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    margin-bottom: 20px;
+
+    padding-bottom: 12px;
+
+    border-bottom:
+        1px solid #eee;
+
+}
+
+
+.card-title {
+
+    margin: 0;
+
+    font-size: 18px;
+
+    color: #006633;
+
+}
+
+
+/* =====================================================
+   FORM
+===================================================== */
+
+.form-grid {
+
+    display: grid;
+
+    grid-template-columns:
+        repeat(2, minmax(0,1fr));
+
+    column-gap: 20px;
+
+    row-gap: 17px;
+
+}
+
+
+.form-group {
+
+    display: flex;
+
+    flex-direction: column;
+
+}
+
+
+.form-group.full {
+
+    grid-column:
+        1 / -1;
+
+}
+
+
+.form-group label {
+
+    font-size: 13px;
+
+    font-weight: 600;
+
+    color: #444;
+
+    margin-bottom: 6px;
+
+}
+
+
+.required {
+
+    color: #d00000;
+
+}
+
+
+.form-control {
+
+    width: 100%;
+
+    height: 40px;
+
+    padding:
+        8px 11px;
+
+    border:
+        1px solid #d0d0d0;
+
+    border-radius: 6px;
+
+    background: #fff;
+
+    font-size: 13px;
+
+    outline: none;
+
+}
+
+
+.form-control:focus {
+
+    border-color:
+        #00994d;
+
+    box-shadow:
+        0 0 0 2px
+        rgba(0,153,77,.08);
+
+}
+
+
+textarea.form-control {
+
+    height: 80px;
+
+    resize: vertical;
+
+}
+
+
+/* =====================================================
+   BUTTONS
+===================================================== */
+
+.button-row {
+
+    display: flex;
+
+    gap: 10px;
+
+    margin-top: 20px;
+
+}
+
+
+.btn {
+
+    border: none;
+
+    border-radius: 6px;
+
+    padding:
+        10px 20px;
+
+    font-size: 13px;
+
+    font-weight: 600;
+
+    cursor: pointer;
+
+}
+
+
+.btn-primary {
+
+    background: #006633;
+
+    color: #fff;
+
+}
+
+
+.btn-primary:hover {
+
+    background: #004d26;
+
+}
+
+
+.btn-primary:disabled {
+
+    background: #999;
+
+    cursor: not-allowed;
+
+}
+
+
+.btn-secondary {
+
+    background: #707070;
+
+    color: #fff;
+
+}
+
+
+.btn-secondary:hover {
+
+    background: #555;
+
+}
+
+
+/* =====================================================
+   TABLE
+===================================================== */
+
+.table-container {
+
+    width: 100%;
+
+    overflow-x: auto;
+
+}
+
+
+table {
+
+    width: 100%;
+
+    min-width: 1050px;
+
+    border-collapse:
+        collapse;
+
+}
+
+
+thead th {
+
+    background:
+        #006633;
+
+    color: #fff;
+
+    padding:
+        11px 10px;
+
+    text-align: left;
+
+    font-size: 12px;
+
+    font-weight: 600;
+
+    white-space: nowrap;
+
+}
+
+
+tbody td {
+
+    padding:
+        10px;
+
+    border-bottom:
+        1px solid #eee;
+
+    font-size: 12px;
+
+    white-space: nowrap;
+
+}
+
+
+tbody tr:hover td {
+
+    background:
+        #f4faf7;
+
+}
+
+
+.no-data {
+
+    text-align: center;
+
+    padding: 30px !important;
+
+    color: #888;
+
+}
+
+
+/* =====================================================
+   BADGE
+===================================================== */
+
+.badge {
+
+    display: inline-block;
+
+    padding:
+        4px 9px;
+
+    border-radius: 20px;
+
+    font-size: 10px;
+
+    font-weight: 700;
+
+}
+
+
+.badge-working {
+
+    background: #dff5e6;
+
+    color: #176b32;
+
+}
+
+
+.badge-not-working {
+
+    background: #ffe1e1;
+
+    color: #a00000;
+
+}
+
+
+.badge-other {
+
+    background: #eeeeee;
+
+    color: #555;
+
+}
+
+
+/* =====================================================
+   MESSAGE
+===================================================== */
 
 .message {
+
     display: none;
+
+    padding:
+        11px 14px;
+
     margin-bottom: 15px;
-    padding: 12px 15px;
-    border-radius: 7px;
-    font-size: 14px;
+
+    border-radius: 6px;
+
+    font-size: 13px;
+
 }
+
 
 .message.success {
+
     background: #dff5e6;
+
     color: #176b32;
+
 }
+
 
 .message.error {
+
     background: #ffe1e1;
+
     color: #a00000;
+
 }
 
-/* ================= MOBILE ================= */
 
-@media(max-width:800px) {
+/* =====================================================
+   LOADING
+===================================================== */
+
+.loading {
+
+    display: none;
+
+    position: fixed;
+
+    left: 0;
+
+    top: 0;
+
+    right: 0;
+
+    bottom: 0;
+
+    background:
+        rgba(0,0,0,.45);
+
+    z-index: 9999;
+
+    align-items: center;
+
+    justify-content: center;
+
+}
+
+
+.loading-box {
+
+    background: #fff;
+
+    padding:
+        25px 35px;
+
+    border-radius: 10px;
+
+    text-align: center;
+
+    box-shadow:
+        0 5px 25px
+        rgba(0,0,0,.25);
+
+}
+
+
+.spinner {
+
+    width: 38px;
+
+    height: 38px;
+
+    border:
+        4px solid #ddd;
+
+    border-top:
+        4px solid #006633;
+
+    border-radius: 50%;
+
+    animation:
+        spin 1s linear infinite;
+
+    margin:
+        0 auto 12px;
+
+}
+
+
+@keyframes spin {
+
+    100% {
+
+        transform:
+            rotate(360deg);
+
+    }
+
+}
+
+
+/* =====================================================
+   FOOTER
+===================================================== */
+
+.footer {
+
+    text-align: center;
+
+    padding:
+        15px;
+
+    color: #888;
+
+    font-size: 11px;
+
+}
+
+
+/* =====================================================
+   MOBILE
+===================================================== */
+
+@media(max-width:900px) {
+
+    .sidebar {
+
+        width: 210px;
+
+    }
+
+    .main {
+
+        margin-left: 210px;
+
+    }
 
     .dashboard {
-        grid-template-columns: repeat(2, 1fr);
+
+        grid-template-columns:
+            repeat(2,1fr);
+
+    }
+
+}
+
+
+@media(max-width:700px) {
+
+    .sidebar {
+
+        position: relative;
+
+        width: 100%;
+
+        height: auto;
+
+        max-height: none;
+
+    }
+
+    .main {
+
+        margin-left: 0;
+
+    }
+
+    .topbar {
+
+        position: relative;
+
     }
 
     .form-grid {
-        grid-template-columns: 1fr;
+
+        grid-template-columns:
+            1fr;
+
     }
 
-    .full {
-        grid-column: auto;
+    .form-group.full {
+
+        grid-column:
+            auto;
+
+    }
+
+    .dashboard {
+
+        grid-template-columns:
+            1fr 1fr;
+
     }
 
 }
 
-@media(max-width:500px) {
+
+@media(max-width:450px) {
+
+    .content {
+
+        padding: 12px;
+
+    }
 
     .dashboard {
-        grid-template-columns: 1fr;
+
+        grid-template-columns:
+            1fr;
+
     }
 
-    .header {
-        padding: 17px;
-    }
+    .page-heading {
 
-    .header h1 {
-        font-size: 20px;
+        display: block;
+
     }
 
     .card {
-        padding: 17px;
-    }
 
-    .buttons {
-        flex-direction: column;
-    }
+        padding: 15px;
 
-    button {
-        width: 100%;
     }
 
 }
@@ -362,476 +938,772 @@ tr:hover td {
 <body>
 
 
-<!-- ================= HEADER ================= -->
+<!-- ===================================================
+     LEFT SIDEBAR
+=================================================== -->
 
-<div class="header">
-
-    <h1>
-        Hardware Inventory Management
-    </h1>
-
-    <p>
-        Hardware Entry Portal
-    </p>
-
-</div>
+<aside class="sidebar">
 
 
+    <div class="sidebar-logo">
 
-<div class="container">
+        <h2>
+            🏦 MPGB
+        </h2>
 
-
-<!-- ================= DASHBOARD ================= -->
-
-<div class="dashboard">
-
-    <div class="stat">
-
-        <div class="stat-title">
-            Total Hardware
-        </div>
-
-        <div
-            class="stat-value"
-            id="total">
-
-            0
-
-        </div>
+        <p>
+            IT & Hardware Portal
+        </p>
 
     </div>
 
 
-    <div class="stat">
-
-        <div class="stat-title">
-            Working
-        </div>
-
-        <div
-            class="stat-value"
-            id="working">
-
-            0
-
-        </div>
-
+    <div class="menu-title">
+        Main
     </div>
 
 
-    <div class="stat">
+    <a
+        href="../index.html"
+        class="menu-item">
 
-        <div class="stat-title">
-            Not Working
-        </div>
+        <span class="menu-icon">
+            🏠
+        </span>
 
-        <div
-            class="stat-value"
-            id="notWorking">
+        Dashboard
 
-            0
+    </a>
 
-        </div>
 
+    <div class="menu-title">
+        Hardware
     </div>
 
 
-    <div class="stat">
+    <a
+        href="index.html"
+        class="menu-item active">
 
-        <div class="stat-title">
-            Other
-        </div>
+        <span class="menu-icon">
+            💻
+        </span>
 
-        <div
-            class="stat-value"
-            id="other">
+        Hardware Dashboard
 
-            0
-
-        </div>
-
-    </div>
-
-</div>
+    </a>
 
 
+    <a
+        href="index.html#addHardware"
+        class="menu-item">
 
-<!-- ================= MESSAGE ================= -->
+        <span class="menu-icon">
+            ➕
+        </span>
 
-<div
-    id="message"
-    class="message">
-</div>
-
-
-
-<!-- ================= HARDWARE FORM ================= -->
-
-<div class="card">
-
-    <h2 class="card-title">
         Add Hardware
-    </h2>
+
+    </a>
 
 
-    <div class="form-grid">
+    <a
+        href="#recentHardware"
+        class="menu-item">
+
+        <span class="menu-icon">
+            📋
+        </span>
+
+        Hardware Records
+
+    </a>
 
 
-        <!-- SOL ID -->
+    <a
+        href="#recentHardware"
+        class="menu-item">
 
-        <div class="form-group">
+        <span class="menu-icon">
+            🔧
+        </span>
 
-            <label>
-                SOL ID
-                <span class="required">*</span>
-            </label>
+        Maintenance
 
-            <input
-                type="text"
-                id="solId"
-                placeholder="Enter SOL ID"
-                autocomplete="off">
-
-        </div>
+    </a>
 
 
-        <!-- BRANCH -->
-
-        <div class="form-group">
-
-            <label>
-                Branch Name
-                <span class="required">*</span>
-            </label>
-
-            <input
-                type="text"
-                id="branchName"
-                placeholder="Enter Branch Name"
-                autocomplete="off">
-
-        </div>
+    <div class="menu-title">
+        System
+    </div>
 
 
-        <!-- HARDWARE TYPE -->
+    <a
+        href="../index.html"
+        class="menu-item">
 
-        <div class="form-group">
+        <span class="menu-icon">
+            📊
+        </span>
 
-            <label>
-                Hardware Type
-                <span class="required">*</span>
-            </label>
+        Main Dashboard
 
-            <select id="hardwareType">
+    </a>
 
-                <option value="">
-                    Select Hardware Type
-                </option>
 
-                <option value="CPU">
-                    CPU
-                </option>
+</aside>
 
-                <option value="Monitor">
-                    Monitor
-                </option>
 
-                <option value="Passbook Printer">
-                    Passbook Printer
-                </option>
 
-                <option value="Laser Printer">
-                    Laser Printer
-                </option>
+<!-- ===================================================
+     MAIN
+=================================================== -->
 
-                <option value="Scanner">
-                    Scanner
-                </option>
+<main class="main">
 
-                <option value="CTS Machine">
-                    CTS Machine
-                </option>
 
-                <option value="CCTV Monitor">
-                    CCTV Monitor
-                </option>
+    <!-- TOP BAR -->
 
-                <option value="UPS">
-                    UPS
-                </option>
+    <div class="topbar">
 
-                <option value="Other">
-                    Other
-                </option>
 
-            </select>
+        <div class="topbar-title">
+
+            Hardware Inventory
 
         </div>
 
 
-        <!-- SUB TYPE -->
+        <div class="topbar-right">
 
-        <div class="form-group">
-
-            <label>
-                Hardware Sub Type
-            </label>
-
-            <input
-                type="text"
-                id="hardwareSubType"
-                placeholder="Enter Hardware Sub Type">
+            Regional Office Jabalpur
 
         </div>
 
 
-        <!-- MAKE -->
-
-        <div class="form-group">
-
-            <label>
-                Make
-                <span class="required">*</span>
-            </label>
-
-            <input
-                type="text"
-                id="make"
-                placeholder="HP / Dell / Canon etc.">
-
-        </div>
+    </div>
 
 
-        <!-- MODEL -->
 
-        <div class="form-group">
+    <!-- CONTENT -->
 
-            <label>
-                Model
-                <span class="required">*</span>
-            </label>
+    <div class="content">
 
-            <input
-                type="text"
-                id="model"
-                placeholder="Enter Model">
+
+        <!-- PAGE HEADING -->
+
+        <div class="page-heading">
+
+            <div>
+
+                <h1>
+                    Hardware Management
+                </h1>
+
+                <p>
+                    Add and manage branch hardware inventory
+                </p>
+
+            </div>
 
         </div>
 
 
-        <!-- SERIAL -->
 
-        <div class="form-group">
+        <!-- DASHBOARD -->
 
-            <label>
-                Serial No.
-                <span class="required">*</span>
-            </label>
-
-            <input
-                type="text"
-                id="serialNo"
-                placeholder="Enter Serial Number">
-
-        </div>
+        <div class="dashboard">
 
 
-        <!-- CONDITION -->
+            <div class="stat-card">
 
-        <div class="form-group">
+                <div class="stat-label">
+                    TOTAL HARDWARE
+                </div>
 
-            <label>
-                Condition
-                <span class="required">*</span>
-            </label>
+                <div
+                    class="stat-number"
+                    id="total">
 
-            <select id="condition">
+                    0
 
-                <option value="">
-                    Select Condition
-                </option>
+                </div>
 
-                <option value="WORKING">
+            </div>
+
+
+            <div class="stat-card">
+
+                <div class="stat-label">
                     WORKING
-                </option>
+                </div>
 
-                <option value="NOT WORKING">
+                <div
+                    class="stat-number"
+                    id="working">
+
+                    0
+
+                </div>
+
+            </div>
+
+
+            <div class="stat-card">
+
+                <div class="stat-label">
                     NOT WORKING
-                </option>
+                </div>
 
-                <option value="DAMAGED">
-                    DAMAGED
-                </option>
+                <div
+                    class="stat-number"
+                    id="notWorking">
 
-                <option value="UNDER REPAIR">
-                    UNDER REPAIR
-                </option>
+                    0
 
-                <option value="SCRAP">
-                    SCRAP
-                </option>
+                </div>
 
-                <option value="OTHER">
+            </div>
+
+
+            <div class="stat-card">
+
+                <div class="stat-label">
                     OTHER
-                </option>
+                </div>
 
-            </select>
+                <div
+                    class="stat-number"
+                    id="other">
+
+                    0
+
+                </div>
+
+            </div>
+
 
         </div>
 
 
-        <!-- REMARKS -->
 
-        <div class="form-group full">
+        <!-- MESSAGE -->
 
-            <label>
-                Remarks
-            </label>
-
-            <textarea
-                id="remarks"
-                placeholder="Enter remarks if required"></textarea>
-
+        <div
+            id="message"
+            class="message">
         </div>
 
 
-    </div>
+
+        <!-- ============================================
+             ADD HARDWARE
+        ============================================= -->
+
+        <div
+            class="card"
+            id="addHardware">
 
 
-    <!-- BUTTONS -->
+            <div class="card-header">
 
-    <div class="buttons">
+                <h2 class="card-title">
 
-        <button
-            type="button"
-            class="save-btn"
-            id="saveButton"
-            onclick="saveHardware()">
+                    Add Hardware
 
-            💾 Save Hardware
+                </h2>
 
-        </button>
-
-
-        <button
-            type="button"
-            class="clear-btn"
-            onclick="clearForm()">
-
-            ↻ Clear
-
-        </button>
-
-    </div>
-
-</div>
+            </div>
 
 
 
-<!-- ================= RECENT HARDWARE ================= -->
-
-<div class="card">
-
-    <h2 class="card-title">
-        Recently Added Hardware
-    </h2>
+            <div class="form-grid">
 
 
-    <div class="table-wrap">
+                <!-- SOL ID -->
 
-        <table>
+                <div class="form-group">
 
-            <thead>
+                    <label>
 
-                <tr>
-
-                    <th>
-                        Submission ID
-                    </th>
-
-                    <th>
                         SOL ID
-                    </th>
 
-                    <th>
+                        <span class="required">
+                            *
+                        </span>
+
+                    </label>
+
+                    <input
+                        type="text"
+                        id="solId"
+                        class="form-control"
+                        placeholder="Enter SOL ID"
+                        autocomplete="off">
+
+                </div>
+
+
+                <!-- BRANCH -->
+
+                <div class="form-group">
+
+                    <label>
+
                         Branch Name
-                    </th>
 
-                    <th>
+                        <span class="required">
+                            *
+                        </span>
+
+                    </label>
+
+                    <input
+                        type="text"
+                        id="branchName"
+                        class="form-control"
+                        placeholder="Enter Branch Name"
+                        autocomplete="off">
+
+                </div>
+
+
+                <!-- HARDWARE TYPE -->
+
+                <div class="form-group">
+
+                    <label>
+
                         Hardware Type
-                    </th>
 
-                    <th>
-                        Sub Type
-                    </th>
+                        <span class="required">
+                            *
+                        </span>
 
-                    <th>
+                    </label>
+
+                    <select
+                        id="hardwareType"
+                        class="form-control">
+
+
+                        <option value="">
+
+                            Select Hardware Type
+
+                        </option>
+
+
+                        <option value="CPU">
+                            CPU
+                        </option>
+
+
+                        <option value="Monitor">
+                            Monitor
+                        </option>
+
+
+                        <option value="Passbook Printer">
+                            Passbook Printer
+                        </option>
+
+
+                        <option value="Laser Printer">
+                            Laser Printer
+                        </option>
+
+
+                        <option value="Scanner">
+                            Scanner
+                        </option>
+
+
+                        <option value="CTS Machine">
+                            CTS Machine
+                        </option>
+
+
+                        <option value="CCTV Monitor">
+                            CCTV Monitor
+                        </option>
+
+
+                        <option value="UPS">
+                            UPS
+                        </option>
+
+
+                        <option value="Other">
+                            Other
+                        </option>
+
+
+                    </select>
+
+                </div>
+
+
+                <!-- SUB TYPE -->
+
+                <div class="form-group">
+
+                    <label>
+
+                        Hardware Sub Type
+
+                    </label>
+
+                    <input
+                        type="text"
+                        id="hardwareSubType"
+                        class="form-control"
+                        placeholder="Enter Hardware Sub Type">
+
+                </div>
+
+
+                <!-- MAKE -->
+
+                <div class="form-group">
+
+                    <label>
+
                         Make
-                    </th>
 
-                    <th>
+                        <span class="required">
+                            *
+                        </span>
+
+                    </label>
+
+                    <input
+                        type="text"
+                        id="make"
+                        class="form-control"
+                        placeholder="HP / Dell / Canon etc.">
+
+                </div>
+
+
+                <!-- MODEL -->
+
+                <div class="form-group">
+
+                    <label>
+
                         Model
-                    </th>
 
-                    <th>
-                        Serial No
-                    </th>
+                        <span class="required">
+                            *
+                        </span>
 
-                    <th>
+                    </label>
+
+                    <input
+                        type="text"
+                        id="model"
+                        class="form-control"
+                        placeholder="Enter Model">
+
+                </div>
+
+
+                <!-- SERIAL -->
+
+                <div class="form-group">
+
+                    <label>
+
+                        Serial No.
+
+                        <span class="required">
+                            *
+                        </span>
+
+                    </label>
+
+                    <input
+                        type="text"
+                        id="serialNo"
+                        class="form-control"
+                        placeholder="Enter Serial Number">
+
+                </div>
+
+
+                <!-- CONDITION -->
+
+                <div class="form-group">
+
+                    <label>
+
                         Condition
-                    </th>
 
-                    <th>
+                        <span class="required">
+                            *
+                        </span>
+
+                    </label>
+
+                    <select
+                        id="condition"
+                        class="form-control">
+
+
+                        <option value="">
+
+                            Select Condition
+
+                        </option>
+
+
+                        <option value="WORKING">
+
+                            WORKING
+
+                        </option>
+
+
+                        <option value="NOT WORKING">
+
+                            NOT WORKING
+
+                        </option>
+
+
+                        <option value="DAMAGED">
+
+                            DAMAGED
+
+                        </option>
+
+
+                        <option value="UNDER REPAIR">
+
+                            UNDER REPAIR
+
+                        </option>
+
+
+                        <option value="SCRAP">
+
+                            SCRAP
+
+                        </option>
+
+
+                        <option value="OTHER">
+
+                            OTHER
+
+                        </option>
+
+
+                    </select>
+
+                </div>
+
+
+                <!-- REMARKS -->
+
+                <div class="form-group full">
+
+                    <label>
                         Remarks
-                    </th>
+                    </label>
 
-                </tr>
+                    <textarea
+                        id="remarks"
+                        class="form-control"
+                        placeholder="Enter remarks if required"></textarea>
 
-            </thead>
+                </div>
 
 
-            <tbody id="recentBody">
+            </div>
 
-                <tr>
 
-                    <td
-                        colspan="10"
-                        class="empty">
 
-                        Loading...
+            <!-- BUTTONS -->
 
-                    </td>
+            <div class="button-row">
 
-                </tr>
 
-            </tbody>
+                <button
+                    type="button"
+                    class="btn btn-primary"
+                    id="saveButton"
+                    onclick="saveHardware()">
 
-        </table>
+                    💾 Save Hardware
+
+                </button>
+
+
+                <button
+                    type="button"
+                    class="btn btn-secondary"
+                    onclick="clearForm()">
+
+                    ↻ Clear
+
+                </button>
+
+
+            </div>
+
+
+        </div>
+
+
+
+        <!-- ============================================
+             RECENT HARDWARE
+        ============================================= -->
+
+        <div
+            class="card"
+            id="recentHardware">
+
+
+            <div class="card-header">
+
+                <h2 class="card-title">
+
+                    Recently Added Hardware
+
+                </h2>
+
+            </div>
+
+
+            <div class="table-container">
+
+
+                <table>
+
+
+                    <thead>
+
+                        <tr>
+
+                            <th>
+                                Submission ID
+                            </th>
+
+                            <th>
+                                SOL ID
+                            </th>
+
+                            <th>
+                                Branch Name
+                            </th>
+
+                            <th>
+                                Hardware Type
+                            </th>
+
+                            <th>
+                                Hardware Sub Type
+                            </th>
+
+                            <th>
+                                Make
+                            </th>
+
+                            <th>
+                                Model
+                            </th>
+
+                            <th>
+                                Serial No
+                            </th>
+
+                            <th>
+                                Condition
+                            </th>
+
+                            <th>
+                                Remarks
+                            </th>
+
+                        </tr>
+
+                    </thead>
+
+
+                    <tbody
+                        id="recentBody">
+
+
+                        <tr>
+
+                            <td
+                                colspan="10"
+                                class="no-data">
+
+                                Loading...
+
+                            </td>
+
+                        </tr>
+
+
+                    </tbody>
+
+
+                </table>
+
+
+            </div>
+
+
+        </div>
+
+
+
+        <!-- FOOTER -->
+
+        <div class="footer">
+
+            Maintained and Developed by
+            <strong>Sanjay Mehra</strong>
+
+        </div>
+
 
     </div>
 
-</div>
 
-
-</div>
+</main>
 
 
 
-<!-- ================= LOADING ================= -->
+<!-- ===================================================
+     LOADING
+=================================================== -->
 
 <div
     class="loading"
     id="loading">
 
+
     <div class="loading-box">
+
 
         <div class="spinner"></div>
 
+
         <div id="loadingText">
+
             Saving hardware...
+
         </div>
 
+
     </div>
+
 
 </div>
 
@@ -840,21 +1712,20 @@ tr:hover td {
 <script>
 
 
-/****************************************************
+/********************************************************
  * APPS SCRIPT WEB APP URL
  *
  * IMPORTANT:
- * Replace this with your actual Apps Script
- * Web App URL ending in /exec
- ****************************************************/
+ * Replace with your actual /exec URL
+ ********************************************************/
 
 var GAS_URL =
     "PASTE_YOUR_APPS_SCRIPT_WEB_APP_URL_HERE";
 
 
-/****************************************************
- * CHECK API
- ****************************************************/
+/********************************************************
+ * API CHECK
+ ********************************************************/
 
 function apiConfigured() {
 
@@ -868,57 +1739,16 @@ function apiConfigured() {
 }
 
 
-/****************************************************
- * SHOW MESSAGE
- ****************************************************/
-
-function showMessage(
-    text,
-    type
-) {
-
-    var box =
-        document.getElementById(
-            "message"
-        );
-
-    box.innerText =
-        text;
-
-    box.className =
-        "message " +
-        type;
-
-    box.style.display =
-        "block";
-
-
-    setTimeout(
-        function() {
-
-            box.style.display =
-                "none";
-
-        },
-        5000
-    );
-
-}
-
-
-/****************************************************
+/********************************************************
  * LOADING
- ****************************************************/
+ ********************************************************/
 
-function showLoading(
-    text
-) {
+function showLoading(text) {
 
     document.getElementById(
         "loadingText"
     ).innerText =
-        text ||
-        "Please wait...";
+        text || "Please wait...";
 
 
     document.getElementById(
@@ -939,12 +1769,52 @@ function hideLoading() {
 }
 
 
-/****************************************************
+/********************************************************
+ * MESSAGE
+ ********************************************************/
+
+function showMessage(
+    text,
+    type
+) {
+
+    var box =
+        document.getElementById(
+            "message"
+        );
+
+
+    box.innerText =
+        text;
+
+
+    box.className =
+        "message " +
+        type;
+
+
+    box.style.display =
+        "block";
+
+
+    setTimeout(
+        function() {
+
+            box.style.display =
+                "none";
+
+        },
+        5000
+    );
+
+}
+
+
+/********************************************************
  * SAVE HARDWARE
  *
- * ONE CLICK = ONE HARDWARE ITEM
- * ONE ITEM = ONE ROW
- ****************************************************/
+ * ONE ITEM AT A TIME
+ ********************************************************/
 
 function saveHardware() {
 
@@ -952,7 +1822,7 @@ function saveHardware() {
     if (!apiConfigured()) {
 
         alert(
-            "Apps Script Web App URL is not configured."
+            "Please configure Apps Script Web App URL."
         );
 
         return;
@@ -1047,12 +1917,6 @@ function saveHardware() {
             "Please enter SOL ID."
         );
 
-        document
-        .getElementById(
-            "solId"
-        )
-        .focus();
-
         return;
 
     }
@@ -1124,9 +1988,7 @@ function saveHardware() {
     }
 
 
-    /************************************************
-     * PARAMETERS
-     ************************************************/
+    /* PARAMETERS */
 
     var params =
         new URLSearchParams();
@@ -1137,45 +1999,54 @@ function saveHardware() {
         "save"
     );
 
+
     params.append(
         "solId",
         solId
     );
+
 
     params.append(
         "branchName",
         branchName
     );
 
+
     params.append(
         "hardwareType",
         hardwareType
     );
+
 
     params.append(
         "hardwareSubType",
         hardwareSubType
     );
 
+
     params.append(
         "make",
         make
     );
+
 
     params.append(
         "model",
         model
     );
 
+
     params.append(
         "serialNo",
         serialNo
     );
 
+
     params.append(
         "condition",
         condition
     );
+
 
     params.append(
         "remarks",
@@ -1183,20 +2054,19 @@ function saveHardware() {
     );
 
 
-    /************************************************
-     * BUTTON
-     ************************************************/
+    /* BUTTON */
 
-    var saveButton =
+    var button =
         document.getElementById(
             "saveButton"
         );
 
 
-    saveButton.disabled =
+    button.disabled =
         true;
 
-    saveButton.innerText =
+
+    button.innerText =
         "Saving...";
 
 
@@ -1205,9 +2075,7 @@ function saveHardware() {
     );
 
 
-    /************************************************
-     * SEND TO APPS SCRIPT
-     ************************************************/
+    /* API */
 
     fetch(
         GAS_URL +
@@ -1221,7 +2089,7 @@ function saveHardware() {
             if (!response.ok) {
 
                 throw new Error(
-                    "Server returned HTTP " +
+                    "HTTP Error " +
                     response.status
                 );
 
@@ -1239,10 +2107,11 @@ function saveHardware() {
             hideLoading();
 
 
-            saveButton.disabled =
+            button.disabled =
                 false;
 
-            saveButton.innerText =
+
+            button.innerText =
                 "💾 Save Hardware";
 
 
@@ -1254,55 +2123,64 @@ function saveHardware() {
 
 
                 showMessage(
-                    "Hardware saved successfully. Submission ID: " +
+
+                    "Hardware saved successfully. " +
+                    "Submission ID: " +
                     result.submissionId,
+
                     "success"
+
                 );
 
 
                 alert(
+
                     "✅ Hardware Saved Successfully\n\n" +
+
                     "Submission ID: " +
+
                     result.submissionId
+
                 );
 
-
-                /*
-                 * Clear for next item
-                 */
 
                 clearForm();
 
 
-                /*
-                 * Refresh
-                 */
-
                 loadDashboard();
 
+
                 loadRecent();
+
 
             }
 
             else {
 
+
                 showMessage(
+
                     result &&
                     result.message
                         ? result.message
                         : "Save failed.",
+
                     "error"
+
                 );
 
 
                 alert(
+
                     "❌ Save Failed\n\n" +
+
                     (
                         result &&
                         result.message
                             ? result.message
                             : "Unknown error."
                     )
+
                 );
 
             }
@@ -1317,22 +2195,25 @@ function saveHardware() {
             hideLoading();
 
 
-            saveButton.disabled =
+            button.disabled =
                 false;
 
-            saveButton.innerText =
+
+            button.innerText =
                 "💾 Save Hardware";
 
 
-            console.error(
-                "SAVE ERROR:",
-                error
+            alert(
+
+                "❌ Saving Error\n\n" +
+
+                error.message
+
             );
 
 
-            alert(
-                "❌ Saving Error\n\n" +
-                error.message
+            console.error(
+                error
             );
 
         }
@@ -1341,88 +2222,67 @@ function saveHardware() {
 }
 
 
-/****************************************************
+/********************************************************
  * CLEAR FORM
- ****************************************************/
+ ********************************************************/
 
 function clearForm() {
 
-
-    document
-    .getElementById(
+    document.getElementById(
         "solId"
-    )
-    .value = "";
+    ).value = "";
 
 
-    document
-    .getElementById(
+    document.getElementById(
         "branchName"
-    )
-    .value = "";
+    ).value = "";
 
 
-    document
-    .getElementById(
+    document.getElementById(
         "hardwareType"
-    )
-    .value = "";
+    ).value = "";
 
 
-    document
-    .getElementById(
+    document.getElementById(
         "hardwareSubType"
-    )
-    .value = "";
+    ).value = "";
 
 
-    document
-    .getElementById(
+    document.getElementById(
         "make"
-    )
-    .value = "";
+    ).value = "";
 
 
-    document
-    .getElementById(
+    document.getElementById(
         "model"
-    )
-    .value = "";
+    ).value = "";
 
 
-    document
-    .getElementById(
+    document.getElementById(
         "serialNo"
-    )
-    .value = "";
+    ).value = "";
 
 
-    document
-    .getElementById(
+    document.getElementById(
         "condition"
-    )
-    .value = "";
+    ).value = "";
 
 
-    document
-    .getElementById(
+    document.getElementById(
         "remarks"
-    )
-    .value = "";
+    ).value = "";
 
 
-    document
-    .getElementById(
+    document.getElementById(
         "solId"
-    )
-    .focus();
+    ).focus();
 
 }
 
 
-/****************************************************
+/********************************************************
  * DASHBOARD
- ****************************************************/
+ ********************************************************/
 
 function loadDashboard() {
 
@@ -1460,36 +2320,29 @@ function loadDashboard() {
             }
 
 
-            document
-            .getElementById(
+            document.getElementById(
                 "total"
-            )
-            .innerText =
+            ).innerText =
                 result.total || 0;
 
 
-            document
-            .getElementById(
+            document.getElementById(
                 "working"
-            )
-            .innerText =
+            ).innerText =
                 result.working || 0;
 
 
-            document
-            .getElementById(
+            document.getElementById(
                 "notWorking"
-            )
-            .innerText =
+            ).innerText =
                 result.notWorking || 0;
 
 
-            document
-            .getElementById(
+            document.getElementById(
                 "other"
-            )
-            .innerText =
+            ).innerText =
                 result.other || 0;
+
 
         }
     )
@@ -1498,7 +2351,7 @@ function loadDashboard() {
         function(error) {
 
             console.log(
-                "Dashboard error:",
+                "Dashboard Error:",
                 error
             );
 
@@ -1508,9 +2361,9 @@ function loadDashboard() {
 }
 
 
-/****************************************************
+/********************************************************
  * RECENT HARDWARE
- ****************************************************/
+ ********************************************************/
 
 function loadRecent() {
 
@@ -1538,8 +2391,7 @@ function loadRecent() {
 
 
             var body =
-                document
-                .getElementById(
+                document.getElementById(
                     "recentBody"
                 );
 
@@ -1552,8 +2404,8 @@ function loadRecent() {
 
                 body.innerHTML =
                     "<tr>" +
-                    "<td colspan='10' class='empty'>" +
-                    "Unable to load data." +
+                    "<td colspan='10' class='no-data'>" +
+                    "Unable to load records." +
                     "</td>" +
                     "</tr>";
 
@@ -1572,7 +2424,7 @@ function loadRecent() {
 
                 body.innerHTML =
                     "<tr>" +
-                    "<td colspan='10' class='empty'>" +
+                    "<td colspan='10' class='no-data'>" +
                     "No hardware records found." +
                     "</td>" +
                     "</tr>";
@@ -1596,10 +2448,6 @@ function loadRecent() {
                     data[i];
 
 
-                var badge =
-                    "badge-other";
-
-
                 var condition =
                     String(
                         row.condition || ""
@@ -1607,12 +2455,16 @@ function loadRecent() {
                     .toUpperCase();
 
 
+                var badgeClass =
+                    "badge-other";
+
+
                 if (
                     condition ===
                     "WORKING"
                 ) {
 
-                    badge =
+                    badgeClass =
                         "badge-working";
 
                 }
@@ -1622,8 +2474,8 @@ function loadRecent() {
                     "NOT WORKING"
                 ) {
 
-                    badge =
-                        "badge-notworking";
+                    badgeClass =
+                        "badge-not-working";
 
                 }
 
@@ -1683,7 +2535,7 @@ function loadRecent() {
                     "<td>" +
 
                     "<span class='badge " +
-                    badge +
+                    badgeClass +
                     "'>" +
 
                     escapeHtml(
@@ -1708,6 +2560,7 @@ function loadRecent() {
             body.innerHTML =
                 html;
 
+
         }
     )
 
@@ -1715,7 +2568,7 @@ function loadRecent() {
         function(error) {
 
             console.log(
-                "Recent records error:",
+                "Recent Error:",
                 error
             );
 
@@ -1725,9 +2578,9 @@ function loadRecent() {
 }
 
 
-/****************************************************
+/********************************************************
  * ESCAPE HTML
- ****************************************************/
+ ********************************************************/
 
 function escapeHtml(
     value
@@ -1773,9 +2626,9 @@ function escapeHtml(
 }
 
 
-/****************************************************
+/********************************************************
  * PAGE LOAD
- ****************************************************/
+ ********************************************************/
 
 window.addEventListener(
     "load",
