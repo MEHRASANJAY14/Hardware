@@ -8,9 +8,14 @@
 <meta name="viewport"
       content="width=device-width, initial-scale=1.0">
 
-<title>Hardware Inventory Management</title>
+<title>MPGB Hardware Inventory</title>
+
 
 <style>
+
+/* =====================================================
+   BASIC
+===================================================== */
 
 * {
     box-sizing: border-box;
@@ -20,14 +25,20 @@ html,
 body {
     margin: 0;
     padding: 0;
-    font-family: Arial, Helvetica, sans-serif;
+
+    font-family:
+        Arial,
+        Helvetica,
+        sans-serif;
+
     background: #f4f7f6;
+
     color: #222;
 }
 
 
 /* =====================================================
-   LEFT SIDEBAR
+   SIDEBAR
 ===================================================== */
 
 .sidebar {
@@ -40,9 +51,9 @@ body {
 
     width: 250px;
 
-    background: #064d2d;
+    background: #003d24;
 
-    color: #fff;
+    color: white;
 
     overflow-y: auto;
 
@@ -56,9 +67,9 @@ body {
 
 .sidebar-logo {
 
-    padding: 22px 18px;
+    padding: 25px 18px;
 
-    background: #043b22;
+    background: #002d1b;
 
     border-bottom:
         1px solid
@@ -70,7 +81,9 @@ body {
 
     margin: 0;
 
-    font-size: 20px;
+    font-size: 23px;
+
+    color: white;
 }
 
 
@@ -80,22 +93,22 @@ body {
 
     font-size: 12px;
 
-    opacity: .8;
+    color: #d8eee2;
 }
 
 
 .menu-title {
 
     padding:
-        18px 18px 7px;
+        18px 15px 7px;
 
     font-size: 11px;
 
     text-transform: uppercase;
 
-    letter-spacing: .7px;
+    letter-spacing: .8px;
 
-    opacity: .55;
+    color: #9bb6a8;
 }
 
 
@@ -108,45 +121,44 @@ body {
     gap: 12px;
 
     padding:
-        12px 18px;
+        13px 16px;
 
-    color: #fff;
+    color: white;
 
     text-decoration: none;
 
     font-size: 14px;
 
-    transition:
-        background .2s;
+    border-left:
+        4px solid transparent;
+
+    transition: .2s;
 }
 
 
 .menu-item:hover {
 
     background:
-        rgba(255,255,255,.10);
+        rgba(255,255,255,.08);
 }
 
 
 .menu-item.active {
 
-    background:
-        #00994d;
+    background: #007a3d;
 
     border-left:
-        4px solid #fff;
-
-    padding-left: 14px;
+        4px solid white;
 }
 
 
 .menu-icon {
 
-    width: 20px;
+    width: 22px;
 
     text-align: center;
 
-    font-size: 16px;
+    font-size: 17px;
 }
 
 
@@ -170,7 +182,7 @@ body {
 
     height: 65px;
 
-    background: #fff;
+    background: white;
 
     display: flex;
 
@@ -197,7 +209,7 @@ body {
 
     font-size: 20px;
 
-    font-weight: 700;
+    font-weight: bold;
 
     color: #006633;
 }
@@ -205,9 +217,9 @@ body {
 
 .topbar-right {
 
-    font-size: 13px;
+    color: #666;
 
-    color: #777;
+    font-size: 13px;
 }
 
 
@@ -221,17 +233,7 @@ body {
 }
 
 
-/* =====================================================
-   PAGE HEADING
-===================================================== */
-
 .page-heading {
-
-    display: flex;
-
-    align-items: center;
-
-    justify-content: space-between;
 
     margin-bottom: 18px;
 }
@@ -241,16 +243,16 @@ body {
 
     margin: 0;
 
-    font-size: 22px;
-
     color: #006633;
+
+    font-size: 23px;
 }
 
 
 .page-heading p {
 
     margin:
-        4px 0 0;
+        5px 0 0;
 
     color: #777;
 
@@ -277,11 +279,11 @@ body {
 
 .stat-card {
 
-    background: #fff;
-
-    border-radius: 10px;
+    background: white;
 
     padding: 18px;
+
+    border-radius: 10px;
 
     box-shadow:
         0 2px 10px
@@ -294,19 +296,21 @@ body {
 
 .stat-label {
 
-    font-size: 12px;
+    font-size: 11px;
 
     color: #777;
 
     margin-bottom: 8px;
+
+    font-weight: 600;
 }
 
 
 .stat-number {
 
-    font-size: 27px;
+    font-size: 28px;
 
-    font-weight: 700;
+    font-weight: bold;
 
     color: #006633;
 }
@@ -318,7 +322,7 @@ body {
 
 .card {
 
-    background: #fff;
+    background: white;
 
     border-radius: 10px;
 
@@ -334,18 +338,12 @@ body {
 
 .card-header {
 
-    display: flex;
-
-    align-items: center;
-
-    justify-content: space-between;
-
-    margin-bottom: 20px;
+    border-bottom:
+        1px solid #eee;
 
     padding-bottom: 12px;
 
-    border-bottom:
-        1px solid #eee;
+    margin-bottom: 20px;
 }
 
 
@@ -370,9 +368,7 @@ body {
     grid-template-columns:
         repeat(2, minmax(0,1fr));
 
-    column-gap: 20px;
-
-    row-gap: 17px;
+    gap: 17px 20px;
 }
 
 
@@ -393,19 +389,19 @@ body {
 
 .form-group label {
 
+    margin-bottom: 6px;
+
     font-size: 13px;
 
     font-weight: 600;
 
     color: #444;
-
-    margin-bottom: 6px;
 }
 
 
 .required {
 
-    color: #d00000;
+    color: #c00000;
 }
 
 
@@ -413,7 +409,7 @@ body {
 
     width: 100%;
 
-    height: 40px;
+    height: 41px;
 
     padding:
         8px 11px;
@@ -423,7 +419,7 @@ body {
 
     border-radius: 6px;
 
-    background: #fff;
+    background: white;
 
     font-size: 13px;
 
@@ -433,8 +429,7 @@ body {
 
 .form-control:focus {
 
-    border-color:
-        #00994d;
+    border-color: #00994d;
 
     box-shadow:
         0 0 0 2px
@@ -444,9 +439,17 @@ body {
 
 textarea.form-control {
 
-    height: 80px;
+    height: 82px;
 
     resize: vertical;
+}
+
+
+.form-control[readonly] {
+
+    background: #f5f7f6;
+
+    color: #555;
 }
 
 
@@ -471,11 +474,11 @@ textarea.form-control {
     border-radius: 6px;
 
     padding:
-        10px 20px;
+        11px 20px;
 
     font-size: 13px;
 
-    font-weight: 600;
+    font-weight: bold;
 
     cursor: pointer;
 }
@@ -485,7 +488,7 @@ textarea.form-control {
 
     background: #006633;
 
-    color: #fff;
+    color: white;
 }
 
 
@@ -505,15 +508,15 @@ textarea.form-control {
 
 .btn-secondary {
 
-    background: #707070;
+    background: #666;
 
-    color: #fff;
+    color: white;
 }
 
 
 .btn-secondary:hover {
 
-    background: #555;
+    background: #444;
 }
 
 
@@ -533,19 +536,17 @@ table {
 
     width: 100%;
 
-    min-width: 1050px;
+    min-width: 1100px;
 
-    border-collapse:
-        collapse;
+    border-collapse: collapse;
 }
 
 
 thead th {
 
-    background:
-        #006633;
+    background: #006633;
 
-    color: #fff;
+    color: white;
 
     padding:
         11px 10px;
@@ -553,8 +554,6 @@ thead th {
     text-align: left;
 
     font-size: 12px;
-
-    font-weight: 600;
 
     white-space: nowrap;
 }
@@ -576,8 +575,7 @@ tbody td {
 
 tbody tr:hover td {
 
-    background:
-        #f4faf7;
+    background: #f3faf6;
 }
 
 
@@ -592,7 +590,7 @@ tbody tr:hover td {
 
 
 /* =====================================================
-   BADGE
+   BADGES
 ===================================================== */
 
 .badge {
@@ -606,7 +604,7 @@ tbody tr:hover td {
 
     font-size: 10px;
 
-    font-weight: 700;
+    font-weight: bold;
 }
 
 
@@ -645,9 +643,9 @@ tbody tr:hover td {
     padding:
         11px 14px;
 
-    margin-bottom: 15px;
-
     border-radius: 6px;
+
+    margin-bottom: 15px;
 
     font-size: 13px;
 }
@@ -679,13 +677,7 @@ tbody tr:hover td {
 
     position: fixed;
 
-    left: 0;
-
-    top: 0;
-
-    right: 0;
-
-    bottom: 0;
+    inset: 0;
 
     background:
         rgba(0,0,0,.45);
@@ -700,10 +692,10 @@ tbody tr:hover td {
 
 .loading-box {
 
-    background: #fff;
+    background: white;
 
     padding:
-        25px 35px;
+        28px 38px;
 
     border-radius: 10px;
 
@@ -739,7 +731,7 @@ tbody tr:hover td {
 
 @keyframes spin {
 
-    100% {
+    to {
 
         transform:
             rotate(360deg);
@@ -757,12 +749,11 @@ tbody tr:hover td {
 
     text-align: center;
 
-    padding:
-        15px;
-
     color: #888;
 
     font-size: 11px;
+
+    padding: 15px;
 }
 
 
@@ -814,20 +805,12 @@ tbody tr:hover td {
 
     .form-grid {
 
-        grid-template-columns:
-            1fr;
+        grid-template-columns: 1fr;
     }
 
     .form-group.full {
 
-        grid-column:
-            auto;
-    }
-
-    .dashboard {
-
-        grid-template-columns:
-            1fr 1fr;
+        grid-column: auto;
     }
 
 }
@@ -842,13 +825,12 @@ tbody tr:hover td {
 
     .dashboard {
 
-        grid-template-columns:
-            1fr;
+        grid-template-columns: 1fr;
     }
 
-    .page-heading {
+    .topbar-right {
 
-        display: block;
+        display: none;
     }
 
     .card {
@@ -866,9 +848,9 @@ tbody tr:hover td {
 <body>
 
 
-<!-- ===================================================
-     LEFT SIDEBAR
-=================================================== -->
+<!-- =====================================================
+     SIDEBAR
+===================================================== -->
 
 <aside class="sidebar">
 
@@ -983,9 +965,9 @@ tbody tr:hover td {
 
 
 
-<!-- ===================================================
+<!-- =====================================================
      MAIN
-=================================================== -->
+===================================================== -->
 
 <main class="main">
 
@@ -993,7 +975,6 @@ tbody tr:hover td {
     <!-- TOP BAR -->
 
     <div class="topbar">
-
 
         <div class="topbar-title">
 
@@ -1008,7 +989,6 @@ tbody tr:hover td {
 
         </div>
 
-
     </div>
 
 
@@ -1022,23 +1002,21 @@ tbody tr:hover td {
 
         <div class="page-heading">
 
-            <div>
+            <h1>
+                Hardware Management
+            </h1>
 
-                <h1>
-                    Hardware Management
-                </h1>
-
-                <p>
-                    Add and manage branch hardware inventory
-                </p>
-
-            </div>
+            <p>
+                Branch-wise Hardware Inventory Management
+            </p>
 
         </div>
 
 
 
-        <!-- DASHBOARD -->
+        <!-- =================================================
+             DASHBOARD
+        ================================================== -->
 
         <div class="dashboard">
 
@@ -1050,8 +1028,8 @@ tbody tr:hover td {
                 </div>
 
                 <div
-                    class="stat-number"
-                    id="total">
+                    id="total"
+                    class="stat-number">
 
                     0
 
@@ -1067,8 +1045,8 @@ tbody tr:hover td {
                 </div>
 
                 <div
-                    class="stat-number"
-                    id="working">
+                    id="working"
+                    class="stat-number">
 
                     0
 
@@ -1084,8 +1062,8 @@ tbody tr:hover td {
                 </div>
 
                 <div
-                    class="stat-number"
-                    id="notWorking">
+                    id="notWorking"
+                    class="stat-number">
 
                     0
 
@@ -1101,8 +1079,8 @@ tbody tr:hover td {
                 </div>
 
                 <div
-                    class="stat-number"
-                    id="other">
+                    id="other"
+                    class="stat-number">
 
                     0
 
@@ -1120,6 +1098,7 @@ tbody tr:hover td {
         <div
             id="message"
             class="message">
+
         </div>
 
 
@@ -1162,14 +1141,20 @@ tbody tr:hover td {
 
                     </label>
 
-                    <input
-                        type="text"
+
+                    <select
                         id="solId"
                         class="form-control"
-                        placeholder="Enter SOL ID"
-                        autocomplete="off">
+                        onchange="loadBranchForSOL()">
+
+                        <option value="">
+                            Loading SOL IDs...
+                        </option>
+
+                    </select>
 
                 </div>
+
 
 
                 <!-- BRANCH -->
@@ -1186,14 +1171,16 @@ tbody tr:hover td {
 
                     </label>
 
+
                     <input
                         type="text"
                         id="branchName"
                         class="form-control"
-                        placeholder="Enter Branch Name"
-                        autocomplete="off">
+                        placeholder="Select SOL ID"
+                        readonly>
 
                 </div>
+
 
 
                 <!-- HARDWARE TYPE -->
@@ -1209,6 +1196,7 @@ tbody tr:hover td {
                         </span>
 
                     </label>
+
 
                     <select
                         id="hardwareType"
@@ -1270,15 +1258,15 @@ tbody tr:hover td {
                 </div>
 
 
+
                 <!-- SUB TYPE -->
 
                 <div class="form-group">
 
                     <label>
-
                         Hardware Sub Type
-
                     </label>
+
 
                     <input
                         type="text"
@@ -1287,6 +1275,7 @@ tbody tr:hover td {
                         placeholder="Enter Hardware Sub Type">
 
                 </div>
+
 
 
                 <!-- MAKE -->
@@ -1303,13 +1292,15 @@ tbody tr:hover td {
 
                     </label>
 
+
                     <input
                         type="text"
                         id="make"
                         class="form-control"
-                        placeholder="HP / Dell / Canon etc.">
+                        placeholder="Enter Make">
 
                 </div>
+
 
 
                 <!-- MODEL -->
@@ -1326,6 +1317,7 @@ tbody tr:hover td {
 
                     </label>
 
+
                     <input
                         type="text"
                         id="model"
@@ -1333,6 +1325,7 @@ tbody tr:hover td {
                         placeholder="Enter Model">
 
                 </div>
+
 
 
                 <!-- SERIAL -->
@@ -1349,6 +1342,7 @@ tbody tr:hover td {
 
                     </label>
 
+
                     <input
                         type="text"
                         id="serialNo"
@@ -1356,6 +1350,7 @@ tbody tr:hover td {
                         placeholder="Enter Serial Number">
 
                 </div>
+
 
 
                 <!-- CONDITION -->
@@ -1371,6 +1366,7 @@ tbody tr:hover td {
                         </span>
 
                     </label>
+
 
                     <select
                         id="condition"
@@ -1417,6 +1413,7 @@ tbody tr:hover td {
                 </div>
 
 
+
                 <!-- REMARKS -->
 
                 <div class="form-group full">
@@ -1424,6 +1421,7 @@ tbody tr:hover td {
                     <label>
                         Remarks
                     </label>
+
 
                     <textarea
                         id="remarks"
@@ -1444,8 +1442,8 @@ tbody tr:hover td {
 
                 <button
                     type="button"
-                    class="btn btn-primary"
                     id="saveButton"
+                    class="btn btn-primary"
                     onclick="saveHardware()">
 
                     💾 Save Hardware
@@ -1471,7 +1469,7 @@ tbody tr:hover td {
 
 
         <!-- =================================================
-             RECENT HARDWARE
+             RECENT RECORDS
         ================================================== -->
 
         <div
@@ -1499,6 +1497,10 @@ tbody tr:hover td {
                     <thead>
 
                         <tr>
+
+                            <th>
+                                Timestamp
+                            </th>
 
                             <th>
                                 Submission ID
@@ -1552,7 +1554,7 @@ tbody tr:hover td {
                         <tr>
 
                             <td
-                                colspan="10"
+                                colspan="11"
                                 class="no-data">
 
                                 Loading...
@@ -1592,24 +1594,25 @@ tbody tr:hover td {
 
 
 
-<!-- ===================================================
+<!-- =====================================================
      LOADING
-=================================================== -->
+===================================================== -->
 
 <div
-    class="loading"
-    id="loading">
+    id="loading"
+    class="loading">
 
 
     <div class="loading-box">
 
 
-        <div class="spinner"></div>
+        <div class="spinner">
+        </div>
 
 
         <div id="loadingText">
 
-            Saving hardware...
+            Please wait...
 
         </div>
 
@@ -1624,35 +1627,17 @@ tbody tr:hover td {
 <script>
 
 
-/********************************************************
- * APPS SCRIPT WEB APP URL
- *
- * YOUR ACTUAL URL
- ********************************************************/
+/* =====================================================
+   APPS SCRIPT WEB APP URL
+===================================================== */
 
 var GAS_URL =
     "https://script.google.com/macros/s/AKfycbyqpcO42kRHBBp_n1TEAHyI4SGGBNcf_5qQMN3ZARnZ4WLlUsgokf4k2BrHYfKX1lMB/exec";
 
 
-/********************************************************
- * API CHECK
- ********************************************************/
-
-function apiConfigured() {
-
-    return (
-        GAS_URL &&
-        GAS_URL.indexOf(
-            "PASTE_YOUR"
-        ) === -1
-    );
-
-}
-
-
-/********************************************************
- * LOADING
- ********************************************************/
+/* =====================================================
+   LOADING
+===================================================== */
 
 function showLoading(text) {
 
@@ -1680,9 +1665,9 @@ function hideLoading() {
 }
 
 
-/********************************************************
- * MESSAGE
- ********************************************************/
+/* =====================================================
+   MESSAGE
+===================================================== */
 
 function showMessage(
     text,
@@ -1700,8 +1685,7 @@ function showMessage(
 
 
     box.className =
-        "message " +
-        type;
+        "message " + type;
 
 
     box.style.display =
@@ -1721,119 +1705,297 @@ function showMessage(
 }
 
 
-/********************************************************
- * SAVE HARDWARE
- *
- * ONE CLICK = ONE ITEM
- * ONE ITEM = ONE ROW
- ********************************************************/
+/* =====================================================
+   LOAD SOL LIST
+===================================================== */
 
-function saveHardware() {
+function loadSOLList() {
 
-
-    if (!apiConfigured()) {
-
-        alert(
-            "Please configure Apps Script Web App URL."
+    var select =
+        document.getElementById(
+            "solId"
         );
+
+
+    select.innerHTML =
+        "<option value=''>Loading SOL IDs...</option>";
+
+
+    fetch(
+        GAS_URL +
+        "?action=getSOLList"
+    )
+
+    .then(
+        function(response) {
+
+            if (!response.ok) {
+
+                throw new Error(
+                    "HTTP Error " +
+                    response.status
+                );
+
+            }
+
+            return response.json();
+
+        }
+    )
+
+    .then(
+        function(result) {
+
+
+            select.innerHTML =
+                "<option value=''>" +
+                "Select SOL ID" +
+                "</option>";
+
+
+            if (
+                !result ||
+                result.status !==
+                "success"
+            ) {
+
+                select.innerHTML +=
+
+                    "<option value=''>" +
+
+                    "Unable to load SOL IDs" +
+
+                    "</option>";
+
+                return;
+
+            }
+
+
+            var data =
+                result.data || [];
+
+
+            if (
+                data.length === 0
+            ) {
+
+                select.innerHTML +=
+
+                    "<option value=''>" +
+
+                    "No SOL IDs found" +
+
+                    "</option>";
+
+                return;
+
+            }
+
+
+            /*
+             * Numeric sorting
+             */
+
+            data.sort(
+                function(a, b) {
+
+                    return (
+                        Number(a.solId) -
+                        Number(b.solId)
+                    );
+
+                }
+            );
+
+
+            for (
+                var i = 0;
+                i < data.length;
+                i++
+            ) {
+
+
+                var option =
+                    document.createElement(
+                        "option"
+                    );
+
+
+                option.value =
+                    data[i].solId;
+
+
+                option.text =
+                    data[i].solId +
+                    " - " +
+                    data[i].branchName;
+
+
+                option.setAttribute(
+                    "data-branch",
+                    data[i].branchName
+                );
+
+
+                select.appendChild(
+                    option
+                );
+
+            }
+
+
+        }
+    )
+
+    .catch(
+        function(error) {
+
+
+            console.error(
+                "SOL Error:",
+                error
+            );
+
+
+            select.innerHTML =
+
+                "<option value=''>" +
+
+                "Error loading SOL IDs" +
+
+                "</option>";
+
+
+            showMessage(
+
+                "Unable to load SOL IDs: " +
+                error.message,
+
+                "error"
+
+            );
+
+        }
+    );
+
+}
+
+
+/* =====================================================
+   SOL → BRANCH
+===================================================== */
+
+function loadBranchForSOL() {
+
+    var select =
+        document.getElementById(
+            "solId"
+        );
+
+
+    var branch =
+        document.getElementById(
+            "branchName"
+        );
+
+
+    if (
+        !select.value
+    ) {
+
+        branch.value = "";
 
         return;
 
     }
 
 
+    var option =
+        select.options[
+            select.selectedIndex
+        ];
+
+
+    branch.value =
+        option.getAttribute(
+            "data-branch"
+        ) || "";
+
+}
+
+
+/* =====================================================
+   SAVE ONE HARDWARE ITEM
+===================================================== */
+
+function saveHardware() {
+
+
     var solId =
-        document
-        .getElementById(
+        document.getElementById(
             "solId"
-        )
-        .value
-        .trim();
+        ).value.trim();
 
 
     var branchName =
-        document
-        .getElementById(
+        document.getElementById(
             "branchName"
-        )
-        .value
-        .trim();
+        ).value.trim();
 
 
     var hardwareType =
-        document
-        .getElementById(
+        document.getElementById(
             "hardwareType"
-        )
-        .value;
+        ).value;
 
 
     var hardwareSubType =
-        document
-        .getElementById(
+        document.getElementById(
             "hardwareSubType"
-        )
-        .value
-        .trim();
+        ).value.trim();
 
 
     var make =
-        document
-        .getElementById(
+        document.getElementById(
             "make"
-        )
-        .value
-        .trim();
+        ).value.trim();
 
 
     var model =
-        document
-        .getElementById(
+        document.getElementById(
             "model"
-        )
-        .value
-        .trim();
+        ).value.trim();
 
 
     var serialNo =
-        document
-        .getElementById(
+        document.getElementById(
             "serialNo"
-        )
-        .value
-        .trim();
+        ).value.trim();
 
 
     var condition =
-        document
-        .getElementById(
+        document.getElementById(
             "condition"
-        )
-        .value;
+        ).value;
 
 
     var remarks =
-        document
-        .getElementById(
+        document.getElementById(
             "remarks"
-        )
-        .value
-        .trim();
+        ).value.trim();
 
 
-    /* ================= VALIDATION ================= */
+
+    /* =================================================
+       VALIDATION
+    ================================================= */
 
     if (!solId) {
 
         alert(
-            "Please enter SOL ID."
+            "Please select SOL ID."
         );
-
-        document
-        .getElementById(
-            "solId"
-        )
-        .focus();
 
         return;
 
@@ -1843,14 +2005,8 @@ function saveHardware() {
     if (!branchName) {
 
         alert(
-            "Please enter Branch Name."
+            "Branch Name not found."
         );
-
-        document
-        .getElementById(
-            "branchName"
-        )
-        .focus();
 
         return;
 
@@ -1863,12 +2019,6 @@ function saveHardware() {
             "Please select Hardware Type."
         );
 
-        document
-        .getElementById(
-            "hardwareType"
-        )
-        .focus();
-
         return;
 
     }
@@ -1879,12 +2029,6 @@ function saveHardware() {
         alert(
             "Please enter Make."
         );
-
-        document
-        .getElementById(
-            "make"
-        )
-        .focus();
 
         return;
 
@@ -1897,12 +2041,6 @@ function saveHardware() {
             "Please enter Model."
         );
 
-        document
-        .getElementById(
-            "model"
-        )
-        .focus();
-
         return;
 
     }
@@ -1913,12 +2051,6 @@ function saveHardware() {
         alert(
             "Please enter Serial No."
         );
-
-        document
-        .getElementById(
-            "serialNo"
-        )
-        .focus();
 
         return;
 
@@ -1931,18 +2063,39 @@ function saveHardware() {
             "Please select Condition."
         );
 
-        document
-        .getElementById(
-            "condition"
-        )
-        .focus();
-
         return;
 
     }
 
 
-    /* ================= PARAMETERS ================= */
+
+    /* =================================================
+       DISABLE BUTTON
+    ================================================= */
+
+    var button =
+        document.getElementById(
+            "saveButton"
+        );
+
+
+    button.disabled =
+        true;
+
+
+    button.innerHTML =
+        "⏳ Saving...";
+
+
+    showLoading(
+        "Saving hardware..."
+    );
+
+
+
+    /* =================================================
+       CREATE REQUEST
+    ================================================= */
 
     var params =
         new URLSearchParams();
@@ -2008,28 +2161,10 @@ function saveHardware() {
     );
 
 
-    /* ================= BUTTON ================= */
 
-    var button =
-        document.getElementById(
-            "saveButton"
-        );
-
-
-    button.disabled =
-        true;
-
-
-    button.innerHTML =
-        "⏳ Saving...";
-
-
-    showLoading(
-        "Saving hardware..."
-    );
-
-
-    /* ================= API CALL ================= */
+    /* =================================================
+       SEND TO GOOGLE APPS SCRIPT
+    ================================================= */
 
     fetch(
         GAS_URL +
@@ -2076,33 +2211,38 @@ function saveHardware() {
             ) {
 
 
-                showMessage(
-
-                    "Hardware saved successfully. " +
-                    "Submission ID: " +
-                    result.submissionId,
-
-                    "success"
-
-                );
-
-
                 alert(
 
                     "✅ Hardware Saved Successfully\n\n" +
 
                     "Submission ID: " +
 
-                    result.submissionId
+                    (
+                        result.submissionId ||
+                        ""
+                    )
+
+                );
+
+
+                showMessage(
+
+                    "Hardware saved successfully.",
+
+                    "success"
 
                 );
 
 
                 /*
-                 * Clear form for next item
+                 * Clear only the hardware fields.
+                 *
+                 * SOL remains selected so that
+                 * another hardware item can be
+                 * entered for the same branch.
                  */
 
-                clearForm();
+                clearHardwareFields();
 
 
                 /*
@@ -2119,18 +2259,6 @@ function saveHardware() {
             else {
 
 
-                showMessage(
-
-                    result &&
-                    result.message
-                        ? result.message
-                        : "Save failed.",
-
-                    "error"
-
-                );
-
-
                 alert(
 
                     "❌ Save Failed\n\n" +
@@ -2141,6 +2269,18 @@ function saveHardware() {
                             ? result.message
                             : "Unknown error."
                     )
+
+                );
+
+
+                showMessage(
+
+                    result &&
+                    result.message
+                        ? result.message
+                        : "Save failed.",
+
+                    "error"
 
                 );
 
@@ -2184,21 +2324,12 @@ function saveHardware() {
 }
 
 
-/********************************************************
- * CLEAR FORM
- ********************************************************/
+/* =====================================================
+   CLEAR HARDWARE FIELDS
+   SOL + BRANCH WILL REMAIN
+===================================================== */
 
-function clearForm() {
-
-
-    document.getElementById(
-        "solId"
-    ).value = "";
-
-
-    document.getElementById(
-        "branchName"
-    ).value = "";
+function clearHardwareFields() {
 
 
     document.getElementById(
@@ -2237,24 +2368,44 @@ function clearForm() {
 
 
     document.getElementById(
+        "hardwareType"
+    ).focus();
+
+}
+
+
+/* =====================================================
+   COMPLETE CLEAR
+===================================================== */
+
+function clearForm() {
+
+
+    document.getElementById(
+        "solId"
+    ).value = "";
+
+
+    document.getElementById(
+        "branchName"
+    ).value = "";
+
+
+    clearHardwareFields();
+
+
+    document.getElementById(
         "solId"
     ).focus();
 
 }
 
 
-/********************************************************
- * DASHBOARD
- ********************************************************/
+/* =====================================================
+   DASHBOARD
+===================================================== */
 
 function loadDashboard() {
-
-
-    if (!apiConfigured()) {
-
-        return;
-
-    }
 
 
     fetch(
@@ -2315,7 +2466,7 @@ function loadDashboard() {
         function(error) {
 
             console.log(
-                "Dashboard Error:",
+                "Dashboard error:",
                 error
             );
 
@@ -2325,18 +2476,11 @@ function loadDashboard() {
 }
 
 
-/********************************************************
- * RECENT HARDWARE
- ********************************************************/
+/* =====================================================
+   RECENT RECORDS
+===================================================== */
 
 function loadRecent() {
-
-
-    if (!apiConfigured()) {
-
-        return;
-
-    }
 
 
     fetch(
@@ -2373,7 +2517,7 @@ function loadRecent() {
                     "<tr>" +
 
                     "<td " +
-                    "colspan='10' " +
+                    "colspan='11' " +
                     "class='no-data'>" +
 
                     "Unable to load records." +
@@ -2400,7 +2544,7 @@ function loadRecent() {
                     "<tr>" +
 
                     "<td " +
-                    "colspan='10' " +
+                    "colspan='11' " +
                     "class='no-data'>" +
 
                     "No hardware records found." +
@@ -2431,8 +2575,7 @@ function loadRecent() {
                 var condition =
                     String(
                         row.condition || ""
-                    )
-                    .toUpperCase();
+                    ).toUpperCase();
 
 
                 var badgeClass =
@@ -2464,58 +2607,94 @@ function loadRecent() {
 
                     "<tr>" +
 
+
                     "<td>" +
+
+                    escapeHtml(
+                        row.timestamp
+                    ) +
+
+                    "</td>" +
+
+
+                    "<td>" +
+
                     escapeHtml(
                         row.submissionId
                     ) +
+
                     "</td>" +
 
+
                     "<td>" +
+
                     escapeHtml(
                         row.solId
                     ) +
+
                     "</td>" +
 
+
                     "<td>" +
+
                     escapeHtml(
                         row.branchName
                     ) +
+
                     "</td>" +
 
+
                     "<td>" +
+
                     escapeHtml(
                         row.hardwareType
                     ) +
+
                     "</td>" +
 
+
                     "<td>" +
+
                     escapeHtml(
                         row.hardwareSubType
                     ) +
+
                     "</td>" +
 
+
                     "<td>" +
+
                     escapeHtml(
                         row.make
                     ) +
+
                     "</td>" +
 
+
                     "<td>" +
+
                     escapeHtml(
                         row.model
                     ) +
+
                     "</td>" +
 
+
                     "<td>" +
+
                     escapeHtml(
                         row.serialNo
                     ) +
+
                     "</td>" +
+
 
                     "<td>" +
 
                     "<span class='badge " +
+
                     badgeClass +
+
                     "'>" +
 
                     escapeHtml(
@@ -2526,11 +2705,15 @@ function loadRecent() {
 
                     "</td>" +
 
+
                     "<td>" +
+
                     escapeHtml(
                         row.remarks
                     ) +
+
                     "</td>" +
+
 
                     "</tr>";
 
@@ -2547,7 +2730,7 @@ function loadRecent() {
         function(error) {
 
             console.log(
-                "Recent Records Error:",
+                "Recent records error:",
                 error
             );
 
@@ -2557,13 +2740,11 @@ function loadRecent() {
 }
 
 
-/********************************************************
- * ESCAPE HTML
- ********************************************************/
+/* =====================================================
+   ESCAPE HTML
+===================================================== */
 
-function escapeHtml(
-    value
-) {
+function escapeHtml(value) {
 
     if (
         value === null ||
@@ -2605,17 +2786,35 @@ function escapeHtml(
 }
 
 
-/********************************************************
- * PAGE LOAD
- ********************************************************/
+/* =====================================================
+   PAGE LOAD
+===================================================== */
 
 window.addEventListener(
     "load",
     function() {
 
+
+        /*
+         * First load SOL dropdown
+         */
+
+        loadSOLList();
+
+
+        /*
+         * Dashboard
+         */
+
         loadDashboard();
 
+
+        /*
+         * Recent records
+         */
+
         loadRecent();
+
 
     }
 );
