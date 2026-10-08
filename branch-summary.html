@@ -5,23 +5,23 @@
 
 <meta charset="UTF-8">
 
-<meta
-    name="viewport"
-    content="width=device-width, initial-scale=1.0">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0">
 
-<title>Branch-wise Hardware Inventory</title>
+<title>MPGB Hardware - Branch Summary</title>
 
-<link
-    rel="stylesheet"
-    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+<link rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
 
-<!-- SAME SIDEBAR AS OTHER PAGES -->
+<!-- =========================================================
+     SAME SIDEBAR AS OTHER PAGES
+     ========================================================= -->
 <script src="sidebar.js"></script>
 
 <style>
 
 /* =========================================================
-   RESET
+   GLOBAL
 ========================================================= */
 
 *{
@@ -34,18 +34,25 @@ html{
 
 body{
     margin:0;
+    padding:0;
     background:#f4f7f5;
     color:#263238;
-    font-family:
-        Arial,
-        Helvetica,
-        sans-serif;
+    font-family:Arial,Helvetica,sans-serif;
+}
+
+button,
+input{
+    font-family:inherit;
+}
+
+button{
+    cursor:pointer;
 }
 
 
 /* =========================================================
    MAIN
-   Compatible with sidebar.js layout
+   SAME STRUCTURE AS ADD-HARDWARE PAGE
 ========================================================= */
 
 .main{
@@ -64,26 +71,26 @@ body{
 
     width:100%;
 
-    max-width:1700px;
+    max-width:1500px;
 
-    margin:auto;
+    margin:0 auto;
 
 }
 
 
 /* =========================================================
-   HEADER
+   PAGE HEADER
 ========================================================= */
 
 .page-header{
 
-    background:#fff;
+    background:#ffffff;
 
     border:1px solid #dce5df;
 
     border-radius:20px;
 
-    padding:20px 23px;
+    padding:19px 22px;
 
     display:flex;
 
@@ -100,7 +107,7 @@ body{
 
 }
 
-.header-left{
+.page-header-left{
 
     display:flex;
 
@@ -112,14 +119,9 @@ body{
 
 .header-icon{
 
-    width:52px;
-    height:52px;
+    width:50px;
 
-    display:flex;
-
-    align-items:center;
-
-    justify-content:center;
+    height:50px;
 
     border-radius:14px;
 
@@ -127,7 +129,13 @@ body{
 
     color:#006633;
 
-    font-size:23px;
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    font-size:22px;
 
 }
 
@@ -145,11 +153,11 @@ body{
 
 .page-subtitle{
 
-    margin-top:5px;
-
-    color:#98a2b3;
+    margin-top:4px;
 
     font-size:12px;
+
+    color:#98a2b3;
 
 }
 
@@ -161,9 +169,9 @@ body{
 
     border-radius:25px;
 
-    padding:10px 16px;
+    padding:9px 15px;
 
-    font-size:12px;
+    font-size:11px;
 
     font-weight:900;
 
@@ -183,34 +191,34 @@ body{
     grid-template-columns:
         repeat(5,minmax(0,1fr));
 
-    gap:12px;
+    gap:11px;
 
-    margin-bottom:16px;
+    margin-bottom:15px;
 
 }
 
-.kpi{
+.kpi-card{
 
-    background:#fff;
+    background:#ffffff;
 
     border:1px solid #dce5df;
 
     border-radius:15px;
 
-    padding:15px;
+    padding:14px;
 
     box-shadow:
-        0 5px 17px rgba(0,0,0,.035);
+        0 5px 16px rgba(0,0,0,.035);
 
 }
 
 .kpi-label{
 
-    font-size:10px;
+    color:#667085;
+
+    font-size:9px;
 
     font-weight:900;
-
-    color:#667085;
 
     text-transform:uppercase;
 
@@ -218,13 +226,13 @@ body{
 
 .kpi-value{
 
-    margin-top:6px;
-
-    font-size:27px;
-
-    font-weight:900;
+    margin-top:5px;
 
     color:#006633;
+
+    font-size:26px;
+
+    font-weight:900;
 
 }
 
@@ -232,9 +240,9 @@ body{
 
     margin-top:3px;
 
-    font-size:10px;
-
     color:#98a2b3;
+
+    font-size:9px;
 
 }
 
@@ -261,26 +269,26 @@ body{
 
 .toolbar{
 
-    background:#fff;
+    background:#ffffff;
 
     border:1px solid #dce5df;
 
     border-radius:15px;
 
-    padding:12px;
+    padding:11px;
 
     display:flex;
 
-    flex-wrap:wrap;
-
     align-items:center;
 
-    gap:9px;
+    gap:8px;
 
-    margin-bottom:16px;
+    flex-wrap:wrap;
+
+    margin-bottom:15px;
 
     box-shadow:
-        0 5px 17px rgba(0,0,0,.035);
+        0 5px 16px rgba(0,0,0,.035);
 
 }
 
@@ -288,7 +296,7 @@ body{
 
     flex:1;
 
-    min-width:230px;
+    min-width:220px;
 
     position:relative;
 
@@ -298,7 +306,7 @@ body{
 
     position:absolute;
 
-    left:12px;
+    left:11px;
 
     top:50%;
 
@@ -306,56 +314,58 @@ body{
 
     color:#98a2b3;
 
+    font-size:12px;
+
 }
 
 .search-box input{
 
     width:100%;
 
-    height:40px;
+    height:39px;
 
-    border:1px solid #cbd5cf;
+    border:1px solid #ccd6d0;
 
-    border-radius:9px;
-
-    padding:0 12px 0 36px;
+    border-radius:8px;
 
     outline:none;
 
-    font-size:12px;
+    padding:0 10px 0 34px;
+
+    font-size:11px;
 
 }
 
 .search-box input:focus{
 
-    border-color:#36945d;
+    border-color:#33935d;
 
     box-shadow:
-        0 0 0 3px rgba(54,148,93,.10);
+        0 0 0 3px rgba(51,147,93,.10);
 
 }
 
-.btn{
+.toolbar-btn{
 
-    height:40px;
-
-    padding:0 14px;
+    height:39px;
 
     border:none;
 
-    border-radius:9px;
+    border-radius:8px;
+
+    padding:0 13px;
 
     background:#006633;
 
-    color:#fff;
+    color:#ffffff;
 
-    font-size:11px;
+    font-size:10px;
 
     font-weight:900;
 
 }
 
-.btn.light{
+.toolbar-btn.light{
 
     background:#e9f0ec;
 
@@ -363,7 +373,7 @@ body{
 
 }
 
-.btn:hover{
+.toolbar-btn:hover{
 
     transform:translateY(-1px);
 
@@ -374,11 +384,11 @@ body{
    SUMMARY CARD
 ========================================================= */
 
-.card{
+.summary-card{
 
-    background:#fff;
+    background:#ffffff;
 
-    border:1px solid #bcc8c0;
+    border:1px solid #aebbb3;
 
     border-radius:17px;
 
@@ -389,11 +399,11 @@ body{
 
 }
 
-.card-head{
+.summary-header{
 
-    padding:15px 17px;
+    padding:14px 16px;
 
-    border-bottom:1px solid #cbd5ce;
+    border-bottom:1px solid #c9d2cc;
 
     display:flex;
 
@@ -405,46 +415,33 @@ body{
 
 }
 
-.card-title{
+.summary-title{
 
-    font-size:15px;
-
-    font-weight:900;
+    font-size:14px;
 
     color:#344054;
 
+    font-weight:900;
+
 }
 
-.card-subtitle{
+.summary-subtitle{
 
     margin-top:3px;
 
     color:#98a2b3;
 
-    font-size:10px;
+    font-size:9px;
 
 }
 
-.visible-count{
-
-    font-size:10px;
+.summary-count{
 
     color:#667085;
 
+    font-size:10px;
+
     font-weight:900;
-
-}
-
-
-/* =========================================================
-   SUMMARY TABLE WRAPPER
-========================================================= */
-
-.summary-wrap{
-
-    width:100%;
-
-    overflow-x:auto;
 
 }
 
@@ -452,14 +449,23 @@ body{
 /* =========================================================
    SUMMARY TABLE
 
-   Compact so all columns remain proportionate
+   IMPORTANT:
+   No min-width.
+   No horizontal scrolling.
+   table-layout fixed.
 ========================================================= */
+
+.summary-table-wrap{
+
+    width:100%;
+
+    overflow:visible;
+
+}
 
 .summary-table{
 
     width:100%;
-
-    min-width:1100px;
 
     table-layout:fixed;
 
@@ -470,7 +476,7 @@ body{
 }
 
 
-/* COLUMN WIDTHS */
+/* WIDTHS */
 
 .summary-table th:nth-child(1){
     width:4%;
@@ -484,8 +490,44 @@ body{
     width:6%;
 }
 
-.summary-table th:nth-child(n+4){
-    width:7.38%;
+.summary-table th:nth-child(4){
+    width:7%;
+}
+
+.summary-table th:nth-child(5){
+    width:7%;
+}
+
+.summary-table th:nth-child(6){
+    width:10%;
+}
+
+.summary-table th:nth-child(7){
+    width:9%;
+}
+
+.summary-table th:nth-child(8){
+    width:7%;
+}
+
+.summary-table th:nth-child(9){
+    width:8%;
+}
+
+.summary-table th:nth-child(10){
+    width:9%;
+}
+
+.summary-table th:nth-child(11){
+    width:10%;
+}
+
+.summary-table th:nth-child(12){
+    width:7%;
+}
+
+summary-table th:nth-child(13){
+    width:0;
 }
 
 
@@ -495,13 +537,13 @@ body{
 
     background:#eef3f0;
 
+    border:1px solid #b9c5be;
+
     color:#344054;
 
-    border:1px solid #bbc7c0;
+    padding:8px 3px;
 
-    padding:9px 5px;
-
-    font-size:9px;
+    font-size:8px;
 
     font-weight:900;
 
@@ -509,11 +551,13 @@ body{
 
     vertical-align:middle;
 
-    line-height:1.15;
+    line-height:1.12;
 
     white-space:normal;
 
-    word-break:break-word;
+    overflow-wrap:anywhere;
+
+    word-break:normal;
 
 }
 
@@ -522,19 +566,23 @@ body{
 
 .summary-table td{
 
-    background:#fff;
+    background:#ffffff;
 
-    border:1px solid #c8d2cc;
+    border:1px solid #c7d0ca;
 
-    padding:9px 5px;
+    color:#344054;
 
-    font-size:10px;
+    padding:8px 3px;
+
+    font-size:9px;
 
     text-align:center;
 
     vertical-align:middle;
 
     line-height:1.15;
+
+    white-space:normal;
 
     overflow-wrap:anywhere;
 
@@ -564,39 +612,39 @@ body{
    RANK
 ========================================================= */
 
-.rank{
+.rank-badge{
+
+    width:30px;
+
+    height:30px;
 
     display:inline-flex;
-
-    width:34px;
-
-    height:34px;
 
     align-items:center;
 
     justify-content:center;
 
-    border-radius:9px;
+    border-radius:8px;
 
     background:#edf0f1;
 
     color:#475467;
 
+    font-size:10px;
+
     font-weight:900;
 
-    font-size:12px;
+}
+
+.rank-one{
+
+    background:#fff1bd;
+
+    color:#936300;
 
 }
 
-.rank1{
-
-    background:#fff0bd;
-
-    color:#9a6700;
-
-}
-
-.rank2{
+.rank-two{
 
     background:#edf0f2;
 
@@ -604,11 +652,11 @@ body{
 
 }
 
-.rank3{
+.rank-three{
 
     background:#ffe4cf;
 
-    color:#a84c10;
+    color:#a64c10;
 
 }
 
@@ -619,11 +667,11 @@ body{
 
 .branch-name{
 
-    font-size:12px;
+    font-size:10px;
 
     font-weight:900;
 
-    color:#27343e;
+    color:#263238;
 
     line-height:1.15;
 
@@ -635,17 +683,17 @@ body{
 
     display:inline-block;
 
-    margin-top:5px;
+    margin-top:4px;
 
-    padding:3px 7px;
+    padding:3px 6px;
+
+    border-radius:5px;
 
     background:#edf4ff;
 
     color:#1e5bc7;
 
-    border-radius:5px;
-
-    font-size:9px;
+    font-size:8px;
 
     font-weight:900;
 
@@ -653,7 +701,7 @@ body{
 
 
 /* =========================================================
-   TOTAL BUTTON
+   TOTAL
 ========================================================= */
 
 .total-btn{
@@ -664,15 +712,13 @@ body{
 
     color:#006633;
 
-    font-size:19px;
+    font-size:18px;
 
     font-weight:900;
 
-    padding:4px 8px;
+    padding:3px 6px;
 
-    border-radius:7px;
-
-    cursor:pointer;
+    border-radius:6px;
 
 }
 
@@ -682,32 +728,32 @@ body{
 
     text-decoration:underline;
 
-    transform:scale(1.07);
+    transform:scale(1.08);
 
 }
 
 
 /* =========================================================
-   HARDWARE COUNTS
+   HARDWARE COUNT
 ========================================================= */
 
-.hw-count{
+.hw-number{
 
     display:inline-flex;
 
-    min-width:25px;
+    min-width:24px;
 
-    height:25px;
+    height:23px;
 
     align-items:center;
 
     justify-content:center;
 
-    border-radius:6px;
-
     background:#f0f3f2;
 
     color:#344054;
+
+    border-radius:6px;
 
     font-size:9px;
 
@@ -720,13 +766,13 @@ body{
    GRAND TOTAL
 ========================================================= */
 
-.grand-row td{
+.grand-total td{
 
     background:#006633 !important;
 
-    color:#fff !important;
+    color:#ffffff !important;
 
-    border-color:#005528 !important;
+    border-color:#005426 !important;
 
     font-weight:900;
 
@@ -734,17 +780,17 @@ body{
 
 .grand-btn{
 
+    border:none;
+
     background:transparent;
 
-    color:#fff;
-
-    border:none;
+    color:#ffffff;
 
     font-size:18px;
 
     font-weight:900;
 
-    padding:3px 8px;
+    padding:2px 7px;
 
     border-radius:6px;
 
@@ -767,11 +813,11 @@ body{
 
     display:none;
 
-    margin-top:18px;
+    margin-top:17px;
 
-    background:#fff;
+    background:#ffffff;
 
-    border:1px solid #abb8b0;
+    border:1px solid #aebbb3;
 
     border-radius:17px;
 
@@ -782,41 +828,41 @@ body{
 
 }
 
-.records-head{
+.records-header{
+
+    padding:14px 16px;
 
     background:#edf8f1;
 
-    border-bottom:1px solid #c7d8cd;
-
-    padding:15px 17px;
+    border-bottom:1px solid #c6d7cb;
 
     display:flex;
 
-    align-items:center;
-
     justify-content:space-between;
 
-    gap:12px;
+    align-items:center;
+
+    gap:10px;
 
 }
 
 .records-title{
 
-    font-size:15px;
-
-    font-weight:900;
+    font-size:14px;
 
     color:#17452d;
+
+    font-weight:900;
 
 }
 
 .records-subtitle{
 
-    margin-top:4px;
-
-    font-size:10px;
+    margin-top:3px;
 
     color:#667085;
+
+    font-size:9px;
 
 }
 
@@ -832,21 +878,21 @@ body{
 
 .record-btn{
 
-    height:34px;
+    height:33px;
 
     border:none;
 
-    border-radius:8px;
+    border-radius:7px;
 
-    padding:0 11px;
-
-    font-size:10px;
-
-    font-weight:900;
+    padding:0 10px;
 
     background:#006633;
 
-    color:#fff;
+    color:#ffffff;
+
+    font-size:9px;
+
+    font-weight:900;
 
 }
 
@@ -867,9 +913,9 @@ body{
 
     display:none;
 
-    padding:11px;
+    padding:10px;
 
-    border-bottom:1px solid #c9d2cc;
+    border-bottom:1px solid #ccd5cf;
 
 }
 
@@ -877,38 +923,38 @@ body{
 
     width:100%;
 
-    height:37px;
+    height:36px;
 
-    border:1px solid #c6d0c9;
+    border:1px solid #c5d0c9;
 
-    border-radius:8px;
+    border-radius:7px;
 
     padding:0 10px;
 
     outline:none;
 
-    font-size:11px;
+    font-size:10px;
 
 }
 
 
 /* =========================================================
    RECORD TABLE
+
+   Also fitted to width
 ========================================================= */
 
 .records-wrap{
 
     width:100%;
 
-    overflow-x:auto;
+    overflow:visible;
 
 }
 
 .record-table{
 
     width:100%;
-
-    min-width:950px;
 
     table-layout:fixed;
 
@@ -919,18 +965,18 @@ body{
 }
 
 
-/* DETAIL COLUMN WIDTHS */
+/* DETAIL WIDTHS */
 
 .record-table th:nth-child(1){
     width:7%;
 }
 
 .record-table th:nth-child(2){
-    width:16%;
+    width:14%;
 }
 
 .record-table th:nth-child(3){
-    width:14%;
+    width:13%;
 }
 
 .record-table th:nth-child(4){
@@ -938,7 +984,7 @@ body{
 }
 
 .record-table th:nth-child(5){
-    width:11%;
+    width:10%;
 }
 
 .record-table th:nth-child(6){
@@ -950,19 +996,21 @@ body{
 }
 
 .record-table th:nth-child(8){
-    width:17%;
+    width:21%;
 }
 
+
+/* DETAIL HEADER */
 
 .record-table th{
 
     background:#006633;
 
-    color:#fff;
+    color:#ffffff;
 
     border:1px solid #005426;
 
-    padding:10px 7px;
+    padding:9px 5px;
 
     font-size:9px;
 
@@ -972,35 +1020,43 @@ body{
 
     vertical-align:middle;
 
+    line-height:1.15;
+
     white-space:normal;
+
+    overflow-wrap:anywhere;
+
+}
+
+
+/* DETAIL DATA */
+
+.record-table td{
+
+    background:#ffffff;
+
+    color:#344054;
+
+    border:1px solid #c4cec8;
+
+    padding:9px 5px;
+
+    font-size:9px;
+
+    line-height:1.2;
+
+    vertical-align:middle;
+
+    text-align:center;
+
+    overflow-wrap:anywhere;
 
     word-break:break-word;
 
 }
 
 
-.record-table td{
-
-    background:#fff;
-
-    color:#344054;
-
-    border:1px solid #c5d0c9;
-
-    padding:10px 7px;
-
-    font-size:10px;
-
-    vertical-align:middle;
-
-    overflow-wrap:anywhere;
-
-    text-align:center;
-
-    line-height:1.2;
-
-}
-
+/* TEXT FIELDS LEFT */
 
 .record-table td:nth-child(2),
 .record-table td:nth-child(3),
@@ -1014,6 +1070,8 @@ body{
 }
 
 
+/* HOVER */
+
 .record-table tbody tr:hover td{
 
     background:#f8fbf9;
@@ -1022,7 +1080,7 @@ body{
 
 
 /* =========================================================
-   SERIAL NO
+   SERIAL
 ========================================================= */
 
 .serial-no{
@@ -1031,11 +1089,11 @@ body{
         "Courier New",
         monospace;
 
+    font-size:9px;
+
     font-weight:700;
 
     color:#24382d;
-
-    word-break:break-all;
 
 }
 
@@ -1044,15 +1102,19 @@ body{
    CONDITION
 ========================================================= */
 
-.condition{
+.condition-badge{
 
     display:inline-flex;
 
-    padding:4px 8px;
+    align-items:center;
 
-    border-radius:14px;
+    justify-content:center;
 
-    font-size:8px;
+    padding:4px 7px;
+
+    border-radius:13px;
+
+    font-size:7px;
 
     font-weight:900;
 
@@ -1062,7 +1124,7 @@ body{
 
 .condition-working{
 
-    background:#daf5e5;
+    background:#d8f5e3;
 
     color:#166534;
 
@@ -1107,9 +1169,9 @@ body{
 
 .loading-cell{
 
-    padding:35px !important;
-
     text-align:center !important;
+
+    padding:30px !important;
 
     color:#98a2b3;
 
@@ -1117,10 +1179,10 @@ body{
 
 
 /* =========================================================
-   OVERLAY
+   LOADER
 ========================================================= */
 
-.loader-overlay{
+.page-loader{
 
     position:fixed;
 
@@ -1140,9 +1202,9 @@ body{
 
 .loader-box{
 
-    background:#fff;
+    background:#ffffff;
 
-    padding:24px 28px;
+    padding:23px 27px;
 
     border-radius:14px;
 
@@ -1153,17 +1215,17 @@ body{
 
     color:#006633;
 
-    font-size:12px;
+    font-size:11px;
 
     font-weight:900;
 
 }
 
-.loader-spin{
+.loader-spinner{
 
-    width:35px;
+    width:34px;
 
-    height:35px;
+    height:34px;
 
     border:4px solid #dcefe3;
 
@@ -1171,7 +1233,7 @@ body{
 
     border-radius:50%;
 
-    margin:0 auto 10px;
+    margin:0 auto 9px;
 
     animation:spin .8s linear infinite;
 
@@ -1198,15 +1260,15 @@ body{
 
     bottom:20px;
 
-    background:#183e2a;
+    padding:11px 14px;
 
-    color:#fff;
+    border-radius:8px;
 
-    padding:11px 15px;
+    background:#173e29;
 
-    border-radius:9px;
+    color:#ffffff;
 
-    font-size:11px;
+    font-size:10px;
 
     font-weight:800;
 
@@ -1216,7 +1278,7 @@ body{
 
     transform:translateY(10px);
 
-    transition:.2s;
+    transition:.2s ease;
 
     z-index:10000;
 
@@ -1234,19 +1296,8 @@ body{
 
 
 /* =========================================================
-   RESPONSIVE
+   MOBILE
 ========================================================= */
-
-@media(max-width:1100px){
-
-    .kpi-grid{
-
-        grid-template-columns:
-            repeat(3,minmax(0,1fr));
-
-    }
-
-}
 
 @media(max-width:900px){
 
@@ -1265,9 +1316,31 @@ body{
 
     }
 
-    .branch-pill{
+    .summary-table{
 
-        display:none;
+        font-size:8px;
+
+    }
+
+    .summary-table th{
+
+        padding:7px 2px;
+
+        font-size:7px;
+
+    }
+
+    .summary-table td{
+
+        padding:7px 2px;
+
+        font-size:8px;
+
+    }
+
+    .summary-table th:nth-child(2){
+
+        width:18%;
 
     }
 
@@ -1285,19 +1358,19 @@ body{
 
     .page-header{
 
-        padding:15px;
+        padding:14px;
 
     }
 
     .page-title{
 
-        font-size:18px;
+        font-size:17px;
 
     }
 
-    .page-subtitle{
+    .branch-pill{
 
-        font-size:10px;
+        display:none;
 
     }
 
@@ -1313,13 +1386,13 @@ body{
 
     }
 
-    .btn{
+    .toolbar-btn{
 
         width:100%;
 
     }
 
-    .records-head{
+    .records-header{
 
         flex-direction:column;
 
@@ -1336,14 +1409,9 @@ body{
 
 @media print{
 
-    .loader-overlay,
-    .toolbar,
-    .kpi-grid,
-    .page-header,
-    .record-buttons,
-    .record-search{
+    body{
 
-        display:none !important;
+        background:#fff;
 
     }
 
@@ -1352,6 +1420,18 @@ body{
         margin:0;
 
         padding:0;
+
+    }
+
+    .page-header,
+    .kpi-grid,
+    .toolbar,
+    .record-buttons,
+    .record-search,
+    .page-loader,
+    .toast{
+
+        display:none !important;
 
     }
 
@@ -1372,16 +1452,16 @@ body{
 
 
 <!-- =========================================================
-     LOADER
+     LOADING
 ========================================================= -->
 
 <div
-    id="loaderOverlay"
-    class="loader-overlay">
+    id="pageLoader"
+    class="page-loader">
 
     <div class="loader-box">
 
-        <div class="loader-spin"></div>
+        <div class="loader-spinner"></div>
 
         Loading Branch Summary...
 
@@ -1405,7 +1485,7 @@ body{
 
 <div class="page-header">
 
-    <div class="header-left">
+    <div class="page-header-left">
 
         <div class="header-icon">
 
@@ -1416,11 +1496,15 @@ body{
         <div>
 
             <h1 class="page-title">
+
                 Branch-wise Hardware Inventory
+
             </h1>
 
             <div class="page-subtitle">
-                Hardware type and inventory summary
+
+                Branch-wise hardware type summary
+
             </div>
 
         </div>
@@ -1446,7 +1530,7 @@ body{
 <div class="kpi-grid">
 
 
-    <div class="kpi">
+    <div class="kpi-card">
 
         <div class="kpi-label">
             Total Hardware
@@ -1461,13 +1545,13 @@ body{
         </div>
 
         <div class="kpi-note">
-            All registered hardware
+            All hardware records
         </div>
 
     </div>
 
 
-    <div class="kpi kpi-working">
+    <div class="kpi-card kpi-working">
 
         <div class="kpi-label">
             Working
@@ -1488,7 +1572,7 @@ body{
     </div>
 
 
-    <div class="kpi kpi-notworking">
+    <div class="kpi-card kpi-notworking">
 
         <div class="kpi-label">
             Not Working
@@ -1509,7 +1593,7 @@ body{
     </div>
 
 
-    <div class="kpi kpi-repair">
+    <div class="kpi-card kpi-repair">
 
         <div class="kpi-label">
             Under Repair
@@ -1530,7 +1614,7 @@ body{
     </div>
 
 
-    <div class="kpi kpi-damaged">
+    <div class="kpi-card kpi-damaged">
 
         <div class="kpi-label">
             Damaged
@@ -1574,7 +1658,7 @@ body{
 
 
     <button
-        class="btn light"
+        class="toolbar-btn light"
         onclick="resetFilters()">
 
         <i class="fa-solid fa-rotate-left"></i>
@@ -1584,7 +1668,7 @@ body{
 
 
     <button
-        class="btn"
+        class="toolbar-btn"
         onclick="exportSummary()">
 
         <i class="fa-solid fa-file-csv"></i>
@@ -1594,7 +1678,7 @@ body{
 
 
     <button
-        class="btn light"
+        class="toolbar-btn light"
         onclick="window.print()">
 
         <i class="fa-solid fa-print"></i>
@@ -1606,24 +1690,25 @@ body{
 
 
 <!-- =========================================================
-     SUMMARY CARD
+     SUMMARY TABLE
 ========================================================= -->
 
-<div class="card">
+<div class="summary-card">
 
-    <div class="card-head">
+
+    <div class="summary-header">
 
         <div>
 
-            <div class="card-title">
+            <div class="summary-title">
 
                 Branch-wise Hardware Summary
 
             </div>
 
-            <div class="card-subtitle">
+            <div class="summary-subtitle">
 
-                Click the Total number to view branch records
+                Click branch total to view hardware records
 
             </div>
 
@@ -1632,7 +1717,7 @@ body{
 
         <div
             id="visibleCount"
-            class="visible-count">
+            class="summary-count">
 
             0 branches
 
@@ -1641,9 +1726,10 @@ body{
     </div>
 
 
-    <div class="summary-wrap">
+    <div class="summary-table-wrap">
 
         <table class="summary-table">
+
 
             <thead>
 
@@ -1659,33 +1745,32 @@ body{
 
                     <th>Monitor</th>
 
-                    <th>Passbook Printer</th>
+                    <th>Passbook<br>Printer</th>
 
-                    <th>Laser Printer</th>
+                    <th>Laser<br>Printer</th>
 
                     <th>Scanner</th>
 
-                    <th>CTS Machine</th>
+                    <th>CTS<br>Machine</th>
 
-                    <th>CCTV Monitor</th>
+                    <th>CCTV<br>Monitor</th>
 
-                    <th>Biometric Device</th>
+                    <th>Biometric<br>Device</th>
 
                     <th>UPS</th>
-
-                    <th>Other</th>
 
                 </tr>
 
             </thead>
 
 
-            <tbody id="summaryBody">
+            <tbody
+                id="summaryBody">
 
                 <tr>
 
                     <td
-                        colspan="13"
+                        colspan="12"
                         class="loading-cell">
 
                         Loading...
@@ -1696,6 +1781,7 @@ body{
 
             </tbody>
 
+
         </table>
 
     </div>
@@ -1704,7 +1790,7 @@ body{
 
 
 <!-- =========================================================
-     RECORD SECTION
+     RECORDS
 ========================================================= -->
 
 <div
@@ -1712,7 +1798,8 @@ body{
     class="records-section">
 
 
-    <div class="records-head">
+    <div class="records-header">
+
 
         <div>
 
@@ -1723,6 +1810,7 @@ body{
                 Hardware Records
 
             </div>
+
 
             <div
                 id="recordsSubtitle"
@@ -1799,6 +1887,7 @@ body{
 
         <table class="record-table">
 
+
             <thead>
 
                 <tr>
@@ -1824,7 +1913,8 @@ body{
             </thead>
 
 
-            <tbody id="recordsBody">
+            <tbody
+                id="recordsBody">
 
                 <tr>
 
@@ -1839,6 +1929,7 @@ body{
                 </tr>
 
             </tbody>
+
 
         </table>
 
@@ -1889,31 +1980,34 @@ var currentBranch = "";
 
 
 /* =========================================================
-   INIT
+   PAGE LOAD
 ========================================================= */
 
 document.addEventListener(
     "DOMContentLoaded",
     function(){
 
-        loadSummary();
+        loadBranchSummary();
 
     }
 );
 
 
 /* =========================================================
-   LOAD SUMMARY
+   LOAD BRANCH SUMMARY
 ========================================================= */
 
-function loadSummary(){
+function loadBranchSummary(){
 
     showLoader(true);
 
+
     fetch(
+
         API_URL +
         "?action=branchSummary&_=" +
         new Date().getTime()
+
     )
 
     .then(
@@ -1969,7 +2063,7 @@ function loadSummary(){
                 '<tr>' +
 
                     '<td ' +
-                        'colspan="13" ' +
+                        'colspan="12" ' +
                         'class="loading-cell">' +
 
                         'Unable to load branch summary.' +
@@ -1980,6 +2074,7 @@ function loadSummary(){
 
 
             showLoader(false);
+
 
             showToast(
                 "Unable to load branch summary"
@@ -2043,20 +2138,24 @@ function renderSummary(data){
                     b.total || 0
                 );
 
+
             working +=
                 Number(
                     b.working || 0
                 );
+
 
             notWorking +=
                 Number(
                     b.notWorking || 0
                 );
 
+
             repair +=
                 Number(
                     b.repair || 0
                 );
+
 
             damaged +=
                 Number(
@@ -2092,24 +2191,37 @@ function renderSummary(data){
 
             var rankClass = "";
 
+
             if(rank === 1){
-                rankClass = "rank1";
+
+                rankClass =
+                    "rank-one";
+
             }
+
             else if(rank === 2){
-                rankClass = "rank2";
+
+                rankClass =
+                    "rank-two";
+
             }
+
             else if(rank === 3){
-                rankClass = "rank3";
+
+                rankClass =
+                    "rank-three";
+
             }
 
 
             tr.innerHTML =
 
+
                 /* RANK */
 
                 '<td>' +
 
-                    '<span class="rank ' +
+                    '<span class="rank-badge ' +
                     rankClass +
                     '">' +
 
@@ -2169,46 +2281,66 @@ function renderSummary(data){
                 '</td>' +
 
 
-                /* HARDWARE TYPES ONLY */
+                /* CPU */
 
-                makeHardwareCell(
+                hardwareCell(
                     b.cpu
                 ) +
 
-                makeHardwareCell(
+
+                /* MONITOR */
+
+                hardwareCell(
                     b.monitor
                 ) +
 
-                makeHardwareCell(
+
+                /* PASSBOOK */
+
+                hardwareCell(
                     b.passbookprinter
                 ) +
 
-                makeHardwareCell(
+
+                /* LASER */
+
+                hardwareCell(
                     b.laserprinter
                 ) +
 
-                makeHardwareCell(
+
+                /* SCANNER */
+
+                hardwareCell(
                     b.scanner
                 ) +
 
-                makeHardwareCell(
+
+                /* CTS */
+
+                hardwareCell(
                     b.ctsmachine
                 ) +
 
-                makeHardwareCell(
+
+                /* CCTV */
+
+                hardwareCell(
                     b.cctvmonitor
                 ) +
 
-                makeHardwareCell(
+
+                /* BIOMETRIC */
+
+                hardwareCell(
                     b.biometricdevice
                 ) +
 
-                makeHardwareCell(
-                    b.ups
-                ) +
 
-                makeHardwareCell(
-                    b.other
+                /* UPS */
+
+                hardwareCell(
+                    b.ups
                 );
 
 
@@ -2220,31 +2352,38 @@ function renderSummary(data){
     );
 
 
-    /* KPI */
+    /* =====================================================
+       KPI
+    ===================================================== */
 
     document.getElementById(
         "kpiTotal"
-    ).innerText = total;
+    ).innerText =
+        total;
 
 
     document.getElementById(
         "kpiWorking"
-    ).innerText = working;
+    ).innerText =
+        working;
 
 
     document.getElementById(
         "kpiNotWorking"
-    ).innerText = notWorking;
+    ).innerText =
+        notWorking;
 
 
     document.getElementById(
         "kpiRepair"
-    ).innerText = repair;
+    ).innerText =
+        repair;
 
 
     document.getElementById(
         "kpiDamaged"
-    ).innerText = damaged;
+    ).innerText =
+        damaged;
 
 
     document.getElementById(
@@ -2272,13 +2411,13 @@ function renderSummary(data){
    HARDWARE CELL
 ========================================================= */
 
-function makeHardwareCell(value){
+function hardwareCell(value){
 
     return (
 
         '<td>' +
 
-            '<span class="hw-count">' +
+            '<span class="hw-number">' +
 
                 Number(
                     value || 0
@@ -2319,8 +2458,6 @@ function appendGrandTotal(data){
 
     var ups = 0;
 
-    var other = 0;
-
 
     data.forEach(
         function(b){
@@ -2330,54 +2467,58 @@ function appendGrandTotal(data){
                     b.total || 0
                 );
 
+
             cpu +=
                 Number(
                     b.cpu || 0
                 );
+
 
             monitor +=
                 Number(
                     b.monitor || 0
                 );
 
+
             passbookprinter +=
                 Number(
                     b.passbookprinter || 0
                 );
+
 
             laserprinter +=
                 Number(
                     b.laserprinter || 0
                 );
 
+
             scanner +=
                 Number(
                     b.scanner || 0
                 );
+
 
             ctsmachine +=
                 Number(
                     b.ctsmachine || 0
                 );
 
+
             cctvmonitor +=
                 Number(
                     b.cctvmonitor || 0
                 );
+
 
             biometricdevice +=
                 Number(
                     b.biometricdevice || 0
                 );
 
+
             ups +=
                 Number(
                     b.ups || 0
-                );
-
-            other +=
-                Number(
-                    b.other || 0
                 );
 
         }
@@ -2391,7 +2532,7 @@ function appendGrandTotal(data){
 
 
     tr.className =
-        "grand-row";
+        "grand-total";
 
 
     tr.innerHTML =
@@ -2404,7 +2545,8 @@ function appendGrandTotal(data){
 
             '<button ' +
                 'class="grand-btn" ' +
-                'onclick="showAllRecords()">' +
+                'onclick="showAllRecords()" ' +
+                'title="View all records">' +
 
                 total +
 
@@ -2446,10 +2588,6 @@ function appendGrandTotal(data){
 
         '<td>' +
             ups +
-        '</td>' +
-
-        '<td>' +
-            other +
         '</td>';
 
 
@@ -2463,7 +2601,7 @@ function appendGrandTotal(data){
 
 
 /* =========================================================
-   FILTER
+   BRANCH SEARCH
 ========================================================= */
 
 function filterBranches(){
@@ -2484,7 +2622,7 @@ function filterBranches(){
         );
 
 
-    var count = 0;
+    var visible = 0;
 
 
     rows.forEach(
@@ -2502,15 +2640,21 @@ function filterBranches(){
                 ) || "";
 
 
-            if(
+            var match =
+
                 !q ||
+
                 sol.indexOf(q) !== -1 ||
-                branch.indexOf(q) !== -1
-            ){
 
-                row.style.display = "";
+                branch.indexOf(q) !== -1;
 
-                count++;
+
+            if(match){
+
+                row.style.display =
+                    "";
+
+                visible++;
 
             }
             else{
@@ -2527,14 +2671,14 @@ function filterBranches(){
     document.getElementById(
         "visibleCount"
     ).innerText =
-        count +
+        visible +
         " branches";
 
 }
 
 
 /* =========================================================
-   RESET
+   RESET FILTER
 ========================================================= */
 
 function resetFilters(){
@@ -2594,18 +2738,7 @@ function showBranchRecords(
 
         "SOL ID: " +
         currentSOL +
-        " | Loading...";
-
-
-    document.getElementById(
-        "recordSearch"
-    ).value = "";
-
-
-    document.getElementById(
-        "recordSearchBox"
-    ).style.display =
-        "none";
+        " | Loading records...";
 
 
     document.getElementById(
@@ -2624,6 +2757,17 @@ function showBranchRecords(
             '</td>' +
 
         '</tr>';
+
+
+    document.getElementById(
+        "recordSearch"
+    ).value = "";
+
+
+    document.getElementById(
+        "recordSearchBox"
+    ).style.display =
+        "none";
 
 
     section.scrollIntoView({
@@ -2736,7 +2880,7 @@ function showBranchRecords(
 
 
 /* =========================================================
-   ALL RECORDS
+   SHOW ALL RECORDS
 ========================================================= */
 
 function showAllRecords(){
@@ -2766,18 +2910,7 @@ function showAllRecords(){
     document.getElementById(
         "recordsSubtitle"
     ).innerText =
-        "All branches | Loading...";
-
-
-    document.getElementById(
-        "recordSearch"
-    ).value = "";
-
-
-    document.getElementById(
-        "recordSearchBox"
-    ).style.display =
-        "none";
+        "All branches | Loading records...";
 
 
     document.getElementById(
@@ -2796,6 +2929,17 @@ function showAllRecords(){
             '</td>' +
 
         '</tr>';
+
+
+    document.getElementById(
+        "recordSearch"
+    ).value = "";
+
+
+    document.getElementById(
+        "recordSearchBox"
+    ).style.display =
+        "none";
 
 
     section.scrollIntoView({
@@ -2867,6 +3011,8 @@ function showAllRecords(){
         function(error){
 
             console.error(error);
+
+            currentRecords = [];
 
 
             document.getElementById(
@@ -3055,6 +3201,7 @@ function getConditionBadge(
             "condition-working";
 
     }
+
     else if(
         c === "NOT WORKING"
     ){
@@ -3063,6 +3210,7 @@ function getConditionBadge(
             "condition-notworking";
 
     }
+
     else if(
         c === "UNDER REPAIR"
     ){
@@ -3071,6 +3219,7 @@ function getConditionBadge(
             "condition-repair";
 
     }
+
     else if(
         c === "DAMAGED"
     ){
@@ -3083,7 +3232,7 @@ function getConditionBadge(
 
     return (
 
-        '<span class="condition ' +
+        '<span class="condition-badge ' +
         cls +
         '">' +
 
@@ -3099,7 +3248,7 @@ function getConditionBadge(
 
 
 /* =========================================================
-   SEARCH RECORDS
+   RECORD SEARCH
 ========================================================= */
 
 function toggleRecordSearch(){
@@ -3143,6 +3292,10 @@ function toggleRecordSearch(){
 
 }
 
+
+/* =========================================================
+   SEARCH RECORDS
+========================================================= */
 
 function searchRecords(){
 
@@ -3216,7 +3369,7 @@ function exportSummary(){
     ){
 
         showToast(
-            "No data available"
+            "No summary data available"
         );
 
         return;
@@ -3238,8 +3391,7 @@ function exportSummary(){
         "CTS Machine",
         "CCTV Monitor",
         "Biometric Device",
-        "UPS",
-        "Other"
+        "UPS"
 
     ];
 
@@ -3253,20 +3405,20 @@ function exportSummary(){
 
     var sorted =
         branchData
-            .slice()
-            .sort(
-                function(a,b){
+        .slice()
+        .sort(
+            function(a,b){
 
-                    return Number(
-                        b.total || 0
-                    )
-                    -
-                    Number(
-                        a.total || 0
-                    );
+                return Number(
+                    b.total || 0
+                )
+                -
+                Number(
+                    a.total || 0
+                );
 
-                }
-            );
+            }
+        );
 
 
     sorted.forEach(
@@ -3304,9 +3456,7 @@ function exportSummary(){
 
                     b.biometricdevice || 0,
 
-                    b.ups || 0,
-
-                    b.other || 0
+                    b.ups || 0
 
                 ]
                 .join(",")
@@ -3329,7 +3479,7 @@ function exportSummary(){
 
 
 /* =========================================================
-   EXPORT CURRENT RECORDS
+   EXPORT RECORDS
 ========================================================= */
 
 function exportCurrentRecords(){
@@ -3376,14 +3526,37 @@ function exportCurrentRecords(){
 
                 [
 
-                    csvValue(r.solId),
-                    csvValue(r.branchName),
-                    csvValue(r.hardwareType),
-                    csvValue(r.make),
-                    csvValue(r.model),
-                    csvValue(r.serialNo),
-                    csvValue(r.condition),
-                    csvValue(r.remarks)
+                    csvValue(
+                        r.solId
+                    ),
+
+                    csvValue(
+                        r.branchName
+                    ),
+
+                    csvValue(
+                        r.hardwareType
+                    ),
+
+                    csvValue(
+                        r.make
+                    ),
+
+                    csvValue(
+                        r.model
+                    ),
+
+                    csvValue(
+                        r.serialNo
+                    ),
+
+                    csvValue(
+                        r.condition
+                    ),
+
+                    csvValue(
+                        r.remarks
+                    )
 
                 ]
                 .join(",")
@@ -3417,7 +3590,7 @@ function exportCurrentRecords(){
 
 
 /* =========================================================
-   CSV DOWNLOAD
+   DOWNLOAD CSV
 ========================================================= */
 
 function downloadCSV(
@@ -3484,7 +3657,7 @@ function downloadCSV(
 
 
 /* =========================================================
-   PRINT RECORDS
+   PRINT
 ========================================================= */
 
 function printRecords(){
@@ -3554,23 +3727,24 @@ function printRecords(){
 
         "h2{" +
             "color:#17452d;" +
+            "margin-bottom:15px;" +
         "}" +
 
         "table{" +
             "width:100%;" +
             "border-collapse:collapse;" +
-            "font-size:10px;" +
+            "font-size:9px;" +
         "}" +
 
         "th{" +
             "background:#006633;" +
-            "color:#fff;" +
+            "color:white;" +
             "border:1px solid #333;" +
             "padding:7px;" +
         "}" +
 
         "td{" +
-            "border:1px solid #999;" +
+            "border:1px solid #888;" +
             "padding:7px;" +
         "}" +
 
@@ -3592,14 +3766,14 @@ function printRecords(){
 
         "<tr>" +
 
-        "<th>SOL ID</th>" +
-        "<th>Branch</th>" +
-        "<th>Hardware Type</th>" +
-        "<th>Make</th>" +
-        "<th>Model</th>" +
-        "<th>Serial No</th>" +
-        "<th>Condition</th>" +
-        "<th>Remarks</th>" +
+            "<th>SOL ID</th>" +
+            "<th>Branch</th>" +
+            "<th>Hardware Type</th>" +
+            "<th>Make</th>" +
+            "<th>Model</th>" +
+            "<th>Serial No</th>" +
+            "<th>Condition</th>" +
+            "<th>Remarks</th>" +
 
         "</tr>";
 
@@ -3612,35 +3786,51 @@ function printRecords(){
                 "<tr>" +
 
                 "<td>" +
-                    escapeHtml(r.solId) +
+                    escapeHtml(
+                        r.solId
+                    ) +
                 "</td>" +
 
                 "<td>" +
-                    escapeHtml(r.branchName) +
+                    escapeHtml(
+                        r.branchName
+                    ) +
                 "</td>" +
 
                 "<td>" +
-                    escapeHtml(r.hardwareType) +
+                    escapeHtml(
+                        r.hardwareType
+                    ) +
                 "</td>" +
 
                 "<td>" +
-                    escapeHtml(r.make) +
+                    escapeHtml(
+                        r.make
+                    ) +
                 "</td>" +
 
                 "<td>" +
-                    escapeHtml(r.model) +
+                    escapeHtml(
+                        r.model
+                    ) +
                 "</td>" +
 
                 "<td>" +
-                    escapeHtml(r.serialNo) +
+                    escapeHtml(
+                        r.serialNo
+                    ) +
                 "</td>" +
 
                 "<td>" +
-                    escapeHtml(r.condition) +
+                    escapeHtml(
+                        r.condition
+                    ) +
                 "</td>" +
 
                 "<td>" +
-                    escapeHtml(r.remarks) +
+                    escapeHtml(
+                        r.remarks
+                    ) +
                 "</td>" +
 
                 "</tr>";
@@ -3792,7 +3982,7 @@ function csvValue(value){
 function showLoader(show){
 
     document.getElementById(
-        "loaderOverlay"
+        "pageLoader"
     ).style.display =
 
         show
