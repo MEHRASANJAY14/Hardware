@@ -103,6 +103,7 @@ td{padding:9px;border-bottom:1px solid #edf1ef}
     <a class="active" href="index.html"><i>⌂</i><span>Dashboard</span></a>
     <a href="add-hardware.html"><i>＋</i><span>Add Hardware</span></a>
     <a href="records.html"><i>▣</i><span>Hardware Records</span></a>
+    <a href="edit-hardware.html" id="editMenu"><i>✎</i><span>Edit / Update</span></a>
     <a href="branch-summary.html"><i>▥</i><span>Branch Summary</span></a>
     <a href="hardware-summary.html"><i>◈</i><span>Hardware Summary</span></a>
     <a href="reports.html"><i>▤</i><span>Reports</span></a>
@@ -152,6 +153,8 @@ td{padding:9px;border-bottom:1px solid #edf1ef}
       <div class="quick">
         <a href="add-hardware.html"><div class="quickIcon">＋</div>Add Hardware</a>
         <a href="records.html"><div class="quickIcon">▣</div>View Records</a>
+        <a href="edit-hardware.html"><div class="quickIcon">✎</div>Edit / Update</a>
+        <a href="records.html?mode=edit"><div class="quickIcon">✎</div>Edit / Update</a>
         <a href="branch-summary.html"><div class="quickIcon">▥</div>Branch Summary</a>
         <a href="hardware-summary.html"><div class="quickIcon">◈</div>Type Summary</a>
         <a href="reports.html"><div class="quickIcon">▤</div>Generate Report</a>
@@ -189,6 +192,14 @@ function clock(){
  document.getElementById("greeting").textContent=h<12?"Morning":h<17?"Afternoon":"Evening";
 }
 setInterval(clock,1000); clock();
+
+// Highlight the current page/menu item
+document.querySelectorAll(".menu a").forEach(a=>{
+  if(a.getAttribute("href")===location.pathname.split("/").pop()){
+    document.querySelectorAll(".menu a").forEach(x=>x.classList.remove("active"));
+    a.classList.add("active");
+  }
+});
 
 async function api(action){
  const r=await fetch(API+"?action="+encodeURIComponent(action),{cache:"no-store"});
@@ -265,17 +276,25 @@ async function loadBranches(){
 async function loadRecent(){
  try{
   const j=await api("recent"), rows=(j.data||[]).slice(0,7);
-  let h="<table><thead><tr><th>Type</th><th>Branch</th><th>Status</th></tr></thead><tbody>";
+  let h="<table><thead><tr><th>Type</th><th>Branch</th><th>Status</th><th>Action</th></tr></thead><tbody>";
   rows.forEach(x=>{
    const type=x.hardwareType||x["Hardware Type"]||"-";
    const branch=x.branchName||x["Branch Name"]||"-";
    const c=x.condition||x.Condition||"-";
+   const sid=x.submissionId||x["Submission ID"]||"";
    let cls=c.toLowerCase().includes("working")&&!c.toLowerCase().includes("not")?"ok":c.toLowerCase().includes("repair")?"repair":c.toLowerCase().includes("damage")?"damage":"bad";
-   h+=`<tr><td><b>${type}</b></td><td>${branch}</td><td><span class="badge ${cls}">${c}</span></td></tr>`;
+   h+=`<tr><td><b>${type}</b></td><td>${branch}</td><td><span class="badge ${cls}">${c}</span></td><td><button onclick='editRecord(${JSON.stringify(x)})' style="border:0;background:#eaf7f0;color:#006633;border-radius:7px;padding:5px 8px;font-size:9px;font-weight:700;cursor:pointer">✎ Edit</button></td></tr>`;
   });
   h+="</tbody></table>";
   document.getElementById("recentTable").innerHTML=rows.length?h:'<div class="empty">No recent records</div>';
  }catch(e){document.getElementById("recentTable").innerHTML='<div class="empty">Unable to load recent records</div>'}
+}
+
+
+function editRecord(record){
+  if(!record) return;
+  localStorage.setItem("editHardware", JSON.stringify(record));
+  window.location.href="edit-hardware.html";
 }
 
 async function loadAll(){
