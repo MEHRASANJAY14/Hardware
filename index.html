@@ -2,160 +2,309 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Edit Hardware - MPGB</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MPGB Hardware Management Dashboard</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
-*{box-sizing:border-box}body{margin:0;font-family:Inter,Arial,sans-serif;background:#f5f8f7;color:#17231d}
-.sidebar{position:fixed;left:0;top:0;bottom:0;width:245px;background:linear-gradient(180deg,#004d28,#006633 55%,#004522);color:#fff;padding:20px 14px}
-.logo{display:flex;gap:10px;align-items:center;padding:8px 10px 22px;border-bottom:1px solid #ffffff22}.logoIcon{width:42px;height:42px;border-radius:12px;background:#fff;color:#063d29;display:grid;place-items:center;font-weight:800}.logo b{font-size:15px}.logo small{display:block;font-size:10px;opacity:.7;margin-top:3px}
-.menu{margin-top:20px}.menu a{display:flex;gap:12px;align-items:center;color:#eafff2;text-decoration:none;padding:12px 13px;margin:5px 0;border-radius:10px;font-size:13px;font-weight:600}.menu a:hover,.menu a.active{background:#ffffff26}.menu i{width:22px;text-align:center;font-style:normal}
-.main{margin-left:245px;padding:25px}.head{display:flex;justify-content:space-between;align-items:center;margin-bottom:18px}.head h1{margin:0;font-size:24px}.head p{margin:5px 0;color:#6b7b72;font-size:12px}
-.panel{background:#fff;border:1px solid #e2ebe6;border-radius:16px;padding:20px;box-shadow:0 10px 30px #0046280d;margin-bottom:18px}
-.row{display:grid;grid-template-columns:300px 1fr;gap:15px}.field label{display:block;font-size:11px;font-weight:700;margin-bottom:7px;color:#52645a}.field select,.search{width:100%;padding:11px;border:1px solid #dce6e0;border-radius:9px;background:#fff;outline:0}.search{max-width:330px}
-table{width:100%;border-collapse:collapse;font-size:11px;margin-top:15px}th{background:#f1f7f3;text-align:left;color:#52645a;padding:11px;position:sticky;top:0}td{padding:10px;border-bottom:1px solid #edf1ef}tr:hover td{background:#fbfdfc}
-.tableWrap{overflow:auto;max-height:520px}.badge{padding:4px 8px;border-radius:20px;font-size:9px;font-weight:700}.ok{background:#e7f7ed;color:#08743a}.bad{background:#ffeaea;color:#b52f2f}.repair{background:#fff3dc;color:#a46600}.damage{background:#eee9ff;color:#6347a6}
-.btn{border:0;border-radius:8px;padding:7px 11px;font-size:10px;font-weight:700;cursor:pointer}.edit{background:#e6f5ed;color:#006633}.save{background:#006633;color:#fff}.cancel{background:#eef2ef;color:#394940}.hidden{display:none}
-.formgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}.formgrid input,.formgrid select,.formgrid textarea{width:100%;padding:10px;border:1px solid #dce6e0;border-radius:8px}.formgrid textarea{min-height:75px}.full{grid-column:1/-1}.actions{display:flex;gap:8px;margin-top:15px}.loading{text-align:center;padding:30px;color:#6b7b72}
-@media(max-width:800px){.sidebar{width:65px;padding:12px 8px}.logo div:not(.logoIcon),.menu span{display:none}.menu a{justify-content:center}.main{margin-left:65px;padding:15px}.row{grid-template-columns:1fr}.formgrid{grid-template-columns:1fr}}
+*{box-sizing:border-box}
+:root{
+  --green:#006633;--green2:#00994d;--dark:#063d29;--light:#f4f8f6;
+  --text:#17231d;--muted:#6b7b72;--white:#fff;--border:#e5ece8;
+  --shadow:0 10px 30px rgba(0,70,40,.08)
+}
+body{margin:0;font-family:Inter,Arial,sans-serif;background:#f5f8f7;color:var(--text)}
+.sidebar{
+ position:fixed;left:0;top:0;bottom:0;width:245px;background:linear-gradient(180deg,#004d28,#006633 55%,#004522);
+ color:white;padding:20px 14px;z-index:20;box-shadow:5px 0 25px rgba(0,0,0,.12)
+}
+.logo{display:flex;align-items:center;gap:10px;padding:8px 10px 22px;border-bottom:1px solid rgba(255,255,255,.14)}
+.logoIcon{width:42px;height:42px;border-radius:12px;background:white;color:var(--green);display:grid;place-items:center;font-size:21px;font-weight:800}
+.logo b{font-size:15px}.logo small{display:block;opacity:.7;font-size:10px;margin-top:3px}
+.menu{margin-top:20px}
+.menu a{display:flex;align-items:center;gap:12px;color:#eafff2;text-decoration:none;padding:12px 13px;margin:5px 0;border-radius:10px;font-size:13px;font-weight:600;transition:.2s}
+.menu a:hover,.menu a.active{background:rgba(255,255,255,.15);transform:translateX(2px)}
+.menu i{width:22px;text-align:center;font-style:normal;font-size:16px}
+.sideBottom{position:absolute;bottom:20px;left:20px;right:20px;font-size:10px;opacity:.65;line-height:1.5}
+
+.main{margin-left:245px;padding:22px 28px 35px}
+.topbar{display:flex;justify-content:space-between;align-items:center;margin-bottom:22px}
+.title h1{margin:0;font-size:25px;font-weight:800}.title p{margin:6px 0 0;color:var(--muted);font-size:12px}
+.topRight{display:flex;align-items:center;gap:12px}
+.clock{background:white;border:1px solid var(--border);border-radius:12px;padding:9px 14px;font-size:12px;font-weight:700;box-shadow:var(--shadow)}
+.refresh{border:0;background:var(--green);color:#fff;padding:10px 14px;border-radius:10px;font-weight:700;cursor:pointer}
+.refresh:hover{background:#004f27}.spin{animation:spin .7s linear}@keyframes spin{to{transform:rotate(360deg)}}
+
+.hero{
+ background:linear-gradient(110deg,#005b2f,#008746 65%,#00a957);
+ border-radius:18px;color:white;padding:24px 25px;display:flex;justify-content:space-between;
+ align-items:center;box-shadow:var(--shadow);position:relative;overflow:hidden;margin-bottom:20px
+}
+.hero:after{content:"";position:absolute;width:280px;height:280px;border:55px solid rgba(255,255,255,.06);border-radius:50%;right:-70px;top:-120px}
+.hero h2{margin:0 0 7px;font-size:21px}.hero p{margin:0;opacity:.82;font-size:12px}
+.heroStats{display:flex;gap:12px;position:relative;z-index:2}.heroStat{background:rgba(255,255,255,.13);padding:12px 18px;border-radius:12px;text-align:center;min-width:105px}
+.heroStat b{display:block;font-size:20px}.heroStat span{font-size:9px;opacity:.8}
+
+.cards{display:grid;grid-template-columns:repeat(5,1fr);gap:14px;margin-bottom:20px}
+.card{background:white;border:1px solid var(--border);border-radius:15px;padding:17px;box-shadow:var(--shadow);position:relative;overflow:hidden}
+.card .icon{width:38px;height:38px;border-radius:11px;display:grid;place-items:center;font-size:18px;margin-bottom:12px;background:#eaf7f0}
+.card h3{margin:0;font-size:25px}.card p{margin:4px 0 0;color:var(--muted);font-size:11px;font-weight:600}
+.card .line{position:absolute;bottom:0;left:0;right:0;height:3px;background:var(--green2)}
+.card.red .icon{background:#fff0f0}.card.red .line{background:#d64545}
+.card.orange .icon{background:#fff6e8}.card.orange .line{background:#e69a20}
+.card.blue .icon{background:#edf3ff}.card.blue .line{background:#377bd6}
+.card.purple .icon{background:#f3efff}.card.purple .line{background:#7b5bd6}
+
+.grid2{display:grid;grid-template-columns:1.35fr .65fr;gap:18px;margin-bottom:18px}
+.panel{background:white;border:1px solid var(--border);border-radius:16px;padding:18px;box-shadow:var(--shadow)}
+.panelHead{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px}
+.panelHead h3{margin:0;font-size:14px}.panelHead span{font-size:10px;color:var(--muted)}
+.chartWrap{height:245px;position:relative}
+
+.quick{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
+.quick a{display:flex;align-items:center;gap:10px;padding:14px;background:#f7faf8;border:1px solid #edf2ef;border-radius:12px;text-decoration:none;color:var(--text);font-size:11px;font-weight:700;transition:.2s}
+.quick a:hover{border-color:#b9d8c8;transform:translateY(-2px);box-shadow:0 5px 14px rgba(0,70,40,.06)}
+.quickIcon{width:32px;height:32px;background:#e5f4eb;border-radius:9px;display:grid;place-items:center;color:var(--green);font-size:16px}
+
+.grid3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:18px}
+.tableWrap{overflow:auto;max-height:280px}
+table{width:100%;border-collapse:collapse;font-size:10px}
+th{background:#f4f8f6;color:#52645a;text-align:left;padding:9px;position:sticky;top:0}
+td{padding:9px;border-bottom:1px solid #edf1ef}
+.badge{padding:4px 7px;border-radius:20px;font-size:8px;font-weight:700}
+.ok{background:#e7f7ed;color:#08743a}.bad{background:#ffeaea;color:#b52f2f}.repair{background:#fff3dc;color:#a46600}.damage{background:#eee9ff;color:#6347a6}
+.progress{height:6px;background:#edf1ef;border-radius:10px;overflow:hidden}.progress i{display:block;height:100%;background:var(--green2);border-radius:10px}
+
+.loader{display:grid;place-items:center;height:100px;color:var(--muted);font-size:11px}
+.empty{padding:35px;text-align:center;color:var(--muted);font-size:11px}
+.toast{position:fixed;right:25px;bottom:25px;background:#173d2b;color:#fff;padding:12px 16px;border-radius:10px;font-size:11px;display:none;z-index:99;box-shadow:0 10px 30px rgba(0,0,0,.2)}
+
+@media(max-width:1100px){
+ .cards{grid-template-columns:repeat(3,1fr)}.grid2,.grid3{grid-template-columns:1fr}
+}
+@media(max-width:750px){
+ .sidebar{width:65px;padding:12px 8px}.logo div:not(.logoIcon),.menu span,.sideBottom{display:none}
+ .logo{border:0;padding:5px}.menu a{justify-content:center;padding:12px}.menu i{width:auto}
+ .main{margin-left:65px;padding:14px}.hero{display:block}.heroStats{margin-top:16px;flex-wrap:wrap}
+ .cards{grid-template-columns:repeat(2,1fr)}.topbar{align-items:flex-start}.clock{display:none}
+}
 </style>
 </head>
 <body>
+
 <aside class="sidebar">
-<div class="logo"><div class="logoIcon">M</div><div><b>MPGB Hardware</b><small>RO JABALPUR • IT ASSET</small></div></div>
-<nav class="menu">
-<a href="index.html"><i>⌂</i><span>Dashboard</span></a>
-<a href="add-hardware.html"><i>＋</i><span>Add Hardware</span></a>
-<a href="records.html"><i>▣</i><span>Hardware Records</span></a>
-<a class="active" href="edit-hardware.html"><i>✎</i><span>Edit / Update</span></a>
-<a href="branch-summary.html"><i>▥</i><span>Branch Summary</span></a>
-<a href="hardware-summary.html"><i>◈</i><span>Hardware Summary</span></a>
-<a href="reports.html"><i>▤</i><span>Reports</span></a>
-</nav>
+  <div class="logo">
+    <div class="logoIcon">M</div>
+    <div><b>MPGB Hardware</b><small>RO JABALPUR • IT ASSET</small></div>
+  </div>
+  <nav class="menu">
+    <a class="active" href="index.html"><i>⌂</i><span>Dashboard</span></a>
+    <a href="add-hardware.html"><i>＋</i><span>Add Hardware</span></a>
+    <a href="records.html"><i>▣</i><span>Hardware Records</span></a>
+    <a href="edit-hardware.html" id="editMenu"><i>✎</i><span>Edit / Update</span></a>
+    <a href="branch-summary.html"><i>▥</i><span>Branch Summary</span></a>
+    <a href="hardware-summary.html"><i>◈</i><span>Hardware Summary</span></a>
+    <a href="reports.html"><i>▤</i><span>Reports</span></a>
+  </nav>
+  <div class="sideBottom">MPGB • Regional Office Jabalpur<br>Hardware Management System</div>
 </aside>
 
 <main class="main">
-<div class="head"><div><h1>Edit / Update Hardware</h1><p>Select a branch first, then all hardware entries of that branch will appear.</p></div></div>
+  <div class="topbar">
+    <div class="title">
+      <h1>Hardware Dashboard</h1>
+      <p>Real-time overview of hardware assets across RO Jabalpur branches</p>
+    </div>
+    <div class="topRight">
+      <div class="clock" id="clock">--</div>
+      <button class="refresh" onclick="loadAll()">↻ Refresh</button>
+    </div>
+  </div>
 
-<div class="panel">
-<div class="row">
-<div class="field"><label>SELECT BRANCH</label><select id="branch"><option value="">-- Select Branch --</option></select></div>
-<div><label style="display:block;font-size:11px;font-weight:700;color:#52645a;margin-bottom:7px">SEARCH ENTRY</label><input class="search" id="search" placeholder="Serial No / Make / Model / Hardware Type..." oninput="filterRows()"></div>
-</div>
-</div>
+  <section class="hero">
+    <div>
+      <h2>Good <span id="greeting">Evening</span> 👋</h2>
+      <p>Monitor branch hardware status, availability and service requirements.</p>
+    </div>
+    <div class="heroStats">
+      <div class="heroStat"><b id="branchCount">53</b><span>BRANCHES</span></div>
+      <div class="heroStat"><b id="typeCount">10</b><span>HARDWARE TYPES</span></div>
+      <div class="heroStat"><b id="healthPct">0%</b><span>HEALTH SCORE</span></div>
+    </div>
+  </section>
 
-<div class="panel">
-<div id="entryCount" style="font-size:11px;color:#6b7b72;margin-bottom:8px">Please select a branch.</div>
-<div id="list" class="tableWrap"><div class="loading">Please select a branch.</div></div>
-</div>
+  <section class="cards">
+    <div class="card"><div class="icon">▣</div><h3 id="total">0</h3><p>Total Hardware</p><div class="line"></div></div>
+    <div class="card"><div class="icon">✓</div><h3 id="working">0</h3><p>Working</p><div class="line"></div></div>
+    <div class="card red"><div class="icon">!</div><h3 id="notWorking">0</h3><p>Not Working</p><div class="line"></div></div>
+    <div class="card orange"><div class="icon">⚒</div><h3 id="repair">0</h3><p>Under Repair</p><div class="line"></div></div>
+    <div class="card purple"><div class="icon">◆</div><h3 id="damaged">0</h3><p>Damaged</p><div class="line"></div></div>
+  </section>
 
-<div id="editPanel" class="panel hidden">
-<h3 style="margin-top:0;font-size:15px">Update Hardware</h3>
-<div class="formgrid">
-<div><label>SOL ID</label><input id="sol" readonly></div>
-<div><label>Branch Name</label><input id="branchName" readonly></div>
-<div><label>Hardware Type</label><select id="hardwareType"><option>CPU</option><option>Monitor</option><option>Passbook Printer</option><option>Laser Printer</option><option>Scanner</option><option>CTS Machine</option><option>CCTV Monitor</option><option>Biometric Device</option><option>UPS</option><option>Other</option></select></div>
-<div><label>Hardware Sub Type</label><input id="subType"></div>
-<div><label>Make</label><input id="make"></div>
-<div><label>Model</label><input id="model"></div>
-<div><label>Serial No</label><input id="serial" placeholder="Enter / update serial number" autocomplete="off"></div>
-<div><label>Condition</label><select id="condition"><option>Working</option><option>Not Working</option><option>Under Repair</option><option>Damaged</option></select></div>
-<div class="full"><label>Remarks</label><textarea id="remarks"></textarea></div>
-</div>
-<div class="actions"><button class="btn save" onclick="update()">✓ Update</button><button class="btn cancel" onclick="closeEdit()">Cancel</button></div>
-</div>
+  <section class="grid2">
+    <div class="panel">
+      <div class="panelHead"><h3>Hardware Distribution</h3><span>Live from Hardware_Data</span></div>
+      <div class="chartWrap"><canvas id="hardwareChart"></canvas></div>
+    </div>
+    <div class="panel">
+      <div class="panelHead"><h3>Quick Actions</h3><span>Shortcuts</span></div>
+      <div class="quick">
+        <a href="add-hardware.html"><div class="quickIcon">＋</div>Add Hardware</a>
+        <a href="records.html"><div class="quickIcon">▣</div>View Records</a>
+        <a href="edit-hardware.html"><div class="quickIcon">✎</div>Edit / Update</a>
+        <a href="records.html?mode=edit"><div class="quickIcon">✎</div>Edit / Update</a>
+        <a href="branch-summary.html"><div class="quickIcon">▥</div>Branch Summary</a>
+        <a href="hardware-summary.html"><div class="quickIcon">◈</div>Type Summary</a>
+        <a href="reports.html"><div class="quickIcon">▤</div>Generate Report</a>
+        <a href="records.html?condition=Under%20Repair"><div class="quickIcon">⚒</div>Repair Queue</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="grid3">
+    <div class="panel">
+      <div class="panelHead"><h3>Branch Activity</h3><span>Top branches by assets</span></div>
+      <div id="branchTable" class="tableWrap"><div class="loader">Loading...</div></div>
+    </div>
+    <div class="panel">
+      <div class="panelHead"><h3>Condition Overview</h3><span>Current status</span></div>
+      <div class="chartWrap"><canvas id="conditionChart"></canvas></div>
+    </div>
+    <div class="panel">
+      <div class="panelHead"><h3>Recent Hardware</h3><span>Latest entries</span></div>
+      <div id="recentTable" class="tableWrap"><div class="loader">Loading...</div></div>
+    </div>
+  </section>
 </main>
+
+<div class="toast" id="toast"></div>
 
 <script>
 const API="https://script.google.com/macros/s/AKfycbyqpcO42kRHBBp_n1TEAHyI4SGGBNcf_5qQMN3ZARnZ4WLlUsgokf4k2BrHYfKX1lMB/exec";
-let allRows=[],selected=null;
+let hardwareChart=null, conditionChart=null;
 
-async function api(action,params={}){
- const q=new URLSearchParams({action,...params});
- const r=await fetch(API+"?"+q.toString(),{cache:"no-store"});
- return r.json();
+function clock(){
+ const d=new Date();
+ document.getElementById("clock").textContent=d.toLocaleDateString("en-IN",{day:"2-digit",month:"short",year:"numeric"})+" • "+d.toLocaleTimeString("en-IN",{hour:"2-digit",minute:"2-digit",second:"2-digit"});
+ const h=d.getHours();
+ document.getElementById("greeting").textContent=h<12?"Morning":h<17?"Afternoon":"Evening";
 }
-function esc(v){return String(v??"").replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[m]))}
+setInterval(clock,1000); clock();
+
+// Highlight the current page/menu item
+document.querySelectorAll(".menu a").forEach(a=>{
+  if(a.getAttribute("href")===location.pathname.split("/").pop()){
+    document.querySelectorAll(".menu a").forEach(x=>x.classList.remove("active"));
+    a.classList.add("active");
+  }
+});
+
+async function api(action){
+ const r=await fetch(API+"?action="+encodeURIComponent(action),{cache:"no-store"});
+ return await r.json();
+}
+function n(v){return Number(v||0).toLocaleString("en-IN")}
+function toast(t){const x=document.getElementById("toast");x.textContent=t;x.style.display="block";setTimeout(()=>x.style.display="none",2200)}
+
+async function loadDashboard(){
+ try{
+   const j=await api("dashboard");
+   const d=j.data||j;
+   const total=Number(d.total||d.Total||0), working=Number(d.working||d.Working||0);
+   document.getElementById("total").textContent=n(total);
+   document.getElementById("working").textContent=n(working);
+   document.getElementById("notWorking").textContent=n(d.notWorking||d.NotWorking||0);
+   document.getElementById("repair").textContent=n(d.repair||d.underRepair||d.UnderRepair||0);
+   document.getElementById("damaged").textContent=n(d.damaged||d.Damaged||0);
+   document.getElementById("healthPct").textContent=(total?Math.round(working/total*100):0)+"%";
+ }catch(e){toast("Dashboard data could not be loaded")}
+}
+
+async function loadHardwareChart(){
+ try{
+   const j=await api("hardwareSummary"), rows=j.data||[];
+   const labels=rows.map(x=>x.hardwareType||x.type||x["Hardware Type"]||"Other");
+   const vals=rows.map(x=>Number(x.total||x.Total||0));
+   if(hardwareChart)hardwareChart.destroy();
+   hardwareChart=new Chart(document.getElementById("hardwareChart"),{
+    type:"bar",
+    data:{labels,datasets:[{label:"Assets",data:vals,borderRadius:7}]},
+    options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{x:{grid:{display:false},ticks:{font:{size:9}}},y:{beginAtZero:true,ticks:{precision:0},grid:{color:"#edf2ef"}}}}
+   });
+   document.getElementById("typeCount").textContent=rows.length||10;
+ }catch(e){}
+}
+
+async function loadConditionChart(){
+ try{
+   const j=await api("dashboard"), d=j.data||j;
+   const vals=[
+    Number(d.working||d.Working||0),
+    Number(d.notWorking||d.NotWorking||0),
+    Number(d.repair||d.underRepair||d.UnderRepair||0),
+    Number(d.damaged||d.Damaged||0)
+   ];
+   if(conditionChart)conditionChart.destroy();
+   conditionChart=new Chart(document.getElementById("conditionChart"),{
+    type:"doughnut",
+    data:{labels:["Working","Not Working","Under Repair","Damaged"],datasets:[{data:vals,borderWidth:3,borderColor:"#fff"}]},
+    options:{responsive:true,maintainAspectRatio:false,cutout:"67%",plugins:{legend:{position:"bottom",labels:{boxWidth:10,font:{size:9},padding:10}}}}
+   });
+ }catch(e){}
+}
 
 async function loadBranches(){
  try{
-  const j=await api("getSOLList"), rows=j.data||[];
-  rows.forEach(x=>{
-   const id=x.solId||x.id||x["SOL ID"];const name=x.branchName||x.name||x["Branch Name"];
-   if(id) document.getElementById("branch").insertAdjacentHTML("beforeend",`<option value="${esc(id)}">${esc(id)} - ${esc(name)}</option>`);
+  const j=await api("branchSummary"), rows=j.data||[];
+  rows.sort((a,b)=>Number(b.total||b.Total||0)-Number(a.total||a.Total||0));
+  const top=rows.slice(0,7);
+  let h="<table><thead><tr><th>Branch</th><th>Assets</th><th>Working %</th></tr></thead><tbody>";
+  top.forEach(x=>{
+    const name=x.branchName||x.branch||x["Branch Name"]||"-";
+    const total=Number(x.total||x.Total||0);
+    const working=Number(x.working||x.Working||0);
+    const pct=total?Math.round(working/total*100):0;
+    h+=`<tr><td>${name}</td><td><b>${n(total)}</b></td><td><div class="progress"><i style="width:${pct}%"></i></div><small>${pct}%</small></td></tr>`;
   });
- }catch(e){alert("Unable to load branch list")}
+  h+="</tbody></table>";
+  document.getElementById("branchTable").innerHTML=top.length?h:'<div class="empty">No branch data</div>';
+ }catch(e){document.getElementById("branchTable").innerHTML='<div class="empty">Unable to load branch summary</div>'}
 }
-document.getElementById("branch").onchange=loadEntries;
 
-async function loadEntries(){
- const sol=document.getElementById("branch").value;
- document.getElementById("editPanel").classList.add("hidden");
- if(!sol){document.getElementById("list").innerHTML='<div class="loading">Please select a branch.</div>';return}
- document.getElementById("list").innerHTML='<div class="loading">Loading all entries...</div>';
+async function loadRecent(){
  try{
-  const j=await api("records",{solId:sol});
-  allRows=j.data||[];
-  render(allRows);
- }catch(e){document.getElementById("list").innerHTML='<div class="loading">Unable to load records.</div>'}
+  const j=await api("recent"), rows=(j.data||[]).slice(0,7);
+  let h="<table><thead><tr><th>Type</th><th>Branch</th><th>Status</th><th>Action</th></tr></thead><tbody>";
+  rows.forEach(x=>{
+   const type=x.hardwareType||x["Hardware Type"]||"-";
+   const branch=x.branchName||x["Branch Name"]||"-";
+   const c=x.condition||x.Condition||"-";
+   const sid=x.submissionId||x["Submission ID"]||"";
+   let cls=c.toLowerCase().includes("working")&&!c.toLowerCase().includes("not")?"ok":c.toLowerCase().includes("repair")?"repair":c.toLowerCase().includes("damage")?"damage":"bad";
+   h+=`<tr><td><b>${type}</b></td><td>${branch}</td><td><span class="badge ${cls}">${c}</span></td><td><button onclick='editRecord(${JSON.stringify(x)})' style="border:0;background:#eaf7f0;color:#006633;border-radius:7px;padding:5px 8px;font-size:9px;font-weight:700;cursor:pointer">✎ Edit</button></td></tr>`;
+  });
+  h+="</tbody></table>";
+  document.getElementById("recentTable").innerHTML=rows.length?h:'<div class="empty">No recent records</div>';
+ }catch(e){document.getElementById("recentTable").innerHTML='<div class="empty">Unable to load recent records</div>'}
 }
-function render(rows){
- document.getElementById("entryCount").textContent=rows.length+" hardware entr"+(rows.length===1?"y":"ies")+" found";
- if(!rows.length){document.getElementById("list").innerHTML='<div class="loading">No hardware entries found for this branch.</div>';return}
- let h='<table><thead><tr><th>SOL</th><th>Branch</th><th>Hardware</th><th>Make</th><th>Model</th><th>Serial</th><th>Condition</th><th>Action</th></tr></thead><tbody>';
- rows.forEach((x,i)=>{
-  const c=x.condition||x.Condition||"";
-  const cls=c==="Working"?"ok":c==="Under Repair"?"repair":c==="Damaged"?"damage":"bad";
-  const sol=x.solId||x["SOL ID"]||"";
-  const branch=x.branchName||x["Branch Name"]||"";
-  const hardware=x.hardwareType||x["Hardware Type"]||"";
-  const make=x.make||x.Make||"";
-  const model=x.model||x.Model||"";
-  const serial=x.serialNo||x["Serial No"]||"";
-  h+=`<tr><td>${esc(sol)}</td><td>${esc(branch)}</td><td><b>${esc(hardware)}</b></td><td>${esc(make)}</td><td>${esc(model)}</td><td><b>${esc(serial)}</b></td><td><span class="badge ${cls}">${esc(c)}</span></td><td><button class="btn edit" onclick="startEdit(${i})">✎ Edit</button></td></tr>`;
- });
- h+='</tbody></table>';document.getElementById("list").innerHTML=h;
+
+
+function editRecord(record){
+  if(!record) return;
+  localStorage.setItem("editHardware", JSON.stringify(record));
+  window.location.href="edit-hardware.html";
 }
-function filterRows(){
- const q=document.getElementById("search").value.toLowerCase().trim();
- render(allRows.filter(x=>JSON.stringify(x).toLowerCase().includes(q)));
+
+async function loadAll(){
+ const btn=document.querySelector(".refresh");
+ btn.classList.add("spin"); btn.disabled=true;
+ await Promise.all([loadDashboard(),loadHardwareChart(),loadConditionChart(),loadBranches(),loadRecent()]);
+ btn.classList.remove("spin");btn.disabled=false;toast("Dashboard refreshed");
 }
-function startEdit(i){
- selected=allRows[i]; if(!selected)return;
- document.getElementById("sol").value=selected.solId||selected["SOL ID"]||"";
- document.getElementById("branchName").value=selected.branchName||selected["Branch Name"]||"";
- document.getElementById("hardwareType").value=selected.hardwareType||selected["Hardware Type"]||"Other";
- document.getElementById("subType").value=selected.hardwareSubType||selected["Hardware Sub Type"]||"";
- document.getElementById("make").value=selected.make||selected.Make||"";
- document.getElementById("model").value=selected.model||selected.Model||"";
- document.getElementById("serial").value=selected.serialNo||selected["Serial No"]||"";
- document.getElementById("condition").value=selected.condition||selected.Condition||"Working";
- document.getElementById("remarks").value=selected.remarks||selected.Remarks||"";
- document.getElementById("editPanel").classList.remove("hidden");
- document.getElementById("editPanel").scrollIntoView({behavior:"smooth"});
-}
-function closeEdit(){document.getElementById("editPanel").classList.add("hidden");selected=null}
-async function update(){
- if(!selected)return;
- const btn=document.querySelector(".save");btn.disabled=true;btn.textContent="Updating...";
- try{
-  const payload={
-   submissionId:selected.submissionId||selected["Submission ID"],
-   solId:document.getElementById("sol").value,
-   branchName:document.getElementById("branchName").value,
-   hardwareType:document.getElementById("hardwareType").value,
-   hardwareSubType:document.getElementById("subType").value,
-   make:document.getElementById("make").value,
-   model:document.getElementById("model").value,
-   serialNo:document.getElementById("serial").value,
-   condition:document.getElementById("condition").value,
-   remarks:document.getElementById("remarks").value
-  };
-  const j=await api("update",payload);
-  if(j.status==="success"){alert("Hardware updated successfully.");await loadEntries();closeEdit()}
-  else alert(j.message||"Update failed.");
- }catch(e){alert("Update failed. Please try again.")}finally{btn.disabled=false;btn.textContent="✓ Update"}
-}
-loadBranches();
+loadAll();
+setInterval(loadAll,60000);
 </script>
 </body>
 </html>
