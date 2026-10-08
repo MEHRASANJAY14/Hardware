@@ -9,11 +9,14 @@
     name="viewport"
     content="width=device-width, initial-scale=1.0">
 
-<title>MPGB Hardware - Branch Summary</title>
+<title>Branch-wise Hardware Inventory</title>
 
 <link
     rel="stylesheet"
     href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
+<!-- SAME SIDEBAR AS OTHER PAGES -->
+<script src="sidebar.js"></script>
 
 <style>
 
@@ -31,215 +34,18 @@ html{
 
 body{
     margin:0;
-    font-family:Arial,Helvetica,sans-serif;
-    background:#f3f6f4;
+    background:#f4f7f5;
     color:#263238;
-}
-
-button,
-input,
-select{
-    font-family:inherit;
-}
-
-button{
-    cursor:pointer;
-}
-
-
-/* =========================================================
-   SIDEBAR
-========================================================= */
-
-.sidebar{
-
-    position:fixed;
-
-    left:0;
-    top:0;
-    bottom:0;
-
-    width:250px;
-
-    background:#ffffff;
-
-    border-right:1px solid #dce4df;
-
-    z-index:5000;
-
-    display:flex;
-
-    flex-direction:column;
-
-    box-shadow:
-        4px 0 20px rgba(0,0,0,.04);
-
-}
-
-.sidebar-brand{
-
-    height:76px;
-
-    padding:0 18px;
-
-    display:flex;
-
-    align-items:center;
-
-    gap:12px;
-
-    border-bottom:1px solid #edf1ef;
-
-}
-
-.brand-icon{
-
-    width:43px;
-    height:43px;
-
-    border-radius:12px;
-
-    background:#e5f5ec;
-
-    color:#006633;
-
-    display:flex;
-
-    align-items:center;
-
-    justify-content:center;
-
-    font-size:20px;
-
-}
-
-.brand-text{
-
-    min-width:0;
-
-}
-
-.brand-title{
-
-    color:#006633;
-
-    font-weight:900;
-
-    font-size:16px;
-
-    line-height:1.1;
-
-}
-
-.brand-subtitle{
-
-    color:#98a2b3;
-
-    font-size:10px;
-
-    margin-top:4px;
-
-}
-
-.sidebar-menu{
-
-    padding:13px 10px;
-
-    overflow-y:auto;
-
-    flex:1;
-
-}
-
-.menu-label{
-
-    padding:8px 10px;
-
-    color:#98a2b3;
-
-    font-size:10px;
-
-    font-weight:900;
-
-    text-transform:uppercase;
-
-    letter-spacing:.6px;
-
-}
-
-.menu-link{
-
-    display:flex;
-
-    align-items:center;
-
-    gap:12px;
-
-    text-decoration:none;
-
-    color:#475467;
-
-    padding:11px 12px;
-
-    margin-bottom:4px;
-
-    border-radius:10px;
-
-    font-size:13px;
-
-    font-weight:700;
-
-    transition:.18s ease;
-
-}
-
-.menu-link i{
-
-    width:20px;
-
-    text-align:center;
-
-    font-size:14px;
-
-}
-
-.menu-link:hover{
-
-    background:#f0f7f3;
-
-    color:#006633;
-
-}
-
-.menu-link.active{
-
-    background:#e4f5eb;
-
-    color:#006633;
-
-    font-weight:900;
-
-}
-
-.sidebar-footer{
-
-    padding:14px;
-
-    border-top:1px solid #edf1ef;
-
-    color:#98a2b3;
-
-    text-align:center;
-
-    font-size:10px;
-
-    line-height:1.5;
-
+    font-family:
+        Arial,
+        Helvetica,
+        sans-serif;
 }
 
 
 /* =========================================================
    MAIN
+   Compatible with sidebar.js layout
 ========================================================= */
 
 .main{
@@ -250,14 +56,13 @@ button{
 
     padding:20px;
 
+    transition:margin-left .25s ease;
+
 }
 
-
-/* =========================================================
-   PAGE WRAPPER
-========================================================= */
-
 .page{
+
+    width:100%;
 
     max-width:1700px;
 
@@ -274,11 +79,11 @@ button{
 
     background:#fff;
 
-    border:1px solid #dce4df;
+    border:1px solid #dce5df;
 
     border-radius:20px;
 
-    padding:20px 22px;
+    padding:20px 23px;
 
     display:flex;
 
@@ -288,7 +93,7 @@ button{
 
     gap:15px;
 
-    margin-bottom:17px;
+    margin-bottom:16px;
 
     box-shadow:
         0 5px 18px rgba(0,0,0,.045);
@@ -310,17 +115,17 @@ button{
     width:52px;
     height:52px;
 
-    border-radius:14px;
-
-    background:#e6f6ed;
-
-    color:#006633;
-
     display:flex;
 
     align-items:center;
 
     justify-content:center;
+
+    border-radius:14px;
+
+    background:#e6f6ed;
+
+    color:#006633;
 
     font-size:23px;
 
@@ -330,11 +135,11 @@ button{
 
     margin:0;
 
+    color:#344054;
+
     font-size:21px;
 
     font-weight:900;
-
-    color:#344054;
 
 }
 
@@ -348,19 +153,19 @@ button{
 
 }
 
-.branch-count{
+.branch-pill{
 
     background:#edf9f1;
 
-    color:#146b39;
-
-    padding:10px 16px;
+    color:#176b3a;
 
     border-radius:25px;
 
-    font-weight:900;
+    padding:10px 16px;
 
     font-size:12px;
+
+    font-weight:900;
 
     white-space:nowrap;
 
@@ -378,24 +183,24 @@ button{
     grid-template-columns:
         repeat(5,minmax(0,1fr));
 
-    gap:13px;
+    gap:12px;
 
-    margin-bottom:17px;
+    margin-bottom:16px;
 
 }
 
-.kpi-card{
+.kpi{
 
     background:#fff;
 
-    border:1px solid #dce4df;
+    border:1px solid #dce5df;
 
     border-radius:15px;
 
-    padding:16px;
+    padding:15px;
 
     box-shadow:
-        0 5px 18px rgba(0,0,0,.035);
+        0 5px 17px rgba(0,0,0,.035);
 
 }
 
@@ -403,9 +208,9 @@ button{
 
     font-size:10px;
 
-    color:#667085;
-
     font-weight:900;
+
+    color:#667085;
 
     text-transform:uppercase;
 
@@ -425,11 +230,11 @@ button{
 
 .kpi-note{
 
+    margin-top:3px;
+
     font-size:10px;
 
     color:#98a2b3;
-
-    margin-top:3px;
 
 }
 
@@ -458,7 +263,7 @@ button{
 
     background:#fff;
 
-    border:1px solid #dce4df;
+    border:1px solid #dce5df;
 
     border-radius:15px;
 
@@ -466,30 +271,30 @@ button{
 
     display:flex;
 
+    flex-wrap:wrap;
+
     align-items:center;
 
     gap:9px;
 
-    flex-wrap:wrap;
-
-    margin-bottom:17px;
+    margin-bottom:16px;
 
     box-shadow:
-        0 5px 18px rgba(0,0,0,.035);
+        0 5px 17px rgba(0,0,0,.035);
 
 }
 
-.search{
-
-    position:relative;
+.search-box{
 
     flex:1;
 
     min-width:230px;
 
+    position:relative;
+
 }
 
-.search i{
+.search-box i{
 
     position:absolute;
 
@@ -503,64 +308,42 @@ button{
 
 }
 
-.search input{
+.search-box input{
 
     width:100%;
 
     height:40px;
 
-    border:1px solid #cfd8d2;
+    border:1px solid #cbd5cf;
 
     border-radius:9px;
-
-    outline:none;
 
     padding:0 12px 0 36px;
 
-    font-size:12px;
-
-}
-
-.search input:focus{
-
-    border-color:#36955e;
-
-    box-shadow:
-        0 0 0 3px rgba(54,149,94,.10);
-
-}
-
-.filter{
-
-    height:40px;
-
-    border:1px solid #cfd8d2;
-
-    border-radius:9px;
-
-    padding:0 10px;
-
     outline:none;
 
-    min-width:165px;
-
-    background:#fff;
-
-    color:#344054;
-
     font-size:12px;
 
 }
 
-.action-btn{
+.search-box input:focus{
+
+    border-color:#36945d;
+
+    box-shadow:
+        0 0 0 3px rgba(54,148,93,.10);
+
+}
+
+.btn{
 
     height:40px;
+
+    padding:0 14px;
 
     border:none;
 
     border-radius:9px;
-
-    padding:0 14px;
 
     background:#006633;
 
@@ -572,7 +355,7 @@ button{
 
 }
 
-.action-btn.light{
+.btn.light{
 
     background:#e9f0ec;
 
@@ -580,7 +363,7 @@ button{
 
 }
 
-.action-btn:hover{
+.btn:hover{
 
     transform:translateY(-1px);
 
@@ -591,13 +374,13 @@ button{
    SUMMARY CARD
 ========================================================= */
 
-.summary-card{
+.card{
 
     background:#fff;
 
-    border:1px solid #bcc8c1;
+    border:1px solid #bcc8c0;
 
-    border-radius:18px;
+    border-radius:17px;
 
     overflow:hidden;
 
@@ -606,23 +389,23 @@ button{
 
 }
 
-.card-heading{
+.card-head{
 
     padding:15px 17px;
 
-    border-bottom:1px solid #cbd4ce;
+    border-bottom:1px solid #cbd5ce;
 
     display:flex;
 
-    align-items:center;
-
     justify-content:space-between;
+
+    align-items:center;
 
     gap:10px;
 
 }
 
-.card-heading-title{
+.card-title{
 
     font-size:15px;
 
@@ -632,104 +415,147 @@ button{
 
 }
 
-.card-heading-sub{
+.card-subtitle{
 
-    font-size:10px;
+    margin-top:3px;
 
     color:#98a2b3;
 
-    margin-top:3px;
+    font-size:10px;
 
 }
 
 .visible-count{
 
+    font-size:10px;
+
     color:#667085;
 
-    font-size:11px;
-
-    font-weight:800;
+    font-weight:900;
 
 }
 
-.summary-scroll{
+
+/* =========================================================
+   SUMMARY TABLE WRAPPER
+========================================================= */
+
+.summary-wrap{
 
     width:100%;
 
-    overflow:auto;
+    overflow-x:auto;
 
 }
 
 
 /* =========================================================
    SUMMARY TABLE
+
+   Compact so all columns remain proportionate
 ========================================================= */
 
 .summary-table{
 
     width:100%;
 
-    min-width:1250px;
+    min-width:1100px;
+
+    table-layout:fixed;
 
     border-collapse:collapse;
 
-    border:1px solid #b9c5be;
+    border:1px solid #aebbb3;
 
 }
 
-.summary-table th{
 
-    background:#f0f4f2;
+/* COLUMN WIDTHS */
 
-    color:#344054;
-
-    font-size:10px;
-
-    font-weight:900;
-
-    padding:12px 10px;
-
-    border:1px solid #c0cbc4;
-
-    text-transform:uppercase;
-
-    white-space:nowrap;
-
-    text-align:center;
-
+.summary-table th:nth-child(1){
+    width:4%;
 }
 
 .summary-table th:nth-child(2){
-
-    text-align:left;
-
+    width:16%;
 }
 
-.summary-table td{
+.summary-table th:nth-child(3){
+    width:6%;
+}
 
-    padding:12px 10px;
+.summary-table th:nth-child(n+4){
+    width:7.38%;
+}
 
-    border:1px solid #ccd5cf;
 
-    font-size:12px;
+/* HEADER */
 
-    background:#fff;
+.summary-table th{
 
-    vertical-align:middle;
+    background:#eef3f0;
+
+    color:#344054;
+
+    border:1px solid #bbc7c0;
+
+    padding:9px 5px;
+
+    font-size:9px;
+
+    font-weight:900;
 
     text-align:center;
 
+    vertical-align:middle;
+
+    line-height:1.15;
+
+    white-space:normal;
+
+    word-break:break-word;
+
 }
 
+
+/* BODY */
+
+.summary-table td{
+
+    background:#fff;
+
+    border:1px solid #c8d2cc;
+
+    padding:9px 5px;
+
+    font-size:10px;
+
+    text-align:center;
+
+    vertical-align:middle;
+
+    line-height:1.15;
+
+    overflow-wrap:anywhere;
+
+}
+
+
+/* BRANCH LEFT */
+
+.summary-table th:nth-child(2),
 .summary-table td:nth-child(2){
 
     text-align:left;
 
 }
 
+
+/* HOVER */
+
 .summary-table tbody tr:hover td{
 
-    background:#f8fbf9;
+    background:#f7fbf8;
 
 }
 
@@ -742,43 +568,45 @@ button{
 
     display:inline-flex;
 
-    width:38px;
-    height:38px;
+    width:34px;
+
+    height:34px;
 
     align-items:center;
+
     justify-content:center;
 
-    border-radius:10px;
+    border-radius:9px;
 
     background:#edf0f1;
 
     color:#475467;
 
-    font-size:13px;
-
     font-weight:900;
+
+    font-size:12px;
 
 }
 
-.rank.one{
+.rank1{
 
-    background:#fff1bf;
+    background:#fff0bd;
 
     color:#9a6700;
 
 }
 
-.rank.two{
+.rank2{
 
-    background:#eceff1;
+    background:#edf0f2;
 
     color:#475467;
 
 }
 
-.rank.three{
+.rank3{
 
-    background:#ffe5cf;
+    background:#ffe4cf;
 
     color:#a84c10;
 
@@ -791,35 +619,33 @@ button{
 
 .branch-name{
 
+    font-size:12px;
+
     font-weight:900;
 
-    color:#263238;
+    color:#27343e;
 
-    font-size:14px;
+    line-height:1.15;
 
-    max-width:220px;
-
-    white-space:normal;
-
-    line-height:1.2;
+    overflow-wrap:anywhere;
 
 }
 
-.sol{
+.sol-badge{
 
     display:inline-block;
 
     margin-top:5px;
 
+    padding:3px 7px;
+
     background:#edf4ff;
 
-    color:#1d5dce;
+    color:#1e5bc7;
 
-    border-radius:6px;
+    border-radius:5px;
 
-    padding:4px 8px;
-
-    font-size:10px;
+    font-size:9px;
 
     font-weight:900;
 
@@ -827,7 +653,7 @@ button{
 
 
 /* =========================================================
-   CLICKABLE TOTAL
+   TOTAL BUTTON
 ========================================================= */
 
 .total-btn{
@@ -838,15 +664,15 @@ button{
 
     color:#006633;
 
-    font-size:23px;
+    font-size:19px;
 
     font-weight:900;
 
-    padding:5px 10px;
+    padding:4px 8px;
 
-    border-radius:8px;
+    border-radius:7px;
 
-    transition:.18s ease;
+    cursor:pointer;
 
 }
 
@@ -856,7 +682,7 @@ button{
 
     text-decoration:underline;
 
-    transform:scale(1.08);
+    transform:scale(1.07);
 
 }
 
@@ -869,19 +695,21 @@ button{
 
     display:inline-flex;
 
-    min-width:34px;
+    min-width:25px;
+
+    height:25px;
+
+    align-items:center;
 
     justify-content:center;
 
-    padding:7px 9px;
+    border-radius:6px;
 
-    background:#f1f4f2;
+    background:#f0f3f2;
 
     color:#344054;
 
-    border-radius:7px;
-
-    font-size:11px;
+    font-size:9px;
 
     font-weight:900;
 
@@ -892,13 +720,13 @@ button{
    GRAND TOTAL
 ========================================================= */
 
-.grand-total td{
+.grand-row td{
 
     background:#006633 !important;
 
     color:#fff !important;
 
-    border:1px solid #005528 !important;
+    border-color:#005528 !important;
 
     font-weight:900;
 
@@ -906,25 +734,25 @@ button{
 
 .grand-btn{
 
-    border:none;
-
     background:transparent;
 
     color:#fff;
 
-    padding:4px 10px;
+    border:none;
 
-    border-radius:7px;
-
-    font-size:19px;
+    font-size:18px;
 
     font-weight:900;
+
+    padding:3px 8px;
+
+    border-radius:6px;
 
 }
 
 .grand-btn:hover{
 
-    background:rgba(255,255,255,.15);
+    background:rgba(255,255,255,.14);
 
     text-decoration:underline;
 
@@ -939,26 +767,26 @@ button{
 
     display:none;
 
-    margin-top:20px;
+    margin-top:18px;
 
     background:#fff;
 
-    border:1px solid #b9c5be;
+    border:1px solid #abb8b0;
 
-    border-radius:18px;
+    border-radius:17px;
 
     overflow:hidden;
 
     box-shadow:
-        0 7px 23px rgba(0,0,0,.055);
+        0 7px 22px rgba(0,0,0,.05);
 
 }
 
-.records-header{
+.records-head{
 
     background:#edf8f1;
 
-    border-bottom:1px solid #c9dbcf;
+    border-bottom:1px solid #c7d8cd;
 
     padding:15px 17px;
 
@@ -968,13 +796,13 @@ button{
 
     justify-content:space-between;
 
-    gap:15px;
+    gap:12px;
 
 }
 
 .records-title{
 
-    font-size:16px;
+    font-size:15px;
 
     font-weight:900;
 
@@ -992,11 +820,11 @@ button{
 
 }
 
-.record-actions{
+.record-buttons{
 
     display:flex;
 
-    gap:7px;
+    gap:6px;
 
     flex-wrap:wrap;
 
@@ -1004,7 +832,7 @@ button{
 
 .record-btn{
 
-    height:35px;
+    height:34px;
 
     border:none;
 
@@ -1012,7 +840,7 @@ button{
 
     padding:0 11px;
 
-    font-size:11px;
+    font-size:10px;
 
     font-weight:900;
 
@@ -1024,7 +852,7 @@ button{
 
 .record-btn.light{
 
-    background:#e7efea;
+    background:#e8efea;
 
     color:#28553a;
 
@@ -1039,9 +867,9 @@ button{
 
     display:none;
 
-    padding:12px;
+    padding:11px;
 
-    border-bottom:1px solid #cbd5ce;
+    border-bottom:1px solid #c9d2cc;
 
 }
 
@@ -1049,17 +877,17 @@ button{
 
     width:100%;
 
-    height:38px;
+    height:37px;
 
     border:1px solid #c6d0c9;
 
     border-radius:8px;
 
-    padding:0 12px;
+    padding:0 10px;
 
     outline:none;
 
-    font-size:12px;
+    font-size:11px;
 
 }
 
@@ -1068,11 +896,11 @@ button{
    RECORD TABLE
 ========================================================= */
 
-.record-scroll{
-
-    overflow:auto;
+.records-wrap{
 
     width:100%;
+
+    overflow-x:auto;
 
 }
 
@@ -1080,13 +908,51 @@ button{
 
     width:100%;
 
-    min-width:1000px;
+    min-width:950px;
+
+    table-layout:fixed;
 
     border-collapse:collapse;
 
     border:1px solid #aebbb3;
 
 }
+
+
+/* DETAIL COLUMN WIDTHS */
+
+.record-table th:nth-child(1){
+    width:7%;
+}
+
+.record-table th:nth-child(2){
+    width:16%;
+}
+
+.record-table th:nth-child(3){
+    width:14%;
+}
+
+.record-table th:nth-child(4){
+    width:9%;
+}
+
+.record-table th:nth-child(5){
+    width:11%;
+}
+
+.record-table th:nth-child(6){
+    width:15%;
+}
+
+.record-table th:nth-child(7){
+    width:11%;
+}
+
+.record-table th:nth-child(8){
+    width:17%;
+}
+
 
 .record-table th{
 
@@ -1096,37 +962,45 @@ button{
 
     border:1px solid #005426;
 
-    padding:11px 10px;
+    padding:10px 7px;
 
-    font-size:10px;
+    font-size:9px;
 
     font-weight:900;
 
-    white-space:nowrap;
-
     text-align:center;
-
-}
-
-.record-table td{
-
-    border:1px solid #c6d0ca;
-
-    padding:11px 10px;
-
-    font-size:12px;
-
-    color:#344054;
-
-    background:#fff;
 
     vertical-align:middle;
 
-    white-space:nowrap;
+    white-space:normal;
+
+    word-break:break-word;
+
+}
+
+
+.record-table td{
+
+    background:#fff;
+
+    color:#344054;
+
+    border:1px solid #c5d0c9;
+
+    padding:10px 7px;
+
+    font-size:10px;
+
+    vertical-align:middle;
+
+    overflow-wrap:anywhere;
 
     text-align:center;
 
+    line-height:1.2;
+
 }
+
 
 .record-table td:nth-child(2),
 .record-table td:nth-child(3),
@@ -1139,6 +1013,7 @@ button{
 
 }
 
+
 .record-table tbody tr:hover td{
 
     background:#f8fbf9;
@@ -1147,10 +1022,10 @@ button{
 
 
 /* =========================================================
-   SERIAL NUMBER
+   SERIAL NO
 ========================================================= */
 
-.serial{
+.serial-no{
 
     font-family:
         "Courier New",
@@ -1159,6 +1034,8 @@ button{
     font-weight:700;
 
     color:#24382d;
+
+    word-break:break-all;
 
 }
 
@@ -1171,11 +1048,11 @@ button{
 
     display:inline-flex;
 
-    padding:5px 9px;
+    padding:4px 8px;
 
-    border-radius:16px;
+    border-radius:14px;
 
-    font-size:9px;
+    font-size:8px;
 
     font-weight:900;
 
@@ -1183,15 +1060,15 @@ button{
 
 }
 
-.working{
+.condition-working{
 
-    background:#d9f6e5;
+    background:#daf5e5;
 
     color:#166534;
 
 }
 
-.notworking{
+.condition-notworking{
 
     background:#fee2e2;
 
@@ -1199,7 +1076,7 @@ button{
 
 }
 
-.repair{
+.condition-repair{
 
     background:#fff0bd;
 
@@ -1207,7 +1084,7 @@ button{
 
 }
 
-.damaged{
+.condition-damaged{
 
     background:#eadcff;
 
@@ -1215,7 +1092,7 @@ button{
 
 }
 
-.other-condition{
+.condition-default{
 
     background:#edf0f2;
 
@@ -1230,9 +1107,9 @@ button{
 
 .loading-cell{
 
-    text-align:center !important;
-
     padding:35px !important;
+
+    text-align:center !important;
 
     color:#98a2b3;
 
@@ -1240,54 +1117,7 @@ button{
 
 
 /* =========================================================
-   TOAST
-========================================================= */
-
-.toast{
-
-    position:fixed;
-
-    right:20px;
-
-    bottom:20px;
-
-    background:#153e29;
-
-    color:#fff;
-
-    border-radius:9px;
-
-    padding:11px 15px;
-
-    font-size:11px;
-
-    font-weight:800;
-
-    opacity:0;
-
-    visibility:hidden;
-
-    transform:translateY(10px);
-
-    transition:.2s ease;
-
-    z-index:10000;
-
-}
-
-.toast.show{
-
-    opacity:1;
-
-    visibility:visible;
-
-    transform:translateY(0);
-
-}
-
-
-/* =========================================================
-   LOADING OVERLAY
+   OVERLAY
 ========================================================= */
 
 .loader-overlay{
@@ -1296,9 +1126,9 @@ button{
 
     inset:0;
 
-    background:rgba(255,255,255,.88);
-
     z-index:9999;
+
+    background:rgba(255,255,255,.88);
 
     display:flex;
 
@@ -1312,29 +1142,30 @@ button{
 
     background:#fff;
 
-    border-radius:14px;
-
     padding:24px 28px;
 
-    box-shadow:0 10px 35px rgba(0,0,0,.10);
+    border-radius:14px;
+
+    box-shadow:
+        0 10px 35px rgba(0,0,0,.12);
 
     text-align:center;
 
     color:#006633;
 
-    font-size:13px;
+    font-size:12px;
 
-    font-weight:800;
+    font-weight:900;
 
 }
 
-.loader{
+.loader-spin{
 
     width:35px;
 
     height:35px;
 
-    border:4px solid #dceee3;
+    border:4px solid #dcefe3;
 
     border-top-color:#006633;
 
@@ -1356,55 +1187,74 @@ button{
 
 
 /* =========================================================
-   MOBILE
+   TOAST
 ========================================================= */
+
+.toast{
+
+    position:fixed;
+
+    right:20px;
+
+    bottom:20px;
+
+    background:#183e2a;
+
+    color:#fff;
+
+    padding:11px 15px;
+
+    border-radius:9px;
+
+    font-size:11px;
+
+    font-weight:800;
+
+    opacity:0;
+
+    visibility:hidden;
+
+    transform:translateY(10px);
+
+    transition:.2s;
+
+    z-index:10000;
+
+}
+
+.toast.show{
+
+    opacity:1;
+
+    visibility:visible;
+
+    transform:translateY(0);
+
+}
+
+
+/* =========================================================
+   RESPONSIVE
+========================================================= */
+
+@media(max-width:1100px){
+
+    .kpi-grid{
+
+        grid-template-columns:
+            repeat(3,minmax(0,1fr));
+
+    }
+
+}
 
 @media(max-width:900px){
 
-    .sidebar{
-
-        width:65px;
-
-    }
-
-    .brand-text,
-    .menu-label,
-    .menu-link span,
-    .sidebar-footer{
-
-        display:none;
-
-    }
-
-    .sidebar-brand{
-
-        justify-content:center;
-
-        padding:0;
-
-    }
-
-    .menu-link{
-
-        justify-content:center;
-
-        padding:12px 5px;
-
-    }
-
-    .menu-link i{
-
-        width:auto;
-
-        font-size:17px;
-
-    }
-
     .main{
 
-        margin-left:65px;
+        margin-left:72px;
 
-        padding:13px;
+        padding:15px;
 
     }
 
@@ -1415,13 +1265,7 @@ button{
 
     }
 
-    .page-header{
-
-        padding:16px;
-
-    }
-
-    .branch-count{
+    .branch-pill{
 
         display:none;
 
@@ -1429,7 +1273,33 @@ button{
 
 }
 
-@media(max-width:520px){
+@media(max-width:600px){
+
+    .main{
+
+        margin-left:64px;
+
+        padding:10px;
+
+    }
+
+    .page-header{
+
+        padding:15px;
+
+    }
+
+    .page-title{
+
+        font-size:18px;
+
+    }
+
+    .page-subtitle{
+
+        font-size:10px;
+
+    }
 
     .kpi-grid{
 
@@ -1437,25 +1307,19 @@ button{
 
     }
 
-    .search{
+    .search-box{
 
         min-width:100%;
 
     }
 
-    .filter{
+    .btn{
 
         width:100%;
 
     }
 
-    .action-btn{
-
-        width:100%;
-
-    }
-
-    .records-header{
+    .records-head{
 
         flex-direction:column;
 
@@ -1472,20 +1336,12 @@ button{
 
 @media print{
 
-    body{
-
-        background:#fff;
-
-    }
-
-    .sidebar,
+    .loader-overlay,
     .toolbar,
     .kpi-grid,
     .page-header,
-    .record-actions,
-    .record-search,
-    .toast,
-    .loader-overlay{
+    .record-buttons,
+    .record-search{
 
         display:none !important;
 
@@ -1496,15 +1352,6 @@ button{
         margin:0;
 
         padding:0;
-
-    }
-
-    .summary-card,
-    .records-section{
-
-        box-shadow:none;
-
-        border:1px solid #666;
 
     }
 
@@ -1525,131 +1372,6 @@ button{
 
 
 <!-- =========================================================
-     SIDEBAR
-========================================================= -->
-
-<aside class="sidebar">
-
-    <div class="sidebar-brand">
-
-        <div class="brand-icon">
-
-            <i class="fa-solid fa-server"></i>
-
-        </div>
-
-        <div class="brand-text">
-
-            <div class="brand-title">
-                MPGB Hardware
-            </div>
-
-            <div class="brand-subtitle">
-                Management System
-            </div>
-
-        </div>
-
-    </div>
-
-
-    <div class="sidebar-menu">
-
-        <div class="menu-label">
-            Main Menu
-        </div>
-
-
-        <a
-            class="menu-link"
-            href="index.html">
-
-            <i class="fa-solid fa-gauge-high"></i>
-
-            <span>Dashboard</span>
-
-        </a>
-
-
-        <a
-            class="menu-link"
-            href="add-hardware.html">
-
-            <i class="fa-solid fa-circle-plus"></i>
-
-            <span>Add Hardware</span>
-
-        </a>
-
-
-        <a
-            class="menu-link"
-            href="records.html">
-
-            <i class="fa-solid fa-list"></i>
-
-            <span>Hardware Records</span>
-
-        </a>
-
-
-        <a
-            class="menu-link"
-            href="edit-hardware.html">
-
-            <i class="fa-solid fa-pen-to-square"></i>
-
-            <span>Edit / Update</span>
-
-        </a>
-
-
-        <a
-            class="menu-link active"
-            href="branch-summary.html">
-
-            <i class="fa-solid fa-code-branch"></i>
-
-            <span>Branch Summary</span>
-
-        </a>
-
-
-        <a
-            class="menu-link"
-            href="hardware-summary.html">
-
-            <i class="fa-solid fa-computer"></i>
-
-            <span>Hardware Summary</span>
-
-        </a>
-
-
-        <a
-            class="menu-link"
-            href="reports.html">
-
-            <i class="fa-solid fa-chart-column"></i>
-
-            <span>Reports</span>
-
-        </a>
-
-    </div>
-
-
-    <div class="sidebar-footer">
-
-        MPGB · RO Jabalpur<br>
-        Hardware Inventory
-
-    </div>
-
-</aside>
-
-
-<!-- =========================================================
      LOADER
 ========================================================= -->
 
@@ -1659,7 +1381,7 @@ button{
 
     <div class="loader-box">
 
-        <div class="loader"></div>
+        <div class="loader-spin"></div>
 
         Loading Branch Summary...
 
@@ -1687,22 +1409,18 @@ button{
 
         <div class="header-icon">
 
-            <i class="fa-solid fa-clipboard-list"></i>
+            <i class="fa-solid fa-code-branch"></i>
 
         </div>
 
         <div>
 
             <h1 class="page-title">
-
                 Branch-wise Hardware Inventory
-
             </h1>
 
             <div class="page-subtitle">
-
                 Hardware type and inventory summary
-
             </div>
 
         </div>
@@ -1711,8 +1429,8 @@ button{
 
 
     <div
-        id="branchCount"
-        class="branch-count">
+        id="branchPill"
+        class="branch-pill">
 
         0 Branches
 
@@ -1728,7 +1446,7 @@ button{
 <div class="kpi-grid">
 
 
-    <div class="kpi-card">
+    <div class="kpi">
 
         <div class="kpi-label">
             Total Hardware
@@ -1743,13 +1461,13 @@ button{
         </div>
 
         <div class="kpi-note">
-            All hardware records
+            All registered hardware
         </div>
 
     </div>
 
 
-    <div class="kpi-card kpi-working">
+    <div class="kpi kpi-working">
 
         <div class="kpi-label">
             Working
@@ -1770,7 +1488,7 @@ button{
     </div>
 
 
-    <div class="kpi-card kpi-notworking">
+    <div class="kpi kpi-notworking">
 
         <div class="kpi-label">
             Not Working
@@ -1791,7 +1509,7 @@ button{
     </div>
 
 
-    <div class="kpi-card kpi-repair">
+    <div class="kpi kpi-repair">
 
         <div class="kpi-label">
             Under Repair
@@ -1806,13 +1524,13 @@ button{
         </div>
 
         <div class="kpi-note">
-            Repair status
+            Under repair
         </div>
 
     </div>
 
 
-    <div class="kpi-card kpi-damaged">
+    <div class="kpi kpi-damaged">
 
         <div class="kpi-label">
             Damaged
@@ -1841,7 +1559,8 @@ button{
 
 <div class="toolbar">
 
-    <div class="search">
+
+    <div class="search-box">
 
         <i class="fa-solid fa-magnifying-glass"></i>
 
@@ -1855,8 +1574,8 @@ button{
 
 
     <button
-        class="action-btn light"
-        onclick="resetBranchFilter()">
+        class="btn light"
+        onclick="resetFilters()">
 
         <i class="fa-solid fa-rotate-left"></i>
         Reset
@@ -1865,7 +1584,7 @@ button{
 
 
     <button
-        class="action-btn"
+        class="btn"
         onclick="exportSummary()">
 
         <i class="fa-solid fa-file-csv"></i>
@@ -1875,7 +1594,7 @@ button{
 
 
     <button
-        class="action-btn light"
+        class="btn light"
         onclick="window.print()">
 
         <i class="fa-solid fa-print"></i>
@@ -1887,24 +1606,24 @@ button{
 
 
 <!-- =========================================================
-     SUMMARY
+     SUMMARY CARD
 ========================================================= -->
 
-<div class="summary-card">
+<div class="card">
 
-    <div class="card-heading">
+    <div class="card-head">
 
         <div>
 
-            <div class="card-heading-title">
+            <div class="card-title">
 
                 Branch-wise Hardware Summary
 
             </div>
 
-            <div class="card-heading-sub">
+            <div class="card-subtitle">
 
-                Click the TOTAL number to open branch records
+                Click the Total number to view branch records
 
             </div>
 
@@ -1922,7 +1641,7 @@ button{
     </div>
 
 
-    <div class="summary-scroll">
+    <div class="summary-wrap">
 
         <table class="summary-table">
 
@@ -1985,7 +1704,7 @@ button{
 
 
 <!-- =========================================================
-     RECORDS
+     RECORD SECTION
 ========================================================= -->
 
 <div
@@ -1993,7 +1712,7 @@ button{
     class="records-section">
 
 
-    <div class="records-header">
+    <div class="records-head">
 
         <div>
 
@@ -2009,14 +1728,14 @@ button{
                 id="recordsSubtitle"
                 class="records-subtitle">
 
-                Click branch TOTAL to view records
+                Click branch Total to view records
 
             </div>
 
         </div>
 
 
-        <div class="record-actions">
+        <div class="record-buttons">
 
 
             <button
@@ -2076,7 +1795,7 @@ button{
     </div>
 
 
-    <div class="record-scroll">
+    <div class="records-wrap">
 
         <table class="record-table">
 
@@ -2113,7 +1832,7 @@ button{
                         colspan="8"
                         class="loading-cell">
 
-                        Select a branch TOTAL
+                        Select a branch Total
 
                     </td>
 
@@ -2157,7 +1876,7 @@ var API_URL =
 
 
 /* =========================================================
-   DATA
+   GLOBAL DATA
 ========================================================= */
 
 var branchData = [];
@@ -2177,25 +1896,24 @@ document.addEventListener(
     "DOMContentLoaded",
     function(){
 
-        loadBranchSummary();
+        loadSummary();
 
     }
 );
 
 
 /* =========================================================
-   LOAD BRANCH SUMMARY
+   LOAD SUMMARY
 ========================================================= */
 
-function loadBranchSummary(){
+function loadSummary(){
 
     showLoader(true);
-
 
     fetch(
         API_URL +
         "?action=branchSummary&_=" +
-        Date.now()
+        new Date().getTime()
     )
 
     .then(
@@ -2254,7 +1972,7 @@ function loadBranchSummary(){
                         'colspan="13" ' +
                         'class="loading-cell">' +
 
-                        'Unable to load summary.' +
+                        'Unable to load branch summary.' +
 
                     '</td>' +
 
@@ -2264,7 +1982,7 @@ function loadBranchSummary(){
             showLoader(false);
 
             showToast(
-                "Unable to load summary"
+                "Unable to load branch summary"
             );
 
         }
@@ -2289,7 +2007,9 @@ function renderSummary(data){
 
 
     var sorted =
-        data.slice().sort(
+        data
+        .slice()
+        .sort(
             function(a,b){
 
                 return Number(
@@ -2373,13 +2093,13 @@ function renderSummary(data){
             var rankClass = "";
 
             if(rank === 1){
-                rankClass = "one";
+                rankClass = "rank1";
             }
             else if(rank === 2){
-                rankClass = "two";
+                rankClass = "rank2";
             }
             else if(rank === 3){
-                rankClass = "three";
+                rankClass = "rank3";
             }
 
 
@@ -2412,7 +2132,7 @@ function renderSummary(data){
 
                     '</div>' +
 
-                    '<span class="sol">' +
+                    '<span class="sol-badge">' +
 
                         escapeHtml(
                             b.solId
@@ -2429,7 +2149,7 @@ function renderSummary(data){
 
                     '<button ' +
                         'class="total-btn" ' +
-                        'title="View branch hardware records" ' +
+                        'title="View branch records" ' +
                         'onclick="showBranchRecords(' +
                             '\'' +
                             jsSafe(b.solId) +
@@ -2451,25 +2171,45 @@ function renderSummary(data){
 
                 /* HARDWARE TYPES ONLY */
 
-                hwCell(b.cpu) +
+                makeHardwareCell(
+                    b.cpu
+                ) +
 
-                hwCell(b.monitor) +
+                makeHardwareCell(
+                    b.monitor
+                ) +
 
-                hwCell(b.passbookprinter) +
+                makeHardwareCell(
+                    b.passbookprinter
+                ) +
 
-                hwCell(b.laserprinter) +
+                makeHardwareCell(
+                    b.laserprinter
+                ) +
 
-                hwCell(b.scanner) +
+                makeHardwareCell(
+                    b.scanner
+                ) +
 
-                hwCell(b.ctsmachine) +
+                makeHardwareCell(
+                    b.ctsmachine
+                ) +
 
-                hwCell(b.cctvmonitor) +
+                makeHardwareCell(
+                    b.cctvmonitor
+                ) +
 
-                hwCell(b.biometricdevice) +
+                makeHardwareCell(
+                    b.biometricdevice
+                ) +
 
-                hwCell(b.ups) +
+                makeHardwareCell(
+                    b.ups
+                ) +
 
-                hwCell(b.other);
+                makeHardwareCell(
+                    b.other
+                );
 
 
             tbody.appendChild(
@@ -2508,7 +2248,7 @@ function renderSummary(data){
 
 
     document.getElementById(
-        "branchCount"
+        "branchPill"
     ).innerText =
         data.length +
         " Branches";
@@ -2521,8 +2261,6 @@ function renderSummary(data){
         " branches";
 
 
-    /* GRAND TOTAL */
-
     appendGrandTotal(
         data
     );
@@ -2534,7 +2272,7 @@ function renderSummary(data){
    HARDWARE CELL
 ========================================================= */
 
-function hwCell(value){
+function makeHardwareCell(value){
 
     return (
 
@@ -2653,7 +2391,7 @@ function appendGrandTotal(data){
 
 
     tr.className =
-        "grand-total";
+        "grand-row";
 
 
     tr.innerHTML =
@@ -2666,8 +2404,7 @@ function appendGrandTotal(data){
 
             '<button ' +
                 'class="grand-btn" ' +
-                'onclick="showAllRecords()" ' +
-                'title="View all hardware records">' +
+                'onclick="showAllRecords()">' +
 
                 total +
 
@@ -2675,25 +2412,45 @@ function appendGrandTotal(data){
 
         '</td>' +
 
-        '<td>' + cpu + '</td>' +
+        '<td>' +
+            cpu +
+        '</td>' +
 
-        '<td>' + monitor + '</td>' +
+        '<td>' +
+            monitor +
+        '</td>' +
 
-        '<td>' + passbookprinter + '</td>' +
+        '<td>' +
+            passbookprinter +
+        '</td>' +
 
-        '<td>' + laserprinter + '</td>' +
+        '<td>' +
+            laserprinter +
+        '</td>' +
 
-        '<td>' + scanner + '</td>' +
+        '<td>' +
+            scanner +
+        '</td>' +
 
-        '<td>' + ctsmachine + '</td>' +
+        '<td>' +
+            ctsmachine +
+        '</td>' +
 
-        '<td>' + cctvmonitor + '</td>' +
+        '<td>' +
+            cctvmonitor +
+        '</td>' +
 
-        '<td>' + biometricdevice + '</td>' +
+        '<td>' +
+            biometricdevice +
+        '</td>' +
 
-        '<td>' + ups + '</td>' +
+        '<td>' +
+            ups +
+        '</td>' +
 
-        '<td>' + other + '</td>';
+        '<td>' +
+            other +
+        '</td>';
 
 
     document.getElementById(
@@ -2706,7 +2463,7 @@ function appendGrandTotal(data){
 
 
 /* =========================================================
-   FILTER BRANCHES
+   FILTER
 ========================================================= */
 
 function filterBranches(){
@@ -2745,13 +2502,11 @@ function filterBranches(){
                 ) || "";
 
 
-            var match =
+            if(
                 !q ||
                 sol.indexOf(q) !== -1 ||
-                branch.indexOf(q) !== -1;
-
-
-            if(match){
+                branch.indexOf(q) !== -1
+            ){
 
                 row.style.display = "";
 
@@ -2760,7 +2515,8 @@ function filterBranches(){
             }
             else{
 
-                row.style.display = "none";
+                row.style.display =
+                    "none";
 
             }
 
@@ -2781,7 +2537,7 @@ function filterBranches(){
    RESET
 ========================================================= */
 
-function resetBranchFilter(){
+function resetFilters(){
 
     document.getElementById(
         "branchSearch"
@@ -2827,6 +2583,7 @@ function showBranchRecords(
     document.getElementById(
         "recordsTitle"
     ).innerText =
+
         currentBranch +
         " — Hardware Records";
 
@@ -2834,9 +2591,10 @@ function showBranchRecords(
     document.getElementById(
         "recordsSubtitle"
     ).innerText =
+
         "SOL ID: " +
         currentSOL +
-        " | Loading records...";
+        " | Loading...";
 
 
     document.getElementById(
@@ -2886,7 +2644,7 @@ function showBranchRecords(
             currentSOL
         ) +
         "&_=" +
-        Date.now()
+        new Date().getTime()
 
     )
 
@@ -2978,7 +2736,7 @@ function showBranchRecords(
 
 
 /* =========================================================
-   SHOW ALL RECORDS
+   ALL RECORDS
 ========================================================= */
 
 function showAllRecords(){
@@ -3008,7 +2766,7 @@ function showAllRecords(){
     document.getElementById(
         "recordsSubtitle"
     ).innerText =
-        "All branches | Loading records...";
+        "All branches | Loading...";
 
 
     document.getElementById(
@@ -3053,7 +2811,7 @@ function showAllRecords(){
 
         API_URL +
         "?action=records&_=" +
-        Date.now()
+        new Date().getTime()
 
     )
 
@@ -3109,8 +2867,6 @@ function showAllRecords(){
         function(error){
 
             console.error(error);
-
-            currentRecords = [];
 
 
             document.getElementById(
@@ -3232,7 +2988,7 @@ function renderRecords(records){
 
                 '<td>' +
 
-                    '<span class="serial">' +
+                    '<span class="serial-no">' +
 
                         escapeHtml(
                             r.serialNo
@@ -3245,7 +3001,7 @@ function renderRecords(records){
 
                 '<td>' +
 
-                    conditionBadge(
+                    getConditionBadge(
                         r.condition
                     ) +
 
@@ -3272,10 +3028,12 @@ function renderRecords(records){
 
 
 /* =========================================================
-   CONDITION BADGE
+   CONDITION
 ========================================================= */
 
-function conditionBadge(condition){
+function getConditionBadge(
+    condition
+){
 
     var c =
         String(
@@ -3286,31 +3044,39 @@ function conditionBadge(condition){
 
 
     var cls =
-        "other-condition";
+        "condition-default";
 
 
-    if(c === "WORKING"){
+    if(
+        c === "WORKING"
+    ){
 
         cls =
-            "working";
+            "condition-working";
 
     }
-    else if(c === "NOT WORKING"){
+    else if(
+        c === "NOT WORKING"
+    ){
 
         cls =
-            "notworking";
+            "condition-notworking";
 
     }
-    else if(c === "UNDER REPAIR"){
+    else if(
+        c === "UNDER REPAIR"
+    ){
 
         cls =
-            "repair";
+            "condition-repair";
 
     }
-    else if(c === "DAMAGED"){
+    else if(
+        c === "DAMAGED"
+    ){
 
         cls =
-            "damaged";
+            "condition-damaged";
 
     }
 
@@ -3333,7 +3099,7 @@ function conditionBadge(condition){
 
 
 /* =========================================================
-   RECORD SEARCH
+   SEARCH RECORDS
 ========================================================= */
 
 function toggleRecordSearch(){
@@ -3345,8 +3111,8 @@ function toggleRecordSearch(){
 
 
     if(
-        box.style.display === "none" ||
-        box.style.display === ""
+        box.style.display === "" ||
+        box.style.display === "none"
     ){
 
         box.style.display =
@@ -3377,10 +3143,6 @@ function toggleRecordSearch(){
 
 }
 
-
-/* =========================================================
-   SEARCH RECORDS
-========================================================= */
 
 function searchRecords(){
 
@@ -3454,7 +3216,7 @@ function exportSummary(){
     ){
 
         showToast(
-            "No summary data available"
+            "No data available"
         );
 
         return;
@@ -3482,11 +3244,11 @@ function exportSummary(){
     ];
 
 
-    var lines = [
+    var lines = [];
 
+    lines.push(
         headers.join(",")
-
-    ];
+    );
 
 
     var sorted =
@@ -3516,11 +3278,11 @@ function exportSummary(){
 
                     index + 1,
 
-                    csv(
+                    csvValue(
                         b.solId
                     ),
 
-                    csv(
+                    csvValue(
                         b.branchName
                     ),
 
@@ -3600,11 +3362,11 @@ function exportCurrentRecords(){
     ];
 
 
-    var lines = [
+    var lines = [];
 
+    lines.push(
         headers.join(",")
-
-    ];
+    );
 
 
     currentRecords.forEach(
@@ -3614,14 +3376,14 @@ function exportCurrentRecords(){
 
                 [
 
-                    csv(r.solId),
-                    csv(r.branchName),
-                    csv(r.hardwareType),
-                    csv(r.make),
-                    csv(r.model),
-                    csv(r.serialNo),
-                    csv(r.condition),
-                    csv(r.remarks)
+                    csvValue(r.solId),
+                    csvValue(r.branchName),
+                    csvValue(r.hardwareType),
+                    csvValue(r.make),
+                    csvValue(r.model),
+                    csvValue(r.serialNo),
+                    csvValue(r.condition),
+                    csvValue(r.remarks)
 
                 ]
                 .join(",")
@@ -3655,7 +3417,7 @@ function exportCurrentRecords(){
 
 
 /* =========================================================
-   DOWNLOAD CSV
+   CSV DOWNLOAD
 ========================================================= */
 
 function downloadCSV(
@@ -3733,7 +3495,7 @@ function printRecords(){
     ){
 
         showToast(
-            "No records to print"
+            "No records available"
         );
 
         return;
@@ -3761,7 +3523,7 @@ function printRecords(){
     if(!win){
 
         alert(
-            "Please allow pop-up windows."
+            "Please allow pop-ups."
         );
 
         return;
@@ -3783,7 +3545,6 @@ function printRecords(){
 
         "</title>" +
 
-
         "<style>" +
 
         "body{" +
@@ -3804,7 +3565,7 @@ function printRecords(){
         "th{" +
             "background:#006633;" +
             "color:#fff;" +
-            "border:1px solid #222;" +
+            "border:1px solid #333;" +
             "padding:7px;" +
         "}" +
 
@@ -3831,14 +3592,14 @@ function printRecords(){
 
         "<tr>" +
 
-            "<th>SOL ID</th>" +
-            "<th>Branch</th>" +
-            "<th>Hardware Type</th>" +
-            "<th>Make</th>" +
-            "<th>Model</th>" +
-            "<th>Serial No</th>" +
-            "<th>Condition</th>" +
-            "<th>Remarks</th>" +
+        "<th>SOL ID</th>" +
+        "<th>Branch</th>" +
+        "<th>Hardware Type</th>" +
+        "<th>Make</th>" +
+        "<th>Model</th>" +
+        "<th>Serial No</th>" +
+        "<th>Condition</th>" +
+        "<th>Remarks</th>" +
 
         "</tr>";
 
@@ -3892,7 +3653,9 @@ function printRecords(){
 
         "</table>" +
 
-        "</body></html>";
+        "</body>" +
+
+        "</html>";
 
 
     win.document.write(
@@ -3935,25 +3698,6 @@ function closeRecords(){
 /* =========================================================
    HELPERS
 ========================================================= */
-
-function csv(value){
-
-    return '"' +
-
-        String(
-            value == null
-            ? ""
-            : value
-        )
-        .replace(
-            /"/g,
-            '""'
-        ) +
-
-        '"';
-
-}
-
 
 function escapeHtml(value){
 
@@ -4018,6 +3762,25 @@ function jsSafe(value){
         /\n/g,
         " "
     );
+
+}
+
+
+function csvValue(value){
+
+    return '"' +
+
+        String(
+            value == null
+            ? ""
+            : value
+        )
+        .replace(
+            /"/g,
+            '""'
+        ) +
+
+        '"';
 
 }
 
