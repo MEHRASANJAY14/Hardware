@@ -1,1274 +1,3005 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>MPGB Hardware Management - Reports</title>
+
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0">
+
+<title>MPGB Hardware - Reports</title>
+
+<link rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
 
 <style>
+
 *{
-    box-sizing:border-box;
-    margin:0;
-    padding:0;
+  box-sizing:border-box;
+}
+
+html{
+  scroll-behavior:smooth;
 }
 
 body{
-    font-family:Arial,Helvetica,sans-serif;
-    background:#f4f7f5;
-    color:#222;
+  margin:0;
+  padding:0;
+  background:#f4f7f5;
+  color:#263238;
+  font-family:Arial,Helvetica,sans-serif;
+  overflow-x:hidden;
 }
 
-/* ================= SIDEBAR ================= */
-
-.sidebar{
-    position:fixed;
-    left:0;
-    top:0;
-    width:245px;
-    height:100vh;
-    background:#006400;
-    color:#fff;
-    padding:22px 14px;
-    z-index:1000;
-    box-shadow:3px 0 12px rgba(0,0,0,.12);
-}
-
-.logo{
-    text-align:center;
-    font-size:24px;
-    font-weight:bold;
-    margin-bottom:28px;
-}
-
-.logo small{
-    display:block;
-    font-size:11px;
-    font-weight:normal;
-    margin-top:5px;
-}
-
-.menu a{
-    display:flex;
-    align-items:center;
-    gap:12px;
-    color:#fff;
-    text-decoration:none;
-    padding:13px 14px;
-    border-radius:9px;
-    margin:5px 0;
-    font-size:14px;
-    transition:.2s;
-}
-
-.menu a:hover{
-    background:#00823b;
-}
-
-.menu a.active{
-    background:#00823b;
-    box-shadow:inset 4px 0 #fff;
-}
-
-.menu i{
-    width:22px;
-    text-align:center;
-    font-style:normal;
-    font-size:18px;
-}
-
-/* ================= MAIN ================= */
-
-.main{
-    margin-left:245px;
-    padding:25px;
-}
-
-.header{
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    margin-bottom:22px;
-}
-
-.header h1{
-    color:#006400;
-    font-size:27px;
-}
-
-.header p{
-    color:#777;
-    margin-top:5px;
-}
-
-/* ================= CONTROLS ================= */
-
-.controls{
-    background:#fff;
-    padding:18px;
-    border-radius:12px;
-    box-shadow:0 2px 10px rgba(0,0,0,.08);
-    margin-bottom:20px;
-}
-
-.controls-row{
-    display:flex;
-    gap:12px;
-    flex-wrap:wrap;
-    align-items:center;
-}
-
-select,
-input{
-    padding:11px 13px;
-    border:1px solid #ccc;
-    border-radius:7px;
-    font-size:14px;
-    background:#fff;
-}
-
-input{
-    min-width:240px;
+button,
+input,
+select{
+  font-family:inherit;
 }
 
 button{
-    border:none;
-    padding:11px 18px;
-    border-radius:7px;
-    cursor:pointer;
-    font-weight:bold;
-    font-size:14px;
+  cursor:pointer;
 }
 
-.btn-green{
-    background:#006400;
-    color:#fff;
+
+/* =========================================================
+   MAIN
+========================================================= */
+
+.main{
+  margin-left:250px;
+  min-height:100vh;
+  padding:20px;
+  transition:margin-left .25s ease;
 }
 
-.btn-green:hover{
-    background:#00823b;
+.page{
+  width:100%;
+  max-width:1500px;
+  margin:0 auto;
 }
 
-.btn-blue{
-    background:#1c4fa3;
-    color:#fff;
+
+/* =========================================================
+   HEADER
+========================================================= */
+
+.page-header{
+  background:#fff;
+  border:1px solid #dce5df;
+  border-radius:20px;
+  padding:19px 22px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:15px;
+  margin-bottom:16px;
+  box-shadow:0 5px 18px rgba(0,0,0,.045);
 }
 
-.btn-gray{
-    background:#666;
-    color:#fff;
+.page-header-left{
+  display:flex;
+  align-items:center;
+  gap:13px;
+  min-width:0;
 }
 
-/* ================= CARDS ================= */
-
-.cards{
-    display:grid;
-    grid-template-columns:repeat(5,1fr);
-    gap:15px;
-    margin-bottom:22px;
+.header-icon{
+  width:50px;
+  height:50px;
+  border-radius:14px;
+  background:#e6f6ed;
+  color:#006633;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:22px;
+  flex:none;
 }
 
-.card{
-    background:#fff;
-    border-radius:12px;
-    padding:18px;
-    box-shadow:0 2px 10px rgba(0,0,0,.08);
-    border-left:5px solid #006400;
+.page-title{
+  margin:0;
+  color:#344054;
+  font-size:21px;
+  font-weight:900;
 }
 
-.card-title{
-    color:#777;
-    font-size:13px;
+.page-subtitle{
+  margin-top:4px;
+  font-size:12px;
+  color:#98a2b3;
 }
 
-.card-value{
-    font-size:27px;
-    font-weight:bold;
-    margin-top:7px;
-    color:#006400;
+.header-actions{
+  display:flex;
+  gap:7px;
+  flex-wrap:wrap;
 }
 
-/* ================= REPORT ================= */
-
-.report-box{
-    background:#fff;
-    border-radius:12px;
-    box-shadow:0 2px 10px rgba(0,0,0,.08);
-    overflow:hidden;
+.btn{
+  height:38px;
+  border:none;
+  border-radius:8px;
+  padding:0 13px;
+  background:#006633;
+  color:#fff;
+  font-size:10px;
+  font-weight:900;
 }
 
-.report-header{
-    padding:18px 20px;
-    border-bottom:1px solid #eee;
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
+.btn.light{
+  background:#e9f0ec;
+  color:#28553a;
 }
 
-.report-header h2{
-    color:#006400;
-    font-size:20px;
+.btn:hover{
+  transform:translateY(-1px);
 }
 
-.report-info{
-    color:#777;
-    font-size:13px;
+
+/* =========================================================
+   KPI
+========================================================= */
+
+.kpi-grid{
+  display:grid;
+  grid-template-columns:repeat(5,minmax(0,1fr));
+  gap:11px;
+  margin-bottom:15px;
 }
+
+.kpi-card{
+  background:#fff;
+  border:1px solid #dce5df;
+  border-radius:15px;
+  padding:15px;
+  box-shadow:0 5px 16px rgba(0,0,0,.035);
+  min-width:0;
+}
+
+.kpi-label{
+  color:#667085;
+  font-size:9px;
+  font-weight:900;
+  text-transform:uppercase;
+}
+
+.kpi-value{
+  margin-top:5px;
+  color:#006633;
+  font-size:27px;
+  font-weight:900;
+}
+
+.kpi-note{
+  margin-top:3px;
+  color:#98a2b3;
+  font-size:9px;
+}
+
+.kpi-working .kpi-value{
+  color:#087a35;
+}
+
+.kpi-notworking .kpi-value{
+  color:#b42318;
+}
+
+.kpi-repair .kpi-value{
+  color:#9a6700;
+}
+
+.kpi-damaged .kpi-value{
+  color:#7a3da5;
+}
+
+
+/* =========================================================
+   TWO COLUMN
+========================================================= */
+
+.grid-2{
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:15px;
+  margin-bottom:15px;
+}
+
+
+/* =========================================================
+   PANEL
+========================================================= */
+
+.panel{
+  background:#fff;
+  border:1px solid #dce5df;
+  border-radius:16px;
+  overflow:hidden;
+  box-shadow:0 5px 18px rgba(0,0,0,.04);
+  min-width:0;
+}
+
+.panel-header{
+  padding:14px 16px;
+  border-bottom:1px solid #e5ece8;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:10px;
+}
+
+.panel-title{
+  margin:0;
+  font-size:14px;
+  color:#344054;
+  font-weight:900;
+}
+
+.panel-subtitle{
+  margin-top:3px;
+  color:#98a2b3;
+  font-size:9px;
+}
+
+
+/* =========================================================
+   CONDITION CARDS
+========================================================= */
+
+.condition-grid{
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:10px;
+  padding:13px;
+}
+
+.condition-card{
+  background:#f8faf9;
+  border:1px solid #e2ebe5;
+  border-radius:12px;
+  padding:12px;
+}
+
+.condition-top{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:8px;
+}
+
+.condition-name{
+  font-size:10px;
+  color:#667085;
+  font-weight:900;
+  text-transform:uppercase;
+}
+
+.condition-value{
+  margin-top:6px;
+  font-size:23px;
+  font-weight:900;
+}
+
+.condition-percent{
+  margin-top:2px;
+  font-size:9px;
+  color:#98a2b3;
+}
+
+.working{
+  color:#087a35;
+}
+
+.not-working{
+  color:#b42318;
+}
+
+.repair{
+  color:#9a6700;
+}
+
+.damaged{
+  color:#7a3da5;
+}
+
+
+/* =========================================================
+   HEALTH BAR
+========================================================= */
+
+.health-box{
+  padding:14px;
+  border-top:1px solid #edf1ee;
+}
+
+.health-meta{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  font-size:10px;
+  font-weight:800;
+  color:#667085;
+  margin-bottom:7px;
+}
+
+.health-track{
+  height:9px;
+  border-radius:20px;
+  background:#e7eee9;
+  overflow:hidden;
+}
+
+.health-fill{
+  height:100%;
+  width:0;
+  background:#006633;
+  border-radius:20px;
+  transition:width .5s ease;
+}
+
+
+/* =========================================================
+   HARDWARE TABLE
+========================================================= */
 
 .table-wrap{
-    overflow-x:auto;
+  width:100%;
+  overflow:visible;
 }
 
-table{
-    width:100%;
-    border-collapse:collapse;
+.report-table{
+  width:100%;
+  table-layout:fixed;
+  border-collapse:collapse;
 }
 
-th{
-    background:#006400;
-    color:#fff;
-    padding:12px 10px;
-    font-size:13px;
-    white-space:nowrap;
+.report-table th{
+  background:#eef3f0;
+  color:#344054;
+  border:1px solid #c0cbc4;
+  padding:9px 4px;
+  font-size:8px;
+  font-weight:900;
+  text-align:center;
+  vertical-align:middle;
+  line-height:1.15;
+  overflow-wrap:anywhere;
 }
 
-td{
-    padding:11px 10px;
-    border-bottom:1px solid #eee;
-    font-size:13px;
-    white-space:nowrap;
+.report-table td{
+  color:#344054;
+  border:1px solid #d0d8d3;
+  padding:9px 4px;
+  font-size:9px;
+  text-align:center;
+  vertical-align:middle;
+  line-height:1.15;
+  overflow-wrap:anywhere;
 }
 
-tbody tr:hover{
-    background:#f3faf5;
+.report-table tbody tr:hover td{
+  background:#f7fbf8;
 }
 
-.text-center{
-    text-align:center;
+.report-table th:nth-child(1),
+.report-table td:nth-child(1){
+  width:29%;
+  text-align:left;
 }
 
-.badge{
-    display:inline-block;
-    padding:5px 9px;
-    border-radius:20px;
-    font-size:11px;
-    font-weight:bold;
+.report-table th:nth-child(2),
+.report-table td:nth-child(2){
+  width:10%;
 }
 
-.badge-working{
-    background:#d9f5df;
-    color:#08752a;
+.report-table th:nth-child(3),
+.report-table td:nth-child(3){
+  width:15%;
 }
 
-.badge-not{
-    background:#ffe0e0;
-    color:#a30000;
+.report-table th:nth-child(4),
+.report-table td:nth-child(4){
+  width:15%;
 }
 
-.badge-repair{
-    background:#fff0c9;
-    color:#8a6200;
+.report-table th:nth-child(5),
+.report-table td:nth-child(5){
+  width:15%;
 }
 
-.badge-damaged{
-    background:#e5e5e5;
-    color:#555;
+.report-table th:nth-child(6),
+.report-table td:nth-child(6){
+  width:16%;
+}
+
+
+/* =========================================================
+   RANKING TABLE
+========================================================= */
+
+.rank-table{
+  width:100%;
+  table-layout:fixed;
+  border-collapse:collapse;
+}
+
+.rank-table th{
+  background:#006633;
+  color:#fff;
+  padding:9px 5px;
+  font-size:8px;
+  border:1px solid #005426;
+  text-align:center;
+}
+
+.rank-table td{
+  padding:8px 5px;
+  font-size:9px;
+  border:1px solid #cbd4ce;
+  text-align:center;
+  vertical-align:middle;
+  overflow-wrap:anywhere;
+}
+
+.rank-table th:nth-child(1),
+.rank-table td:nth-child(1){
+  width:9%;
+}
+
+.rank-table th:nth-child(2),
+.rank-table td:nth-child(2){
+  width:51%;
+  text-align:left;
+}
+
+.rank-table th:nth-child(3),
+.rank-table td:nth-child(3){
+  width:20%;
+}
+
+.rank-table th:nth-child(4),
+.rank-table td:nth-child(4){
+  width:20%;
+}
+
+.rank-badge{
+  display:inline-flex;
+  width:26px;
+  height:26px;
+  align-items:center;
+  justify-content:center;
+  border-radius:7px;
+  background:#eef1ef;
+  color:#475467;
+  font-size:9px;
+  font-weight:900;
+}
+
+.rank-one{
+  background:#fff1bd;
+  color:#936300;
+}
+
+.rank-two{
+  background:#edf0f2;
+  color:#475467;
+}
+
+.rank-three{
+  background:#ffe4cf;
+  color:#a64c10;
+}
+
+.branch-name{
+  font-size:9px;
+  font-weight:900;
+  color:#263238;
+}
+
+.sol-small{
+  display:block;
+  margin-top:2px;
+  color:#98a2b3;
+  font-size:8px;
+}
+
+
+/* =========================================================
+   RECENT RECORDS
+========================================================= */
+
+.recent-tools{
+  padding:10px;
+  border-bottom:1px solid #e7eeea;
+}
+
+.recent-tools input{
+  width:100%;
+  height:36px;
+  border:1px solid #cbd6cf;
+  border-radius:8px;
+  padding:0 10px;
+  outline:none;
+  font-size:10px;
+}
+
+.recent-tools input:focus{
+  border-color:#33935d;
+}
+
+.recent-table{
+  width:100%;
+  table-layout:fixed;
+  border-collapse:collapse;
+}
+
+.recent-table th{
+  background:#006633;
+  color:#fff;
+  padding:8px 4px;
+  font-size:8px;
+  border:1px solid #005426;
+  text-align:center;
+}
+
+.recent-table td{
+  padding:8px 4px;
+  font-size:8px;
+  border:1px solid #cbd4ce;
+  vertical-align:top;
+  overflow-wrap:anywhere;
+}
+
+.recent-table tbody tr:hover td{
+  background:#f7fbf8;
+}
+
+.recent-table th:nth-child(1),
+.recent-table td:nth-child(1){
+  width:8%;
+}
+
+.recent-table th:nth-child(2),
+.recent-table td:nth-child(2){
+  width:15%;
+}
+
+.recent-table th:nth-child(3),
+.recent-table td:nth-child(3){
+  width:21%;
+}
+
+.recent-table th:nth-child(4),
+.recent-table td:nth-child(4){
+  width:11%;
+}
+
+.recent-table th:nth-child(5),
+.recent-table td:nth-child(5){
+  width:12%;
+}
+
+.recent-table th:nth-child(6),
+.recent-table td:nth-child(6){
+  width:13%;
+}
+
+.recent-table th:nth-child(7),
+.recent-table td:nth-child(7){
+  width:20%;
+}
+
+.condition-badge{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  padding:4px 6px;
+  border-radius:12px;
+  font-size:7px;
+  font-weight:900;
+  white-space:nowrap;
+}
+
+.condition-working{
+  background:#d8f5e3;
+  color:#166534;
+}
+
+.condition-notworking{
+  background:#fee2e2;
+  color:#991b1b;
+}
+
+.condition-repair{
+  background:#fff0bd;
+  color:#8a5700;
+}
+
+.condition-damaged{
+  background:#eadcff;
+  color:#6b2991;
+}
+
+.condition-default{
+  background:#edf0f2;
+  color:#475467;
+}
+
+
+/* =========================================================
+   LOADING
+========================================================= */
+
+.loading{
+  padding:25px;
+  text-align:center;
+  color:#98a2b3;
+  font-size:10px;
 }
 
 .empty{
-    text-align:center;
-    padding:35px;
-    color:#777;
+  padding:25px;
+  text-align:center;
+  color:#98a2b3;
+  font-size:10px;
 }
 
-/* ================= PRINT ================= */
 
-@media print{
+/* =========================================================
+   LOADER
+========================================================= */
 
-    .sidebar,
-    .controls,
-    .header button{
-        display:none !important;
-    }
-
-    .main{
-        margin-left:0;
-        padding:10px;
-    }
-
-    body{
-        background:#fff;
-    }
-
-    .report-box{
-        box-shadow:none;
-    }
-
-    .report-header{
-        border-bottom:1px solid #000;
-    }
-
-    th{
-        background:#ddd !important;
-        color:#000 !important;
-    }
+.page-loader{
+  position:fixed;
+  inset:0;
+  z-index:9999;
+  background:rgba(255,255,255,.88);
+  display:flex;
+  align-items:center;
+  justify-content:center;
 }
 
-/* ================= MOBILE ================= */
+.loader-box{
+  background:#fff;
+  padding:23px 27px;
+  border-radius:14px;
+  box-shadow:0 10px 35px rgba(0,0,0,.12);
+  text-align:center;
+  color:#006633;
+  font-size:11px;
+  font-weight:900;
+}
 
-@media(max-width:1000px){
+.loader-spinner{
+  width:34px;
+  height:34px;
+  border:4px solid #dcefe3;
+  border-top-color:#006633;
+  border-radius:50%;
+  margin:0 auto 9px;
+  animation:spin .8s linear infinite;
+}
 
-    .cards{
-        grid-template-columns:repeat(2,1fr);
-    }
+@keyframes spin{
+  to{
+    transform:rotate(360deg);
+  }
+}
+
+
+/* =========================================================
+   TOAST
+========================================================= */
+
+.toast{
+  position:fixed;
+  right:20px;
+  bottom:20px;
+  padding:11px 14px;
+  border-radius:8px;
+  background:#173e29;
+  color:#fff;
+  font-size:10px;
+  font-weight:800;
+  opacity:0;
+  visibility:hidden;
+  transform:translateY(10px);
+  transition:.2s;
+  z-index:10000;
+}
+
+.toast.show{
+  opacity:1;
+  visibility:visible;
+  transform:translateY(0);
+}
+
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media(max-width:1050px){
+
+  .kpi-grid{
+    grid-template-columns:repeat(3,minmax(0,1fr));
+  }
+
+  .grid-2{
+    grid-template-columns:1fr;
+  }
+
 }
 
 @media(max-width:800px){
 
-    .sidebar{
-        width:70px;
-        padding:15px 8px;
-    }
+  .main{
+    margin-left:70px;
+    padding:15px;
+  }
 
-    .logo{
-        font-size:0;
-    }
+  .kpi-grid{
+    grid-template-columns:repeat(2,minmax(0,1fr));
+  }
 
-    .logo:before{
-        content:"MP";
-        font-size:20px;
-    }
+  .page-title{
+    font-size:18px;
+  }
 
-    .logo small,
-    .menu span{
-        display:none;
-    }
+  .page-header{
+    padding:15px;
+  }
 
-    .menu a{
-        justify-content:center;
-        padding:12px;
-    }
+  .report-table th,
+  .report-table td{
+    font-size:7px;
+    padding:6px 2px;
+  }
 
-    .main{
-        margin-left:70px;
-        padding:15px;
-    }
+  .rank-table th,
+  .rank-table td{
+    font-size:8px;
+    padding:6px 3px;
+  }
 
-    .cards{
-        grid-template-columns:1fr 1fr;
-    }
-
-    .header{
-        display:block;
-    }
-
-    input{
-        min-width:100%;
-    }
 }
 
-@media(max-width:500px){
+@media(max-width:600px){
 
-    .cards{
-        grid-template-columns:1fr;
-    }
+  .main{
+    margin-left:64px;
+    padding:10px;
+  }
 
-    .controls-row{
-        flex-direction:column;
-        align-items:stretch;
-    }
+  .page-header{
+    padding:13px;
+    align-items:flex-start;
+  }
 
-    select,
-    input,
-    button{
-        width:100%;
-    }
+  .header-icon{
+    width:40px;
+    height:40px;
+    font-size:17px;
+  }
+
+  .page-title{
+    font-size:16px;
+  }
+
+  .page-subtitle{
+    font-size:9px;
+  }
+
+  .header-actions{
+    width:100%;
+  }
+
+  .header-actions .btn{
+    flex:1;
+  }
+
+  .kpi-grid{
+    grid-template-columns:1fr 1fr;
+    gap:8px;
+  }
+
+  .kpi-card{
+    padding:11px;
+  }
+
+  .kpi-value{
+    font-size:21px;
+  }
+
 }
+
+@media print{
+
+  body{
+    background:#fff;
+  }
+
+  .main{
+    margin-left:0 !important;
+    padding:0 !important;
+  }
+
+  .page-header,
+  .header-actions,
+  .kpi-grid,
+  .recent-tools,
+  .page-loader,
+  .toast{
+    display:none !important;
+  }
+
+  .panel{
+    box-shadow:none;
+    border:1px solid #ddd;
+  }
+
+}
+
 </style>
+
 </head>
+
 
 <body>
 
-<!-- ================= SIDEBAR ================= -->
 
-<aside class="sidebar">
+<!-- =========================================================
+     EXISTING GREEN SIDEBAR
+========================================================= -->
 
-    <div class="logo">
-        MPGB
-        <small>Hardware Management</small>
-    </div>
-
-    <nav class="menu">
-
-        <a href="index.html">
-            <i>⌂</i>
-            <span>Dashboard</span>
-        </a>
-
-        <a href="add-hardware.html">
-            <i>＋</i>
-            <span>Add Hardware</span>
-        </a>
-
-        <a href="records.html">
-            <i>▣</i>
-            <span>Hardware Records</span>
-        </a>
-
-        <a href="edit-hardware.html">
-            <i>✎</i>
-            <span>Edit / Update</span>
-        </a>
-
-        <a href="branch-summary.html">
-            <i>▥</i>
-            <span>Branch Summary</span>
-        </a>
-
-        <a href="hardware-summary.html">
-            <i>◈</i>
-            <span>Hardware Summary</span>
-        </a>
-
-        <a href="reports.html">
-            <i>▤</i>
-            <span>Reports</span>
-        </a>
-
-    </nav>
-
-</aside>
+<script src="sidebar.js"></script>
 
 
-<!-- ================= MAIN ================= -->
+<!-- =========================================================
+     LOADER
+========================================================= -->
+
+<div
+  id="pageLoader"
+  class="page-loader">
+
+  <div class="loader-box">
+
+    <div class="loader-spinner"></div>
+
+    Preparing Reports...
+
+  </div>
+
+</div>
+
+
+<!-- =========================================================
+     MAIN
+========================================================= -->
 
 <main class="main">
 
-    <div class="header">
+<div class="page">
 
-        <div>
-            <h1>Reports</h1>
-            <p>MPGB Hardware Management - Detailed Reports</p>
+
+<!-- =========================================================
+     HEADER
+========================================================= -->
+
+<div class="page-header">
+
+  <div class="page-header-left">
+
+    <div class="header-icon">
+
+      <i class="fa-solid fa-chart-column"></i>
+
+    </div>
+
+    <div>
+
+      <h1 class="page-title">
+        Hardware Reports
+      </h1>
+
+      <div class="page-subtitle">
+        Management reports and current hardware inventory status
+      </div>
+
+    </div>
+
+  </div>
+
+
+  <div class="header-actions">
+
+    <button
+      class="btn"
+      onclick="loadReports()">
+
+      <i class="fa-solid fa-arrows-rotate"></i>
+      Refresh
+
+    </button>
+
+
+    <button
+      class="btn light"
+      onclick="exportAllReports()">
+
+      <i class="fa-solid fa-file-csv"></i>
+      Export CSV
+
+    </button>
+
+
+    <button
+      class="btn light"
+      onclick="window.print()">
+
+      <i class="fa-solid fa-print"></i>
+      Print
+
+    </button>
+
+  </div>
+
+</div>
+
+
+<!-- =========================================================
+     KPI
+========================================================= -->
+
+<div class="kpi-grid">
+
+
+  <div class="kpi-card">
+
+    <div class="kpi-label">
+      Total Hardware
+    </div>
+
+    <div
+      id="kpiTotal"
+      class="kpi-value">
+      0
+    </div>
+
+    <div class="kpi-note">
+      All inventory records
+    </div>
+
+  </div>
+
+
+  <div class="kpi-card kpi-working">
+
+    <div class="kpi-label">
+      Working
+    </div>
+
+    <div
+      id="kpiWorking"
+      class="kpi-value">
+      0
+    </div>
+
+    <div class="kpi-note">
+      Operational hardware
+    </div>
+
+  </div>
+
+
+  <div class="kpi-card kpi-notworking">
+
+    <div class="kpi-label">
+      Not Working
+    </div>
+
+    <div
+      id="kpiNotWorking"
+      class="kpi-value">
+      0
+    </div>
+
+    <div class="kpi-note">
+      Immediate attention
+    </div>
+
+  </div>
+
+
+  <div class="kpi-card kpi-repair">
+
+    <div class="kpi-label">
+      Under Repair
+    </div>
+
+    <div
+      id="kpiRepair"
+      class="kpi-value">
+      0
+    </div>
+
+    <div class="kpi-note">
+      Repair cases
+    </div>
+
+  </div>
+
+
+  <div class="kpi-card kpi-damaged">
+
+    <div class="kpi-label">
+      Damaged
+    </div>
+
+    <div
+      id="kpiDamaged"
+      class="kpi-value">
+      0
+    </div>
+
+    <div class="kpi-note">
+      Damaged hardware
+    </div>
+
+  </div>
+
+
+</div>
+
+
+<!-- =========================================================
+     CONDITION + BRANCH
+========================================================= -->
+
+<div class="grid-2">
+
+
+  <!-- CONDITION -->
+
+  <div class="panel">
+
+    <div class="panel-header">
+
+      <div>
+
+        <h2 class="panel-title">
+          Condition Analysis
+        </h2>
+
+        <div class="panel-subtitle">
+          Overall hardware health
         </div>
 
-        <button class="btn-blue" onclick="window.print()">
-            🖨 Print Report
-        </button>
+      </div>
 
     </div>
 
 
-    <!-- ================= CONTROLS ================= -->
-
-    <div class="controls">
-
-        <div class="controls-row">
-
-            <select id="reportType" onchange="changeReport()">
-
-                <option value="branch">
-                    Branch-wise Report
-                </option>
-
-                <option value="hardware">
-                    Hardware-wise Report
-                </option>
-
-            </select>
+    <div class="condition-grid">
 
 
-            <input
-                type="text"
-                id="search"
-                placeholder="Search branch / hardware..."
-                onkeyup="applyFilter()"
-            >
+      <div class="condition-card">
 
-            <button
-                class="btn-green"
-                onclick="loadReports()">
-                ↻ Refresh
-            </button>
+        <div class="condition-top">
 
-            <button
-                class="btn-gray"
-                onclick="exportCSV()">
-                ⬇ Export CSV
-            </button>
+          <div class="condition-name">
+            Working
+          </div>
+
+          <i class="fa-solid fa-circle-check working"></i>
 
         </div>
+
+        <div
+          id="conditionWorking"
+          class="condition-value working">
+          0
+        </div>
+
+        <div
+          id="conditionWorkingPct"
+          class="condition-percent">
+          0%
+        </div>
+
+      </div>
+
+
+      <div class="condition-card">
+
+        <div class="condition-top">
+
+          <div class="condition-name">
+            Not Working
+          </div>
+
+          <i class="fa-solid fa-circle-xmark not-working"></i>
+
+        </div>
+
+        <div
+          id="conditionNotWorking"
+          class="condition-value not-working">
+          0
+        </div>
+
+        <div
+          id="conditionNotWorkingPct"
+          class="condition-percent">
+          0%
+        </div>
+
+      </div>
+
+
+      <div class="condition-card">
+
+        <div class="condition-top">
+
+          <div class="condition-name">
+            Under Repair
+          </div>
+
+          <i class="fa-solid fa-screwdriver-wrench repair"></i>
+
+        </div>
+
+        <div
+          id="conditionRepair"
+          class="condition-value repair">
+          0
+        </div>
+
+        <div
+          id="conditionRepairPct"
+          class="condition-percent">
+          0%
+        </div>
+
+      </div>
+
+
+      <div class="condition-card">
+
+        <div class="condition-top">
+
+          <div class="condition-name">
+            Damaged
+          </div>
+
+          <i class="fa-solid fa-triangle-exclamation damaged"></i>
+
+        </div>
+
+        <div
+          id="conditionDamaged"
+          class="condition-value damaged">
+          0
+        </div>
+
+        <div
+          id="conditionDamagedPct"
+          class="condition-percent">
+          0%
+        </div>
+
+      </div>
+
 
     </div>
 
 
-    <!-- ================= CARDS ================= -->
+    <div class="health-box">
 
-    <div class="cards">
+      <div class="health-meta">
 
-        <div class="card">
-            <div class="card-title">
-                Total Hardware
-            </div>
-            <div class="card-value" id="total">
-                0
-            </div>
+        <span>
+          Hardware Health Score
+        </span>
+
+        <strong
+          id="healthScore">
+          0%
+        </strong>
+
+      </div>
+
+      <div class="health-track">
+
+        <div
+          id="healthFill"
+          class="health-fill">
         </div>
 
+      </div>
 
-        <div class="card">
-            <div class="card-title">
-                Working
-            </div>
-            <div class="card-value" id="working">
-                0
-            </div>
+    </div>
+
+  </div>
+
+
+  <!-- BRANCH RANKING -->
+
+  <div class="panel">
+
+    <div class="panel-header">
+
+      <div>
+
+        <h2 class="panel-title">
+          Branch Performance
+        </h2>
+
+        <div class="panel-subtitle">
+          Top branches by total hardware
         </div>
 
+      </div>
 
-        <div class="card">
-            <div class="card-title">
-                Not Working
-            </div>
-            <div class="card-value" id="notWorking">
-                0
-            </div>
-        </div>
-
-
-        <div class="card">
-            <div class="card-title">
-                Under Repair
-            </div>
-            <div class="card-value" id="repair">
-                0
-            </div>
-        </div>
-
-
-        <div class="card">
-            <div class="card-title">
-                Damaged
-            </div>
-            <div class="card-value" id="damaged">
-                0
-            </div>
-        </div>
+      <div
+        id="branchCount"
+        class="panel-subtitle">
+        0 branches
+      </div>
 
     </div>
 
 
-    <!-- ================= REPORT TABLE ================= -->
+    <div class="table-wrap">
 
-    <div class="report-box">
+      <table class="rank-table">
 
-        <div class="report-header">
+        <thead>
 
-            <div>
+          <tr>
 
-                <h2 id="reportTitle">
-                    Branch-wise Hardware Report
-                </h2>
+            <th>Rank</th>
 
-                <div class="report-info" id="reportInfo">
-                    Loading...
-                </div>
+            <th>Branch</th>
 
-            </div>
+            <th>SOL ID</th>
 
-        </div>
+            <th>Total</th>
+
+          </tr>
+
+        </thead>
 
 
-        <div class="table-wrap">
+        <tbody
+          id="branchBody">
 
-            <table id="reportTable">
+          <tr>
 
-                <thead id="tableHead">
-                </thead>
+            <td
+              colspan="4"
+              class="loading">
 
-                <tbody id="tableBody">
-                </tbody>
+              Loading...
 
-            </table>
+            </td>
 
-        </div>
+          </tr>
+
+        </tbody>
+
+      </table>
 
     </div>
+
+  </div>
+
+
+</div>
+
+
+<!-- =========================================================
+     HARDWARE TYPE REPORT
+========================================================= -->
+
+<div class="panel"
+     style="margin-bottom:15px">
+
+  <div class="panel-header">
+
+    <div>
+
+      <h2 class="panel-title">
+        Hardware Type Report
+      </h2>
+
+      <div class="panel-subtitle">
+        Type-wise quantity and condition status
+      </div>
+
+    </div>
+
+    <div
+      id="typeCount"
+      class="panel-subtitle">
+      0 types
+    </div>
+
+  </div>
+
+
+  <div class="table-wrap">
+
+    <table class="report-table">
+
+      <thead>
+
+        <tr>
+
+          <th>Hardware Type</th>
+
+          <th>Total</th>
+
+          <th>Working</th>
+
+          <th>Not Working</th>
+
+          <th>Under Repair</th>
+
+          <th>Damaged</th>
+
+        </tr>
+
+      </thead>
+
+
+      <tbody
+        id="typeBody">
+
+        <tr>
+
+          <td
+            colspan="6"
+            class="loading">
+
+            Loading...
+
+          </td>
+
+        </tr>
+
+      </tbody>
+
+
+      <tfoot>
+
+        <tr
+          style="
+            background:#006633;
+            color:#fff;
+            font-weight:900;
+          ">
+
+          <td
+            style="
+              text-align:left;
+              padding:10px 4px;
+              border:1px solid #005426;
+            ">
+
+            GRAND TOTAL
+
+          </td>
+
+          <td id="footTotal"
+              style="border:1px solid #005426">
+            0
+          </td>
+
+          <td id="footWorking"
+              style="border:1px solid #005426">
+            0
+          </td>
+
+          <td id="footNotWorking"
+              style="border:1px solid #005426">
+            0
+          </td>
+
+          <td id="footRepair"
+              style="border:1px solid #005426">
+            0
+          </td>
+
+          <td id="footDamaged"
+              style="border:1px solid #005426">
+            0
+          </td>
+
+        </tr>
+
+      </tfoot>
+
+    </table>
+
+  </div>
+
+</div>
+
+
+<!-- =========================================================
+     RECENT RECORDS
+========================================================= -->
+
+<div class="panel">
+
+  <div class="panel-header">
+
+    <div>
+
+      <h2 class="panel-title">
+        Recent Hardware Records
+      </h2>
+
+      <div class="panel-subtitle">
+        Latest inventory entries
+      </div>
+
+    </div>
+
+    <div
+      id="recentCount"
+      class="panel-subtitle">
+      0 records
+    </div>
+
+  </div>
+
+
+  <div class="recent-tools">
+
+    <input
+      id="recentSearch"
+      type="text"
+      placeholder="Search SOL, branch, hardware, make, model, serial..."
+      oninput="filterRecent()">
+
+  </div>
+
+
+  <div class="table-wrap">
+
+    <table class="recent-table">
+
+      <thead>
+
+        <tr>
+
+          <th>SOL</th>
+
+          <th>Branch</th>
+
+          <th>Hardware</th>
+
+          <th>Make</th>
+
+          <th>Model</th>
+
+          <th>Serial</th>
+
+          <th>Condition</th>
+
+        </tr>
+
+      </thead>
+
+
+      <tbody
+        id="recentBody">
+
+        <tr>
+
+          <td
+            colspan="7"
+            class="loading">
+
+            Loading...
+
+          </td>
+
+        </tr>
+
+      </tbody>
+
+    </table>
+
+  </div>
+
+</div>
+
+
+</div>
 
 </main>
 
 
+<div
+  id="toast"
+  class="toast">
+  Done
+</div>
+
+
 <script>
 
-/* ================= API ================= */
+/* =========================================================
+   API
+========================================================= */
 
 var API_URL =
-"https://script.google.com/macros/s/AKfycbyqpcO42kRHBBp_n1TEAHyI4SGGBNcf_5qQMN3ZARnZ4WLlUsgokf4k2BrHYfKX1lMB/exec";
+  "https://script.google.com/macros/s/AKfycbyqpcO42kRHBBp_n1TEAHyI4SGGBNcf_5qQMN3ZARnZ4WLlUsgokf4k2BrHYfKX1lMB/exec";
 
 
-/* ================= DATA ================= */
+/* =========================================================
+   DATA
+========================================================= */
+
+var dashboardData = {};
+
+var typeData = [];
 
 var branchData = [];
-var hardwareData = [];
-var currentData = [];
-var currentReport = "branch";
+
+var recentData = [];
+
+var filteredRecentData = [];
 
 
-/* ================= ACTIVE SIDEBAR ================= */
+/* =========================================================
+   HARDWARE TYPES
+   "Other" intentionally not shown
+========================================================= */
 
-document.addEventListener("DOMContentLoaded",function(){
+var HARDWARE_TYPES = [
 
-    var currentPage =
-        window.location.pathname
-        .split("/")
-        .pop()
-        .toLowerCase();
+  "CPU",
+  "Monitor",
+  "Passbook Printer",
+  "Laser Printer",
+  "Scanner",
+  "CTS Machine",
+  "CCTV Monitor",
+  "Biometric Device",
+  "UPS"
 
-    if(!currentPage){
-        currentPage="index.html";
-    }
+];
 
-    document.querySelectorAll(".menu a").forEach(function(link){
 
-        var linkPage =
-            link.getAttribute("href")
-            .split("/")
-            .pop()
-            .toLowerCase();
+/* =========================================================
+   INIT
+========================================================= */
 
-        if(linkPage===currentPage){
-            link.classList.add("active");
-        }
-
-    });
+document.addEventListener(
+  "DOMContentLoaded",
+  function(){
 
     loadReports();
 
-});
+  }
+);
 
 
-/* ================= LOAD REPORTS ================= */
+/* =========================================================
+   LOAD REPORTS
+========================================================= */
 
-function loadReports(){
+async function loadReports(){
 
-    Promise.all([
+  showLoader(true);
 
-        fetch(API_URL+"?action=branchSummary")
-            .then(function(r){
-                return r.json();
-            }),
+  try{
 
-        fetch(API_URL+"?action=hardwareSummary")
-            .then(function(r){
-                return r.json();
-            })
-
-    ])
-    .then(function(results){
-
-        var branchResponse = results[0];
-        var hardwareResponse = results[1];
-
-
-        branchData =
-            branchResponse.data ||
-            branchResponse.branches ||
-            [];
+    var dashboardPromise =
+      fetch(
+        API_URL +
+        "?action=dashboard&_=" +
+        new Date().getTime()
+      )
+      .then(
+        function(response){
+          return response.json();
+        }
+      );
 
 
-        hardwareData =
-            hardwareResponse.data ||
-            hardwareResponse.hardware ||
-            [];
+    var typePromise =
+      fetch(
+        API_URL +
+        "?action=hardwareSummary&_=" +
+        new Date().getTime()
+      )
+      .then(
+        function(response){
+          return response.json();
+        }
+      );
 
 
-        calculateTotals();
+    var branchPromise =
+      fetch(
+        API_URL +
+        "?action=branchSummary&_=" +
+        new Date().getTime()
+      )
+      .then(
+        function(response){
+          return response.json();
+        }
+      );
 
-        renderReport();
 
-    })
-    .catch(function(error){
+    var recentPromise =
+      fetch(
+        API_URL +
+        "?action=recent&_=" +
+        new Date().getTime()
+      )
+      .then(
+        function(response){
+          return response.json();
+        }
+      );
 
-        console.error(error);
 
-        document.getElementById("tableBody").innerHTML =
-            '<tr><td colspan="10" class="empty">Unable to load report data.</td></tr>';
+    var results =
+      await Promise.all([
+        dashboardPromise,
+        typePromise,
+        branchPromise,
+        recentPromise
+      ]);
 
-        document.getElementById("reportInfo").innerText =
-            "Error loading report.";
 
-    });
+    var dashboard =
+      results[0];
+
+    var types =
+      results[1];
+
+    var branches =
+      results[2];
+
+    var recent =
+      results[3];
+
+
+    if(
+      dashboard.status !== "success"
+    ){
+      throw new Error(
+        "Dashboard data not available"
+      );
+    }
+
+
+    dashboardData =
+      dashboard;
+
+
+    typeData =
+      normalizeTypes(
+        types
+      );
+
+
+    branchData =
+      branches.data ||
+      [];
+
+
+    recentData =
+      recent.data ||
+      recent.records ||
+      [];
+
+
+    filteredRecentData =
+      recentData.slice();
+
+
+    renderDashboard();
+
+    renderTypeReport();
+
+    renderBranches();
+
+    renderRecent();
+
+
+    showLoader(false);
+
+
+  }catch(error){
+
+    console.error(error);
+
+
+    showLoader(false);
+
+
+    showToast(
+      "Unable to load reports"
+    );
+
+  }
 
 }
 
 
-/* ================= CALCULATE TOTALS ================= */
+/* =========================================================
+   DASHBOARD
+========================================================= */
 
-function calculateTotals(){
+function renderDashboard(){
 
-    var total = 0;
-    var working = 0;
-    var notWorking = 0;
-    var repair = 0;
-    var damaged = 0;
+  var total =
+    Number(
+      dashboardData.total ||
+      0
+    );
+
+  var working =
+    Number(
+      dashboardData.working ||
+      0
+    );
+
+  var notWorking =
+    Number(
+      dashboardData.notWorking ||
+      0
+    );
+
+  var repair =
+    Number(
+      dashboardData.repair ||
+      0
+    );
+
+  var damaged =
+    Number(
+      dashboardData.damaged ||
+      0
+    );
 
 
-    branchData.forEach(function(row){
-
-        total += num(row.total);
-
-        working += num(row.working);
-
-        notWorking += num(
-            row.notWorking !== undefined
-            ? row.notWorking
-            : row.notworking
-        );
-
-        repair += num(
-            row.underRepair !== undefined
-            ? row.underRepair
-            : row.repair
-        );
-
-        damaged += num(row.damaged);
-
-    });
+  document.getElementById(
+    "kpiTotal"
+  ).innerText =
+    total;
 
 
-    document.getElementById("total").innerText =
-        total.toLocaleString("en-IN");
+  document.getElementById(
+    "kpiWorking"
+  ).innerText =
+    working;
 
-    document.getElementById("working").innerText =
-        working.toLocaleString("en-IN");
 
-    document.getElementById("notWorking").innerText =
-        notWorking.toLocaleString("en-IN");
+  document.getElementById(
+    "kpiNotWorking"
+  ).innerText =
+    notWorking;
 
-    document.getElementById("repair").innerText =
-        repair.toLocaleString("en-IN");
 
-    document.getElementById("damaged").innerText =
-        damaged.toLocaleString("en-IN");
+  document.getElementById(
+    "kpiRepair"
+  ).innerText =
+    repair;
+
+
+  document.getElementById(
+    "kpiDamaged"
+  ).innerText =
+    damaged;
+
+
+  document.getElementById(
+    "conditionWorking"
+  ).innerText =
+    working;
+
+
+  document.getElementById(
+    "conditionNotWorking"
+  ).innerText =
+    notWorking;
+
+
+  document.getElementById(
+    "conditionRepair"
+  ).innerText =
+    repair;
+
+
+  document.getElementById(
+    "conditionDamaged"
+  ).innerText =
+    damaged;
+
+
+  setPercent(
+    "conditionWorkingPct",
+    working,
+    total
+  );
+
+
+  setPercent(
+    "conditionNotWorkingPct",
+    notWorking,
+    total
+  );
+
+
+  setPercent(
+    "conditionRepairPct",
+    repair,
+    total
+  );
+
+
+  setPercent(
+    "conditionDamagedPct",
+    damaged,
+    total
+  );
+
+
+  var health =
+    total > 0
+      ? Math.round(
+          working * 100 /
+          total
+        )
+      : 0;
+
+
+  document.getElementById(
+    "healthScore"
+  ).innerText =
+    health + "%";
+
+
+  document.getElementById(
+    "healthFill"
+  ).style.width =
+    health + "%";
 
 }
 
 
-/* ================= CHANGE REPORT ================= */
+function setPercent(
+  id,
+  value,
+  total
+){
 
-function changeReport(){
-
-    currentReport =
-        document.getElementById("reportType").value;
-
-    document.getElementById("search").value = "";
-
-    renderReport();
-
-}
-
-
-/* ================= RENDER REPORT ================= */
-
-function renderReport(){
-
-    var search =
-        document.getElementById("search").value
-        .toLowerCase()
-        .trim();
+  var pct =
+    total > 0
+      ? (
+          value * 100 /
+          total
+        ).toFixed(1)
+      : "0.0";
 
 
-    if(currentReport==="branch"){
-
-        document.getElementById("reportTitle").innerText =
-            "Branch-wise Hardware Report";
-
-        document.getElementById("reportInfo").innerText =
-            "Branch-wise hardware inventory summary";
-
-        renderBranchReport(search);
-
-    }
-    else{
-
-        document.getElementById("reportTitle").innerText =
-            "Hardware-wise Report";
-
-        document.getElementById("reportInfo").innerText =
-            "Hardware type-wise inventory summary";
-
-        renderHardwareReport(search);
-
-    }
+  document.getElementById(
+    id
+  ).innerText =
+    pct + "%";
 
 }
 
 
-/* ================= BRANCH REPORT ================= */
+/* =========================================================
+   HARDWARE TYPES
+========================================================= */
 
-function renderBranchReport(search){
+function normalizeTypes(
+  result
+){
 
-    var data =
-        branchData.filter(function(row){
-
-            var text =
-                String(row.solId || "") + " " +
-                String(row.branchName || "");
-
-            return text
-                .toLowerCase()
-                .indexOf(search) !== -1;
-
-        });
-
-
-    currentData = data;
+  var source =
+    result &&
+    (result.data ||
+     result.records)
+      ? (
+          result.data ||
+          result.records
+        )
+      : [];
 
 
-    document.getElementById("tableHead").innerHTML =
-
-        "<tr>" +
-
-        "<th>S.No</th>" +
-        "<th>SOL ID</th>" +
-        "<th>Branch Name</th>" +
-        "<th>Total</th>" +
-        "<th>Working</th>" +
-        "<th>Not Working</th>" +
-        "<th>Under Repair</th>" +
-        "<th>Damaged</th>" +
-        "<th>Working %</th>" +
-
-        "</tr>";
+  var output = [];
 
 
-    var html = "";
+  HARDWARE_TYPES.forEach(
+    function(type){
+
+      var found =
+        null;
 
 
-    if(data.length===0){
+      for(
+        var i=0;
+        i<source.length;
+        i++
+      ){
 
-        html =
-            '<tr><td colspan="9" class="empty">No records found.</td></tr>';
-
-    }
-    else{
-
-        data.forEach(function(row,index){
-
-            var total = num(row.total);
-
-            var working = num(row.working);
-
-            var notWorking = num(
-                row.notWorking !== undefined
-                ? row.notWorking
-                : row.notworking
-            );
-
-            var repair = num(
-                row.underRepair !== undefined
-                ? row.underRepair
-                : row.repair
-            );
-
-            var damaged = num(row.damaged);
+        var name =
+          String(
+            source[i].hardwareType ||
+            source[i].HardwareType ||
+            ""
+          )
+          .trim()
+          .toLowerCase();
 
 
-            var percentage =
-                total > 0
-                ? ((working/total)*100).toFixed(1)
-                : "0.0";
+        if(
+          name ===
+          type.toLowerCase()
+        ){
+
+          found =
+            source[i];
+
+          break;
+
+        }
+
+      }
 
 
-            html +=
+      output.push({
 
-                "<tr>" +
+        hardwareType:type,
 
-                "<td>"+(index+1)+"</td>" +
+        total:
+          found
+            ? Number(found.total || 0)
+            : 0,
 
-                "<td>"+safe(row.solId)+"</td>" +
+        working:
+          found
+            ? Number(found.working || 0)
+            : 0,
 
-                "<td>"+safe(row.branchName)+"</td>" +
+        notWorking:
+          found
+            ? Number(found.notWorking || 0)
+            : 0,
 
-                "<td class='text-center'>"+
-                    total+
-                "</td>" +
+        repair:
+          found
+            ? Number(found.repair || 0)
+            : 0,
 
-                "<td class='text-center'>"+
-                    '<span class="badge badge-working">'+
-                    working+
-                    '</span>'+
-                "</td>" +
+        damaged:
+          found
+            ? Number(found.damaged || 0)
+            : 0
 
-                "<td class='text-center'>"+
-                    '<span class="badge badge-not">'+
-                    notWorking+
-                    '</span>'+
-                "</td>" +
-
-                "<td class='text-center'>"+
-                    '<span class="badge badge-repair">'+
-                    repair+
-                    '</span>'+
-                "</td>" +
-
-                "<td class='text-center'>"+
-                    '<span class="badge badge-damaged">'+
-                    damaged+
-                    '</span>'+
-                "</td>" +
-
-                "<td class='text-center'>"+
-                    percentage+"%"+
-                "</td>" +
-
-                "</tr>";
-
-        });
+      });
 
     }
+  );
 
 
-    document.getElementById("tableBody").innerHTML =
-        html;
+  return output;
 
 }
 
 
-/* ================= HARDWARE REPORT ================= */
+/* =========================================================
+   RENDER TYPE REPORT
+========================================================= */
 
-function renderHardwareReport(search){
+function renderTypeReport(){
 
-    var data =
-        hardwareData.filter(function(row){
+  var tbody =
+    document.getElementById(
+      "typeBody"
+    );
 
-            var text =
-                String(row.hardwareType || row.type || "");
 
-            return text
-                .toLowerCase()
-                .indexOf(search) !== -1;
+  tbody.innerHTML =
+    "";
 
-        });
 
+  if(
+    !typeData.length
+  ){
 
-    currentData = data;
+    tbody.innerHTML =
+      '<tr>' +
+        '<td colspan="6" class="empty">' +
+          'No hardware data found.' +
+        '</td>' +
+      '</tr>';
 
 
-    document.getElementById("tableHead").innerHTML =
+    return;
 
-        "<tr>" +
+  }
 
-        "<th>S.No</th>" +
-        "<th>Hardware Type</th>" +
-        "<th>Total</th>" +
-        "<th>Working</th>" +
-        "<th>Not Working</th>" +
-        "<th>Under Repair</th>" +
-        "<th>Damaged</th>" +
-        "<th>Working %</th>" +
 
-        "</tr>";
+  var total = 0;
+  var working = 0;
+  var notWorking = 0;
+  var repair = 0;
+  var damaged = 0;
 
 
-    var html = "";
+  typeData.forEach(
+    function(item){
 
+      total +=
+        item.total;
 
-    if(data.length===0){
+      working +=
+        item.working;
 
-        html =
-            '<tr><td colspan="8" class="empty">No records found.</td></tr>';
+      notWorking +=
+        item.notWorking;
 
-    }
-    else{
+      repair +=
+        item.repair;
 
-        data.forEach(function(row,index){
+      damaged +=
+        item.damaged;
 
-            var type =
-                row.hardwareType ||
-                row.type ||
-                "";
 
-            var total =
-                num(row.total);
-
-            var working =
-                num(row.working);
-
-            var notWorking =
-                num(
-                    row.notWorking !== undefined
-                    ? row.notWorking
-                    : row.notworking
-                );
-
-            var repair =
-                num(
-                    row.underRepair !== undefined
-                    ? row.underRepair
-                    : row.repair
-                );
-
-            var damaged =
-                num(row.damaged);
-
-
-            var percentage =
-                total > 0
-                ? ((working/total)*100).toFixed(1)
-                : "0.0";
-
-
-            html +=
-
-                "<tr>" +
-
-                "<td>"+(index+1)+"</td>" +
-
-                "<td><b>"+
-                    safe(type)+
-                "</b></td>" +
-
-                "<td class='text-center'>"+
-                    total+
-                "</td>" +
-
-                "<td class='text-center'>"+
-                    '<span class="badge badge-working">'+
-                    working+
-                    '</span>'+
-                "</td>" +
-
-                "<td class='text-center'>"+
-                    '<span class="badge badge-not">'+
-                    notWorking+
-                    '</span>'+
-                "</td>" +
-
-                "<td class='text-center'>"+
-                    '<span class="badge badge-repair">'+
-                    repair+
-                    '</span>'+
-                "</td>" +
-
-                "<td class='text-center'>"+
-                    '<span class="badge badge-damaged">'+
-                    damaged+
-                    '</span>'+
-                "</td>" +
-
-                "<td class='text-center'>"+
-                    percentage+"%"+
-                "</td>" +
-
-                "</tr>";
-
-        });
-
-    }
-
-
-    document.getElementById("tableBody").innerHTML =
-        html;
-
-}
-
-
-/* ================= SEARCH ================= */
-
-function applyFilter(){
-
-    renderReport();
-
-}
-
-
-/* ================= EXPORT CSV ================= */
-
-function exportCSV(){
-
-    if(!currentData || currentData.length===0){
-
-        alert("No data available for export.");
-
-        return;
-
-    }
-
-
-    var csv = "";
-
-
-    if(currentReport==="branch"){
-
-        csv +=
-            "S.No,SOL ID,Branch Name,Total,Working,Not Working,Under Repair,Damaged,Working %\n";
-
-
-        currentData.forEach(function(row,index){
-
-            var total = num(row.total);
-
-            var working = num(row.working);
-
-            var notWorking = num(
-                row.notWorking !== undefined
-                ? row.notWorking
-                : row.notworking
-            );
-
-            var repair = num(
-                row.underRepair !== undefined
-                ? row.underRepair
-                : row.repair
-            );
-
-            var damaged = num(row.damaged);
-
-            var percentage =
-                total > 0
-                ? ((working/total)*100).toFixed(1)
-                : "0.0";
-
-
-            csv +=
-
-                (index+1)+"," +
-                csvValue(row.solId)+"," +
-                csvValue(row.branchName)+"," +
-                total+"," +
-                working+"," +
-                notWorking+"," +
-                repair+"," +
-                damaged+"," +
-                percentage+"%\n";
-
-        });
-
-    }
-    else{
-
-        csv +=
-            "S.No,Hardware Type,Total,Working,Not Working,Under Repair,Damaged,Working %\n";
-
-
-        currentData.forEach(function(row,index){
-
-            var type =
-                row.hardwareType ||
-                row.type ||
-                "";
-
-            var total = num(row.total);
-
-            var working = num(row.working);
-
-            var notWorking = num(
-                row.notWorking !== undefined
-                ? row.notWorking
-                : row.notworking
-            );
-
-            var repair = num(
-                row.underRepair !== undefined
-                ? row.underRepair
-                : row.repair
-            );
-
-            var damaged = num(row.damaged);
-
-            var percentage =
-                total > 0
-                ? ((working/total)*100).toFixed(1)
-                : "0.0";
-
-
-            csv +=
-
-                (index+1)+"," +
-                csvValue(type)+"," +
-                total+"," +
-                working+"," +
-                notWorking+"," +
-                repair+"," +
-                damaged+"," +
-                percentage+"%\n";
-
-        });
-
-    }
-
-
-    var blob =
-        new Blob(
-            [csv],
-            {type:"text/csv;charset=utf-8;"}
+      var tr =
+        document.createElement(
+          "tr"
         );
 
 
-    var url =
-        URL.createObjectURL(blob);
+      tr.innerHTML =
+
+        '<td>' +
+
+          '<strong>' +
+            escapeHtml(
+              item.hardwareType
+            ) +
+          '</strong>' +
+
+        '</td>' +
 
 
-    var link =
-        document.createElement("a");
+        '<td>' +
+          item.total +
+        '</td>' +
 
 
-    link.href = url;
-
-    link.download =
-        currentReport==="branch"
-        ? "MPGB_Branch_Wise_Report.csv"
-        : "MPGB_Hardware_Wise_Report.csv";
+        '<td class="working">' +
+          item.working +
+        '</td>' +
 
 
-    document.body.appendChild(link);
-
-    link.click();
-
-    document.body.removeChild(link);
-
-    URL.revokeObjectURL(url);
-
-}
+        '<td class="not-working">' +
+          item.notWorking +
+        '</td>' +
 
 
-/* ================= HELPERS ================= */
-
-function num(value){
-
-    var n =
-        parseInt(value,10);
-
-    return isNaN(n) ? 0 : n;
-
-}
+        '<td class="repair">' +
+          item.repair +
+        '</td>' +
 
 
-function safe(value){
+        '<td class="damaged">' +
+          item.damaged +
+        '</td>';
 
-    if(value===undefined || value===null){
-        return "";
+
+      tbody.appendChild(
+        tr
+      );
+
     }
+  );
 
-    return String(value)
-        .replace(/&/g,"&amp;")
-        .replace(/</g,"&lt;")
-        .replace(/>/g,"&gt;")
-        .replace(/"/g,"&quot;")
-        .replace(/'/g,"&#039;");
+
+  document.getElementById(
+    "footTotal"
+  ).innerText =
+    total;
+
+
+  document.getElementById(
+    "footWorking"
+  ).innerText =
+    working;
+
+
+  document.getElementById(
+    "footNotWorking"
+  ).innerText =
+    notWorking;
+
+
+  document.getElementById(
+    "footRepair"
+  ).innerText =
+    repair;
+
+
+  document.getElementById(
+    "footDamaged"
+  ).innerText =
+    damaged;
+
+
+  document.getElementById(
+    "typeCount"
+  ).innerText =
+    typeData.length +
+    " types";
 
 }
 
 
-function csvValue(value){
+/* =========================================================
+   BRANCH RANKING
+========================================================= */
 
-    if(value===undefined || value===null){
-        return '""';
+function renderBranches(){
+
+  var tbody =
+    document.getElementById(
+      "branchBody"
+    );
+
+
+  tbody.innerHTML =
+    "";
+
+
+  var sorted =
+    branchData
+      .slice()
+      .sort(
+        function(a,b){
+
+          return (
+            Number(b.total || 0) -
+            Number(a.total || 0)
+          );
+
+        }
+      )
+      .slice(
+        0,
+        10
+      );
+
+
+  document.getElementById(
+    "branchCount"
+  ).innerText =
+    branchData.length +
+    " branches";
+
+
+  if(
+    !sorted.length
+  ){
+
+    tbody.innerHTML =
+      '<tr>' +
+        '<td colspan="4" class="loading">' +
+          'No branch data found.' +
+        '</td>' +
+      '</tr>';
+
+    return;
+
+  }
+
+
+  sorted.forEach(
+    function(branch,index){
+
+      var rank =
+        index + 1;
+
+
+      var rankClass =
+        "";
+
+
+      if(
+        rank === 1
+      ){
+
+        rankClass =
+          "rank-one";
+
+      }
+      else if(
+        rank === 2
+      ){
+
+        rankClass =
+          "rank-two";
+
+      }
+      else if(
+        rank === 3
+      ){
+
+        rankClass =
+          "rank-three";
+
+      }
+
+
+      var tr =
+        document.createElement(
+          "tr"
+        );
+
+
+      tr.innerHTML =
+
+        '<td>' +
+
+          '<span class="rank-badge ' +
+            rankClass +
+          '">' +
+
+            rank +
+
+          '</span>' +
+
+        '</td>' +
+
+
+        '<td>' +
+
+          '<div class="branch-name">' +
+
+            escapeHtml(
+              branch.branchName || ""
+            ) +
+
+          '</div>' +
+
+          '<span class="sol-small">' +
+
+            escapeHtml(
+              branch.solId || ""
+            ) +
+
+          '</span>' +
+
+        '</td>' +
+
+
+        '<td>' +
+
+          escapeHtml(
+            branch.solId || ""
+          ) +
+
+        '</td>' +
+
+
+        '<td>' +
+
+          '<strong>' +
+            Number(
+              branch.total || 0
+            ) +
+          '</strong>' +
+
+        '</td>';
+
+
+      tbody.appendChild(
+        tr
+      );
+
     }
+  );
 
-    return '"' +
-        String(value)
-        .replace(/"/g,'""') +
-        '"';
+}
+
+
+/* =========================================================
+   RECENT
+========================================================= */
+
+function renderRecent(){
+
+  var tbody =
+    document.getElementById(
+      "recentBody"
+    );
+
+
+  tbody.innerHTML =
+    "";
+
+
+  var rows =
+    filteredRecentData.slice(
+      0,
+      20
+    );
+
+
+  document.getElementById(
+    "recentCount"
+  ).innerText =
+    filteredRecentData.length +
+    " records";
+
+
+  if(
+    !rows.length
+  ){
+
+    tbody.innerHTML =
+      '<tr>' +
+        '<td colspan="7" class="empty">' +
+          'No recent records found.' +
+        '</td>' +
+      '</tr>';
+
+    return;
+
+  }
+
+
+  rows.forEach(
+    function(item){
+
+      var r =
+        normalizeRecord(
+          item
+        );
+
+
+      var tr =
+        document.createElement(
+          "tr"
+        );
+
+
+      tr.innerHTML =
+
+        '<td>' +
+          escapeHtml(
+            r.solId
+          ) +
+        '</td>' +
+
+
+        '<td>' +
+          escapeHtml(
+            r.branchName
+          ) +
+        '</td>' +
+
+
+        '<td>' +
+          escapeHtml(
+            r.hardwareType
+          ) +
+        '</td>' +
+
+
+        '<td>' +
+          escapeHtml(
+            r.make
+          ) +
+        '</td>' +
+
+
+        '<td>' +
+          escapeHtml(
+            r.model
+          ) +
+        '</td>' +
+
+
+        '<td>' +
+          escapeHtml(
+            r.serialNo
+          ) +
+        '</td>' +
+
+
+        '<td>' +
+
+          getConditionBadge(
+            r.condition
+          ) +
+
+        '</td>';
+
+
+      tbody.appendChild(
+        tr
+      );
+
+    }
+  );
+
+}
+
+
+/* =========================================================
+   NORMALIZE RECORD
+========================================================= */
+
+function normalizeRecord(
+  r
+){
+
+  if(
+    Array.isArray(r)
+  ){
+
+    return {
+
+      solId:r[2] || "",
+
+      branchName:r[3] || "",
+
+      hardwareType:r[4] || "",
+
+      make:r[6] || "",
+
+      model:r[7] || "",
+
+      serialNo:r[8] || "",
+
+      condition:r[9] || "",
+
+      remarks:r[10] || ""
+
+    };
+
+  }
+
+
+  return {
+
+    solId:
+      r.solId ||
+      r.SOL_ID ||
+      r["SOL ID"] ||
+      r.sol ||
+      "",
+
+    branchName:
+      r.branchName ||
+      r.BRANCH_NAME ||
+      r["Branch Name"] ||
+      r.branch ||
+      "",
+
+    hardwareType:
+      r.hardwareType ||
+      r.HARDWARE_TYPE ||
+      r["Hardware Type"] ||
+      r.type ||
+      "",
+
+    make:
+      r.make ||
+      r.Make ||
+      r.MAKE ||
+      "",
+
+    model:
+      r.model ||
+      r.Model ||
+      r.MODEL ||
+      "",
+
+    serialNo:
+      r.serialNo ||
+      r.SERIAL_NO ||
+      r["Serial No"] ||
+      r.serial ||
+      "",
+
+    condition:
+      r.condition ||
+      r.Condition ||
+      r.CONDITION ||
+      "",
+
+    remarks:
+      r.remarks ||
+      r.Remarks ||
+      r.REMARKS ||
+      ""
+
+  };
+
+}
+
+
+/* =========================================================
+   RECENT SEARCH
+========================================================= */
+
+function filterRecent(){
+
+  var q =
+    String(
+      document.getElementById(
+        "recentSearch"
+      ).value || ""
+    )
+    .trim()
+    .toLowerCase();
+
+
+  filteredRecentData =
+    recentData.filter(
+      function(item){
+
+        var r =
+          normalizeRecord(
+            item
+          );
+
+
+        var text =
+          [
+
+            r.solId,
+
+            r.branchName,
+
+            r.hardwareType,
+
+            r.make,
+
+            r.model,
+
+            r.serialNo,
+
+            r.condition,
+
+            r.remarks
+
+          ]
+          .join(" ")
+          .toLowerCase();
+
+
+        return (
+          !q ||
+          text.indexOf(q) !== -1
+        );
+
+      }
+    );
+
+
+  renderRecent();
+
+}
+
+
+/* =========================================================
+   CONDITION BADGE
+========================================================= */
+
+function getConditionBadge(
+  condition
+){
+
+  var c =
+    String(
+      condition || ""
+    )
+    .trim()
+    .toUpperCase();
+
+
+  var cls =
+    "condition-default";
+
+
+  if(
+    c === "WORKING"
+  ){
+
+    cls =
+      "condition-working";
+
+  }
+  else if(
+    c === "NOT WORKING"
+  ){
+
+    cls =
+      "condition-notworking";
+
+  }
+  else if(
+    c === "UNDER REPAIR"
+  ){
+
+    cls =
+      "condition-repair";
+
+  }
+  else if(
+    c === "DAMAGED"
+  ){
+
+    cls =
+      "condition-damaged";
+
+  }
+
+
+  return (
+
+    '<span class="condition-badge ' +
+      cls +
+    '">' +
+
+      escapeHtml(
+        condition || "-"
+      ) +
+
+    '</span>'
+
+  );
+
+}
+
+
+/* =========================================================
+   EXPORT ALL REPORTS
+========================================================= */
+
+function exportAllReports(){
+
+  var lines = [];
+
+
+  lines.push(
+    "HARDWARE REPORT"
+  );
+
+  lines.push(
+    ""
+  );
+
+
+  lines.push(
+    "Condition Summary"
+  );
+
+  lines.push(
+    "Total,Working,Not Working,Under Repair,Damaged"
+  );
+
+
+  lines.push(
+
+    [
+
+      dashboardData.total || 0,
+
+      dashboardData.working || 0,
+
+      dashboardData.notWorking || 0,
+
+      dashboardData.repair || 0,
+
+      dashboardData.damaged || 0
+
+    ]
+    .join(",")
+
+  );
+
+
+  lines.push(
+    ""
+  );
+
+  lines.push(
+    "Hardware Type Report"
+  );
+
+
+  lines.push(
+    "Hardware Type,Total,Working,Not Working,Under Repair,Damaged"
+  );
+
+
+  typeData.forEach(
+    function(item){
+
+      lines.push(
+
+        [
+
+          csvValue(
+            item.hardwareType
+          ),
+
+          item.total,
+
+          item.working,
+
+          item.notWorking,
+
+          item.repair,
+
+          item.damaged
+
+        ]
+        .join(",")
+
+      );
+
+    }
+  );
+
+
+  lines.push(
+    ""
+  );
+
+  lines.push(
+    "Top Branches"
+  );
+
+
+  lines.push(
+    "Rank,Branch,SOL ID,Total"
+  );
+
+
+  branchData
+    .slice()
+    .sort(
+      function(a,b){
+
+        return (
+          Number(b.total || 0) -
+          Number(a.total || 0)
+        );
+
+      }
+    )
+    .forEach(
+      function(branch,index){
+
+        lines.push(
+
+          [
+
+            index + 1,
+
+            csvValue(
+              branch.branchName
+            ),
+
+            csvValue(
+              branch.solId
+            ),
+
+            branch.total || 0
+
+          ]
+          .join(",")
+
+        );
+
+      }
+    );
+
+
+  downloadCSV(
+
+    lines.join("\n"),
+
+    "MPGB_Hardware_Report.csv"
+
+  );
+
+}
+
+
+/* =========================================================
+   CSV
+========================================================= */
+
+function csvValue(
+  value
+){
+
+  return '"' +
+
+    String(
+      value == null
+        ? ""
+        : value
+    )
+    .replace(
+      /"/g,
+      '""'
+    ) +
+
+    '"';
+
+}
+
+
+function downloadCSV(
+  content,
+  filename
+){
+
+  var blob =
+    new Blob(
+      [content],
+      {
+        type:
+          "text/csv;charset=utf-8;"
+      }
+    );
+
+
+  var url =
+    URL.createObjectURL(
+      blob
+    );
+
+
+  var a =
+    document.createElement(
+      "a"
+    );
+
+
+  a.href =
+    url;
+
+  a.download =
+    filename;
+
+
+  document.body.appendChild(
+    a
+  );
+
+
+  a.click();
+
+
+  document.body.removeChild(
+    a
+  );
+
+
+  URL.revokeObjectURL(
+    url
+  );
+
+
+  showToast(
+    "CSV downloaded"
+  );
+
+}
+
+
+/* =========================================================
+   ESCAPE
+========================================================= */
+
+function escapeHtml(
+  value
+){
+
+  return String(
+    value == null
+      ? ""
+      : value
+  )
+  .replace(
+    /&/g,
+    "&amp;"
+  )
+  .replace(
+    /</g,
+    "&lt;"
+  )
+  .replace(
+    />/g,
+    "&gt;"
+  )
+  .replace(
+    /"/g,
+    "&quot;"
+  )
+  .replace(
+    /'/g,
+    "&#039;"
+  );
+
+}
+
+
+/* =========================================================
+   LOADER
+========================================================= */
+
+function showLoader(
+  show
+){
+
+  document.getElementById(
+    "pageLoader"
+  ).style.display =
+    show
+      ? "flex"
+      : "none";
+
+}
+
+
+/* =========================================================
+   TOAST
+========================================================= */
+
+function showToast(
+  message
+){
+
+  var toast =
+    document.getElementById(
+      "toast"
+    );
+
+
+  toast.innerText =
+    message;
+
+
+  toast.classList.add(
+    "show"
+  );
+
+
+  setTimeout(
+    function(){
+
+      toast.classList.remove(
+        "show"
+      );
+
+    },
+    2200
+  );
 
 }
 
