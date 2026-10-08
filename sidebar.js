@@ -1,12 +1,14 @@
 /* =========================================================
    MPGB HARDWARE PORTAL - DYNAMIC SIDEBAR
+   Clean Version
    ========================================================= */
 
 (function () {
 
     "use strict";
 
-    /* ================= CONFIG ================= */
+
+    /* ================= MENU ================= */
 
     var MENU = [
 
@@ -66,16 +68,21 @@
 
     function createSidebar() {
 
-        var oldSidebar =
-            document.querySelector(".mpgb-sidebar");
+        var old =
+            document.querySelector(
+                ".mpgb-sidebar"
+            );
 
-        if (oldSidebar) {
-            oldSidebar.remove();
+        if (old) {
+            old.remove();
         }
 
 
         var sidebar =
-            document.createElement("aside");
+            document.createElement(
+                "aside"
+            );
+
 
         sidebar.className =
             "mpgb-sidebar";
@@ -83,64 +90,37 @@
 
         sidebar.innerHTML = `
 
-            <div class="sidebar-top">
+            <!-- BRAND -->
 
-                <div class="brand">
+            <div class="sidebar-brand">
 
-                    <div class="brand-logo">
-                        <span>MP</span>
-                    </div>
-
-                    <div class="brand-text">
-
-                        <strong>MPGB</strong>
-
-                        <small>
-                            Hardware Management
-                        </small>
-
-                    </div>
-
+                <div class="brand-logo">
+                    MP
                 </div>
 
+                <div class="brand-name">
 
-                <button
-                    class="sidebar-toggle"
-                    id="sidebarToggle"
-                    title="Collapse Sidebar">
+                    <strong>
+                        MPGB
+                    </strong>
 
-                    <span>‹</span>
-
-                </button>
-
-            </div>
-
-
-            <div class="sidebar-clock">
-
-                <div
-                    class="clock-time"
-                    id="mpgbClock">
-
-                    --:--:--
-
-                </div>
-
-                <div
-                    class="clock-date"
-                    id="mpgbDate">
-
-                    Loading...
+                    <small>
+                        Hardware Management
+                    </small>
 
                 </div>
 
             </div>
 
+
+            <!-- MENU TITLE -->
 
             <div class="menu-title">
                 MAIN MENU
             </div>
 
+
+            <!-- MENU -->
 
             <nav
                 class="mpgb-menu"
@@ -149,36 +129,17 @@
             </nav>
 
 
-            <div class="sidebar-bottom">
+            <!-- BOTTOM -->
 
-                <div class="system-status">
+            <div class="sidebar-footer">
+
+                <div class="portal-status">
 
                     <span class="status-dot"></span>
 
                     <span>
-                        System Online
+                        MPGB Portal
                     </span>
-
-                </div>
-
-
-                <div class="developer">
-
-                    <div class="developer-icon">
-                        S
-                    </div>
-
-                    <div class="developer-text">
-
-                        <strong>
-                            MPGB IT Department
-                        </strong>
-
-                        <small>
-                            Hardware Portal
-                        </small>
-
-                    </div>
 
                 </div>
 
@@ -187,7 +148,9 @@
         `;
 
 
-        document.body.prepend(sidebar);
+        document.body.prepend(
+            sidebar
+        );
 
 
         createMenu();
@@ -195,13 +158,6 @@
         addStyles();
 
         setupSidebar();
-
-        updateClock();
-
-        setInterval(
-            updateClock,
-            1000
-        );
 
     }
 
@@ -216,10 +172,12 @@
             );
 
 
-        if (!menu) return;
+        if (!menu) {
+            return;
+        }
 
 
-        var current =
+        var currentPage =
             getCurrentPage();
 
 
@@ -227,7 +185,9 @@
             function (item) {
 
                 var link =
-                    document.createElement("a");
+                    document.createElement(
+                        "a"
+                    );
 
 
                 link.href =
@@ -251,7 +211,7 @@
 
 
                 if (
-                    current ===
+                    currentPage ===
                     item.url.toLowerCase()
                 ) {
 
@@ -279,7 +239,9 @@
                 `;
 
 
-                menu.appendChild(link);
+                menu.appendChild(
+                    link
+                );
 
             }
         );
@@ -293,9 +255,9 @@
 
         var page =
             window.location.pathname
-                .split("/")
-                .pop()
-                .toLowerCase();
+            .split("/")
+            .pop()
+            .toLowerCase();
 
 
         if (!page) {
@@ -308,119 +270,13 @@
     }
 
 
-    /* ================= CLOCK ================= */
-
-    function updateClock() {
-
-        var now =
-            new Date();
-
-
-        var time =
-            now.toLocaleTimeString(
-                "en-IN",
-                {
-                    hour12: true,
-                    hour: "2-digit",
-                    minute: "2-digit",
-                    second: "2-digit"
-                }
-            );
-
-
-        var date =
-            now.toLocaleDateString(
-                "en-IN",
-                {
-                    weekday: "short",
-                    day: "2-digit",
-                    month: "short",
-                    year: "numeric"
-                }
-            );
-
-
-        var clock =
-            document.getElementById(
-                "mpgbClock"
-            );
-
-
-        var dateBox =
-            document.getElementById(
-                "mpgbDate"
-            );
-
-
-        if (clock) {
-            clock.innerText =
-                time;
-        }
-
-
-        if (dateBox) {
-            dateBox.innerText =
-                date;
-        }
-
-    }
-
-
     /* ================= SIDEBAR SETUP ================= */
 
     function setupSidebar() {
 
-        var sidebar =
-            document.querySelector(
-                ".mpgb-sidebar"
-            );
-
-
-        var toggle =
-            document.getElementById(
-                "sidebarToggle"
-            );
-
-
-        if (!sidebar || !toggle)
-            return;
-
-
-        /* Desktop collapse */
-
-        toggle.addEventListener(
-            "click",
-            function () {
-
-                document.body
-                    .classList.toggle(
-                        "sidebar-collapsed"
-                    );
-
-
-                var collapsed =
-                    document.body
-                        .classList.contains(
-                            "sidebar-collapsed"
-                        );
-
-
-                localStorage.setItem(
-                    "mpgb_sidebar_collapsed",
-                    collapsed
-                );
-
-
-                toggle.innerHTML =
-                    collapsed
-                        ? "<span>›</span>"
-                        : "<span>‹</span>";
-
-            }
-        );
-
-
-        /* Restore state */
+        /*
+         * Restore collapsed state
+         */
 
         var saved =
             localStorage.getItem(
@@ -437,46 +293,77 @@
                 "sidebar-collapsed"
             );
 
-            toggle.innerHTML =
-                "<span>›</span>";
-
         }
 
 
-        /* Mobile */
+        /*
+         * Double click / mobile
+         */
 
-        document.addEventListener(
-            "click",
-            function (event) {
+        var sidebar =
+            document.querySelector(
+                ".mpgb-sidebar"
+            );
 
-                if (
-                    window.innerWidth <= 800 &&
-                    sidebar.classList.contains(
-                        "mobile-open"
-                    )
-                ) {
+
+        if (!sidebar) {
+            return;
+        }
+
+
+        /*
+         * Desktop toggle
+         * Click brand logo
+         */
+
+        var logo =
+            sidebar.querySelector(
+                ".brand-logo"
+            );
+
+
+        if (logo) {
+
+            logo.addEventListener(
+                "click",
+                function () {
 
                     if (
-                        !sidebar.contains(
-                            event.target
-                        )
+                        window.innerWidth <= 800
                     ) {
 
-                        sidebar.classList.remove(
-                            "mobile-open"
-                        );
+                        return;
 
                     }
 
-                }
 
-            }
-        );
+                    document.body.classList.toggle(
+                        "sidebar-collapsed"
+                    );
+
+
+                    var collapsed =
+                        document.body.classList.contains(
+                            "sidebar-collapsed"
+                        );
+
+
+                    localStorage.setItem(
+                        "mpgb_sidebar_collapsed",
+                        collapsed
+                    );
+
+                }
+            );
+
+        }
 
     }
 
 
-    /* ================= CSS ================= */
+    /* =====================================================
+       CSS
+       ===================================================== */
 
     function addStyles() {
 
@@ -485,12 +372,16 @@
                 "mpgbSidebarCSS"
             )
         ) {
+
             return;
+
         }
 
 
         var style =
-            document.createElement("style");
+            document.createElement(
+                "style"
+            );
 
 
         style.id =
@@ -499,262 +390,182 @@
 
         style.innerHTML = `
 
-        /* =====================================
+
+        /* ==========================================
            SIDEBAR
-        ===================================== */
+        ========================================== */
 
         .mpgb-sidebar {
 
-            position: fixed;
+            position:fixed;
 
-            left: 0;
-            top: 0;
+            left:0;
+            top:0;
 
-            width: 255px;
-            height: 100vh;
+            width:255px;
+            height:100vh;
 
             background:
                 linear-gradient(
                     180deg,
                     #004d00 0%,
-                    #006400 45%,
-                    #004d00 100%
+                    #006400 50%,
+                    #005500 100%
                 );
 
-            color: #fff;
+            color:#fff;
 
-            z-index: 9999;
+            padding:20px 13px;
 
-            padding: 18px 13px;
+            z-index:9999;
 
-            display: flex;
+            display:flex;
 
-            flex-direction: column;
+            flex-direction:column;
 
             box-shadow:
-                4px 0 20px
-                rgba(0,0,0,.15);
+                4px 0 22px
+                rgba(0,0,0,.14);
 
             transition:
-                width .3s ease,
-                transform .3s ease;
+                width .3s ease;
 
         }
 
 
-        /* =====================================
-           TOP
-        ===================================== */
+        /* ==========================================
+           BRAND
+        ========================================== */
 
-        .sidebar-top {
+        .sidebar-brand {
 
-            display: flex;
+            display:flex;
 
-            align-items: center;
+            align-items:center;
 
-            justify-content: space-between;
+            gap:11px;
 
-            margin-bottom: 15px;
-
-        }
-
-
-        .brand {
-
-            display: flex;
-
-            align-items: center;
-
-            gap: 10px;
+            padding:
+                3px 7px 20px;
 
         }
 
 
         .brand-logo {
 
-            width: 43px;
-            height: 43px;
+            width:45px;
+            height:45px;
 
-            border-radius: 12px;
+            flex-shrink:0;
+
+            border-radius:13px;
 
             background:
                 linear-gradient(
                     135deg,
-                    #ffffff,
-                    #d9f5df
+                    #fff,
+                    #dff6e6
                 );
 
-            color: #006400;
+            color:#006400;
 
-            display: flex;
+            display:flex;
 
-            align-items: center;
-            justify-content: center;
+            align-items:center;
 
-            font-weight: 800;
+            justify-content:center;
 
-            font-size: 15px;
+            font-size:15px;
+
+            font-weight:900;
+
+            cursor:pointer;
 
             box-shadow:
-                0 5px 15px
+                0 6px 15px
                 rgba(0,0,0,.15);
 
-        }
-
-
-        .brand-text strong {
-
-            display: block;
-
-            font-size: 18px;
-
-            letter-spacing: .5px;
+            transition:.25s;
 
         }
 
 
-        .brand-text small {
-
-            display: block;
-
-            font-size: 9px;
-
-            opacity: .75;
-
-            margin-top: 2px;
-
-        }
-
-
-        /* =====================================
-           TOGGLE
-        ===================================== */
-
-        .sidebar-toggle {
-
-            width: 30px;
-            height: 30px;
-
-            border: 0;
-
-            border-radius: 8px;
-
-            background:
-                rgba(255,255,255,.12);
-
-            color: #fff;
-
-            cursor: pointer;
-
-            font-size: 23px;
-
-            display: flex;
-
-            align-items: center;
-            justify-content: center;
-
-            transition: .2s;
-
-        }
-
-
-        .sidebar-toggle:hover {
-
-            background:
-                rgba(255,255,255,.22);
+        .brand-logo:hover {
 
             transform:
-                scale(1.05);
+                scale(1.06)
+                rotate(-2deg);
 
         }
 
 
-        /* =====================================
-           CLOCK
-        ===================================== */
+        .brand-name strong {
 
-        .sidebar-clock {
+            display:block;
 
-            background:
-                rgba(255,255,255,.09);
+            font-size:19px;
 
-            border:
-                1px solid
-                rgba(255,255,255,.08);
-
-            border-radius: 12px;
-
-            padding: 12px;
-
-            margin-bottom: 18px;
-
-            text-align: center;
+            letter-spacing:.5px;
 
         }
 
 
-        .clock-time {
+        .brand-name small {
 
-            font-size: 20px;
+            display:block;
 
-            font-weight: 700;
+            font-size:9px;
 
-            letter-spacing: 1px;
+            color:
+                rgba(255,255,255,.65);
 
-        }
-
-
-        .clock-date {
-
-            font-size: 10px;
-
-            opacity: .72;
-
-            margin-top: 4px;
+            margin-top:3px;
 
         }
 
 
-        /* =====================================
+        /* ==========================================
            MENU TITLE
-        ===================================== */
+        ========================================== */
 
         .menu-title {
 
-            font-size: 9px;
-
-            letter-spacing: 1.5px;
-
-            opacity: .55;
-
             padding:
-                0 12px 8px;
+                4px 13px 9px;
+
+            font-size:9px;
+
+            letter-spacing:1.6px;
+
+            color:
+                rgba(255,255,255,.48);
 
         }
 
 
-        /* =====================================
+        /* ==========================================
            MENU
-        ===================================== */
+        ========================================== */
 
         .mpgb-menu {
 
-            display: flex;
+            display:flex;
 
-            flex-direction: column;
+            flex-direction:column;
 
-            gap: 5px;
+            gap:4px;
 
-            overflow-y: auto;
+            overflow-y:auto;
 
-            padding-right: 2px;
+            padding:
+                0 2px;
 
         }
 
 
         .mpgb-menu::-webkit-scrollbar {
 
-            width: 3px;
+            width:3px;
 
         }
 
@@ -762,35 +573,36 @@
         .mpgb-menu::-webkit-scrollbar-thumb {
 
             background:
-                rgba(255,255,255,.25);
+                rgba(255,255,255,.2);
 
-            border-radius: 5px;
+            border-radius:10px;
 
         }
 
 
         .mpgb-menu-item {
 
-            position: relative;
+            position:relative;
 
-            display: flex;
+            display:flex;
 
-            align-items: center;
+            align-items:center;
 
-            gap: 12px;
+            gap:12px;
 
-            min-height: 46px;
+            min-height:47px;
 
             padding:
-                10px 11px;
+                8px 11px;
 
-            border-radius: 11px;
+            border-radius:11px;
 
-            color: rgba(255,255,255,.82);
+            color:
+                rgba(255,255,255,.80);
 
-            text-decoration: none;
+            text-decoration:none;
 
-            font-size: 13px;
+            font-size:13px;
 
             transition:
                 all .2s ease;
@@ -800,7 +612,7 @@
 
         .mpgb-menu-item:hover {
 
-            color: #fff;
+            color:#fff;
 
             background:
                 rgba(255,255,255,.10);
@@ -811,62 +623,84 @@
         }
 
 
+        /* ==========================================
+           ACTIVE
+        ========================================== */
+
         .mpgb-menu-item.active {
 
-            color: #fff;
+            color:#fff;
 
             background:
                 linear-gradient(
                     90deg,
                     #008c45,
-                    #007738
+                    #007c3d
                 );
 
             box-shadow:
                 0 5px 15px
-                rgba(0,0,0,.14);
+                rgba(0,0,0,.13);
 
         }
 
 
         .mpgb-menu-item.active::before {
 
-            content: "";
+            content:"";
 
-            position: absolute;
+            position:absolute;
 
-            left: 0;
-            top: 8px;
-            bottom: 8px;
+            left:0;
 
-            width: 4px;
+            top:8px;
+
+            bottom:8px;
+
+            width:4px;
 
             border-radius:
                 0 5px 5px 0;
 
-            background: #fff;
+            background:#fff;
 
         }
 
 
+        /* ==========================================
+           ICON
+        ========================================== */
+
         .menu-icon {
 
-            width: 32px;
-            height: 32px;
+            width:34px;
+            height:34px;
 
-            border-radius: 9px;
+            flex-shrink:0;
+
+            border-radius:9px;
+
+            display:flex;
+
+            align-items:center;
+
+            justify-content:center;
 
             background:
                 rgba(255,255,255,.08);
 
-            display: flex;
+            font-size:17px;
 
-            align-items: center;
-            justify-content: center;
+            transition:.2s;
 
-            font-size: 17px;
+        }
 
-            flex-shrink: 0;
+
+        .mpgb-menu-item:hover
+        .menu-icon {
+
+            background:
+                rgba(255,255,255,.14);
 
         }
 
@@ -880,26 +714,34 @@
         }
 
 
+        /* ==========================================
+           LABEL
+        ========================================== */
+
         .menu-label {
 
-            flex: 1;
+            flex:1;
 
-            white-space: nowrap;
+            white-space:nowrap;
 
-            overflow: hidden;
+            overflow:hidden;
 
-            text-overflow: ellipsis;
+            text-overflow:ellipsis;
 
         }
 
 
+        /* ==========================================
+           ARROW
+        ========================================== */
+
         .menu-arrow {
 
-            font-size: 20px;
+            font-size:20px;
 
-            opacity: .35;
+            opacity:.3;
 
-            transition: .2s;
+            transition:.2s;
 
         }
 
@@ -907,7 +749,7 @@
         .mpgb-menu-item:hover
         .menu-arrow {
 
-            opacity: .9;
+            opacity:.9;
 
             transform:
                 translateX(2px);
@@ -915,140 +757,99 @@
         }
 
 
-        /* =====================================
-           BOTTOM
-        ===================================== */
+        /* ==========================================
+           FOOTER
+        ========================================== */
 
-        .sidebar-bottom {
+        .sidebar-footer {
 
-            margin-top: auto;
+            margin-top:auto;
 
-            padding-top: 15px;
+            padding-top:14px;
 
         }
 
 
-        .system-status {
+        .portal-status {
 
-            display: flex;
+            display:flex;
 
-            align-items: center;
+            align-items:center;
 
-            gap: 8px;
+            gap:9px;
 
             padding:
-                9px 11px;
+                11px 12px;
 
-            border-radius: 9px;
+            border-radius:10px;
 
             background:
                 rgba(255,255,255,.07);
 
-            font-size: 10px;
+            border:
+                1px solid
+                rgba(255,255,255,.06);
 
-            margin-bottom: 10px;
+            font-size:10px;
+
+            color:
+                rgba(255,255,255,.75);
 
         }
 
 
         .status-dot {
 
-            width: 7px;
-            height: 7px;
+            width:7px;
+            height:7px;
 
-            border-radius: 50%;
+            border-radius:50%;
 
-            background: #45e878;
+            background:#48e879;
 
             box-shadow:
                 0 0 8px
-                #45e878;
+                rgba(72,232,121,.8);
 
         }
 
 
-        .developer {
+        /* ==========================================
+           MAIN CONTENT
+        ========================================== */
 
-            display: flex;
+        .main {
 
-            align-items: center;
+            margin-left:255px;
 
-            gap: 9px;
-
-            padding:
-                10px;
-
-            border-top:
-                1px solid
-                rgba(255,255,255,.1);
+            transition:
+                margin-left .3s ease;
 
         }
 
 
-        .developer-icon {
+        body.sidebar-collapsed
+        .main {
 
-            width: 31px;
-            height: 31px;
-
-            border-radius: 50%;
-
-            background:
-                #ffffff;
-
-            color: #006400;
-
-            display: flex;
-
-            align-items: center;
-            justify-content: center;
-
-            font-weight: bold;
+            margin-left:78px;
 
         }
 
 
-        .developer-text strong {
-
-            display: block;
-
-            font-size: 9px;
-
-        }
-
-
-        .developer-text small {
-
-            display: block;
-
-            font-size: 8px;
-
-            opacity: .55;
-
-            margin-top: 2px;
-
-        }
-
-
-        /* =====================================
+        /* ==========================================
            COLLAPSED
-        ===================================== */
+        ========================================== */
 
         body.sidebar-collapsed
         .mpgb-sidebar {
 
-            width: 78px;
+            width:78px;
 
         }
 
 
         body.sidebar-collapsed
-        .brand-text,
-
-        body.sidebar-collapsed
-        .clock-time,
-
-        body.sidebar-collapsed
-        .clock-date,
+        .brand-name,
 
         body.sidebar-collapsed
         .menu-title,
@@ -1060,50 +861,17 @@
         .menu-arrow,
 
         body.sidebar-collapsed
-        .system-status span:not(.status-dot),
+        .portal-status span:not(.status-dot) {
 
-        body.sidebar-collapsed
-        .developer-text {
-
-            display: none;
+            display:none;
 
         }
 
 
         body.sidebar-collapsed
-        .brand {
+        .sidebar-brand {
 
-            justify-content: center;
-
-        }
-
-
-        body.sidebar-collapsed
-        .sidebar-top {
-
-            justify-content: center;
-
-            position: relative;
-
-        }
-
-
-        body.sidebar-collapsed
-        .sidebar-toggle {
-
-            position: absolute;
-
-            right: -7px;
-
-            top: 50px;
-
-        }
-
-
-        body.sidebar-collapsed
-        .sidebar-clock {
-
-            padding: 10px 5px;
+            justify-content:center;
 
         }
 
@@ -1111,9 +879,10 @@
         body.sidebar-collapsed
         .mpgb-menu-item {
 
-            justify-content: center;
+            justify-content:center;
 
-            padding: 8px;
+            padding:
+                7px;
 
         }
 
@@ -1121,60 +890,31 @@
         body.sidebar-collapsed
         .menu-icon {
 
-            width: 40px;
-            height: 40px;
+            width:40px;
+            height:40px;
 
         }
 
 
         body.sidebar-collapsed
-        .developer {
+        .portal-status {
 
-            justify-content: center;
+            justify-content:center;
 
-        }
-
-
-        body.sidebar-collapsed
-        .developer-icon {
-
-            width: 36px;
-            height: 36px;
+            padding:12px 5px;
 
         }
 
 
-        /* =====================================
-           MAIN CONTENT
-        ===================================== */
-
-        .main {
-
-            margin-left: 255px;
-
-            transition:
-                margin-left .3s ease;
-
-        }
-
-
-        body.sidebar-collapsed
-        .main {
-
-            margin-left: 78px;
-
-        }
-
-
-        /* =====================================
+        /* ==========================================
            MOBILE
-        ===================================== */
+        ========================================== */
 
         @media(max-width:800px){
 
             .mpgb-sidebar {
 
-                width: 75px;
+                width:72px;
 
                 padding:
                     15px 8px;
@@ -1182,56 +922,56 @@
             }
 
 
-            .brand-text,
-            .sidebar-clock,
+            .brand-name,
             .menu-title,
             .menu-label,
             .menu-arrow,
-            .system-status span:not(.status-dot),
-            .developer-text {
+            .portal-status span:not(.status-dot) {
 
-                display: none;
-
-            }
-
-
-            .brand {
-
-                justify-content: center;
+                display:none;
 
             }
 
 
-            .sidebar-toggle {
+            .sidebar-brand {
 
-                display: none;
+                justify-content:center;
+
+                padding:
+                    3px 0 20px;
 
             }
 
 
             .mpgb-menu-item {
 
-                justify-content: center;
+                justify-content:center;
 
-                padding: 8px;
+                padding:7px;
 
             }
 
 
             .menu-icon {
 
-                width: 42px;
-                height: 42px;
+                width:42px;
+                height:42px;
+
+            }
+
+
+            .portal-status {
+
+                justify-content:center;
 
             }
 
 
             .main {
 
-                margin-left: 75px;
+                margin-left:72px;
 
             }
-
 
         }
 
