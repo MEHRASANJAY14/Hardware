@@ -238,6 +238,25 @@ body{
   display:none !important;
 }
 
+.field-group-heading{
+  grid-column:1/-1;
+  padding:12px 14px;
+  margin-top:2px;
+  border:1px solid #d1fae5;
+  border-radius:10px;
+  background:#f0fdf4;
+}
+.field-group-heading h3{
+  margin:0;
+  color:#006633;
+  font-size:13px;
+}
+.field-group-heading p{
+  margin:4px 0 0;
+  color:#6b7280;
+  font-size:11px;
+}
+
 label{
   margin-bottom:7px;
   font-size:13px;
@@ -1053,64 +1072,43 @@ textarea{
 
           <div class="form-grid">
 
-            <!-- HARDWARE TYPE -->
-            <div class="form-group">
-
-              <label>
-                Hardware Type
-                <span class="required">*</span>
-              </label>
-
-              <select id="hardwareType" required>
-
-                <option value="">
-                  Select Hardware Type
-                </option>
-
-                <option value="CPU">
-                  CPU
-                </option>
-
-                <option value="Monitor">
-                  Monitor
-                </option>
-
-                <option value="Passbook Printer">
-                  Passbook Printer
-                </option>
-
-                <option value="Laser Printer">
-                  Laser Printer
-                </option>
-
-                <option value="Scanner">
-                  Scanner
-                </option>
-
-                <option value="CTS Machine">
-                  CTS Machine
-                </option>
-
-                <option value="CCTV Monitor">
-                  CCTV Monitor
-                </option>
-
-                <option value="Biometric Device">
-                  Biometric Device
-                </option>
-
-                <option value="Other">
-                  Other
-                </option>
-
-              </select>
-
+            <div class="field-group-heading">
+              <h3>Mandatory Fields</h3>
+              <p>Complete all required details before saving the hardware.</p>
             </div>
 
+            <!-- HARDWARE TYPE -->
+            <div class="form-group">
+              <label for="hardwareType">Hardware Type <span class="required">*</span></label>
+              <select id="hardwareType" required>
+                <option value="">Select Hardware Type</option>
+                <option value="CPU">CPU</option>
+                <option value="Monitor">Monitor</option>
+                <option value="Passbook Printer">Passbook Printer</option>
+                <option value="Laser Printer">Laser Printer</option>
+                <option value="Scanner">Scanner</option>
+                <option value="CTS Machine">CTS Machine</option>
+                <option value="CCTV Monitor">CCTV Monitor</option>
+                <option value="Biometric Device">Biometric Device</option>
+                <option value="Other">Other</option>
+              </select>
+            </div>
 
-            <!-- PC TYPE: CPU ONLY -->
+            <!-- MAKE: MANDATORY -->
+            <div class="form-group">
+              <label for="make">Make <span class="required">*</span></label>
+              <input type="text" id="make" placeholder="e.g. HP, Dell, Canon" autocomplete="off" required>
+            </div>
+
+            <!-- MODEL: MANDATORY EXCEPT FOR BIOMETRIC DEVICE -->
+            <div class="form-group" id="modelGroup">
+              <label for="model" id="modelLabel">Model <span class="required">*</span></label>
+              <input type="text" id="model" placeholder="Enter model" autocomplete="off" required>
+            </div>
+
+            <!-- PC TYPE: REQUIRED WHEN HARDWARE TYPE IS CPU -->
             <div class="form-group" id="pcTypeGroup" hidden>
-              <label for="pcType">PC Type (Finacle / Internet) <span class="optional-label">(Optional)</span></label>
+              <label for="pcType">PC Type (Finacle / Internet) <span class="required">*</span></label>
               <select id="pcType">
                 <option value="">Select PC Type</option>
                 <option value="Finacle">Finacle</option>
@@ -1118,156 +1116,66 @@ textarea{
               </select>
             </div>
 
-            <!-- MAKE -->
+            <!-- SERIAL NUMBER: MANDATORY -->
             <div class="form-group">
-
-              <label for="make">Make <span class="required">*</span></label>
-
-              <input
-                type="text"
-                id="make"
-                placeholder="e.g. HP, Dell, Canon"
-                autocomplete="off"
-                required
-              >
-
+              <label id="serialLabel" for="serialNo">Serial Number <span class="required">*</span></label>
+              <input type="text" id="serialNo" placeholder="Enter serial number" autocomplete="off" required>
+              <div id="duplicatePanel" class="duplicate-panel"></div>
             </div>
 
-
-            <!-- MODEL -->
-            <div class="form-group">
-
-              <label for="model">Model <span class="required">*</span></label>
-
-              <input
-                type="text"
-                id="model"
-                placeholder="Enter model"
-                autocomplete="off"
-                required
-              >
-
+            <!-- BIOMETRIC PRODUCT NUMBER: REQUIRED ONLY FOR BIOMETRIC DEVICES -->
+            <div class="form-group" id="productNoGroup" hidden>
+              <label for="productNo">Biometric P/N No. <span class="required">*</span></label>
+              <input type="text" id="productNo" placeholder="Enter biometric Product Number (P/N)" autocomplete="off">
             </div>
 
+            <!-- CONDITION: MANDATORY -->
+            <div class="form-group">
+              <label for="condition">Condition <span class="required">*</span></label>
+              <select id="condition" required>
+                <option value="">Select Condition</option>
+                <option value="Working">Working</option>
+                <option value="Not Working">Not Working</option>
+                <option value="Under Repair">Under Repair</option>
+                <option value="Damaged">Damaged</option>
+              </select>
+            </div>
 
-            <!-- USER USING THE HARDWARE: FIXED MP PREFIX + FOUR DIGIT FINACLE ID -->
+            <div class="field-group-heading">
+              <h3>Non-Mandatory Fields</h3>
+              <p>These details are optional and can be filled in when available.</p>
+            </div>
+
+            <!-- USER / FINACLE ID: OPTIONAL -->
             <div class="form-group">
               <label for="assignedUser">User / Finacle ID <span class="optional-label">(Optional)</span></label>
               <div class="user-id-wrap">
                 <span class="user-id-prefix">MP</span>
-                <input
-                  type="text"
-                  id="assignedUser"
-                  placeholder="1234"
-                  autocomplete="off"
-                  inputmode="numeric"
-                  maxlength="4"
-                  pattern="[0-9]{4}"
-                  aria-describedby="assignedUserHelp"
-                >
+                <input type="text" id="assignedUser" placeholder="1234" autocomplete="off" inputmode="numeric" maxlength="4" pattern="[0-9]{4}" aria-describedby="assignedUserHelp">
               </div>
               <div class="helper" id="assignedUserHelp">MP is fixed. Enter only the 4 numeric digits of the Finacle ID.</div>
             </div>
 
-            <!-- PURCHASE YEAR -->
+            <!-- PURCHASE YEAR: OPTIONAL -->
             <div class="form-group">
               <label for="purchaseYear">Purchase Year <span class="optional-label">(Optional)</span></label>
-              <input
-                type="number"
-                id="purchaseYear"
-                min="1990"
-                max="2099"
-                placeholder="e.g. 2024"
-                inputmode="numeric"
-              >
+              <input type="number" id="purchaseYear" min="1990" max="2099" placeholder="e.g. 2024" inputmode="numeric">
             </div>
 
-            <!-- SERIAL -->
-            <div class="form-group">
-
-              <label id="serialLabel" for="serialNo">Serial Number <span class="required">*</span></label>
-
-              <input
-                type="text"
-                id="serialNo"
-                placeholder="Enter serial number"
-                autocomplete="off"
-                required
-              >
-
-              <div id="duplicatePanel" class="duplicate-panel"></div>
-
-            </div>
-
-
-            <!-- BIOMETRIC PRODUCT NUMBER -->
-            <div class="form-group" id="productNoGroup" hidden>
-              <label for="productNo">Biometric P/N No. <span class="required">*</span></label>
-              <input
-                type="text"
-                id="productNo"
-                placeholder="Enter biometric Product Number (P/N)"
-                autocomplete="off"
-              >
-            </div>
-
-            <!-- CONDITION -->
-            <div class="form-group">
-
-              <label>
-                Condition
-                <span class="required">*</span>
-              </label>
-
-              <select id="condition" required>
-
-                <option value="">
-                  Select Condition
-                </option>
-
-                <option value="Working">
-                  Working
-                </option>
-
-                <option value="Not Working">
-                  Not Working
-                </option>
-
-                <option value="Under Repair">
-                  Under Repair
-                </option>
-
-                <option value="Damaged">
-                  Damaged
-                </option>
-
-              </select>
-
-            </div>
-
-
-
-            <!-- AUTO-GENERATED ASSET LABEL -->
-            <div class="form-group">
+            <!-- PC TYPE AND MODEL ARE CONDITIONAL REQUIRED FIELDS; THESE INTERNAL FIELDS ARE HIDDEN FROM USERS. -->
+            <div class="form-group" id="assetLabelGroup" hidden>
               <label for="assetLabeling">Asset Labeling</label>
-              <input
-                type="text"
-                id="assetLabeling"
-                readonly
-                placeholder="Select SOL ID and Hardware Type"
-                aria-describedby="assetLabelHelp"
-              >
-              <div class="asset-label-note" id="assetLabelHelp">Auto-generated format: MPGB/SOL ID/TYPE/01. Numbering restarts separately for each hardware type at each SOL.</div>
+              <input type="text" id="assetLabeling" readonly placeholder="Generated automatically" aria-describedby="assetLabelHelp">
+              <div class="asset-label-note" id="assetLabelHelp">Generated by the server from SOL ID and hardware type.</div>
             </div>
 
-            <!-- ASSET CATEGORY -->
-            <div class="form-group">
-              <label for="assetCategory">Asset Category <span class="required">*</span></label>
-              <select id="assetCategory" required>
-                <option value="">Select Asset Category</option>
-                <option value="Low">Low</option>
-                <option value="Medium">Medium</option>
-                <option value="High">High</option>
+            <div class="form-group" id="assetCategoryGroup" hidden>
+              <label for="assetCategory">Asset Category</label>
+              <select id="assetCategory">
+                <option value="">Auto assigned</option>
+                <option value="Low Critical">Low Critical</option>
+                <option value="Medium Critical">Medium Critical</option>
+                
               </select>
             </div>
 
@@ -1461,7 +1369,7 @@ textarea{
 
       <div class="info-box">
         💡 <strong>Important:</strong>
-        Mandatory: SOL ID, Hardware Type, Make, Model, Serial Number, Condition and Asset Category. For Biometric Device, P/N is also mandatory. PC Type, User / Finacle ID and Purchase Year are optional; Remarks is optional. Asset Labeling is generated automatically.
+        Mandatory: SOL ID, Hardware Type, Make, Model (except Biometric Device), Serial Number and Condition. PC Type is mandatory for CPU; Biometric P/N is mandatory for Biometric Device. User / Finacle ID, Purchase Year and Remarks are optional. Asset Labeling and Asset Category are assigned automatically by the server.
         Hardware information will be saved directly
         through the configured Google Apps Script API.
       </div>
@@ -1560,14 +1468,28 @@ function updateHardwareSpecificFields(){
   purchaseYearEl.required = false;
   var isCpu = hardwareTypeEl.value === "CPU";
   var isBiometric = hardwareTypeEl.value === "Biometric Device";
+  var modelGroup = document.getElementById("modelGroup");
+  var modelLabel = document.getElementById("modelLabel");
 
   pcTypeGroup.hidden = !isCpu;
-  pcTypeEl.required = false; // Optional field, even for CPU
+  pcTypeEl.required = isCpu;
   if(!isCpu){ pcTypeEl.value = ""; }
+
+  if(modelGroup){ modelGroup.hidden = isBiometric; }
+  modelEl.required = !isBiometric;
+  if(isBiometric){ modelEl.value = ""; }
+  if(modelLabel){ modelLabel.innerHTML = 'Model <span class="required">*</span>'; }
 
   productNoGroup.hidden = !isBiometric;
   productNoEl.required = isBiometric;
   if(!isBiometric){ productNoEl.value = ""; }
+
+  // Automatic classification: Biometric = Medium Critical; every other hardware type = Low Critical.
+  if(assetCategoryEl){
+    assetCategoryEl.required = false;
+    assetCategoryEl.value = !hardwareTypeEl.value ? "" :
+      (isBiometric ? "Medium Critical" : "Low Critical");
+  }
 
   serialLabelEl.innerHTML = (isBiometric ? "Biometric S/N Number " : "Serial Number ") +
     '<span class="required">*</span>';
@@ -2213,12 +2135,15 @@ function updateProgress(){
     solSelect,
     hardwareTypeEl,
     makeEl,
-    modelEl,
     serialNoEl,
-    conditionEl,
-    assetCategoryEl
+    conditionEl
   ];
-
+  if(hardwareTypeEl.value !== "Biometric Device"){
+    fields.push(modelEl);
+  }
+  if(hardwareTypeEl.value === "CPU"){
+    fields.push(pcTypeEl);
+  }
   if(hardwareTypeEl.value === "Biometric Device"){
     fields.push(productNoEl);
   }
@@ -2552,14 +2477,14 @@ form.addEventListener(
       makeEl.value.trim();
 
     var model =
-      modelEl.value.trim();
+      hardwareType === "Biometric Device" ? "" : modelEl.value.trim();
 
     var pcType = pcTypeEl.value.trim();
     var assignedUserDigits = assignedUserEl.value.trim();
     var assignedUser = assignedUserDigits ? ("MP" + assignedUserDigits) : "";
     var purchaseYear = purchaseYearEl.value.trim();
     var productNo = productNoEl.value.trim();
-    var assetCategory = assetCategoryEl.value;
+    // Asset Labeling and Asset Category are assigned automatically in Code.gs.
 
     var serialNo =
       serialNoEl.value.trim();
@@ -2622,18 +2547,19 @@ form.addEventListener(
 
     }
 
-    if(!make || !model || !serialNo){
-      showMessage("Please fill Make, Model and Serial Number. Remarks, PC Type, User and Purchase Year are optional.", "error");
+    if(!make || (hardwareType !== "Biometric Device" && !model) || !serialNo){
+      showMessage(hardwareType === "Biometric Device" ? "Please fill Make and Serial Number." : "Please fill Make, Model and Serial Number.", "error");
+      return;
+    }
+
+    if(hardwareType === "CPU" && !pcType){
+      showMessage("Please select PC Type (Finacle or Internet) for CPU.", "error");
+      pcTypeEl.focus();
       return;
     }
 
     if(hardwareType === "Biometric Device" && !productNo){
       showMessage("Please enter the biometric P/N Number.", "error");
-      return;
-    }
-
-    if(!assetCategory){
-      showMessage("Please select Asset Category (Low, Medium or High).", "error");
       return;
     }
 
@@ -2689,7 +2615,6 @@ form.addEventListener(
     params.append("assignedUser", assignedUser);
     params.append("purchaseYear", purchaseYear);
     params.append("productNo", productNo);
-    params.append("assetCategory", assetCategory);
 
     params.append(
       "serialNo",
