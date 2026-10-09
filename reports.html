@@ -840,6 +840,55 @@ button{
 
 }
 
+
+.inventory-table-wrap{overflow-x:auto;width:100%;}
+.inventory-table{min-width:1900px;table-layout:auto;}
+.inventory-table th,.inventory-table td{min-width:115px;max-width:240px;white-space:normal;overflow-wrap:anywhere;font-size:10px;padding:8px 6px;}
+.inventory-table th:nth-child(1),.inventory-table td:nth-child(1){min-width:85px;width:auto;text-align:center;}
+.inventory-table th:nth-child(2),.inventory-table td:nth-child(2){min-width:150px;width:auto;text-align:left;}
+.inventory-table th:nth-child(8),.inventory-table td:nth-child(8){min-width:180px;width:auto;text-align:left;}
+.inventory-table th:nth-child(10),.inventory-table td:nth-child(10){min-width:160px;width:auto;}
+.inventory-table th:nth-child(13),.inventory-table td:nth-child(13){min-width:150px;width:auto;}
+
+
+/* Inventory view/edit controls */
+.inventory-table-wrap{overflow:auto;max-width:100%}
+.inventory-table{min-width:1900px;table-layout:auto}
+.inventory-table th,.inventory-table td{white-space:normal;min-width:105px;font-size:11px}
+.inventory-table th:last-child,.inventory-table td:last-child{min-width:150px}
+.inventory-actions{display:flex;gap:6px;flex-wrap:wrap}
+.inventory-action{border:0;border-radius:6px;padding:7px 10px;font-size:11px;font-weight:700}
+.inventory-view{background:#e8f2ff;color:#174ea6}
+.inventory-edit{background:#e7f6ec;color:#006633}
+.modal-overlay{position:fixed;inset:0;background:rgba(10,25,17,.58);z-index:2147483000;display:none;align-items:center;justify-content:center;padding:16px}
+.modal-overlay.open{display:flex}
+/* Centered popup dialog for View: all fields remain readable inside the dialog */
+.modal-overlay{position:fixed;inset:0;background:rgba(10,25,17,.62);z-index:2147483000;display:none;align-items:center;justify-content:center;padding:18px;overflow-y:auto}
+.modal-overlay.open{display:flex}
+.inventory-modal{background:#fff;width:min(1100px,96vw);max-height:92vh;overflow:auto;border-radius:16px;padding:clamp(16px,2vw,26px);box-shadow:0 20px 70px rgba(0,0,0,.3)}
+.inventory-view-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}
+.inventory-view-item{border:1px solid #e1e9e4;border-radius:9px;padding:12px;background:#f8fbf9;overflow-wrap:anywhere;min-width:0}
+.inventory-view-item small{display:block;color:#667085;font-weight:700;margin-bottom:5px;font-size:12px}
+.inventory-view-item strong{font-size:13px;font-weight:600;display:block;white-space:normal;overflow-wrap:anywhere;word-break:break-word}
+@media(max-width:1000px){.inventory-view-grid{grid-template-columns:repeat(3,minmax(0,1fr))}}
+@media(max-width:760px){.inventory-view-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:520px){.modal-overlay{padding:8px}.inventory-modal{width:100%;max-height:95vh;padding:14px}.inventory-view-grid{grid-template-columns:1fr}}
+.inventory-modal{background:#fff;width:min(900px,100%);max-height:92vh;overflow:auto;border-radius:16px;padding:22px;box-shadow:0 20px 70px rgba(0,0,0,.25)}
+.inventory-modal-head{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:16px}
+.inventory-modal-head h2{margin:0;color:#006633;font-size:20px}
+.modal-close{border:0;background:#edf2ef;border-radius:8px;padding:8px 12px;font-size:18px}
+.inventory-form-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:13px}
+.inventory-form-grid label{display:block;font-size:12px;font-weight:700;color:#475467;margin-bottom:5px}
+.inventory-form-grid input,.inventory-form-grid select,.inventory-form-grid textarea{width:100%;padding:10px;border:1px solid #cfd8d2;border-radius:8px;background:#fff;font-size:13px}
+.inventory-form-grid textarea{min-height:75px;resize:vertical}
+.inventory-form-grid .wide{grid-column:1/-1}
+.inventory-view-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.inventory-view-item{border:1px solid #e1e9e4;border-radius:9px;padding:10px;background:#f8fbf9;overflow-wrap:anywhere}
+.inventory-view-item small{display:block;color:#667085;font-weight:700;margin-bottom:4px}
+.inventory-view-item strong{font-size:13px;font-weight:600}
+.inventory-modal-actions{display:flex;justify-content:flex-end;gap:8px;margin-top:18px;flex-wrap:wrap}
+@media(max-width:600px){.inventory-form-grid,.inventory-view-grid{grid-template-columns:1fr}.inventory-modal{padding:15px}.inventory-form-grid .wide{grid-column:auto}}
+
 </style>
 
 </head>
@@ -1429,6 +1478,33 @@ button{
 
 
 <!-- =========================================================
+     FULL HARDWARE INVENTORY REPORT
+========================================================= -->
+<div class="panel full-inventory-panel" style="margin-bottom:15px">
+  <div class="panel-header">
+    <div>
+      <h2 class="panel-title">Full Hardware Inventory Report</h2>
+      <div class="panel-subtitle">Complete inventory with all requested columns</div>
+    </div>
+    <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap">
+      <span id="inventoryCount" class="panel-subtitle">0 records</span>
+      <button class="btn light" type="button" onclick="exportInventoryCSV()"><i class="fa-solid fa-file-csv"></i> Export Inventory CSV</button>
+    </div>
+  </div>
+  <div class="recent-tools">
+    <input id="inventorySearch" type="text" placeholder="Search all inventory columns..." oninput="filterInventory()">
+  </div>
+  <div class="table-wrap inventory-table-wrap">
+    <table class="report-table inventory-table">
+      <thead><tr>
+        <th>SOL ID</th><th>Branch Name</th><th>Hardware Type</th><th>Make</th><th>Model</th><th>Serial No</th><th>Condition</th><th>Remarks</th><th>PC Type — Finacle / Internet</th><th>User / Currently Using</th><th>Purchase Year</th><th>Biometric P/N</th><th>Asset Labeling</th><th>Asset Category</th><th>Options</th>
+      </tr></thead>
+      <tbody id="inventoryBody"><tr><td colspan="15" class="loading">Loading inventory...</td></tr></tbody>
+    </table>
+  </div>
+</div>
+
+<!-- =========================================================
      RECENT RECORDS
 ========================================================= -->
 
@@ -1524,10 +1600,37 @@ button{
 </main>
 
 
-<div
-  id="toast"
-  class="toast">
-  Done
+<div id="toast" class="toast">Done</div>
+
+<div id="inventoryModalOverlay" class="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="inventoryModalTitle" onclick="if(event.target===this)closeInventoryModal()">
+  <div class="inventory-modal">
+    <div class="inventory-modal-head">
+      <h2 id="inventoryModalTitle">Hardware Details</h2>
+      <button type="button" class="modal-close" onclick="closeInventoryModal()" aria-label="Close">×</button>
+    </div>
+    <div id="inventoryViewContent"></div>
+    <form id="inventoryEditForm" style="display:none" onsubmit="saveInventoryEdit(event)">
+      <input type="hidden" id="editSubmissionId">
+      <div class="inventory-form-grid">
+        <div><label for="editSolId">SOL ID *</label><input id="editSolId" required maxlength="10"></div>
+        <div><label for="editBranchName">Branch Name</label><input id="editBranchName" readonly></div>
+        <div><label for="editHardwareType">Hardware Type *</label><select id="editHardwareType" required><option value="">Select hardware</option><option>CPU</option><option>Monitor</option><option>Passbook Printer</option><option>Laser Printer</option><option>Scanner</option><option>CTS Machine</option><option>CCTV Monitor</option><option>Biometric Device</option><option>UPS</option><option>Other</option></select></div>
+        <div><label for="editMake">Make *</label><input id="editMake" required></div>
+        <div><label for="editModel">Model</label><input id="editModel"></div>
+        <div><label for="editSerialNo">Serial No *</label><input id="editSerialNo" required></div>
+        <div><label for="editCondition">Condition *</label><select id="editCondition" required><option value="">Select condition</option><option>Working</option><option>Not Working</option><option>Under Repair</option><option>Damaged</option><option>Stand-By</option></select></div>
+        <div><label for="editPcType">PC Type — Finacle / Internet</label><select id="editPcType"><option value="">Not applicable</option><option>Finacle</option><option>Internet</option></select></div>
+        <div><label for="editAssignedUser">User / Currently Using</label><input id="editAssignedUser" placeholder="MP1234"></div>
+        <div><label for="editPurchaseYear">Purchase Year</label><input id="editPurchaseYear" inputmode="numeric" maxlength="4" placeholder="2024"></div>
+        <div><label for="editProductNo">Biometric P/N</label><input id="editProductNo"></div>
+        <div class="wide"><label for="editRemarks">Remarks</label><textarea id="editRemarks"></textarea></div>
+        <div><label for="editAssetLabeling">Asset Labeling (system controlled)</label><input id="editAssetLabeling" readonly></div>
+        <div><label for="editAssetCategory">Asset Category (system controlled)</label><input id="editAssetCategory" readonly></div>
+      </div>
+      <div class="inventory-modal-actions"><button type="button" class="btn light" onclick="closeInventoryModal()">Cancel</button><button type="submit" class="btn" id="saveInventoryEditBtn">Save Update</button></div>
+    </form>
+    <div id="inventoryViewActions" class="inventory-modal-actions"><button type="button" class="btn light" onclick="closeInventoryModal()">Close</button><button type="button" class="btn" id="viewEditButton">Edit / Update</button></div>
+  </div>
 </div>
 
 
@@ -1554,6 +1657,10 @@ var branchData = [];
 var recentData = [];
 
 var filteredRecentData = [];
+
+var inventoryData = [];
+
+var filteredInventoryData = [];
 
 
 /* =========================================================
@@ -1645,19 +1752,23 @@ async function loadReports(){
         "?action=recent&_=" +
         new Date().getTime()
       )
-      .then(
-        function(response){
-          return response.json();
-        }
-      );
+      .then(function(response){ return response.json(); });
 
+    var inventoryPromise =
+      fetch(
+        API_URL +
+        "?action=records&_=" +
+        new Date().getTime()
+      )
+      .then(function(response){ return response.json(); });
 
     var results =
       await Promise.all([
         dashboardPromise,
         typePromise,
         branchPromise,
-        recentPromise
+        recentPromise,
+        inventoryPromise
       ]);
 
 
@@ -1673,6 +1784,8 @@ async function loadReports(){
     var recent =
       results[3];
 
+    var inventory =
+      results[4];
 
     if(
       dashboard.status !== "success"
@@ -1707,6 +1820,8 @@ async function loadReports(){
     filteredRecentData =
       recentData.slice();
 
+    inventoryData = inventory.data || inventory.records || [];
+    filteredInventoryData = inventoryData.slice();
 
     renderDashboard();
 
@@ -1715,7 +1830,7 @@ async function loadReports(){
     renderBranches();
 
     renderRecent();
-
+    renderInventory();
 
     showLoader(false);
 
@@ -2463,15 +2578,17 @@ function normalizeRecord(
 
       hardwareType:r[4] || "",
 
-      make:r[6] || "",
-
-      model:r[7] || "",
-
-      serialNo:r[8] || "",
-
-      condition:r[9] || "",
-
-      remarks:r[10] || ""
+      make:r[5] || "",
+      model:r[6] || "",
+      serialNo:r[7] || "",
+      condition:r[8] || "",
+      remarks:r[9] || "",
+      pcType:r[10] || "",
+      assignedUser:r[11] || "",
+      purchaseYear:r[12] || "",
+      productNo:r[13] || "",
+      assetLabeling:r[14] || "",
+      assetCategory:r[15] || ""
 
     };
 
@@ -2527,13 +2644,155 @@ function normalizeRecord(
       "",
 
     remarks:
-      r.remarks ||
-      r.Remarks ||
-      r.REMARKS ||
-      ""
+      r.remarks || r.Remarks || r.REMARKS || r[9] || "",
+
+    pcType:
+      r.pcType || r.PC_TYPE || r["PC Type — Finacle / Internet"] || r[10] || "",
+
+    assignedUser:
+      r.assignedUser || r.userCurrentlyUsing || r["User / Currently Using"] || r[11] || "",
+
+    purchaseYear:
+      r.purchaseYear || r["Purchase Year"] || r[12] || "",
+
+    productNo:
+      r.productNo || r.biometricPN || r["Biometric P/N"] || r[13] || "",
+
+    assetLabeling:
+      r.assetLabeling || r.assetLabel || r["Asset Labeling"] || r[14] || "",
+
+    assetCategory:
+      r.assetCategory || r["Asset Category"] || r[15] || ""
 
   };
 
+}
+
+
+/* =========================================================
+   FULL INVENTORY REPORT
+========================================================= */
+function filterInventory(){
+  var q = String(document.getElementById("inventorySearch").value || "").trim().toLowerCase();
+  filteredInventoryData = inventoryData.filter(function(item){
+    var r = normalizeRecord(item);
+    return !q || [r.solId,r.branchName,r.hardwareType,r.make,r.model,r.serialNo,r.condition,r.remarks,r.pcType,r.assignedUser,r.purchaseYear,r.productNo,r.assetLabeling,r.assetCategory].join(" ").toLowerCase().indexOf(q) !== -1;
+  });
+  renderInventory();
+}
+
+function renderInventory(){
+  var body = document.getElementById("inventoryBody");
+  if(!body) return;
+  body.innerHTML = "";
+  var rows = filteredInventoryData || [];
+  document.getElementById("inventoryCount").textContent = rows.length + " records";
+  if(!rows.length){
+    body.innerHTML = '<tr><td colspan="15" class="empty">No inventory records found.</td></tr>';
+    return;
+  }
+  rows.forEach(function(item){
+    var r = normalizeRecord(item);
+    var vals = [r.solId,r.branchName,r.hardwareType,r.make,r.model,r.serialNo,r.condition,r.remarks,r.pcType,r.assignedUser,r.purchaseYear,r.productNo,r.assetLabeling,r.assetCategory];
+    var tr = document.createElement("tr");
+    tr.innerHTML = vals.map(function(v){ return '<td>' + escapeHtml(v || "-") + '</td>'; }).join("") +
+      '<td><div class="inventory-actions"><button type="button" class="inventory-action inventory-view">View</button>' +
+      '<button type="button" class="inventory-action inventory-edit">Edit / Update</button></div></td>';
+    var recordId = String(item.submissionId || item.SubmissionId || item[1] || "");
+    tr.querySelector(".inventory-view").addEventListener("click", function(){openInventoryView(recordId);});
+    tr.querySelector(".inventory-edit").addEventListener("click", function(){openInventoryEdit(recordId);});
+    body.appendChild(tr);
+  });
+}
+
+function getInventoryRecordById(id){
+  var all = inventoryData || [];
+  for(var i=0;i<all.length;i++){
+    var item=all[i];
+    if(String(item.submissionId || item.SubmissionId || item[1] || "")===String(id)) return item;
+  }
+  return null;
+}
+
+function openInventoryView(id){
+  var item=getInventoryRecordById(id);
+  if(!item){showToast("Record not found. Refresh the report.");return;}
+  var r=normalizeRecord(item);
+  // Show every column from the Hardware_Data sheet, including system fields.
+  var labels=["Timestamp","Submission ID","SOL ID","Branch Name","Hardware Type","Make","Model","Serial No","Condition","Remarks","PC Type — Finacle / Internet","User / Currently Using","Purchase Year","Biometric P/N","Asset Labeling","Asset Category"];
+  var vals=[r.timestamp,r.submissionId,r.solId,r.branchName,r.hardwareType,r.make,r.model,r.serialNo,r.condition,r.remarks,r.pcType,r.assignedUser,r.purchaseYear,r.productNo,r.assetLabeling,r.assetCategory];
+  document.getElementById("inventoryModalTitle").textContent="View Hardware Record";
+  document.getElementById("inventoryEditForm").style.display="none";
+  document.getElementById("inventoryViewActions").style.display="flex";
+  document.getElementById("inventoryViewContent").style.display="block";
+  document.getElementById("inventoryViewContent").innerHTML='<div class="inventory-view-grid">'+labels.map(function(label,i){return '<div class="inventory-view-item"><small>'+escapeHtml(label)+'</small><strong>'+escapeHtml(vals[i] || "—")+'</strong></div>';}).join("")+'</div>';
+  document.getElementById("viewEditButton").onclick=function(){openInventoryEdit(id);};
+  document.getElementById("inventoryModalOverlay").classList.add("open");
+}
+
+function openInventoryEdit(id){
+  var item=getInventoryRecordById(id);
+  if(!item){showToast("Record not found. Refresh the report.");return;}
+  var r=normalizeRecord(item);
+  document.getElementById("inventoryModalTitle").textContent="Edit / Update Hardware";
+  document.getElementById("inventoryViewContent").style.display="none";
+  document.getElementById("inventoryViewActions").style.display="none";
+  document.getElementById("inventoryEditForm").style.display="block";
+  document.getElementById("editSubmissionId").value=item.submissionId || item.SubmissionId || item[1] || "";
+  var map={editSolId:r.solId,editBranchName:r.branchName,editHardwareType:r.hardwareType,editMake:r.make,editModel:r.model,editSerialNo:r.serialNo,editCondition:r.condition,editPcType:r.pcType,editAssignedUser:r.assignedUser,editPurchaseYear:r.purchaseYear,editProductNo:r.productNo,editRemarks:r.remarks,editAssetLabeling:r.assetLabeling,editAssetCategory:r.assetCategory};
+  Object.keys(map).forEach(function(id){document.getElementById(id).value=map[id] || "";});
+  updateEditFieldRules();
+  document.getElementById("editSolId").onchange=loadEditBranchName;
+  document.getElementById("editHardwareType").onchange=updateEditFieldRules;
+  document.getElementById("inventoryModalOverlay").classList.add("open");
+}
+
+function updateEditFieldRules(){
+  var type=(document.getElementById("editHardwareType").value||"").toLowerCase();
+  var isBio=type==="biometric device";
+  var pc=document.getElementById("editPcType");
+  pc.disabled=type!=="cpu" && type!=="monitor";
+  if(pc.disabled) pc.value="";
+  document.getElementById("editModel").required=!isBio;
+  document.getElementById("editProductNo").required=isBio;
+  if(isBio) document.getElementById("editModel").value="";
+  if(!isBio) document.getElementById("editProductNo").value="";
+}
+
+function loadEditBranchName(){
+  var sol=String(document.getElementById("editSolId").value||"").trim();
+  var item=(inventoryData||[]).filter(function(x){return String(normalizeRecord(x).solId)===sol;})[0];
+  if(item) document.getElementById("editBranchName").value=normalizeRecord(item).branchName;
+}
+
+function closeInventoryModal(){document.getElementById("inventoryModalOverlay").classList.remove("open");}
+
+async function saveInventoryEdit(event){
+  event.preventDefault();
+  var btn=document.getElementById("saveInventoryEditBtn");
+  btn.disabled=true; btn.textContent="Saving...";
+  var params={action:"update",submissionId:document.getElementById("editSubmissionId").value,solId:document.getElementById("editSolId").value,hardwareType:document.getElementById("editHardwareType").value,make:document.getElementById("editMake").value,model:document.getElementById("editModel").value,serialNo:document.getElementById("editSerialNo").value,condition:document.getElementById("editCondition").value,remarks:document.getElementById("editRemarks").value,pcType:document.getElementById("editPcType").value,assignedUser:document.getElementById("editAssignedUser").value,purchaseYear:document.getElementById("editPurchaseYear").value,productNo:document.getElementById("editProductNo").value};
+  try{
+    var query=new URLSearchParams();
+    Object.keys(params).forEach(function(k){query.append(k,params[k] == null ? "" : params[k]);});
+    var response=await fetch(API_URL+"?"+query.toString()+"&_="+Date.now(),{method:"GET",cache:"no-store"});
+    var result=await response.json();
+    if(!result || !(result.success===true || result.status==="success")) throw new Error(result && result.message ? result.message : "Update failed");
+    showToast(result.message || "Hardware updated successfully");
+    closeInventoryModal();
+    await loadReports();
+  }catch(error){console.error(error);alert("Unable to update hardware: "+(error.message||"Please check connection and Apps Script deployment."));}
+  finally{btn.disabled=false;btn.textContent="Save Update";}
+}
+
+function exportInventoryCSV(){
+  var headers = ["SOL ID","Branch Name","Hardware Type","Make","Model","Serial No","Condition","Remarks","PC Type — Finacle / Internet","User / Currently Using","Purchase Year","Biometric P/N","Asset Labeling","Asset Category"];
+  var lines = [headers.map(csvValue).join(",")];
+  (filteredInventoryData || []).forEach(function(item){
+    var r = normalizeRecord(item);
+    lines.push([r.solId,r.branchName,r.hardwareType,r.make,r.model,r.serialNo,r.condition,r.remarks,r.pcType,r.assignedUser,r.purchaseYear,r.productNo,r.assetLabeling,r.assetCategory].map(csvValue).join(","));
+  });
+  downloadCSV("\ufeff" + lines.join("\r\n"), "MPGB_Full_Hardware_Inventory.csv");
 }
 
 
