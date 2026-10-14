@@ -1126,7 +1126,7 @@ textarea{
             <!-- BIOMETRIC PRODUCT NUMBER: REQUIRED ONLY FOR BIOMETRIC DEVICES -->
             <div class="form-group" id="productNoGroup" hidden>
               <label for="productNo">Biometric P/N No. <span class="required">*</span></label>
-              <input type="text" id="productNo" placeholder="Enter biometric Product Number (P/N)" autocomplete="off">
+              <input type="text" id="productNo" placeholder="Enter biometric Product Number (P/N)" autocomplete="off" required disabled>
             </div>
 
             <!-- CONDITION: MANDATORY -->
@@ -1483,7 +1483,16 @@ function updateHardwareSpecificFields(){
 
   productNoGroup.hidden = !isBiometric;
   productNoEl.required = isBiometric;
-  if(!isBiometric){ productNoEl.value = ""; }
+  productNoEl.disabled = !isBiometric;
+  serialNoEl.required = true;
+  if(isBiometric){
+    serialNoEl.setAttribute("aria-label", "Biometric Serial Number (S/N), required");
+    productNoEl.setAttribute("aria-label", "Biometric Product Number (P/N), required");
+  } else {
+    serialNoEl.setAttribute("aria-label", "Serial Number, required");
+    productNoEl.value = "";
+    productNoEl.removeAttribute("aria-label");
+  }
 
   // Automatic classification: Biometric = Medium Critical; every other hardware type = Low Critical.
   if(assetCategoryEl){
@@ -2548,8 +2557,27 @@ form.addEventListener(
 
     }
 
-    if(!make || (hardwareType !== "Biometric Device" && !model) || !serialNo){
-      showMessage(hardwareType === "Biometric Device" ? "Please fill Make and Serial Number." : "Please fill Make, Model and Serial Number.", "error");
+    if(hardwareType === "Biometric Device"){
+      if(!serialNo){
+        showMessage("Biometric Serial Number (S/N) is compulsory. Please enter the S/N.", "error");
+        serialNoEl.focus();
+        return;
+      }
+      if(!productNo){
+        showMessage("Biometric Product Number (P/N) is compulsory. Please enter the P/N.", "error");
+        productNoEl.focus();
+        return;
+      }
+      if(!make){
+        showMessage("Please enter Make for the Biometric Device.", "error");
+        makeEl.focus();
+        return;
+      }
+    } else if(!make || !model || !serialNo){
+      showMessage("Please fill Make, Model and Serial Number.", "error");
+      if(!make) makeEl.focus();
+      else if(!model) modelEl.focus();
+      else serialNoEl.focus();
       return;
     }
 
