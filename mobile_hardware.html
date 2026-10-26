@@ -184,9 +184,9 @@ function norm(r){
   make:String(field(r,['make','Make'])), model:String(field(r,['model','Model'])),
   serialNo:String(field(r,['serialNo','serialNumber','Serial No','Serial Number','serial_no'])),
   condition:normalizeCondition(field(r,['condition','Condition'])), remarks:String(field(r,['remarks','Remarks'])),
-  pcType:String(field(r,['pcType','PC Type','pc_type'])), userId:String(field(r,['userId','User ID','Finacle ID','user_id'])),
+  pcType:String(field(r,['pcType','PC Type','pc_type'])), userId:String(field(r,['assignedUser','userId','User ID','Finacle ID','user_id'])),
   purchaseYear:String(field(r,['purchaseYear','Purchase Year','purchase_year'])),
-  biometricPn:String(field(r,['biometricPn','Biometric P/N','biometric_pn'])),
+  biometricPn:String(field(r,['productNo','biometricPn','Biometric P/N','biometric_pn','product_no'])),
   submissionId:String(field(r,['submissionId','Submission ID','submission_id','recordId','id','ID']))
  };
 }
@@ -216,16 +216,81 @@ function renderSummaryPreview(){
  const itemList=document.getElementById('summaryRecords');
  if(!data.length){itemList.innerHTML='<div class="empty-state">No hardware items for this selection.</div>';return;}
  itemList.innerHTML=data.slice().sort((a,b)=>a.solId.localeCompare(b.solId,undefined,{numeric:true})||a.hardwareType.localeCompare(b.hardwareType)).map(r=>{
-   const ix=records.indexOf(r);
+   const ix=records.findIndex(x=>x.submissionId===r.submissionId && x.solId===r.solId && x.serialNo===r.serialNo);
    return '<article class="summary-record-card"><div class="record-title">'+safe(r.hardwareType||'Hardware')+' — '+safe(r.make)+' '+safe(r.model)+'</div><div class="record-meta"><b>SOL:</b> '+safe(r.solId)+' · '+safe(r.branchName)+'<br><b>Serial:</b> '+safe(r.serialNo||'—')+'<br><b>Condition:</b> '+safe(r.condition||'—')+'<br><b>User ID:</b> '+safe(r.userId||'—')+'</div><div class="record-actions"><button type="button" class="action-btn primary summary-edit-item" data-index="'+ix+'">✏️ Open in Edit</button></div></article>';
  }).join('');
- itemList.querySelectorAll('.summary-edit-item').forEach(btn=>btn.addEventListener('click',()=>{const r=records[Number(btn.dataset.index)];if(!r)return;selectMode('edit');openEdit(r);}));
+ itemList.querySelectorAll('.summary-edit-item').forEach(btn=>btn.addEventListener('click',()=>{const r=records[Number(btn.dataset.index)];if(!r){document.getElementById('summaryStatus').textContent='Could not locate selected hardware record. Refresh Data and try again.';return;}selectMode('edit');openEdit(r);}));
 }
+// Load records using the existing Apps Script API; Code.gs remains unchanged.
+function loadRecords(){
+ const status=document.getElementById('editStatus');
+ status.textContent='Loading hardware records…';
+ document.getElementById('editRecords').innerHTML='<div class="empty-state">Loading records…</div>';
+ return apiGet({action:'records'}).then(d=>{
+  if(!d||d.success===false) throw new Error((d&&d.message)||'Records API failed');
+  const list=Array.isArray(d)?d:(d.data||d.records||[]);
+  records=list.map(norm);
+  renderEditRecords();
+  status.textContent='Loaded '+records.length+' hardware records.';
+  return records;
+ }).catch(e=>{
+  console.error('loadRecords failed',e);status.textContent='Unable to load records: '+e.message;
+  document.getElementById('editRecords').innerHTML='<div class="empty-state">Unable to load records. '+safe(e.message)+'</div>';
+  throw e;
+ });
+}
+function renderEditRecords(){
+ const box=document.getElementById('editRecords');
+ const sol=document.getElementById('editSol').value;
+ const q=document.getElementById('editSearch').value.trim().toLowerCase();
+ const list=records.filter(r=>(!sol||r.solId===sol)&&(!q||[r.solId,r.branchName,r.hardwareType,r.make,r.model,r.serialNo,r.userId,r.condition].join(' ').toLowerCase().includes(q)));
+ if(!list.length){box.innerHTML='<div class="empty-state">No matching hardware records found.</div>';return;}
+ box.innerHTML=list.map(r=>{const ix=records.findIndex(x=>x.submissionId===r.submissionId && x.solId===r.solId && x.serialNo===r.serialNo);return '<article class="record-card"><div class="record-title">'+safe(r.hardwareType)+' — '+safe(r.make)+' '+safe(r.model)+'</div><div class="record-meta"><b>SOL:</b> '+safe(r.solId)+' · '+safe(r.branchName)+'<br><b>Serial:</b> '+safe(r.serialNo)+'<br><b>Condition:</b> '+safe(r.condition)+'<br><b>User ID:</b> '+safe(r.userId||'—')+'</div><div class="record-actions"><button type="button" class="action-btn primary edit-record-btn" data-index="'+ix+'">✏️ Edit</button></div></article>';}).join('');
+ box.querySelectorAll('.edit-record-btn').forEach(b=>b.addEventListener('click',()=>openEdit(records[Number(b.dataset.index)])));
+}
+function openEdit(r){
+ if(!r)return;activeRecord=r;
+ const raw=r.raw||{};
+ const put=(id,v)=>{const el=document.getElementById(id);if(el)el.value=v==null?'':String(v)};
+ put('fSol',r.solId);put('fBranch',r.branchName);put('fType',r.hardwareType);put('fMake',r.make);put('fModel',r.model);put('fSerial',r.serialNo);put('fCondition',normalizeCondition(r.condition));put('fPcType',field(raw,['pcType','PC Type','pc_type']));put('fUser',field(raw,['assignedUser','userId','User ID','Finacle ID','user_id']));put('fYear',field(raw,['purchaseYear','Purchase Year','purchase_year']));put('fPn',field(raw,['productNo','biometricPn','Biometric P/N','product_no']));put('fRemarks',r.remarks);
+ document.getElementById('editRecordIdentity').textContent='Submission ID: '+(r.submissionId||'Not provided')+' | SOL '+r.solId;
+ document.getElementById('editSaveStatus').textContent='';document.getElementById('editOverlay').classList.add('show');
+}
+function closeEdit(){document.getElementById('editOverlay').classList.remove('show');activeRecord=null;}
+document.getElementById('reloadRecords').addEventListener('click',()=>loadRecords().catch(()=>{}));
+document.getElementById('editSol').addEventListener('change',renderEditRecords);
+document.getElementById('editSearch').addEventListener('input',renderEditRecords);
+document.getElementById('cancelEdit').addEventListener('click',closeEdit);
+document.getElementById('saveEdit').addEventListener('click',function(){
+ if(!activeRecord){document.getElementById('editSaveStatus').textContent='Select a hardware record first.';return;}
+ const form=document.getElementById('editForm');if(!form.reportValidity())return;
+ const btn=this;btn.disabled=true;document.getElementById('editSaveStatus').textContent='Saving changes…';
+ const p={action:'update',submissionId:activeRecord.submissionId,solId:document.getElementById('fSol').value,hardwareType:document.getElementById('fType').value.trim(),make:document.getElementById('fMake').value.trim(),model:document.getElementById('fModel').value.trim(),serialNo:document.getElementById('fSerial').value.trim(),condition:normalizeCondition(document.getElementById('fCondition').value),remarks:document.getElementById('fRemarks').value,pcType:document.getElementById('fPcType').value,assignedUser:document.getElementById('fUser').value,purchaseYear:document.getElementById('fYear').value,productNo:document.getElementById('fPn').value};
+ apiGet(p).then(d=>{if(!d||d.success===false)throw new Error((d&&d.message)||'Update failed');document.getElementById('editSaveStatus').textContent='Hardware updated successfully.';return loadRecords();}).then(()=>{loadSummaryData().catch(()=>{});setTimeout(closeEdit,700);}).catch(e=>{document.getElementById('editSaveStatus').textContent='Update failed: '+e.message;}).finally(()=>{btn.disabled=false;});
+});
+function reportRecords(){
+ const sol=document.getElementById('summarySol').value;
+ return records.filter(r=>!sol||r.solId===sol).map(r=>({...r,condition:normalizeCondition(r.condition)}));
+}
+function loadSummaryData(){
+ const status=document.getElementById('summaryStatus');status.textContent='Loading summary data…';
+ return apiGet({action:'records'}).then(d=>{
+  if(!d||d.success===false)throw new Error((d&&d.message)||'Records API failed');
+  const list=Array.isArray(d)?d:(d.data||d.records||[]);records=list.map(norm);
+  renderSummaryPreview();status.textContent='Loaded '+reportRecords().length+' records for selected report.';
+  return records;
+ }).catch(e=>{console.error('loadSummaryData failed',e);status.textContent='Unable to load summary data: '+e.message;document.getElementById('summaryRecords').innerHTML='<div class="empty-state">'+safe(e.message)+'</div>';throw e;});
+}
+document.getElementById('refreshSummary').addEventListener('click',()=>loadSummaryData().catch(()=>{}));
+document.getElementById('summarySol').addEventListener('change',()=>{renderSummaryPreview();document.getElementById('summaryStatus').textContent='Filtered to '+(document.getElementById('summarySol').selectedOptions[0]?.textContent||'All branches')+'.';});
+
 async function generatePdf(){
- const status=document.getElementById('summaryStatus'),data=reportRecords(),scope=document.getElementById('summaryScope').value;
- const btn=document.getElementById('generatePdf');btn.disabled=true;status.textContent='Preparing PDF…';
+ const status=document.getElementById('summaryStatus'),btn=document.getElementById('generatePdf'),scope=document.getElementById('summaryScope').value;
+ btn.disabled=true;status.textContent='Preparing PDF…';
+ if(!records.length){try{await loadSummaryData();}catch(e){btn.disabled=false;return;}}
+ const data=reportRecords();
  if(!data.length){status.textContent='No hardware records found for the selected branch.';btn.disabled=false;return;}
- if(!window.jspdf||!window.jspdf.jsPDF){try{await window.ensureJsPDF();}catch(e){status.textContent='PDF library could not load. Please check internet connection and retry.';btn.disabled=false;return;}}
+ if(!window.jspdf||!window.jspdf.jsPDF){try{await window.ensureJsPDF();}catch(e){status.textContent='PDF library could not load. Check internet/CDN access, then retry. Details: '+e.message;btn.disabled=false;return;}}
  const doc=new window.jspdf.jsPDF({orientation:'landscape',unit:'mm',format:'a4'});
  const pageW=doc.internal.pageSize.getWidth(),pageH=doc.internal.pageSize.getHeight(),left=10,right=10;
  const selected=document.getElementById('summarySol'),branchOpt=selected.options[selected.selectedIndex];
