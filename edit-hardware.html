@@ -1005,10 +1005,44 @@ body{
   }
 
 }
+
+/* Responsive sidebar toggle */
+.sidebar-toggle{
+  position:fixed;top:14px;left:14px;z-index:100100;
+  width:42px;height:42px;border:0;border-radius:12px;
+  background:#006633;color:#fff;font-size:21px;font-weight:700;
+  cursor:pointer;box-shadow:0 5px 16px rgba(0,70,35,.22);
+  display:flex;align-items:center;justify-content:center;
+}
+.sidebar-toggle:hover{background:#005426}
+.sidebar-toggle:focus-visible{outline:3px solid #86efac;outline-offset:3px}
+.sidebar-backdrop{
+  display:none;position:fixed;inset:0;background:rgba(15,23,42,.42);
+  z-index:99980;
+}
+body.sidebar-collapsed .main{margin-left:72px}
+body.sidebar-collapsed .sidebar-toggle{left:14px}
+@media(max-width:900px){
+  .sidebar-toggle{top:12px;left:12px}
+  .main{padding-top:66px}
+  body.sidebar-open .sidebar-backdrop{display:block}
+  body.sidebar-open .sidebar-toggle{left:calc(min(260px, 82vw) + 12px)}
+  body.sidebar-open .main{margin-left:0}
+}
+@media(min-width:901px){
+  body.sidebar-collapsed .main{margin-left:72px}
+}
+
 </style>
 </head>
 
 <body>
+
+
+<button type="button" class="sidebar-toggle" id="sidebarToggle"
+        aria-label="Toggle navigation menu" aria-expanded="true"
+        title="Toggle navigation menu">☰</button>
+<div class="sidebar-backdrop" id="sidebarBackdrop" aria-hidden="true"></div>
 
 <script src="sidebar.js"></script>
 
@@ -1571,32 +1605,15 @@ body{
               Condition *
             </label>
 
-            <select
-              id="editCondition"
-              required
-            >
-
-              <option value="">
-                Select Condition
-              </option>
-
-              <option value="Working">
-                Working
-              </option>
-
-              <option value="Not Working">
-                Not Working
-              </option>
-
-              <option value="Under Repair">
-                Under Repair
-              </option>
-
-              <option value="Damaged">
-                Damaged
-              </option>
-
-            </select>
+            <select id="editCondition" required>
+  <option value="">Select Condition</option>
+  <option value="Working">Working</option>
+  <option value="Not Working">Not Working</option>
+  <option value="Under Repair">Under Repair</option>
+  <option value="Damaged">Damaged</option>
+  <option value="New Stand-By">New Stand-By</option>
+  <option value="Old Stand-By">Old Stand-By</option>
+</select>
 
           </div>
 
@@ -3344,6 +3361,77 @@ document.addEventListener(
 
   }
 );
+
+
+
+/* =========================================================
+   RESPONSIVE SIDEBAR TOGGLE: desktop collapse / mobile drawer
+   ========================================================= */
+(function(){
+  var toggle = document.getElementById("sidebarToggle");
+  var backdrop = document.getElementById("sidebarBackdrop");
+  var mobileQuery = window.matchMedia("(max-width: 900px)");
+  var sidebarSelectors = [
+    "#sidebar", ".sidebar", ".side-bar", ".sidebar-container",
+    "#sidebarMenu", ".sidebar-menu", ".side-nav", "nav.sidebar"
+  ];
+
+  function getSidebar(){
+    for(var i=0;i<sidebarSelectors.length;i++){
+      var el=document.querySelector(sidebarSelectors[i]);
+      if(el && !el.contains(toggle)) return el;
+    }
+    return null;
+  }
+
+  function applyState(open){
+    document.body.classList.toggle("sidebar-open", open && mobileQuery.matches);
+    document.body.classList.toggle("sidebar-collapsed", !open && !mobileQuery.matches);
+    toggle.setAttribute("aria-expanded", open ? "true" : "false");
+    toggle.innerHTML = open && mobileQuery.matches ? "×" : "☰";
+    var sidebar=getSidebar();
+    if(sidebar){
+      if(mobileQuery.matches){
+        sidebar.style.position="fixed";
+        sidebar.style.left=open ? "0" : "-290px";
+        sidebar.style.top="0";
+        sidebar.style.bottom="0";
+        sidebar.style.height="100vh";
+        sidebar.style.width="min(260px, 82vw)";
+        sidebar.style.zIndex="100000";
+        sidebar.style.transition="left .25s ease";
+        sidebar.style.overflowY="auto";
+      }else{
+        sidebar.style.position="";
+        sidebar.style.left="";
+        sidebar.style.top="";
+        sidebar.style.bottom="";
+        sidebar.style.height="";
+        sidebar.style.width="";
+        sidebar.style.zIndex="";
+        sidebar.style.overflowY="";
+        sidebar.style.transition="";
+      }
+    }
+  }
+
+  var isOpen=true;
+  toggle.addEventListener("click",function(){
+    isOpen = mobileQuery.matches ? !document.body.classList.contains("sidebar-open")
+                                : document.body.classList.contains("sidebar-collapsed");
+    applyState(isOpen);
+  });
+  backdrop.addEventListener("click",function(){ isOpen=false; applyState(false); });
+  function syncMode(){
+    isOpen=!mobileQuery.matches;
+    applyState(isOpen);
+  }
+  if(mobileQuery.addEventListener) mobileQuery.addEventListener("change",syncMode);
+  else if(mobileQuery.addListener) mobileQuery.addListener(syncMode);
+
+  /* Let sidebar.js finish rendering before locating its navigation element. */
+  window.setTimeout(function(){ applyState(!mobileQuery.matches); },250);
+})();
 
 
 /* =========================================================
