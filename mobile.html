@@ -83,6 +83,19 @@
 <main>
   <section class="panel active" id="quickPanel" aria-label="Quick add hardware"><div class="frame-wrap"><iframe class="form-frame" id="quickFrame" title="Quick Add Hardware" loading="eager" allow="clipboard-read; clipboard-write" allowfullscreen></iframe></div></section>
   <section class="panel" id="bulkPanel" aria-label="Bulk add hardware"><div class="frame-wrap"><iframe class="form-frame" id="bulkFrame" title="Bulk Add Hardware" loading="eager" allow="clipboard-read; clipboard-write" allowfullscreen></iframe></div></section>
+  <section class="panel" id="adminPanel" aria-label="Administrator dashboard">
+    <div class="manager-card" style="max-width:1100px;margin:auto">
+      <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap">
+        <div><h2 style="margin:0;color:#006633">🔐 Admin Dashboard</h2><p class="subtext">Administrator access granted. Select an administrative function.</p></div>
+        <button class="action-btn" id="adminLogout" type="button">🚪 Logout</button>
+      </div>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px;margin-top:24px">
+        <button type="button" class="action-btn" id="adminManageRecords" style="padding:24px;text-align:left;white-space:normal"><strong style="font-size:17px">✏️ Edit / Manage Hardware</strong><div style="font-size:12px;margin-top:8px">Search records and update existing hardware details</div></button>
+        <button type="button" class="action-btn" id="adminSummary" style="padding:24px;text-align:left;white-space:normal"><strong style="font-size:17px">📊 Reports & Summary</strong><div style="font-size:12px;margin-top:8px">View branch-wise hardware summary and generate PDF</div></button>
+      </div>
+      <div class="notice" style="margin:20px 0 0">Admin mode is active. Edit and Delete controls are enabled only in this session.</div>
+    </div>
+  </section>
   <section class="panel" id="editPanel" aria-label="Edit hardware">
     <div class="manager-card">
       <h2>✏️ Edit Existing Hardware</h2>
@@ -160,12 +173,16 @@ function selectMode(mode){
   const tab=document.getElementById(m+'Tab');
   tab.classList.toggle('active',m===mode);tab.setAttribute('aria-selected',String(m===mode));
  });
+ const adminPanel=document.getElementById('adminPanel');if(adminPanel)adminPanel.classList.toggle('active',mode==='admin');if(mode==='admin'){const at=document.getElementById('editTab');at.classList.add('active');at.setAttribute('aria-selected','true');}
  if(mode==='bulk'&&!bulkLoaded){bulkFrame.srcdoc=decodeURIComponent(BULK_SOURCE);bulkLoaded=true;}
  if(mode==='edit')loadRecords();
  if(mode==='summary')loadSummaryData();
  window.scrollTo({top:0,behavior:'smooth'});
 }
-modes.forEach(m=>document.getElementById(m+'Tab').addEventListener('click',()=>selectMode(m)));
+document.getElementById('quickTab').addEventListener('click',()=>selectMode('quick'));
+document.getElementById('bulkTab').addEventListener('click',()=>selectMode('bulk'));
+document.getElementById('summaryTab').addEventListener('click',()=>selectMode('summary'));
+
 function apiGet(params){
  const q=new URLSearchParams(params);q.set('_',Date.now());
  return fetch(API_URL+'?'+q.toString(),{method:'GET',cache:'no-store'})
@@ -393,11 +410,15 @@ window.addEventListener('message',event=>{
    }
  }
  function askAdmin(){ if(adminLoggedIn)return true; overlay.style.display='flex';document.getElementById('adminPasswordInput').value='';document.getElementById('adminLoginError').textContent='';setTimeout(()=>document.getElementById('adminPasswordInput').focus(),80);return false;}
- editTab.addEventListener('click',function(e){if(!adminLoggedIn){e.stopImmediatePropagation();askAdmin();}},true);
+ editTab.addEventListener('click',function(e){e.stopImmediatePropagation();if(!adminLoggedIn){askAdmin();}else{showAdminDashboard();}},true);
  document.getElementById('adminLoginCancel').onclick=function(){overlay.style.display='none';};
- function login(){if(document.getElementById('adminPasswordInput').value===ADMIN_PASSWORD){adminLoggedIn=true;overlay.style.display='none';applyAdminVisibility();editTab.click();}else document.getElementById('adminLoginError').textContent='Incorrect password. Please try again.';}
+ function showAdminDashboard(){selectMode('admin');}
+ function login(){if(document.getElementById('adminPasswordInput').value===ADMIN_PASSWORD){adminLoggedIn=true;overlay.style.display='none';applyAdminVisibility();showAdminDashboard();}else document.getElementById('adminLoginError').textContent='Incorrect password. Please try again.';}
  document.getElementById('adminLoginSubmit').onclick=login;
  document.getElementById('adminPasswordInput').addEventListener('keydown',e=>{if(e.key==='Enter')login();});
+ document.getElementById('adminManageRecords').addEventListener('click',()=>selectMode('edit'));
+ document.getElementById('adminSummary').addEventListener('click',()=>selectMode('summary'));
+ document.getElementById('adminLogout').addEventListener('click',()=>{adminLoggedIn=false;applyAdminVisibility();selectMode('quick');});
  // Guard all Edit and Delete buttons, including those shown in Summary.
  document.addEventListener('click',function(e){
    const b=e.target.closest('button');if(!b)return;
