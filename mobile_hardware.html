@@ -133,6 +133,14 @@
   <div class="status-text" id="editSaveStatus" style="margin-top:10px"></div>
  </div>
 </div>
+<div id="adminLoginOverlay" style="display:none;position:fixed;inset:0;z-index:9999;background:#0b2118cc;align-items:center;justify-content:center;padding:18px">
+<div style="background:white;padding:24px;border-radius:16px;width:100%;max-width:360px">
+<h2 style="color:#006633;margin-top:0">🔐 Admin Login</h2><p style="font-size:13px;color:#64756b">Administrator authentication is required to edit or delete hardware records.</p>
+<label for="adminPasswordInput" style="font-size:12px;font-weight:bold">Admin Password</label>
+<input id="adminPasswordInput" type="password" autocomplete="current-password" style="width:100%;padding:12px;margin:8px 0;border:1px solid #ccd8d0;border-radius:8px">
+<div id="adminLoginError" style="color:#b91c1c;font-size:12px"></div>
+<div style="display:flex;gap:8px;margin-top:12px"><button id="adminLoginCancel" class="action-btn">Cancel</button><button id="adminLoginSubmit" class="action-btn primary">Login</button></div>
+</div></div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 <script>window.ensureJsPDF=function(){return new Promise(function(resolve,reject){if(window.jspdf&&window.jspdf.jsPDF)return resolve();var urls=['https://cdn.jsdelivr.net/npm/jspdf@2.5.1/dist/jspdf.umd.min.js','https://unpkg.com/jspdf@2.5.1/dist/jspdf.umd.min.js'];var i=0;function next(){if(window.jspdf&&window.jspdf.jsPDF)return resolve();if(i>=urls.length)return reject(new Error('PDF library could not be loaded'));var sc=document.createElement('script');sc.src=urls[i++];sc.onload=function(){if(window.jspdf&&window.jspdf.jsPDF)resolve();else next();};sc.onerror=next;document.head.appendChild(sc);}next();});};</script>
 
@@ -365,6 +373,22 @@ window.addEventListener('message',event=>{
  if(event.source===quickFrame.contentWindow)quickFrame.style.height=Math.max(320,Math.min(50000,Number(event.data.height)||500))+'px';
  if(event.source===bulkFrame.contentWindow)bulkFrame.style.height=Math.max(320,Math.min(50000,Number(event.data.height)||500))+'px';
 });
+</script>
+<script>
+/* Front-end gate only. Replace this password before publishing.
+   For real security, validate admin identity in Apps Script server-side too. */
+(function(){
+ const ADMIN_PASSWORD='MPGB@Admin2026'; let adminLoggedIn=false;
+ const editTab=document.getElementById('editTab'), overlay=document.getElementById('adminLoginOverlay');
+ function askAdmin(){ if(adminLoggedIn)return true; overlay.style.display='flex';document.getElementById('adminPasswordInput').value='';document.getElementById('adminLoginError').textContent='';setTimeout(()=>document.getElementById('adminPasswordInput').focus(),80);return false;}
+ editTab.addEventListener('click',function(e){if(!adminLoggedIn){e.stopImmediatePropagation();askAdmin();}},true);
+ document.getElementById('adminLoginCancel').onclick=function(){overlay.style.display='none';};
+ function login(){if(document.getElementById('adminPasswordInput').value===ADMIN_PASSWORD){adminLoggedIn=true;overlay.style.display='none';editTab.click();}else document.getElementById('adminLoginError').textContent='Incorrect password. Please try again.';}
+ document.getElementById('adminLoginSubmit').onclick=login;
+ document.getElementById('adminPasswordInput').addEventListener('keydown',e=>{if(e.key==='Enter')login();});
+ // Guard all Edit and Delete buttons, including those shown in Summary.
+ document.addEventListener('click',function(e){const b=e.target.closest('button');if(!b)return;const t=(b.textContent||'').trim();if((t==='✏️ Edit'||t==='Edit'||t==='🗑 Delete'||t==='Delete')&&!adminLoggedIn){e.preventDefault();e.stopImmediatePropagation();askAdmin();}},true);
+})();
 </script>
 </body>
 </html>
