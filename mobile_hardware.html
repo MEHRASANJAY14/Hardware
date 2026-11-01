@@ -75,11 +75,11 @@
   <nav class="tabs" aria-label="Hardware portal options">
     <button class="tab active" id="quickTab" type="button" aria-selected="true">➕ Quick Add</button>
     <button class="tab" id="bulkTab" type="button" aria-selected="false">📋 Bulk Add</button>
-    <button class="tab" id="editTab" type="button" aria-selected="false">✏️ Edit Hardware</button>
+    <button class="tab" id="editTab" type="button" aria-selected="false">🔐 Admin</button>
     <button class="tab" id="summaryTab" type="button" aria-selected="false">📄 Branch PDF Summary</button>
   </nav>
 </header>
-<div class="notice">Use <b>Quick Add</b> to register one hardware item or <b>Bulk Add</b> to register multiple items. The scan/camera feature has been removed. Use <b>Edit Hardware</b> to find and update existing records, and <b>Branch PDF Summary</b> to generate a branch-wise or all-branch hardware report with SOL ID, branch name, totals and condition-wise counts.</div>
+<div class="notice">Use <b>Quick Add</b> to register one hardware item or <b>Bulk Add</b> to register multiple items. The scan/camera feature has been removed. Use the <b>Admin</b> tab (admin login required) to find and update existing records, and <b>Branch PDF Summary</b> to generate a branch-wise or all-branch hardware report with SOL ID, branch name, totals and condition-wise counts.</div>
 <main>
   <section class="panel active" id="quickPanel" aria-label="Quick add hardware"><div class="frame-wrap"><iframe class="form-frame" id="quickFrame" title="Quick Add Hardware" loading="eager" allow="clipboard-read; clipboard-write" allowfullscreen></iframe></div></section>
   <section class="panel" id="bulkPanel" aria-label="Bulk add hardware"><div class="frame-wrap"><iframe class="form-frame" id="bulkFrame" title="Bulk Add Hardware" loading="eager" allow="clipboard-read; clipboard-write" allowfullscreen></iframe></div></section>
@@ -378,7 +378,7 @@ window.addEventListener('message',event=>{
 /* Front-end gate only. Replace this password before publishing.
    For real security, validate admin identity in Apps Script server-side too. */
 (function(){
- const ADMIN_PASSWORD='MPGB@Admin2026'; let adminLoggedIn=false;
+ const ADMIN_PASSWORD='Sanjay14@'; let adminLoggedIn=false;
  const editTab=document.getElementById('editTab'), overlay=document.getElementById('adminLoginOverlay');
  function askAdmin(){ if(adminLoggedIn)return true; overlay.style.display='flex';document.getElementById('adminPasswordInput').value='';document.getElementById('adminLoginError').textContent='';setTimeout(()=>document.getElementById('adminPasswordInput').focus(),80);return false;}
  editTab.addEventListener('click',function(e){if(!adminLoggedIn){e.stopImmediatePropagation();askAdmin();}},true);
@@ -387,7 +387,7 @@ window.addEventListener('message',event=>{
  document.getElementById('adminLoginSubmit').onclick=login;
  document.getElementById('adminPasswordInput').addEventListener('keydown',e=>{if(e.key==='Enter')login();});
  // Guard all Edit and Delete buttons, including those shown in Summary.
- document.addEventListener('click',function(e){const b=e.target.closest('button');if(!b)return;const t=(b.textContent||'').trim();if((t==='✏️ Edit'||t==='Edit'||t==='🗑 Delete'||t==='Delete')&&!adminLoggedIn){e.preventDefault();e.stopImmediatePropagation();askAdmin();}},true);
+ document.addEventListener('click',function(e){const b=e.target.closest('button');if(!b)return;const t=(b.textContent||'').trim().replace(/[✏️🗑️🔐]/g,'').trim().toLowerCase();if((t==='edit'||t==='delete'||t.startsWith('edit ')||t.startsWith('delete '))&&!adminLoggedIn){e.preventDefault();e.stopImmediatePropagation();askAdmin();}},true);
 })();
 </script>
 </body>
