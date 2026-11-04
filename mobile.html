@@ -436,7 +436,8 @@ window.addEventListener('message',event=>{
   else if(t.includes('passbookprinter'))x.passbook++;
   else if(t.includes('biometric'))x.bio++;
  });
- map.forEach(x=>x.pc+=Math.min(x.cpu,x.monitor));\n const rows=[...map.values()].sort((a,b)=>a.sol.localeCompare(b.sol,undefined,{numeric:true}));
+ map.forEach(x=>x.pc+=Math.min(x.cpu,x.monitor));
+ const rows=[...map.values()].sort((a,b)=>a.sol.localeCompare(b.sol,undefined,{numeric:true}));
  body.innerHTML=rows.map(x=>{const total=x.pc+x.laser+x.passbook+x.bio;return `<tr><td>${safe(x.sol)}</td><td>${safe(x.branch)}</td><td>${x.pc}</td><td>${x.laser}</td><td>${x.passbook}</td><td>${x.bio}</td><td><b>${total}</b></td></tr>`}).join('');
  const totals=rows.reduce((a,x)=>({pc:a.pc+x.pc,laser:a.laser+x.laser,passbook:a.passbook+x.passbook,bio:a.bio+x.bio}),{pc:0,cpu:0,monitor:0,laser:0,passbook:0,bio:0});
  body.insertAdjacentHTML('beforeend',`<tr style="font-weight:bold;background:#eaf4ed"><td colspan="2">GRAND TOTAL (${rows.length} SOLs)</td><td>${totals.pc}</td><td>${totals.laser}</td><td>${totals.passbook}</td><td>${totals.bio}</td><td>${totals.pc+totals.laser+totals.passbook+totals.bio}</td></tr>`);
@@ -444,11 +445,11 @@ window.addEventListener('message',event=>{
 }
 document.getElementById('adminSolSummary').addEventListener('click',()=>{
  const p=document.getElementById('adminSolSummaryPanel');p.style.display=p.style.display==='none'?'block':'none';
- if(p.style.display==='block')loadSummaryData().then(renderAdminSolSummary).catch(()=>{});
+ if(p.style.display==='block'){const st=document.getElementById('solSummaryStatus');st.textContent='Loading hardware records…';loadSummaryData().then(renderAdminSolSummary).catch(e=>{st.textContent='Unable to load summary: '+(e&&e.message?e.message:'Please check connection and retry.');});}
 });
-document.getElementById('solSummaryRefresh').addEventListener('click',()=>loadSummaryData().then(renderAdminSolSummary).catch(()=>{}));
+document.getElementById('solSummaryRefresh').addEventListener('click',()=>{const st=document.getElementById('solSummaryStatus');st.textContent='Refreshing…';loadSummaryData().then(renderAdminSolSummary).catch(e=>{st.textContent='Unable to refresh: '+(e&&e.message?e.message:'Please retry.');});});
 document.getElementById('solSummaryPrint').addEventListener('click',()=>{
- const w=window.open('','_blank');if(!w)return;
+ const table=document.getElementById('solSummaryTable');if(!table||!table.querySelector('tbody tr')){alert('Please load the SOL-wise summary first.');return;}const w=window.open('','_blank');if(!w)return;
  w.document.write('<html><head><title>SOL-wise Hardware Summary</title><style>body{font-family:Arial;padding:20px}table{width:100%;border-collapse:collapse}th,td{border:1px solid #777;padding:7px;text-align:center}th{background:#eaf4ed}</style></head><body><h2>SOL-wise Hardware Summary</h2>'+document.getElementById('solSummaryTable').outerHTML+'</body></html>');
  w.document.close();w.focus();w.print();
 });
