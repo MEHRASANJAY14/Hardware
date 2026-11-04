@@ -118,7 +118,7 @@
       </div>
       <div class="button-row"><button class="action-btn primary" id="generatePdf" type="button">⬇ Generate PDF</button><button class="action-btn" id="refreshSummary" type="button">↻ Refresh Data</button></div>
       <div id="summaryStatus" class="status-text">Choose a branch or All branches, then generate the PDF.</div>
-      <div id="summaryPreview" class="summary-preview"></div><div class="summary-record-heading">Hardware item details</div><div id="summaryRecords" class="summary-record-list"><div class="empty-state">Load summary data to see hardware items.</div></div>
+      <div class="summary-record-heading" style="margin-top:18px">📊 SOL-wise PC / Printer / Biometric Summary</div><div id="solHardwareSummary" style="overflow-x:auto;margin:10px 0 18px"><div class="empty-state">Load summary data to see SOL-wise totals.</div></div><div class="button-row"><button type="button" class="action-btn" id="printSolSummary">🖨 Print SOL-wise Summary</button></div><div id="summaryPreview" class="summary-preview"></div><div class="summary-record-heading">Hardware item details</div><div id="summaryRecords" class="summary-record-list"><div class="empty-state">Load summary data to see hardware items.</div></div>
     </div>
   </section>
 </main>
@@ -232,8 +232,35 @@ function loadBranches(){
   return branches;
  });
 }
+function renderSolHardwareSummary(data){
+ const groups={};
+ data.forEach(r=>{const key=String(r.solId||'')+'|'+String(r.branchName||'');if(!groups[key])groups[key]={solId:String(r.solId||''),branchName:String(r.branchName||''),items:[]};groups[key].items.push(r);});
+ const normType=v=>String(v||'').trim().toLowerCase();
+ const count=g=>{
+  const cpu=g.items.filter(r=>normType(r.hardwareType)==='cpu').length;
+  const monitor=g.items.filter(r=>normType(r.hardwareType)==='monitor').length;
+  const aio=g.items.filter(r=>normType(r.hardwareType)==='all in one pc').length;
+  const pc=Math.min(cpu,monitor)+aio;
+  const laser=g.items.filter(r=>normType(r.hardwareType).includes('laser printer')).length;
+  const passbook=g.items.filter(r=>normType(r.hardwareType).includes('passbook printer')).length;
+  const biometric=g.items.filter(r=>normType(r.hardwareType).includes('biometric')).length;
+  return {pc,laser,passbook,biometric,total:pc+laser+passbook+biometric};
+ };
+ const rows=Object.values(groups).sort((a,b)=>a.solId.localeCompare(b.solId,undefined,{numeric:true}));
+ const grand={pc:0,laser:0,passbook:0,biometric:0,total:0};
+ let html='<table style="width:100%;border-collapse:collapse;min-width:760px;font-size:13px"><thead><tr style="background:#006633;color:#fff">'+['SOL ID','Branch Name','PC','Laser Printer','Passbook Printer','Biometric','SOL Total'].map(x=>'<th style="padding:10px;border:1px solid #d5e2d9;text-align:center">'+x+'</th>').join('')+'</tr></thead><tbody>';
+ rows.forEach(g=>{const c=count(g);Object.keys(grand).forEach(k=>grand[k]+=c[k]);html+='<tr>'+[g.solId,g.branchName,c.pc,c.laser,c.passbook,c.biometric,c.total].map((v,i)=>'<td style="padding:8px;border:1px solid #d5e2d9;'+(i>=2?'text-align:center;':'')+'">'+safe(v)+'</td>').join('')+'</tr>';});
+ html+='<tr style="font-weight:bold;background:#e8f4ec">'+['','GRAND TOTAL',grand.pc,grand.laser,grand.passbook,grand.biometric,grand.total].map((v,i)=>'<td style="padding:9px;border:1px solid #b8d0c0;'+(i>=2?'text-align:center;':'')+'">'+safe(v)+'</td>').join('')+'</tr></tbody></table>';
+ document.getElementById('solHardwareSummary').innerHTML=rows.length?html:'<div class="empty-state">No hardware records found.</div>';
+}
+document.getElementById('printSolSummary').addEventListener('click',()=>{
+ const content=document.getElementById('solHardwareSummary').innerHTML;
+ const w=window.open('','_blank');if(!w){alert('Please allow pop-ups to print the summary.');return;}
+ w.document.write('<html><head><title>MPGB SOL-wise Hardware Summary</title><style>body{font-family:Arial;padding:20px}table{width:100%;border-collapse:collapse}th,td{border:1px solid #999;padding:8px}th{background:#e5e5e5}</style></head><body><h2>MPGB SOL-wise PC / Printer / Biometric Summary</h2>'+content+'</body></html>');w.document.close();w.focus();w.print();
+});
 function renderSummaryPreview(){
- const data=reportRecords(), types=new Set(data.map(r=>r.hardwareType).filter(Boolean)).size, branchesCount=new Set(data.map(r=>r.solId).filter(Boolean)).size;
+ const data=reportRecords();renderSolHardwareSummary(data);
+ const types=new Set(data.map(r=>r.hardwareType).filter(Boolean)).size, branchesCount=new Set(data.map(r=>r.solId).filter(Boolean)).size;
  const working=data.filter(r=>r.condition.toLowerCase()==='working').length;
  const html=[['Hardware Items',data.length],['Branches / SOL IDs',branchesCount],['Hardware Types',types],['Working Items',working],['Not Working',data.filter(r=>r.condition.toLowerCase()==='not working').length],['Under Repair',data.filter(r=>r.condition.toLowerCase()==='under repair').length],['Damaged',data.filter(r=>r.condition.toLowerCase()==='damaged').length],['New Stand-By',data.filter(r=>normalizeCondition(r.condition)==='New Stand-By').length],['Old Stand-By',data.filter(r=>normalizeCondition(r.condition)==='Old Stand-By').length]]
  .map(x=>'<div class="stat-card"><strong>'+x[1]+'</strong><span>'+safe(x[0])+'</span></div>').join('');
