@@ -325,11 +325,26 @@ function reportRecords(){
  const sol=document.getElementById('summarySol').value;
  return records.filter(r=>!sol||r.solId===sol).map(r=>({...r,condition:normalizeCondition(r.condition)}));
 }
+function updateSummaryBranchesFromHardware(recordsList){
+ const select=document.getElementById('summarySol');
+ if(!select)return;
+ const previous=select.value;
+ const seen={};
+ const branches=(recordsList||[]).map(norm).filter(r=>String(r.solId||'').trim()).reduce((arr,r)=>{
+   const sol=String(r.solId).trim();
+   if(!seen[sol]){seen[sol]=true;arr.push({solId:sol,branchName:String(r.branchName||'').trim()});}
+   return arr;
+ },[]).sort((a,b)=>a.solId.localeCompare(b.solId,undefined,{numeric:true}));
+ select.innerHTML='<option value="">All branches with hardware entries</option>'+branches.map(b=>'<option value="'+safe(b.solId)+'">'+safe(b.solId)+' — '+safe(b.branchName||'Branch')+'</option>').join('');
+ if(branches.some(b=>b.solId===previous))select.value=previous;
+}
 function loadSummaryData(){
  const status=document.getElementById('summaryStatus');status.textContent='Loading summary data…';
  return apiGet({action:'records'}).then(d=>{
   if(!d||d.success===false)throw new Error((d&&d.message)||'Records API failed');
-  const list=Array.isArray(d)?d:(d.data||d.records||[]);records=list.map(norm);
+  const list=Array.isArray(d)?d:(d.data||d.records||[]);
+  records=list.map(norm);
+  updateSummaryBranchesFromHardware(records);
   renderSummaryPreview();status.textContent='Loaded '+reportRecords().length+' records for selected report.';
   return records;
  }).catch(e=>{console.error('loadSummaryData failed',e);status.textContent='Unable to load summary data: '+e.message;document.getElementById('summaryRecords').innerHTML='<div class="empty-state">'+safe(e.message)+'</div>';throw e;});
