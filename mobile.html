@@ -96,7 +96,7 @@
       </div>
       <div id="adminSolWiseBox" style="margin-top:22px">
         <h2 style="font-size:18px;color:#006633">📊 SOL-wise Hardware Summary</h2>
-        <p class="subtext">PC (CPU + Monitor pairing; All in One PC = 1), Laser Printer, Passbook Printer and Biometric Device.</p>
+        <p class="subtext">PC = Working CPU count + Working All-in-One PC count. Stand-By CPU is excluded. Laser Printer, Passbook Printer and Biometric Device.</p>
         <div class="button-row"><button class="action-btn primary" id="adminLoadSolSummary" type="button">↻ Load / Refresh SOL-wise Summary</button><button class="action-btn" id="adminPrintSolSummary" type="button">🖨 Print / Save PDF</button></div>
         <div id="adminSolSummaryStatus" class="status-text">Click Load / Refresh to fetch current hardware data.</div>
         <div id="adminSolSummaryTable" style="overflow-x:auto;margin-top:12px"></div>
@@ -376,7 +376,7 @@ function renderAdminSolWiseSummary(){
   else if(t.indexOf('biometric')>=0)by[sol].bio++;
  });
  const rows=Object.keys(by).sort((a,b)=>a.localeCompare(b,undefined,{numeric:true})).map(sol=>{
-  const x=by[sol];x.pc=Math.min(x.cpu,x.monitor)+x.aio;return x;
+  const x=by[sol];x.pc=x.cpu+x.aio;return x;
  });
  const totals=rows.reduce((a,x)=>{['pc','laser','passbook','bio'].forEach(k=>a[k]+=x[k]);return a;},{pc:0,laser:0,passbook:0,bio:0});
  const html='<table style="width:100%;border-collapse:collapse;font-size:12px;min-width:650px"><thead><tr style="background:#006633;color:white">'+
