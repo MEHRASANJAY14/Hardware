@@ -367,9 +367,10 @@ function renderAdminSolWiseSummary(){
   const sol=String(r.solId||'').trim();if(!sol)return;
   if(!by[sol])by[sol]={sol:sol,branch:r.branchName||'',cpu:0,monitor:0,aio:0,laser:0,passbook:0,bio:0};
   const t=String(r.hardwareType||'').toLowerCase().replace(/[^a-z0-9]/g,'');
-  if(t==='cpu')by[sol].cpu++;
-  else if(t==='monitor')by[sol].monitor++;
-  else if(t.indexOf('allinonepc')>=0||t==='aio')by[sol].aio++;
+  const isWorking=normalizeCondition(r.condition)==='Working';
+  if(t==='cpu'&&isWorking)by[sol].cpu++;
+  else if(t==='monitor'&&isWorking)by[sol].monitor++;
+  else if((t.indexOf('allinonepc')>=0||t==='aio')&&isWorking)by[sol].aio++;
   else if(t.indexOf('laserprinter')>=0)by[sol].laser++;
   else if(t.indexOf('passbookprinter')>=0)by[sol].passbook++;
   else if(t.indexOf('biometric')>=0)by[sol].bio++;
